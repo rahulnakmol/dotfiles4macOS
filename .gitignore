@@ -1,0 +1,7 @@
+**/*.mdb
+.DS_Store
+**/*.log
+**/tmux/plugins/*
+**/karabiner/automatic_backups/*
+**/karabiner/assets/*
+**/zed/conversations/*
