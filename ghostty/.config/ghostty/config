@@ -1,0 +1,10 @@
+theme = dark:catppuccin-frappe,light:catppuccin-latte
+font-family = "Mononoki Nerd Font"
+font-size = 16
+window-width = 150
+window-height = 50
+window-colorspace = display-p3
+window-theme = ghostty
+shell-integration = zsh
+background-opacity = 0.8
+background-blur-radius = 20
