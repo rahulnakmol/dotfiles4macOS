@@ -10,8 +10,8 @@ alias egrep='egrep --color=auto'
 alias zl='zoxide query -l -s | fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --preview-window=right:70%'
 alias ..='cd ..'
 alias ...='cd ...'
-alias .prj='cd $HOME/Developer/Projects'
-alias .dotfiles='cd $HOME/.dotfiles'
+alias prj='cd $HOME/Developer/Projects'
+alias dotfiles='cd $HOME/.dotfiles'
 
 # Aliases for ls
 alias ls='eza -l --color=auto'
@@ -54,16 +54,6 @@ alias tk='tmux kill-session -t'
 alias tn='tmux new -s'
 alias ts='tmux switch -t'
 alias tks='tmux kill-session -a'
-
-# Aliases for kitty
-alias k='kitty --single-instance'
-alias kconf='nvim $HOME/.config/kitty/kitty.conf'
-alias ks='kitten ssh'
-alias ksp='kitten scp'
-alias kss='kitten sftp'
-alias kst='kitten tmux'
-alias ksu='kitten sudo'
-alias kss='kitty @ launch --cwd=$PWD'
 
 # Aliases for nvim
 alias v='nvim'
