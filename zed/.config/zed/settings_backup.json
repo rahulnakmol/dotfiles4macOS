@@ -7,42 +7,13 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "context_servers": {
-    "azure-context-server": {
-      "source": "extension",
-      "enabled": true,
-      "settings": {
-        "enable_production_credentials": false
-      }
-    },
-    "mcp-server-github": {
-      "source": "extension",
-      "enabled": true,
-      "settings": {
-        "github_personal_access_token": "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"
-      }
-    },
-    "mcp-server-context7": {
-      "source": "extension",
-      "enabled": true,
-      "settings": {
-        "context7_api_key": "ctx7sk-fea429eb-d767-477e-b49d-65d020ea2e39"
-      }
-    }
-  },
-  "features": {
-    "edit_prediction_provider": "copilot"
-  },
-  "icon_theme": "Catppuccin Macchiato",
-  "agent": {
-    "message_editor_min_lines": 5,
-    "play_sound_when_agent_done": true,
-    "enable_feedback": false,
-    "always_allow_tool_actions": true,
+  "icon_theme": "Catppuccin Latte",
+  "assistant": {
     "default_model": {
       "provider": "copilot_chat",
       "model": "claude-3-5-sonnet"
     },
+    "version": "2"
   },
   "vim_mode": true,
   "telemetry": {

@@ -10,4 +10,3 @@ window-theme = ghostty
 shell-integration = zsh
 background-opacity = 0.8
 background-blur-radius = 20
-keybind = shift+enter=text:\x1b\r
