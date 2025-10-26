@@ -1,0 +1,54 @@
+# The current version of the config schema
+version: 1
+# What protocol to use when performing git operations. Supported values: ssh, https
+git_protocol: https
+# What editor gh should run when creating issues, pull requests, etc. If blank, will refer to environment.
+editor:
+# When to interactively prompt. This is a global config that cannot be overridden by hostname. Supported values: enabled, disabled
+prompt: enabled
+# Preference for editor-based interactive prompting. This is a global config that cannot be overridden by hostname. Supported values: enabled, disabled
+prefer_editor_prompt: disabled
+# A pager program to send command output to, e.g. "less". If blank, will refer to environment. Set the value to "cat" to disable the pager.
+pager:
+# Aliases allow you to create nicknames for gh commands
+aliases:
+  co: pr checkout # Checkout a PR locally by number
+  prc: pr create --fill # Create PR with auto-filled title/body from commits
+  prv: pr view --web # View current PR in browser
+  prs: pr status # Show status of relevant PRs
+  prm: pr merge --squash --delete-branch # Merge PR with squash and delete branch
+  prl: pr list --state open # List all open PRs
+  prla: pr list --state all # List all PRs (open and closed)
+  mypr: pr list --author @me # List PRs created by me
+  prnew: pr create --fill --web # Create PR and open in browser immediately
+  review: pr view --web # Open PR in browser for review
+  done: pr merge --squash --delete-branch --auto # Auto-merge when checks pass, squash and delete branch
+  rv: repo view --web # View current repo in browser
+  rc: repo clone # Clone a repository
+  rf: repo fork --clone # Fork and clone a repository
+  repos: repo list --limit 30 # List my repositories (last 30)
+  ic: issue create # Create a new issue
+  iv: issue view --web # View issue in browser
+  il: issue list # List all issues
+  myi: issue list --assignee @me # List issues assigned to me
+  wv: workflow view # View workflow details
+  wr: workflow run # Trigger a workflow run
+  wl: run list --limit 5 # List last 5 workflow runs
+  ws: run watch # Watch a workflow run in real-time
+  runs: run list --limit 10 # List last 10 workflow runs
+  dash: pr status && issue list --assignee @me # Dashboard: my PR status + assigned issues
+  review-me: search prs --review-requested=@me --state=open # PRs waiting for my review
+  gist-new: gist create # Create a new gist
+
+# The path to a unix socket through which to send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
+http_unix_socket:
+# What web browser gh should use when opening URLs. If blank, will refer to environment.
+browser:
+# Whether to display labels using their RGB hex color codes in terminals that support truecolor. Supported values: enabled, disabled
+color_labels: enabled
+# Whether customizable, 4-bit accessible colors should be used. Supported values: enabled, disabled
+accessible_colors: disabled
+# Whether an accessible prompter should be used. Supported values: enabled, disabled
+accessible_prompter: disabled
+# Whether to use a animated spinner as a progress indicator. If disabled, a textual progress indicator is used instead. Supported values: enabled, disabled
+spinner: enabled
