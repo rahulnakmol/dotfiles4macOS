@@ -25,6 +25,7 @@ unset rcfile
 
 eval "$(starship init zsh)"                                                                                             # Initialize starship prompt
 source <(fzf --zsh)                                                                                                     # Set up fzf key bindings and fuzzy completion
+test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"                                                         # Enable local and secure environment variables
 
 test -e "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
 && source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"                                     # Enable syntax highlighting
