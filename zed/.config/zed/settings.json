@@ -7,6 +7,56 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "when_closing_with_no_tabs": "close_window",
+  "confirm_quit": true,
+  "title_bar": {
+    "show_branch_icon": false
+  },
+  "language_models": {
+    "openai_compatible": {
+      "Azure OpenAI": {
+        "api_url": "https://azai-eus2-connected-auto-dev-01.cognitiveservices.azure.com/openai/v1",
+        "available_models": [
+          {
+            "name": "gpt-5-codex",
+            "max_tokens": 200000,
+            "max_output_tokens": 128000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false
+            }
+          },
+          {
+            "name": "gpt-5-pro",
+            "max_tokens": 200000,
+            "max_output_tokens": 128000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false
+            }
+          },
+          {
+            "name": "model-router",
+            "max_tokens": 500000,
+            "max_output_tokens": 128000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false
+            }
+          }
+        ]
+      }
+    }
+  },
   "context_servers": {
     "azure-context-server": {
       "source": "extension",
@@ -33,7 +83,11 @@
   "features": {
     "edit_prediction_provider": "copilot"
   },
-  "icon_theme": "Catppuccin Macchiato",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Macchiato"
+  },
   "agent": {
     "message_editor_min_lines": 5,
     "play_sound_when_agent_done": true,
@@ -41,8 +95,8 @@
     "always_allow_tool_actions": true,
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-3-5-sonnet"
-    },
+      "model": "claude-4-5-sonnet"
+    }
   },
   "vim_mode": true,
   "telemetry": {
@@ -62,10 +116,10 @@
   },
   "relative_line_numbers": true,
   "format_on_save": "on",
-  "ui_font_family": "Avenir Next",
-  "ui_font_size": 16,
+  "ui_font_family": "FantasqueSansM Nerd Font",
+  "ui_font_size": 16.0,
   "buffer_font_family": "ZedMono Nerd Font",
-  "buffer_font_size": 18,
+  "buffer_font_size": 16.0,
   "buffer_line_height": "comfortable",
   "terminal": {
     "font_family": "ZedMono Nerd Font"
