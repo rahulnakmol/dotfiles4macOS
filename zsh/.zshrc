@@ -11,6 +11,7 @@ export BAT_THEME="Catppuccin Macchiato"                                         
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="/opt/homebrew/share/zsh-syntax-highlighting/highlighters"                        # Set zsh-syntax-highlighting highlighters directory
 export DOTNET_CLI_TELEMETRY_OPTOUT=1                                                                                    # Disable .NET CLI telemetry
 export CGO_ENABLED=1                                                                                                    # Enable CGO for Go for linking C runtime binding
+export DISABLE_AUTOUPDATER=1
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 if [ -d ~/.zshrc.d ]; then
@@ -33,3 +34,5 @@ test -e "/opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" \
 
 test -e "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
 && source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"                                             # Enable autosuggestions
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

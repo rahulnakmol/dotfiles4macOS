@@ -6,3 +6,4 @@
 **/karabiner/assets/*
 **/zed/conversations/*
 **/.ssh/known_hosts*
+**/zsh/*.local
