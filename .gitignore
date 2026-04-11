@@ -1,9 +1,35 @@
-**/*.mdb
+# OS / editor artifacts
 .DS_Store
+**/*.mdb
 **/*.log
+**/.swp
+**/.swo
+*~
+
+# Sensitive credentials — never commit tokens or keys
+gh/.config/gh/hosts.yml
+**/.ssh/known_hosts*
+**/.ssh/id_*
+**/.ssh/*.pem
+**/.ssh/*.key
+**/*.env
+**/.env*
+**/*secret*
+**/*token*
+
+# Claude Code — ignore everything except configuration files
+claude/.claude/*
+!claude/.claude/settings.json
+!claude/.claude/keybindings.json
+!claude/.claude/statusline.sh
+
+# Module-specific ephemeral data
+nvim/.config/nvim/lazy-lock.json
+**/zsh/*.local
 **/tmux/plugins/*
 **/karabiner/automatic_backups/*
 **/karabiner/assets/*
 **/zed/conversations/*
-**/.ssh/known_hosts*
-**/zsh/*.local
+
+# Session / remember data (ephemeral to this machine)
+.remember/

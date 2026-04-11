@@ -1,13 +1,11 @@
-theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+theme = "Catppuccin Macchiato"
 font-family = "Mononoki Nerd Font"
 font-size = 16
-window-width = 200
 window-height = 50
-window-padding-x = 2
-window-padding-y = 2
-window-colorspace = display-p3
-window-theme = ghostty
+window-width = 200
+window-padding-x = 20
+window-padding-y = 20
+background-opacity = 0.95
+background-blur = true
 shell-integration = zsh
-background-opacity = 0.8
-background-blur-radius = 20
-keybind = shift+enter=text:\x1b\r
+shell-integration-features = ssh-terminfo

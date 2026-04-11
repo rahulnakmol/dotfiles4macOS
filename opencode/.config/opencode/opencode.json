@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/claude-sonnet-4-6",
+  "small_model": "opencode/gpt-5-nano",
+  "autoupdate": false,
+  "enabled_providers": ["opencode"],
+  "agent": {
+    "quick": {
+      "description": "Fast queries using cheap/free models (GLM-5, Kimi K2.5, MiniMax M2.5, Gemini Flash)",
+      "mode": "primary",
+      "model": "opencode/minimax-m2.5",
+      "prompt": "You are a fast, concise coding assistant. Keep responses short and actionable. Prioritize speed over exhaustive detail."
+    },
+    "pro": {
+      "description": "Expert coding agent using premium thinking/reasoning models (Opus, GPT Codex) for complex architecture, debugging, and deep code analysis",
+      "mode": "primary",
+      "model": "opencode/claude-opus-4-6",
+      "prompt": "You are an expert software engineer. Think deeply before acting. Use extended reasoning for complex problems. Focus on correctness, edge cases, and production-quality code. When debugging, be methodical and trace through the full execution path."
+    },
+    "ui": {
+      "description": "UI/UX focused agent using Gemini Pro for frontend, design systems, layout, and visual work with multimodal support",
+      "mode": "primary",
+      "model": "opencode/gemini-3.1-pro",
+      "prompt": "You are a frontend and UI/UX specialist. Focus on component architecture, responsive design, accessibility, and visual polish. Leverage your multimodal capabilities to understand design references, screenshots, and mockups. Prefer modern patterns: CSS Grid/Flexbox, design tokens, component composition."
+    }
+  }
+}
