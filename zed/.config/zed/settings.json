@@ -69,14 +69,14 @@
       "source": "extension",
       "enabled": true,
       "settings": {
-        "github_personal_access_token": "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"
+        "github_personal_access_token": "${GITHUB_PAT}"
       }
     },
     "mcp-server-context7": {
       "source": "extension",
       "enabled": true,
       "settings": {
-        "context7_api_key": "ctx7sk-fea429eb-d767-477e-b49d-65d020ea2e39"
+        "context7_api_key": "${CONTEXT7_API_KEY}"
       }
     }
   },

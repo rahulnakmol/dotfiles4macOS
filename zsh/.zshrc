@@ -1,39 +1,58 @@
-# Global Variables
-export CLICOLOR=1                                                                                                       # Enable colorized output
-export GOPATH="$HOME/Developer/go"                                                                                      # Go tooling and package path
-export RUSTUP_PATH="/opt/homebrew/opt/rustup"                                                                           # Rustup path
-export RUSTUP_HOME="$HOME/Developer/.rustup"                                                                            # Rustup home
-export CARGO_HOME="$HOME/Developer/.cargo"                                                                              # Cargo home
-export PATH="$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$RUSTUP_PATH/bin:$CARGO_HOME/bin:$PATH"                           # Add local bin, rustup & go to PATH
-export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"                                  # Colorize GCC output
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"                                                                       # Use bat as manpager
-export BAT_THEME="Catppuccin Macchiato"                                                                                 # Set bat theme
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="/opt/homebrew/share/zsh-syntax-highlighting/highlighters"                        # Set zsh-syntax-highlighting highlighters directory
-export DOTNET_CLI_TELEMETRY_OPTOUT=1                                                                                    # Disable .NET CLI telemetry
-export CGO_ENABLED=1                                                                                                    # Enable CGO for Go for linking C runtime binding
-export DISABLE_AUTOUPDATER=1
-export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+# PATH — build dynamically, deduplicate
+typeset -U PATH
+PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
+[[ -d "$HOME/.opencode/bin" ]] && PATH="$HOME/.opencode/bin:$PATH"
 
-if [ -d ~/.zshrc.d ]; then
-    for rcfile in ~/.zshrc.d/*; do
-        if [ -f "$rcfile" ]; then
-            source "$rcfile"                                                                                            # Load aliases from a separate file
-        fi
-    done
+# Homebrew — only eval if .zprofile didn't already set it (non-login shells)
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
 fi
+
+# Rustup — resolve from brew or system
+if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/rustup/bin" ]]; then
+  PATH="$HOMEBREW_PREFIX/opt/rustup/bin:$PATH"
+elif [[ -d "$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin" ]]; then
+  PATH="$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin:$PATH"
+fi
+
+# Source modular configs (00-platform.zsh loads first due to sort order)
+for rcfile in "$HOME"/.zshrc.d/*.{zsh,sh}(N.); do
+  source "$rcfile"
+done
 unset rcfile
 
-eval "$(starship init zsh)"                                                                                             # Initialize starship prompt
-source <(fzf --zsh)                                                                                                     # Set up fzf key bindings and fuzzy completion
-test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"                                                         # Enable local and secure environment variables
+# Shell integrations
+eval "$(starship init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
-test -e "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-&& source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"                                     # Enable syntax highlighting
+# fzf — cache generated config for faster startup
+_fzf_cache="$HOME/.cache/fzf-zsh.zsh"
+if [[ ! -f "$_fzf_cache" || "$(command -v fzf)" -nt "$_fzf_cache" ]]; then
+  mkdir -p "$HOME/.cache"
+  fzf --zsh > "$_fzf_cache" 2>/dev/null
+fi
+[[ -f "$_fzf_cache" ]] && source "$_fzf_cache"
+unset _fzf_cache
 
-test -e "/opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" \
-&& source "/opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"                                            # Enable autocomplete
+# Local overrides (machine-specific, not committed)
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
 
-test -e "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-&& source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"                                             # Enable autosuggestions
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# ZSH plugins — check brew prefix first, then system paths
+() {
+  local dirs=("${HOMEBREW_PREFIX:-/nonexistent}/share" "/usr/share")
+  local plugins=(
+    "zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    "zsh-autocomplete/zsh-autocomplete.plugin.zsh"
+    "zsh-autosuggestions/zsh-autosuggestions.zsh"
+  )
+  local plugin dir
+  for plugin in "${plugins[@]}"; do
+    for dir in "${dirs[@]}"; do
+      [[ -f "$dir/$plugin" ]] && source "$dir/$plugin" && break
+    done
+  done
+}
