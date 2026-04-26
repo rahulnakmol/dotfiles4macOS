@@ -45,5 +45,9 @@
     "liquid-skills@claude-plugins-official": true,
     "azure@claude-plugins-official": true,
     "caveman@caveman": true
+  },
+  "skipAutoPermissionPrompt": true,
+  "permissions": {
+    "defaultMode": "auto"
   }
 }

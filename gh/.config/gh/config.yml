@@ -12,34 +12,33 @@ prefer_editor_prompt: disabled
 pager:
 # Aliases allow you to create nicknames for gh commands
 aliases:
-  co: pr checkout # Checkout a PR locally by number
-  prc: pr create --fill # Create PR with auto-filled title/body from commits
-  prv: pr view --web # View current PR in browser
-  prs: pr status # Show status of relevant PRs
-  prm: pr merge --squash --delete-branch # Merge PR with squash and delete branch
-  prl: pr list --state open # List all open PRs
-  prla: pr list --state all # List all PRs (open and closed)
-  mypr: pr list --author @me # List PRs created by me
-  prnew: pr create --fill --web # Create PR and open in browser immediately
-  review: pr view --web # Open PR in browser for review
-  done: pr merge --squash --delete-branch --auto # Auto-merge when checks pass, squash and delete branch
-  rv: repo view --web # View current repo in browser
-  rc: repo clone # Clone a repository
-  rf: repo fork --clone # Fork and clone a repository
-  repos: repo list --limit 30 # List my repositories (last 30)
-  ic: issue create # Create a new issue
-  iv: issue view --web # View issue in browser
-  il: issue list # List all issues
-  myi: issue list --assignee @me # List issues assigned to me
-  wv: workflow view # View workflow details
-  wr: workflow run # Trigger a workflow run
-  wl: run list --limit 5 # List last 5 workflow runs
-  ws: run watch # Watch a workflow run in real-time
-  runs: run list --limit 10 # List last 10 workflow runs
-  dash: pr status && issue list --assignee @me # Dashboard: my PR status + assigned issues
-  review-me: search prs --review-requested=@me --state=open # PRs waiting for my review
-  gist-new: gist create # Create a new gist
-
+    co: pr checkout # Checkout a PR locally by number
+    prc: pr create --fill # Create PR with auto-filled title/body from commits
+    prv: pr view --web # View current PR in browser
+    prs: pr status # Show status of relevant PRs
+    prm: pr merge --squash --delete-branch # Merge PR with squash and delete branch
+    prl: pr list --state open # List all open PRs
+    prla: pr list --state all # List all PRs (open and closed)
+    mypr: pr list --author @me # List PRs created by me
+    prnew: pr create --fill --web # Create PR and open in browser immediately
+    review: pr view --web # Open PR in browser for review
+    done: pr merge --squash --delete-branch --auto # Auto-merge when checks pass, squash and delete branch
+    rv: repo view --web # View current repo in browser
+    rc: repo clone # Clone a repository
+    rf: repo fork --clone # Fork and clone a repository
+    repos: repo list --limit 30 # List my repositories (last 30)
+    ic: issue create # Create a new issue
+    iv: issue view --web # View issue in browser
+    il: issue list # List all issues
+    myi: issue list --assignee @me # List issues assigned to me
+    wv: workflow view # View workflow details
+    wr: workflow run # Trigger a workflow run
+    wl: run list --limit 5 # List last 5 workflow runs
+    ws: run watch # Watch a workflow run in real-time
+    runs: run list --limit 10 # List last 10 workflow runs
+    dash: pr status && issue list --assignee @me # Dashboard: my PR status + assigned issues
+    review-me: search prs --review-requested=@me --state=open # PRs waiting for my review
+    gist-new: gist create # Create a new gist
 # The path to a unix socket through which to send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
 # What web browser gh should use when opening URLs. If blank, will refer to environment.
