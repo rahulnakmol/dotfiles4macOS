@@ -179,8 +179,8 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `ccc` | `claude -c` | Continue last conversation |
 | `ccp` | `claude -p` | Non-interactive print mode |
 | `ccr` | `claude --resume` | Resume specific session |
-| `ccs` | `claude --model sonnet --permission-mode acceptEdits` | Sonnet — daily coding |
-| `cco` | `claude --model opus --permission-mode acceptEdits` | Opus — complex tasks |
+| `ccs` | `claude --model sonnet --permission-mode auto` | Sonnet — daily coding |
+| `cco` | `claude --model opus --permission-mode auto` | Opus — complex tasks |
 | `cch` | `claude --model haiku` | Haiku — quick answers |
 | `ccpl` | `claude --model opus --permission-mode plan` | Opus plan — read-only |
 | `cc!` | `claude --dangerously-skip-permissions` | Sonnet autopilot |

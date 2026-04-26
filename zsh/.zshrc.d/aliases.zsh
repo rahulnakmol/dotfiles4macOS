@@ -162,8 +162,8 @@ alias ccp='claude -p'                                                           
 alias ccr='claude --resume'                                                                                              # Resume a specific session
 
 # Claude coding workflows (model + permission mode)
-alias ccs='claude --model sonnet --permission-mode acceptEdits'                                                          # Sonnet — daily coding
-alias cco='claude --model opus --permission-mode acceptEdits'                                                            # Opus — architecture, complex tasks
+alias ccs='claude --model sonnet --permission-mode auto'                                                          # Sonnet — daily coding
+alias cco='claude --model opus --permission-mode auto'                                                            # Opus — architecture, complex tasks
 alias cch='claude --model haiku'                                                                                         # Haiku — quick answers
 alias ccpl='claude --model opus --permission-mode plan'                                                                  # Opus plan — read-only exploration
 alias 'cc!'='claude --model sonnet --dangerously-skip-permissions'                                                       # Sonnet autopilot — fast agentic
