@@ -31,10 +31,11 @@ Notation: `prefix <key>` means press `C-a`, release, then press `<key>`.
 | Key | Action |
 |-----|--------|
 | `c` / `Enter` | Popup session (80×80%) — default model |
-| `/` | One-shot prompt (asks for query, runs in popup) |
+| `/` | One-shot Haiku prompt (asks for query, runs in popup) |
 | `s` | Split pane — Sonnet with `--permission-mode acceptEdits` |
 | `o` | Split pane — Opus with `--permission-mode acceptEdits` |
-| `a` | Split pane — Opus autopilot (`--dangerously-skip-permissions`) |
+| `O` | Split pane — Opus autopilot (`--dangerously-skip-permissions`) |
+| `S` | Split pane — Sonnet autopilot (`--dangerously-skip-permissions`) |
 | `p` | Split pane — Opus plan mode (read-only) |
 | `w` | New window running Claude |
 
