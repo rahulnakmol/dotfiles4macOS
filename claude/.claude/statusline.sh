@@ -19,18 +19,17 @@ C_SURFACE=$'\033[38;2;91;96;120m'
 # ── Read JSON from stdin ─────────────────────────────────────────────────────
 json=$(cat)
 
-model=$(echo "$json" | jq -r '.model // empty')
-cwd=$(echo "$json" | jq -r '.cwd // empty')
-session=$(echo "$json" | jq -r '.sessionName // empty')
-vim_mode=$(echo "$json" | jq -r '.vimMode // empty')
-tokens_used=$(echo "$json" | jq -r '.contextWindow.used // 0')
-tokens_max=$(echo "$json" | jq -r '.contextWindow.max // 0')
+model=$(echo "$json" | jq -r '.model.display_name // .model.id // empty')
+cwd=$(echo "$json" | jq -r '.workspace.current_dir // .cwd // empty')
+vim_mode=$(echo "$json" | jq -r '.vim.mode // empty')
+tokens_in=$(echo "$json" | jq -r '.context_window.total_input_tokens // 0')
+tokens_out=$(echo "$json" | jq -r '.context_window.total_output_tokens // 0')
+tokens_used=$(( tokens_in + tokens_out ))
+tokens_max=$(echo "$json" | jq -r '.context_window.context_window_size // 0')
 
 # ── Format model ─────────────────────────────────────────────────────────────
 if [[ -n "$model" ]]; then
-  short_model="${model#claude-}"
-  short_model="${short_model%-*[0-9]*}"
-  model_str="${C_MAUVE}${short_model}${C_RESET}"
+  model_str="${C_MAUVE}${model}${C_RESET}"
 else
   model_str="${C_SURFACE}--${C_RESET}"
 fi

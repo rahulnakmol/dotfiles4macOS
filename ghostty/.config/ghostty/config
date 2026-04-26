@@ -1,6 +1,6 @@
 theme = "Catppuccin Macchiato"
-font-family = "Mononoki Nerd Font"
-font-size = 16
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 18
 window-height = 50
 window-width = 200
 window-padding-x = 20

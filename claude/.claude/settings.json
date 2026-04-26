@@ -33,6 +33,17 @@
     "mcp-server-dev@claude-plugins-official": true,
     "data-engineering@claude-plugins-official": true,
     "data@claude-plugins-official": true,
-    "terraform@claude-plugins-official": true
+    "terraform@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "firecrawl@claude-plugins-official": true,
+    "semgrep@claude-plugins-official": true,
+    "pinecone@claude-plugins-official": true,
+    "goodmem@claude-plugins-official": true,
+    "pydantic-ai@claude-plugins-official": true,
+    "dataverse@claude-plugins-official": true,
+    "liquid-skills@claude-plugins-official": true,
+    "azure@claude-plugins-official": true,
+    "caveman@caveman": true
   }
 }
