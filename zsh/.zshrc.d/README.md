@@ -47,12 +47,12 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `mi`  | `mas install` | Install app by ID |
-| `mu`  | `mas uninstall` | Uninstall app |
-| `ml`  | `mas list` | List installed App Store apps |
-| `ms`  | `mas search` | Search App Store |
-| `minf`| `mas info` | App info/lookup |
-| `mo`  | `mas outdated` | List pending updates |
+| `mi` | `mas install` | Install app by ID |
+| `mu` | `mas uninstall` | Uninstall app |
+| `ml` | `mas list` | List installed App Store apps |
+| `ms` | `mas search` | Search App Store |
+| `minf` | `mas info` | App info/lookup |
+| `mo` | `mas outdated` | List pending updates |
 | `mug` | `mas upgrade` | Upgrade all outdated apps |
 | `muu` | `mas outdated; mas upgrade` | Show pending, then upgrade all |
 
