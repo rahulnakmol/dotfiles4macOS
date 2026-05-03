@@ -220,13 +220,26 @@
     "caveman@caveman": true,
     "cloudflare@claude-plugins-official": true,
     "azure-cosmos-db-assistant@claude-plugins-official": true,
-    "exa@claude-plugins-official": true
+    "exa@claude-plugins-official": true,
+    "power-pages@power-platform-skills": true,
+    "model-apps@power-platform-skills": true,
+    "mcp-apps@power-platform-skills": true,
+    "canvas-apps@power-platform-skills": true,
+    "code-apps-preview@power-platform-skills": true
   },
-  "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
+  "extraKnownMarketplaces": {
+    "power-platform-skills": {
+      "source": {
+        "source": "github",
+        "repo": "microsoft/power-platform-skills"
+      }
+    }
+  },
   "voice": {
     "enabled": true,
     "mode": "hold"
-  }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
 }
