@@ -40,7 +40,7 @@ alias ms='mas search'
 alias minf='mas info'
 alias mo='mas outdated'
 alias mug='mas upgrade'
-alias muu='mas outdated && mas upgrade'
+alias muu='mas outdated; mas upgrade'
 
 # Aliases for git
 alias gs='git status'
