@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "auto",
     "deny": [
       "Read(~/.ssh/id_*)",
       "Read(~/.ssh/*_rsa)",
@@ -170,7 +169,8 @@
       "Edit(**/secret.yaml)",
       "Edit(**/secret.yml)",
       "Edit(**/*.asc)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "statusLine": {
     "type": "command",
@@ -217,8 +217,16 @@
     "dataverse@claude-plugins-official": true,
     "liquid-skills@claude-plugins-official": true,
     "azure@claude-plugins-official": true,
-    "caveman@caveman": true
+    "caveman@caveman": true,
+    "cloudflare@claude-plugins-official": true,
+    "azure-cosmos-db-assistant@claude-plugins-official": true,
+    "exa@claude-plugins-official": true
   },
+  "skipDangerousModePermissionPrompt": true,
   "skipAutoPermissionPrompt": true,
-  "skipDangerousModePermissionPrompt": true
+  "voiceEnabled": true,
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  }
 }
