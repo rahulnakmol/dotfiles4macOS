@@ -98,6 +98,16 @@ brew install azure-cli
 curl -fsSL https://aka.ms/install-azd.sh | bash
 ```
 
+### Mac App Store
+
+| Tool | Purpose | Used by |
+|------|---------|---------|
+| `mas` | Mac App Store CLI (install/update App Store apps) | `m*` aliases |
+
+```bash
+brew install mas
+```
+
 ### Node.js / npm
 
 | Tool | Purpose | Used by |
