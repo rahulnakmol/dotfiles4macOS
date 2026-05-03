@@ -16,6 +16,7 @@ All aliases follow a consistent prefix pattern for discoverability:
 | `dc` | Docker Compose | `dcu`, `dcd`, `dcl` |
 | `g` | Git | `gs`, `ga`, `gp` |
 | `gh` | GitHub CLI | `ghl`, `gpc`, `gprs` |
+| `m` | Mac App Store | `mi`, `ml`, `mug` |
 | `n` | npm | `ni`, `nr`, `nb` |
 | `oc` | OpenCode | `occ`, `ocr`, `ocpr` |
 | `s` | SSH | `sa`, `sc`, `sh` |
