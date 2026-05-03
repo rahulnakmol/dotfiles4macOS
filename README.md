@@ -68,6 +68,7 @@ brew install --cask docker             # Docker Desktop
 brew install node go rustup dotnet     # Language runtimes
 brew install stylua                    # Lua formatter
 brew install azure-cli                 # Azure CLI
+brew install mas                       # Mac App Store CLI
 ```
 
 ## Post-Install
