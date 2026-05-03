@@ -43,6 +43,19 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `buu` | `brew update && upgrade && cleanup` | Full maintenance |
 | `bc` | `brew cleanup` | Remove old versions |
 
+## Mac App Store (`m` prefix)
+
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `mi`  | `mas install` | Install app by ID |
+| `mu`  | `mas uninstall` | Uninstall app |
+| `ml`  | `mas list` | List installed App Store apps |
+| `ms`  | `mas search` | Search App Store |
+| `minf`| `mas info` | App info/lookup |
+| `mo`  | `mas outdated` | List pending updates |
+| `mug` | `mas upgrade` | Upgrade all outdated apps |
+| `muu` | `mas outdated; mas upgrade` | Show pending, then upgrade all |
+
 ## Git (`g` prefix)
 
 | Alias | Command | Description |
@@ -255,6 +268,7 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `dc` | Docker Compose | `dcu`, `dcd`, `dcl` |
 | `g` | Git | `gs`, `ga`, `gp` |
 | `gh` | GitHub CLI | `ghl`, `gpc`, `gprs` |
+| `m` | Mac App Store | `mi`, `ml`, `mug` |
 | `n` | npm | `ni`, `nr`, `nb` |
 | `oc` | OpenCode | `occ`, `ocr`, `ocpr` |
 | `s` | SSH | `sa`, `sc`, `sh` |
