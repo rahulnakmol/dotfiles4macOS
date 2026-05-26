@@ -3,7 +3,9 @@
   "model": "opencode/claude-sonnet-4-6",
   "small_model": "opencode/gpt-5-nano",
   "autoupdate": false,
-  "enabled_providers": ["opencode"],
+  "enabled_providers": [
+    "opencode"
+  ],
   "agent": {
     "quick": {
       "description": "Fast queries using cheap/free models (GLM-5, Kimi K2.5, MiniMax M2.5, Gemini Flash)",
@@ -22,6 +24,20 @@
       "mode": "primary",
       "model": "opencode/gemini-3.1-pro",
       "prompt": "You are a frontend and UI/UX specialist. Focus on component architecture, responsive design, accessibility, and visual polish. Leverage your multimodal capabilities to understand design references, screenshots, and mockups. Prefer modern patterns: CSS Grid/Flexbox, design tokens, component composition."
+    }
+  },
+  "plugin": [
+    "./plugins/caveman/plugin.js"
+  ],
+  "mcp": {
+    "caveman-shrink": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "caveman-shrink"
+      ],
+      "enabled": true
     }
   }
 }
