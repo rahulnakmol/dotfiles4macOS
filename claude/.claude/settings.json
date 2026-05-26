@@ -182,56 +182,34 @@
     "code-review@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true,
     "agent-sdk-dev@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
     "plugin-dev@claude-plugins-official": true,
-    "playground@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true,
-    "csharp-lsp@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
-    "huggingface-skills@claude-plugins-official": true,
-    "firebase@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true,
     "remember@claude-plugins-official": true,
-    "atomic-agents@claude-plugins-official": true,
     "mcp-server-dev@claude-plugins-official": true,
-    "data-engineering@claude-plugins-official": true,
-    "data@claude-plugins-official": true,
-    "terraform@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "firecrawl@claude-plugins-official": true,
-    "semgrep@claude-plugins-official": true,
-    "pinecone@claude-plugins-official": true,
-    "goodmem@claude-plugins-official": true,
-    "pydantic-ai@claude-plugins-official": true,
-    "dataverse@claude-plugins-official": true,
-    "liquid-skills@claude-plugins-official": true,
     "azure@claude-plugins-official": true,
-    "caveman@caveman": true,
-    "cloudflare@claude-plugins-official": true,
-    "azure-cosmos-db-assistant@claude-plugins-official": true,
-    "exa@claude-plugins-official": true,
-    "power-pages@power-platform-skills": true,
-    "model-apps@power-platform-skills": true,
-    "mcp-apps@power-platform-skills": true,
-    "canvas-apps@power-platform-skills": true,
-    "code-apps-preview@power-platform-skills": true
+    "learning-output-style@claude-plugins-official": true,
+    "caveman@caveman": true
   },
   "extraKnownMarketplaces": {
     "power-platform-skills": {
       "source": {
         "source": "github",
         "repo": "microsoft/power-platform-skills"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
       }
     }
   },
@@ -240,6 +218,33 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/opt/homebrew/Cellar/node/26.0.0/bin/node\" \"/Users/rahulnakmol/.claude/hooks/caveman-activate.js\"",
+            "timeout": 5,
+            "statusMessage": "Loading caveman mode..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/opt/homebrew/Cellar/node/26.0.0/bin/node\" \"/Users/rahulnakmol/.claude/hooks/caveman-mode-tracker.js\"",
+            "timeout": 5,
+            "statusMessage": "Tracking caveman mode..."
+          }
+        ]
+      }
+    ]
+  }
 }
