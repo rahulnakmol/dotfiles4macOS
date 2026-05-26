@@ -15,8 +15,8 @@ alias ghr='cd $HOME/Developer/Github'
 alias dotfiles='cd $HOME/.dotfiles'
 
 # Aliases for ls
-alias ls='eza -l --color=auto'
-alias l='eza -F --color=auto'
+alias ls='eza -l --icons=auto --color=auto'
+alias l='eza -F --icons=auto --color=auto'
 alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias lar='ls -laRt changed'
