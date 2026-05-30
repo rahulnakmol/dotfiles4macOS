@@ -1,0 +1,27 @@
+---
+paths: "**/azure/**,**/infra/azure/**,**/*.azure.tf,**/*.bicep,**/azure-pipelines.yml"
+---
+
+
+# Azure
+
+Pairs with the language and Terraform rules; carries no language content of its own.
+
+## Runtime and integration
+- Event-driven backbone: Service Bus and Event Grid for async messaging, one queue or topic per bounded context, not one giant bus.
+- API Management as the enterprise gateway. Nothing exposed publicly without passing through it.
+- Container Apps or AKS for container workloads; Functions and Logic Apps for orchestration where they fit. Do not hand-roll a scheduler when a managed one exists.
+
+## Data and AI
+- SQL DB or Cosmos DB chosen on access pattern, not habit: Cosmos for partition-friendly high scale, SQL for relational integrity.
+- Azure OpenAI and AI Foundry for model access and agent hosting; AI Search for retrieval. Keep model choice behind a provider interface.
+
+## Identity and security
+- OAuth 2.0 / OIDC through Entra ID. Tokens validated at the gateway and again at the service.
+- Managed identities for service-to-service; no connection strings beyond local-dev placeholders.
+- Secrets in Key Vault, referenced via managed identity. Apply Purview controls on sensitive data.
+
+## Operations
+- Application Insights and OpenTelemetry, correlation id end to end.
+- Azure Container Registry for images, pinned by digest and scanned.
+- Provisioned through Terraform (Terraform is the Azure default here too). Bicep only where a legacy Azure-only component already uses it. Promote through identical environments.

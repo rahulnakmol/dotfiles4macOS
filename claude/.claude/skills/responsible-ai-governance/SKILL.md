@@ -1,0 +1,24 @@
+---
+name: responsible-ai-governance
+description: Responsible-AI and regulated-industry governance overlay. Use when work touches a regulated industry (financial services, healthcare, public sector) or an AI system that makes or influences consequential decisions, or when the user asks about audit, explainability, model risk, residency, NCUA, OSFI, SR 11-7, BCBS 239, NIST AI RMF, ISO 42001, or the EU AI Act.
+---
+
+# Responsible AI & Regulated Governance
+
+Apply this on top of the stack rules whenever the work touches a regulated industry or an AI system making consequential decisions.
+
+## Frameworks to satisfy
+- Microsoft Responsible AI, NIST AI RMF, ISO/IEC 42001. EU AI Act: classify the risk tier and note the obligations that follow.
+- Financial services: model risk management aligned to Federal Reserve SR 11-7, BCBS 239 risk-data-aggregation, NCUA / OSFI examination readiness. Healthcare and public sector: HIPAA-equivalent handling and residency as applicable.
+
+## Every regulated component must have
+- An immutable, regulator-readable audit trail: who, what, when, which model and version, which inputs, which decision. Never mutable, never sampled away.
+- Explainability hooks: the reasoning, retrieval sources, and confidence behind any automated decision are reconstructable after the fact.
+- A recorded bias assessment and impact assessment before go-live, not after.
+- Data residency enforced at the infrastructure layer and provable, not assumed.
+- Human-in-the-loop checkpoints on any decision above the agreed autonomy threshold.
+
+## Behaviour in this mode
+- Do not implement around a control to make a feature work. If a requirement conflicts with a control, stop and surface the conflict with options.
+- Treat audit and explainability as first-class deliverables with their own tests, not as logging.
+- When unsure whether something is governed, assume it is and ask.

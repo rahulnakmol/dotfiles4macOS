@@ -23,6 +23,9 @@ claude/.claude/*
 !claude/.claude/settings.json
 !claude/.claude/keybindings.json
 !claude/.claude/statusline.sh
+!claude/.claude/CLAUDE.md
+!claude/.claude/rules/
+!claude/.claude/skills/
 
 # Cursor — ignore everything except user rules
 cursor/.cursor/*
