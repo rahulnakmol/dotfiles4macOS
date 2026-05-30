@@ -1,0 +1,23 @@
+---
+description: Multi-agent and agentic AI design patterns, independent of cloud or language. Pull in when building agents, planners, tools, memory, or RAG.
+---
+
+# Agentic AI
+
+## Agent structure
+- Model the agent explicitly: a planner, typed tools, a memory interface (episodic, semantic, persistent), and a feedback loop. Control flow never lives implicitly inside a prompt string.
+- LangGraph for stateful multi-step agents needing checkpoints, retries, and human-in-the-loop. Google ADK for hierarchical multi-agent systems on Vertex with Gemini. Semantic Kernel / Microsoft Agent Framework on the Microsoft side.
+- Tools have a typed input and output, a docstring the model reads, and a deterministic failure mode. A tool never throws unhandled back into the agent loop.
+- Memory and state persist to a durable store, never to process memory.
+- Cross-system tools exposed via MCP; agent-to-agent contracts via A2A. Version both.
+
+## RAG
+- The pipeline is explicit and inspectable: chunking, embedding, retrieval, reranking, grounding. Log retrieval results so every answer is traceable.
+- Treat prompts as versioned artifacts under source control, not inline literals.
+
+## Multi-model and multi-agent
+- Keep model choice (GPT-4o, Claude, Gemini, open-weight) behind a provider interface. Swapping a model is a config change.
+- For multiple agents: explicit coordination, consensus or arbitration when they disagree, and clear specialisation. No implicit ordering.
+
+## Observability
+- OpenTelemetry across the agent loop and every tool call. LangSmith or LangFuse so reasoning steps, token cost, and latency are visible per run. Every run carries a correlation id.

@@ -3,12 +3,14 @@
 Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow <module>`. Dry-run: `stow -n <module>`.
 
 ## Modules
-`1password` `bat` `claude` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
+`1password` `bat` `claude` `cursor` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
 
 ## Validation
 - `zsh -n zsh/.zshrc` — syntax-check shell
 - `stylua --check nvim/.config/nvim` — lint Lua (two-space indent, 120 cols)
 - `tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d` — smoke-test tmux
+- `ls ~/.cursor/rules` — verify cursor rules symlinked
+- `ls ~/.claude/rules` — verify claude rules live
 
 ## Platform
 macOS (Apple Silicon) with Homebrew as the primary package manager. The shell config auto-detects the platform via `uname -s` and sets `$DOTFILES_PLATFORM`.

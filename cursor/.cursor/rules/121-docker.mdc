@@ -1,0 +1,15 @@
+---
+description: Container and Docker discipline, shared across Azure and GCP. Use whenever editing Dockerfiles or compose.
+globs: ["**/Dockerfile", "**/*.dockerfile", "**/docker-compose*.yml", "**/.dockerignore"]
+alwaysApply: false
+---
+
+# Docker / Containers
+
+- Multi-stage builds. Final image carries the runtime only, not the toolchain.
+- Pin base images by digest, never `:latest`. Rebuild on a schedule for patches.
+- Run as a non-root user. Drop capabilities you do not need.
+- One process per container; let the orchestrator handle lifecycle and restarts.
+- Smallest viable base (distroless or slim). Order layers so dependencies cache ahead of source.
+- No secrets baked into layers or `ENV`. Inject at runtime. Keep a tight `.dockerignore`.
+- Scan images in CI; fail the build on critical vulnerabilities. Health checks defined.

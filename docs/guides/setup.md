@@ -16,6 +16,7 @@ brew install --cask font-mononoki-nerd-font
 
 # AI coding tools
 brew install claude opencode
+brew install --cask cursor
 ```
 
 Configure Ghostty (or your terminal) to use Mononoki Nerd Font.
@@ -53,7 +54,7 @@ stow tmux ghostty nvim
 stow gh
 
 # Step 5: AI coding tools
-stow claude opencode
+stow claude opencode cursor
 
 # Step 6: Credentials (if using 1Password)
 stow 1password
