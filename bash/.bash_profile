@@ -1,5 +1,8 @@
-# .zprofile — runs once on login shell only
-# Interactive shell setup (prompt, aliases, plugins) belongs in .zshrc
+# .bash_profile — runs once on login shell only
+# Interactive shell setup (prompt, aliases) belongs in .bashrc
+
+# Source .bashrc if it exists (login shells don't source .bashrc by default)
+[[ -f "$HOME/.bashrc" ]] && source "$HOME/.bashrc"
 
 # Environment variables (set once per session)
 export CLICOLOR=1

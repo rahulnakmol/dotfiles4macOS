@@ -4,19 +4,13 @@ PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
 [[ -d "$HOME/.opencode/bin" ]] && PATH="$HOME/.opencode/bin:$PATH"
 
 # Homebrew — only eval if .zprofile didn't already set it (non-login shells)
-if [[ -z "$HOMEBREW_PREFIX" ]]; then
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  fi
+if [[ -z "$HOMEBREW_PREFIX" && -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Rustup — resolve from brew or system
 if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/rustup/bin" ]]; then
   PATH="$HOMEBREW_PREFIX/opt/rustup/bin:$PATH"
-elif [[ -d "$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin" ]]; then
-  PATH="$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin:$PATH"
 fi
 
 # Source modular configs (00-platform.zsh loads first due to sort order)
