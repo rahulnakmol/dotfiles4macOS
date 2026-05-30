@@ -24,6 +24,10 @@ claude/.claude/*
 !claude/.claude/keybindings.json
 !claude/.claude/statusline.sh
 
+# Cursor — ignore everything except user rules
+cursor/.cursor/*
+!cursor/.cursor/rules/
+
 # Module-specific ephemeral data
 nvim/.config/nvim/lazy-lock.json
 **/zsh/*.local

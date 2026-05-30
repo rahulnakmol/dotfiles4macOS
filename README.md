@@ -18,6 +18,7 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 | `bat` | Syntax-highlighted `cat` with Catppuccin themes |
 | `claude` | Claude Code settings, keybindings, statusline |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
+| `cursor` | Cursor AI editor with global enterprise architecture rules |
 | `zed` | Code editor with Catppuccin and AI integration |
 | `iTerm2` | Terminal emulator (macOS failsafe) |
 
@@ -39,7 +40,7 @@ cd ~/.dotfiles
 stow zsh git ssh starship bat          # Shell foundation
 stow tmux ghostty nvim                 # Terminal and editor
 stow gh 1password                      # Dev tools
-stow claude opencode                   # AI coding tools
+stow claude opencode cursor            # AI coding tools
 stow zed iTerm2                        # Additional editors/terminals
 ```
 
@@ -60,6 +61,7 @@ brew install --cask font-mononoki-nerd-font
 ### Tier 3 — AI Coding Tools
 ```bash
 brew install claude opencode
+brew install --cask cursor
 ```
 
 ### Tier 4 — Optional

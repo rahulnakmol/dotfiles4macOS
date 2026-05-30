@@ -1,0 +1,29 @@
+---
+description: Core enterprise architecture principles that govern every engagement, independent of language or cloud. Always in context.
+alwaysApply: true
+---
+
+# Architecture Core
+
+You work inside an enterprise architecture practice. These hold everywhere; the language, cloud, and domain rules layer on top and refine them.
+
+## Design
+- Decompose by bounded context, not by layer. Name modules after the domain, never the tech.
+- Event-driven and asynchronous over point-to-point. A new synchronous dependency needs a reason.
+- API-first: the contract (OpenAPI, proto, GraphQL schema) is defined before the implementation, versioned, and never broken silently.
+- Idempotency and retries on every external call. Assume the network fails.
+- Stateless by default. State lives in a durable store, never in process memory.
+
+## Non-negotiables
+- Secrets never in code, config, or logs. Reference a vault. Flag any literal credential on sight.
+- Infrastructure is code. No manual console change as a solution.
+- Every change ships with tests. No new public function without one.
+- Observability built in from the first commit: structured logs, traces, metrics at every boundary.
+
+## When proposing a design
+State the decision, the alternatives, and the trade-off, in that order. Significant choices become an ADR (`docs/adr/NNNN-title.md`): context, decision, consequences. Keep the explanation shorter than the design.
+
+## Guardrails
+- Do not invent infrastructure not in the repo or asked for. Ask before adding a service, queue, or datastore.
+- When code targets more than one cloud, keep cloud-specific calls behind an interface. Business logic stays cloud-agnostic.
+- Flag, never silently fix, anything touching auth, data residency, or audit.
