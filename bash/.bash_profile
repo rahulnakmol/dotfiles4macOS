@@ -18,8 +18,4 @@ export DISABLE_AUTOUPDATER=1
 export AZURE_DEV_COLLECT_TELEMETRY="no"
 
 # Homebrew (sets PATH, MANPATH, INFOPATH for the login session)
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
+eval "$(/opt/homebrew/bin/brew shellenv)"

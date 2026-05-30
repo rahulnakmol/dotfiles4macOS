@@ -13,7 +13,7 @@ Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow
 - `ls ~/.claude/rules` — verify claude rules live
 
 ## Platform
-macOS (Apple Silicon) with Homebrew as the primary package manager. The shell config auto-detects the platform via `uname -s` and sets `$DOTFILES_PLATFORM`.
+macOS (Apple Silicon) with Homebrew as the primary package manager.
 
 ## Conventions
 - **Commits**: conventional format scoped to module — `feat(zsh): add fzf aliases`
