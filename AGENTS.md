@@ -3,7 +3,7 @@
 Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow <module>`. Dry-run: `stow -n <module>`.
 
 ## Modules
-`1password` `bat` `claude` `cursor` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
+`1password` `bash` `bat` `claude` `cursor` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
 
 ## Validation
 - `zsh -n zsh/.zshrc` — syntax-check shell
@@ -17,7 +17,7 @@ macOS (Apple Silicon) with Homebrew as the primary package manager. The shell co
 
 ## Conventions
 - **Commits**: conventional format scoped to module — `feat(zsh): add fzf aliases`
-- **Aliases**: universal in `aliases.zsh`, prefixed by utility (`g` git, `d` docker, `cc` claude, `oc` opencode, `b` brew)
+- **Aliases**: universal in `aliases.zsh`, prefixed by utility (`g` git, `d` docker, `cc` claude, `oc` opencode, `dr` droid, `b` brew)
 - **Theme**: Catppuccin Macchiato everywhere
 - **CLI tools**: `eza` over ls, `bat` over cat, `fd`/`rg` over find/grep, `zoxide` for cd
 

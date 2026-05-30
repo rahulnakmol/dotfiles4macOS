@@ -115,8 +115,8 @@ alias vim='nvim'
 alias cat='bat'
 alias catt='bat --theme="Catppuccin Macchiato" --style="header,grid,numbers"'
 
-# Alias to source the zshrc file
-alias src='source $HOME/.zshrc'
+# Alias to source the bashrc file
+alias src='source $HOME/.bashrc'
 alias cls='clear'
 
 # Aliases for ssh
@@ -166,36 +166,42 @@ alias dcl='docker compose logs -f'
 alias dcps='docker compose ps'
 
 # Aliases for claude code
-alias cc='claude'                                                                                                        # Interactive session (Sonnet default)
-alias ccc='claude -c'                                                                                                    # Continue last conversation
-alias ccp='claude -p'                                                                                                    # Non-interactive print mode
-alias ccr='claude --resume'                                                                                              # Resume a specific session
+alias cc='claude'
+alias ccc='claude -c'
+alias ccp='claude -p'
+alias ccr='claude --resume'
 
 # Claude coding workflows (model + permission mode)
-alias ccs='claude --model sonnet --permission-mode auto'                                                          # Sonnet — daily coding
-alias cco='claude --model opus --permission-mode auto'                                                            # Opus — architecture, complex tasks
-alias cch='claude --model haiku'                                                                                         # Haiku — quick answers
-alias ccpl='claude --model opus --permission-mode plan'                                                                  # Opus plan — read-only exploration
-alias 'cc!'='claude --model sonnet --dangerously-skip-permissions'                                                       # Sonnet autopilot — fast agentic
-alias 'cco!'='claude --model opus --dangerously-skip-permissions'                                                        # Opus autopilot — full agentic
+alias ccs='claude --model sonnet --permission-mode auto'
+alias cco='claude --model opus --permission-mode auto'
+alias cch='claude --model haiku'
+alias ccpl='claude --model opus --permission-mode plan'
+alias 'cc!'='claude --model sonnet --dangerously-skip-permissions'
+alias 'cco!'='claude --model opus --dangerously-skip-permissions'
 
 # Aliases for opencode (via Zen provider)
-alias oc='opencode'                                                                                                      # Launch TUI
-alias occ='opencode -c'                                                                                                  # Continue last session
-alias ocr='opencode run'                                                                                                 # Headless run (non-interactive)
-alias ocrc='opencode run -c'                                                                                             # Continue last session headless
-alias ocm='opencode -m'                                                                                                  # Launch with specific model
-alias ocw='opencode web'                                                                                                 # Open web interface
-alias ocpr='opencode pr'                                                                                                 # Checkout and review a GitHub PR
-alias ocsl='opencode session list'                                                                                       # List sessions
-alias ocse='opencode export'                                                                                             # Export session as JSON
-alias ocsi='opencode import'                                                                                             # Import session from JSON or share URL
-alias ocml='opencode models'                                                                                             # List available models
-alias ocli='opencode providers login'                                                                                    # Login to provider
-alias ocst='opencode stats'                                                                                              # Show usage statistics
-alias ocp='opencode --pure'                                                                                              # Launch without plugins
-alias ocum='~/.config/opencode/update-models.sh'                                                                         # Update agent models to latest Zen versions
-alias ocumd='~/.config/opencode/update-models.sh --dry-run'                                                              # Dry-run model update (show changes only)
+alias oc='opencode'
+alias occ='opencode -c'
+alias ocr='opencode run'
+alias ocrc='opencode run -c'
+alias ocm='opencode -m'
+alias ocw='opencode web'
+alias ocpr='opencode pr'
+alias ocsl='opencode session list'
+alias ocse='opencode export'
+alias ocsi='opencode import'
+alias ocml='opencode models'
+alias ocli='opencode providers login'
+alias ocst='opencode stats'
+alias ocp='opencode --pure'
+alias ocum='~/.config/opencode/update-models.sh'
+alias ocumd='~/.config/opencode/update-models.sh --dry-run'
+
+# Aliases for factory droid
+alias dr='droid'
+alias dre='droid exec'
+alias drr='droid -r'
+alias drs='droid search'
 
 # Aliases for Azure CLI (az)
 alias azl='az login'
@@ -234,12 +240,6 @@ alias azdm='azd monitor'
 alias azde='azd env list'
 alias azdes='azd env select'
 alias azdt='azd template list'
-
-# Aliases for factory droid
-alias dr='droid'
-alias dre='droid exec'
-alias drr='droid -r'
-alias drs='droid search'
 
 # Aliases for fzf
 alias fzp="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:70%"

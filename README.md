@@ -16,6 +16,7 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 | `ssh` | SSH config with 1Password agent integration |
 | `1password` | SSH agent vault configuration |
 | `bat` | Syntax-highlighted `cat` with Catppuccin themes |
+| `bash` | Bash shell config with modular .bashrc.d structure |
 | `claude` | Claude Code settings, keybindings, statusline |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
@@ -31,6 +32,7 @@ brew install --cask ghostty 1password 1password-cli font-mononoki-nerd-font
 
 # AI coding tools
 brew install claude opencode
+brew install --cask cursor
 
 # Clone and deploy
 git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
