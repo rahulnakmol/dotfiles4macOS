@@ -43,3 +43,9 @@ zed/.config/zed/settings_backup.json
 
 # Session / remember data (ephemeral to this machine)
 .remember/
+
+# Auto-generated wiki (regeneratable per commit)
+droid-wiki/
+
+# Installed skill agents (third-party, re-installable via skills-lock.json)
+.agents/
