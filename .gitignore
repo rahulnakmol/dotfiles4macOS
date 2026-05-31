@@ -47,5 +47,6 @@ zed/.config/zed/settings_backup.json
 # Auto-generated wiki (regeneratable per commit)
 droid-wiki/
 
-# Installed skill agents (third-party, re-installable via skills-lock.json)
+# Installed skill agents (third-party, re-installable)
 .agents/
+skills-lock.json
