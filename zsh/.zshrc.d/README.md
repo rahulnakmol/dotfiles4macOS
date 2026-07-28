@@ -129,40 +129,44 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `nv` | `node --version` | Node version |
 | `npmv` | `npm --version` | npm version |
 
-## Docker (`d` prefix)
+## Docker (`d` prefix, podman-backed)
+
+`docker` and `docker-compose` are aliased straight to `podman` and `podman compose`, so any Docker CLI command, tutorial, or script typed at the interactive prompt runs on Podman unmodified. The `d*` shorthand aliases below also resolve to `podman`.
 
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `d` | `docker` | Docker shorthand |
-| `dps` | `docker ps` | Running containers |
-| `dpsa` | `docker ps -a` | All containers |
-| `di` | `docker images` | List images |
-| `drun` | `docker run` | Run container |
-| `dex` | `docker exec -it` | Exec into container |
-| `dlogs` | `docker logs` | Container logs |
-| `dlogsf` | `docker logs -f` | Follow logs |
-| `dstop` | `docker stop` | Stop container |
-| `dstart` | `docker start` | Start container |
-| `drestart` | `docker restart` | Restart container |
-| `dpull` | `docker pull` | Pull image |
-| `dbuild` | `docker build` | Build image |
-| `drm` | `docker rm` | Remove container |
-| `drmi` | `docker rmi` | Remove image |
-| `dcp` | `docker cp` | Copy files |
-| `dinsp` | `docker inspect` | Inspect object |
-| `dvol` | `docker volume ls` | List volumes |
-| `dnet` | `docker network ls` | List networks |
-| `dprune` | `docker system prune -af` | Remove all unused data |
+| `docker` | `podman` | Full docker → podman compat |
+| `docker-compose` | `podman compose` | docker-compose → podman compose compat |
+| `d` | `podman` | Docker shorthand |
+| `dps` | `podman ps` | Running containers |
+| `dpsa` | `podman ps -a` | All containers |
+| `di` | `podman images` | List images |
+| `drun` | `podman run` | Run container |
+| `dex` | `podman exec -it` | Exec into container |
+| `dlogs` | `podman logs` | Container logs |
+| `dlogsf` | `podman logs -f` | Follow logs |
+| `dstop` | `podman stop` | Stop container |
+| `dstart` | `podman start` | Start container |
+| `drestart` | `podman restart` | Restart container |
+| `dpull` | `podman pull` | Pull image |
+| `dbuild` | `podman build` | Build image |
+| `drm` | `podman rm` | Remove container |
+| `drmi` | `podman rmi` | Remove image |
+| `dcp` | `podman cp` | Copy files |
+| `dinsp` | `podman inspect` | Inspect object |
+| `dvol` | `podman volume ls` | List volumes |
+| `dnet` | `podman network ls` | List networks |
+| `dprune` | `podman system prune -af` | Remove all unused data |
 
 ### Compose (`dc` prefix)
 
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `dc` | `docker compose` | Compose shorthand |
-| `dcu` | `docker compose up -d` | Start services (detached) |
-| `dcd` | `docker compose down` | Stop and remove services |
-| `dcl` | `docker compose logs -f` | Follow service logs |
-| `dcps` | `docker compose ps` | List compose services |
+| `dc` | `podman compose` | Compose shorthand |
+| `dcu` | `podman compose up -d` | Start services (detached) |
+| `dcd` | `podman compose down` | Stop and remove services |
+| `dcl` | `podman compose logs -f` | Follow service logs |
+| `dcps` | `podman compose ps` | List compose services |
 
 ## SSH (`s` prefix)
 
@@ -264,8 +268,8 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `azd` | Azure Dev CLI | `azdu`, `azdd`, `azdp` |
 | `b` | Homebrew | `bi`, `bup`, `buu` |
 | `cc` | Claude Code | `ccc`, `cco`, `cc!` |
-| `d` | Docker | `dps`, `dex`, `drun` |
-| `dc` | Docker Compose | `dcu`, `dcd`, `dcl` |
+| `d` | Docker (podman) | `dps`, `dex`, `drun` |
+| `dc` | Docker Compose (podman) | `dcu`, `dcd`, `dcl` |
 | `g` | Git | `gs`, `ga`, `gp` |
 | `gh` | GitHub CLI | `ghl`, `gpc`, `gprs` |
 | `m` | Mac App Store | `mi`, `ml`, `mug` |

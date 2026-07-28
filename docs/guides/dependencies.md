@@ -80,11 +80,16 @@ Only needed for specific workflows. Aliases exist but won't break anything if th
 
 | Tool | Purpose | Used by |
 |------|---------|---------|
-| `docker` | Container engine (Docker Desktop) | `d*` aliases |
+| `podman` | Container engine (Docker-compatible, rootless) | `d*` aliases, `docker`/`docker-compose` alias |
+| `podman-compose` | Compose provider for `podman compose` | `dc*` aliases |
 
 ```bash
-brew install --cask docker
+brew install podman podman-compose
+podman machine init
+podman machine start
 ```
+
+`docker` and `docker-compose` are aliased to `podman` and `podman compose` (see `zsh/.zshrc.d/aliases.zsh`), so Docker CLI muscle memory keeps working. Tools that exec the `docker` binary directly (not through the shell) still need Docker Desktop or `podman-mac-helper` + `podman machine` socket compat.
 
 ### Cloud
 

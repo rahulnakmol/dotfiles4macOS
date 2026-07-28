@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "name": "assure",
+  "description": "Exact-release security, operations, then final quality evidence chain",
+  "mode": "dag",
+  "subject_type": "release",
+  "terminal_task": "quality",
+  "success_statuses": ["READY"],
+  "budgets": {
+    "max_rounds": 1,
+    "max_agents": 6,
+    "max_concurrency": 1,
+    "max_task_attempts": 2,
+    "max_duration_ms": 3600000,
+    "max_input_bytes": 120000,
+    "max_output_bytes": 2000000,
+    "max_tokens": 1200000,
+    "max_cost_usd": 25,
+    "dry_rounds": 1,
+    "stagnant_rounds": 1
+  },
+  "tasks": [
+    {
+      "id": "quality-evidence",
+      "stage": "quality-precheck",
+      "agent": "quality",
+      "depends_on": [],
+      "mutates_workspace": false,
+      "prompt": "Inventory quality-specific evidence for canonical release tuple only; do not issue final readiness. Require release_id, source_revision, artifact_digest, provenance_id, target_environment_id, configuration_digest, and deployment_version|NOT_DEPLOYED. Return BLOCK or INSUFFICIENT_EVIDENCE when tuple/evidence manifest is incomplete. Objective/release tuple: {{objective}}"
+    },
+    {
+      "id": "security",
+      "stage": "security",
+      "agent": "security",
+      "depends_on": ["quality-evidence"],
+      "mutates_workspace": false,
+      "prompt": "Assess exact release tuple and reviewed scope. Passive evidence only unless explicit authorization is included. Return scoped security disposition. Canonical subject: {{subject}} Quality precheck: {{dependencies}} Objective: {{objective}}"
+    },
+    {
+      "id": "operations",
+      "stage": "operations",
+      "agent": "operate",
+      "depends_on": ["quality-evidence", "security"],
+      "mutates_workspace": false,
+      "prompt": "Assess operational evidence for exact canonical release tuple. Use security disposition, but do not require final quality state. Return OPERATIONS_EVIDENCE_PASS/OPERATIONS_EVIDENCE_FAIL, EXCEPTION_REQUIRED, or INSUFFICIENT_EVIDENCE. Canonical subject: {{subject}} Inputs: {{dependencies}} Objective: {{objective}}"
+    },
+    {
+      "id": "quality",
+      "stage": "quality",
+      "agent": "quality",
+      "depends_on": ["quality-evidence", "security", "operations"],
+      "allow_blocking_dependencies": true,
+      "mutates_workspace": false,
+      "method_requirements": { "gates": { "gate3": "PASS" }, "required_spec_fields": ["scope", "product_requirements", "engineering_constraints", "components", "tradeoffs", "success_metrics"], "same_ledger_as_dependencies": true },
+      "prompt": "Integrate quality-specific evidence with exact-tuple security and operations results. Verify canonical subject equality and immutable evidence. Return final READY, NOT_READY, EXCEPTION_REQUIRED, or INSUFFICIENT_EVIDENCE. Never emit READY_WITH_ACCEPTED_EXCEPTION because harness cannot authenticate human approval. Canonical subject: {{subject}} Inputs: {{dependencies}} Objective: {{objective}}"
+    }
+  ]
+}

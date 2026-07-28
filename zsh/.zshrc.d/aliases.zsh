@@ -138,32 +138,34 @@ alias sp='spub'
 # Generate a new ed25519 key quickly
 snew() { ssh-keygen -t ed25519 -C "${1:-$(whoami)@$(hostname)}" -f "${2:-$HOME/.ssh/id_ed25519}"; }
 
-# Aliases for docker
-alias d='docker'
-alias dps='docker ps'
-alias dpsa='docker ps -a'
-alias di='docker images'
-alias drm='docker rm'
-alias drmi='docker rmi'
-alias drun='docker run'
-alias dex='docker exec -it'
-alias dlogs='docker logs'
-alias dlogsf='docker logs -f'
-alias dstop='docker stop'
-alias dstart='docker start'
-alias drestart='docker restart'
-alias dpull='docker pull'
-alias dbuild='docker build'
-alias dcp='docker cp'
-alias dinsp='docker inspect'
-alias dvol='docker volume ls'
-alias dnet='docker network ls'
-alias dprune='docker system prune -af'
-alias dc='docker compose'
-alias dcu='docker compose up -d'
-alias dcd='docker compose down'
-alias dcl='docker compose logs -f'
-alias dcps='docker compose ps'
+# Aliases for docker (podman-backed drop-in replacement)
+alias docker='podman'
+alias docker-compose='podman compose'
+alias d='podman'
+alias dps='podman ps'
+alias dpsa='podman ps -a'
+alias di='podman images'
+alias drm='podman rm'
+alias drmi='podman rmi'
+alias drun='podman run'
+alias dex='podman exec -it'
+alias dlogs='podman logs'
+alias dlogsf='podman logs -f'
+alias dstop='podman stop'
+alias dstart='podman start'
+alias drestart='podman restart'
+alias dpull='podman pull'
+alias dbuild='podman build'
+alias dcp='podman cp'
+alias dinsp='podman inspect'
+alias dvol='podman volume ls'
+alias dnet='podman network ls'
+alias dprune='podman system prune -af'
+alias dc='podman compose'
+alias dcu='podman compose up -d'
+alias dcd='podman compose down'
+alias dcl='podman compose logs -f'
+alias dcps='podman compose ps'
 
 # Aliases for claude code
 alias cc='claude'                                                                                                        # Interactive session (Sonnet default)
@@ -194,8 +196,11 @@ alias ocml='opencode models'                                                    
 alias ocli='opencode providers login'                                                                                    # Login to provider
 alias ocst='opencode stats'                                                                                              # Show usage statistics
 alias ocp='opencode --pure'                                                                                              # Launch without plugins
-alias ocum='~/.config/opencode/update-models.sh'                                                                         # Update agent models to latest Zen versions
-alias ocumd='~/.config/opencode/update-models.sh --dry-run'                                                              # Dry-run model update (show changes only)
+alias ocum='$HOME/.dotfiles/opencode/.config/opencode/update-models.sh'                                                  # Deep-research and update agent models
+alias ocumd='$HOME/.dotfiles/opencode/.config/opencode/update-models.sh --dry-run'                                       # Audit model and reasoning-variant availability
+alias ocwf='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs'                                         # Run deterministic SDLC workflow
+alias ocwfl='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs --list'                                 # List SDLC workflows
+alias ocwfv='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs --validate'                             # Validate SDLC workflow templates
 
 # Aliases for Azure CLI (az)
 alias azl='az login'

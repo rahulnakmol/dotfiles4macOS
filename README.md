@@ -68,7 +68,7 @@ brew install --cask cursor
 
 ### Tier 4 — Optional
 ```bash
-brew install --cask docker             # Docker Desktop
+brew install podman podman-compose     # Podman (Docker-compatible engine)
 brew install node go rustup dotnet     # Language runtimes
 brew install stylua                    # Lua formatter
 brew install azure-cli                 # Azure CLI
@@ -95,6 +95,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/dependencies.md` — Full dependency list with install commands
 - `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
+- `docs/guides/opencode-sdlc.md` — OpenCode SDLC agent, command, workflow, and handoff guide
 - `docs/modules/` — Per-module documentation
 
 ## License
