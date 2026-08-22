@@ -18,18 +18,39 @@ gh/.config/gh/hosts.yml
 **/*secret*
 **/*token*
 
-# Claude Code — ignore everything except configuration files
+# Claude Code — configuration only (skills install via bootstrap-skills.sh)
 claude/.claude/*
 !claude/.claude/settings.json
 !claude/.claude/keybindings.json
 !claude/.claude/statusline.sh
 !claude/.claude/CLAUDE.md
 !claude/.claude/rules/
-!claude/.claude/skills/
+# skills/ intentionally not un-ignored — installed, not vendored
 
-# Cursor — ignore everything except user rules
+# Cursor — user rules only (plans, skills, plugins cache are local/ephemeral)
 cursor/.cursor/*
 !cursor/.cursor/rules/
+!cursor/.cursor/.gitignore
+!cursor/.cursor/plugins/
+cursor/.cursor/plugins/*
+!cursor/.cursor/plugins/.gitignore
+!cursor/.cursor/projects/
+cursor/.cursor/projects/*
+!cursor/.cursor/projects/.gitignore
+!cursor/.cursor/skills-cursor/
+cursor/.cursor/skills-cursor/*
+!cursor/.cursor/skills-cursor/.gitignore
+
+# OpenCode — configs only; agents/workflows/skills/plugins install via bootstrap
+opencode/.config/opencode/agents/
+opencode/.config/opencode/commands/
+opencode/.config/opencode/workflows/
+opencode/.config/opencode/skills/
+opencode/.config/opencode/plugins/
+opencode/.config/opencode/SDLC_*.md
+opencode/.config/opencode/model-research.md
+opencode/.config/opencode/update-models.sh
+opencode/.config/opencode/node_modules/
 
 # Module-specific ephemeral data
 nvim/.config/nvim/lazy-lock.json

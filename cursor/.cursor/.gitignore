@@ -1,0 +1,14 @@
+# Ignore everything in .cursor except rules and ignore-anchor files (configs-only dotfiles)
+*
+!.gitignore
+!rules/
+!rules/**
+!plugins/
+plugins/*
+!plugins/.gitignore
+!projects/
+projects/*
+!projects/.gitignore
+!skills-cursor/
+skills-cursor/*
+!skills-cursor/.gitignore

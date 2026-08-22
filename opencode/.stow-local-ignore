@@ -1,1 +1,13 @@
 node_modules
+agents/
+commands/
+workflows/
+skills/
+plugins/
+SDLC_METHOD.md
+SDLC_LOOP.md
+model-research.md
+update-models.sh
+package.json
+package-lock.json
+bun.lock

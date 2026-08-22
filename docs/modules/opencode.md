@@ -8,9 +8,8 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 |------|--------|
 | `.config/opencode/opencode.json` | `~/.config/opencode/opencode.json` |
 | `.config/opencode/tui.json` | `~/.config/opencode/tui.json` |
-| `.config/opencode/package.json` | MCP dependency paths |
-| `.config/opencode/agents/cavecrew-*.md` | Third-party cavecrew agents (optional) |
-| `.config/opencode/commands/caveman-*.md` | Third-party caveman commands (optional) |
+
+Agents, commands, workflows, skills, and plugins install via `bootstrap-skills.sh` (not vendored in dotfiles).
 
 ## Configuration
 
