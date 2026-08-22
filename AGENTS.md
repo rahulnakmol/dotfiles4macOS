@@ -5,6 +5,9 @@ Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow
 ## Modules
 `1password` `bash` `bat` `claude` `cursor` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
 
+## Skills (not in dotfiles)
+Agent behavior lives in [rahulnakmol/skills](https://github.com/rahulnakmol/skills). Bootstrap: `./scripts/bootstrap-skills.sh` (see `skills.manifest.yaml`, `docs/skills.md`).
+
 ## Validation
 - `zsh -n zsh/.zshrc` — syntax-check shell
 - `stylua --check nvim/.config/nvim` — lint Lua (two-space indent, 120 cols)
