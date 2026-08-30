@@ -58,9 +58,6 @@ stow claude opencode cursor
 
 # Step 6: Credentials (if using 1Password)
 stow 1password
-
-# Step 7: Additional editors/terminals (optional)
-stow zed iTerm2
 ```
 
 To preview what stow will do before committing:
@@ -72,7 +69,7 @@ stow -n zsh    # dry-run, shows what symlinks would be created
 To deploy everything at once:
 
 ```bash
-stow zsh git ssh starship bat tmux ghostty nvim gh claude opencode 1password zed iTerm2
+stow zsh git ssh starship bat tmux ghostty nvim gh claude opencode cursor 1password
 ```
 
 ## 5. Post-install steps

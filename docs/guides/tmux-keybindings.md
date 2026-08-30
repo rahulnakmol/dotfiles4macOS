@@ -165,7 +165,6 @@ These ship with tmux and are not overridden in this config.
 The `M-` (Meta) bindings use the **Option (⌥)** key:
 
 - **Ghostty** — Works out of the box (Option sends Meta).
-- **iTerm2** — Profiles → Keys → set "Left Option key" to **Esc+**.
 - **Terminal.app** — Limited Meta support; not recommended.
 
 `C-a`-prefixed bindings work everywhere.

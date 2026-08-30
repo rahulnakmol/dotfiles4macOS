@@ -3,7 +3,7 @@
 Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow <module>`. Dry-run: `stow -n <module>`.
 
 ## Modules
-`1password` `bash` `bat` `claude` `cursor` `gh` `ghostty` `git` `iTerm2` `nvim` `opencode` `ssh` `starship` `tmux` `zed` `zsh`
+`1password` `bash` `bat` `claude` `cursor` `gh` `ghostty` `git` `nvim` `opencode` `ssh` `starship` `tmux` `zsh`
 
 ## Skills (not in dotfiles)
 Agent behavior lives in [rahulnakmol/skills](https://github.com/rahulnakmol/skills). Bootstrap: `./scripts/bootstrap-skills.sh` (see `skills.manifest.yaml`, `docs/skills.md`).

@@ -1,5 +1,7 @@
 # OS / editor artifacts
 .DS_Store
+.AppleDouble
+.LSOverride
 **/*.mdb
 **/*.log
 **/.swp
@@ -28,9 +30,11 @@ claude/.claude/*
 !claude/.claude/rules/
 # skills/ intentionally not un-ignored — installed, not vendored
 
-# Cursor — user rules only (plans, skills, plugins cache are local/ephemeral)
+# Cursor — ship user rules + ignore-anchor files only
+# (plans, skills, plugins cache, projects, CLI state stay local/ephemeral)
 cursor/.cursor/*
 !cursor/.cursor/rules/
+!cursor/.cursor/rules/**
 !cursor/.cursor/.gitignore
 !cursor/.cursor/plugins/
 cursor/.cursor/plugins/*
@@ -41,8 +45,18 @@ cursor/.cursor/projects/*
 !cursor/.cursor/skills-cursor/
 cursor/.cursor/skills-cursor/*
 !cursor/.cursor/skills-cursor/.gitignore
+cursor/.cursor/plans/
+cursor/.cursor/skills/
+cursor/.cursor/commands/
+cursor/.cursor/agents/
+cursor/.cursor/cli-config.json
+cursor/.cursor/permissions.json
+cursor/.cursor/argv.json
+cursor/.cursor/agent-cli-state.json
+cursor/.cursor/statsig-cache.json
+cursor/.cursor/.cursorignore
 
-# OpenCode — configs only; agents/workflows/skills/plugins install via bootstrap
+# OpenCode — configs only; agents/workflows/skills/plugins + npm install via bootstrap
 opencode/.config/opencode/agents/
 opencode/.config/opencode/commands/
 opencode/.config/opencode/workflows/
@@ -52,6 +66,10 @@ opencode/.config/opencode/SDLC_*.md
 opencode/.config/opencode/model-research.md
 opencode/.config/opencode/update-models.sh
 opencode/.config/opencode/node_modules/
+opencode/.config/opencode/package.json
+opencode/.config/opencode/package-lock.json
+opencode/.config/opencode/bun.lock
+opencode/.config/opencode/*.bak
 
 # Module-specific ephemeral data
 nvim/.config/nvim/lazy-lock.json
@@ -60,8 +78,6 @@ nvim/.config/nvim/lazy-lock.json
 **/tmux/plugins/*
 **/karabiner/automatic_backups/*
 **/karabiner/assets/*
-**/zed/conversations/*
-zed/.config/zed/settings_backup.json
 
 # Session / remember data (ephemeral to this machine)
 .remember/
