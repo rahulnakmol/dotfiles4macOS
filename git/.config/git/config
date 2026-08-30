@@ -24,3 +24,9 @@
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [init]
 	defaultBranch = main
+
+# Per-machine overrides. Git silently ignores this if the file does not
+# exist, so machines without one are unaffected. Last-wins: anything set
+# in config.local overrides the shared values above. Gitignored.
+[include]
+    path = ~/.config/git/config.local

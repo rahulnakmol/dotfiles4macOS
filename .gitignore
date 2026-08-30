@@ -78,6 +78,7 @@ opencode/.config/opencode/*.bak
 nvim/.config/nvim/lazy-lock.json
 **/zsh/*.local
 **/bash/*.local
+**/git/*.local
 **/tmux/plugins/*
 **/karabiner/automatic_backups/*
 **/karabiner/assets/*
