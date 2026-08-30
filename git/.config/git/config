@@ -1,14 +1,15 @@
 [user]
 	name = Rahul N Akmol
 	email = rahulnakmol@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQQJZXgwrxWRSXUeYdI+WMER+aaswTxxAi+4/jstZMK
+	# Commit/tag signing only — this public key (1Password SSH key). Do not substitute another vault key.
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCF4TkApTmwn6YG96qVb3HvDfr2v48glWCgF4pjNIvD
 
 [gpg]
   format = ssh
 
 [gpg "ssh"]
   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-  allowedSignersFile = /Users/rahulnakmol/ssh/.ssh/allowed_signers
+  allowedSignersFile = ~/.ssh/allowed_signers
 
 [commit]
   gpgsign = true

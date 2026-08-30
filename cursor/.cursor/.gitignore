@@ -43,3 +43,31 @@ projects/*/*
 !rules/
 !rules/**
 # <<< CURSOR MANAGED BLOCK <<<
+
+# Dotfiles policy — keep ephemeral Cursor state out of git even if Cursor
+# rewrites the managed block above to un-ignore plans/plugins/projects/skills.
+!.gitignore
+!plugins/
+plugins/*
+!plugins/.gitignore
+!projects/
+projects/*
+!projects/.gitignore
+!skills-cursor/
+skills-cursor/*
+!skills-cursor/.gitignore
+
+plans/
+skills/
+commands/
+subagents/
+agents/
+ai-tracking/
+extensions/
+sandbox-policies/
+cli-config.json
+permissions.json
+argv.json
+agent-cli-state.json
+statsig-cache.json
+.cursorignore
