@@ -15,6 +15,9 @@ gh/.config/gh/hosts.yml
 **/.ssh/id_*
 **/.ssh/*.pem
 **/.ssh/*.key
+# Per-machine access policy, not a portable dotfile: stowing this onto
+# another machine would silently grant those keys inbound SSH there too.
+**/.ssh/authorized_keys
 **/*.env
 **/.env*
 **/*secret*
