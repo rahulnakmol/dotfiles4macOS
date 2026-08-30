@@ -14,6 +14,7 @@ Agent behavior lives in [rahulnakmol/skills](https://github.com/rahulnakmol/skil
 - `tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d` — smoke-test tmux
 - `ls ~/.cursor/rules` — verify cursor rules symlinked
 - `ls ~/.claude/rules` — verify claude rules live
+- `node scripts/validate-agent-policy.mjs` — Claude/Cursor/OpenCode secret + shell policy parity vs `agent-policy/catalog.json` (refresh: `node scripts/apply-agent-policy.mjs`)
 
 ## Platform
 macOS (Apple Silicon) with Homebrew as the primary package manager.

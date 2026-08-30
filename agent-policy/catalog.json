@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "description": "Shared agent policy catalog for Claude Code, Cursor, and OpenCode adapters.",
+  "warningMarker": "Secrets — never share",
+  "schema": {
+    "claudeSettings": "https://json.schemastore.org/claude-code-settings.json",
+    "opencode": "https://opencode.ai/config.json"
+  },
+  "git": {
+    "trustedOrgs": ["rahulnakmol", "tqnonline"],
+    "protectedBranches": ["main", "master", "dev"],
+    "policy": {
+      "featureBranchPush": "allow",
+      "intoDev": "squash-merge-via-pr-then-delete-branch",
+      "devToMain": "merge-via-pr-keep-dev"
+    }
+  },
+  "secrets": {
+    "allowExceptions": ["**/.env.example", "**/*.env.example"],
+    "homePaths": [
+      "~/.ssh/id_*",
+      "~/.ssh/*_rsa",
+      "~/.ssh/*_ed25519",
+      "~/.ssh/*_ecdsa",
+      "~/.ssh/*_dsa",
+      "~/.ssh/authorized_keys",
+      "~/.gnupg/**",
+      "~/.aws/credentials",
+      "~/.aws/config",
+      "~/.aws/sso/**",
+      "~/.azure/**",
+      "~/.config/gcloud/**",
+      "~/.config/op/**",
+      "~/.config/1Password/**",
+      "~/.config/gh/hosts.yml",
+      "~/.config/git/credentials",
+      "~/.config/rclone/rclone.conf",
+      "~/.docker/config.json",
+      "~/.kube/config",
+      "~/.netrc",
+      "~/.npmrc",
+      "~/.pypirc",
+      "~/.password-store/**",
+      "~/.terraform.d/credentials.tfrc.json",
+      "~/.git-credentials",
+      "~/.vault-token",
+      "~/.age/**",
+      "~/.config/doctl/**",
+      "~/.config/netlify/**",
+      "~/.config/fly/**",
+      "~/.config/heroku/credentials.json"
+    ],
+    "systemPaths": [
+      "/etc/shadow",
+      "/etc/gshadow",
+      "/etc/sudoers",
+      "/etc/sudoers.d/**"
+    ],
+    "workspaceGlobs": [
+      "**/.env",
+      "**/.env.*",
+      "**/.envrc",
+      "**/secrets.yaml",
+      "**/secrets.yml",
+      "**/secret.yaml",
+      "**/secret.yml",
+      "**/credentials.json",
+      "**/credentials.yaml",
+      "**/service-account*.json",
+      "**/*.pem",
+      "**/*.key",
+      "**/*.p12",
+      "**/*.pfx",
+      "**/*.asc",
+      "**/*.tfvars",
+      "**/*.tfstate",
+      "**/*.tfstate.backup",
+      "**/.terraform/**",
+      "**/.npmrc",
+      "**/.yarnrc.yml",
+      "**/hosts.yml"
+    ]
+  },
+  "shell": {
+    "secretFetchAsk": [
+      "az keyvault secret show",
+      "gcloud secrets versions access",
+      "op item get",
+      "op read"
+    ],
+    "cursorDenyShellBases": ["rm", "sudo", "chmod", "chown"],
+    "cursorAllowShellBases": [
+      "ls",
+      "eza",
+      "fd",
+      "rg",
+      "git",
+      "gh",
+      "node",
+      "npm",
+      "pnpm",
+      "yarn",
+      "bun",
+      "python",
+      "python3",
+      "uv",
+      "go",
+      "dotnet",
+      "cargo",
+      "rustc",
+      "podman",
+      "kubectl",
+      "terraform",
+      "az",
+      "gcloud",
+      "brew",
+      "make",
+      "zsh"
+    ],
+    "opencodeBashDeny": ["rm *", "sudo *", "chmod *", "chown *"],
+    "opencodeBashAsk": [
+      "git push *",
+      "git reset --hard*",
+      "terraform apply*",
+      "terraform destroy*",
+      "az group delete*",
+      "gcloud projects delete*"
+    ],
+    "claudeAllowMustContain": [
+      "cargo",
+      "rustc",
+      "rustup",
+      "podman"
+    ],
+    "claudeSoftDenyMustContain": [
+      "az keyvault secret show",
+      "gcloud secrets versions access"
+    ],
+    "claudeHardDenyThemes": [
+      "Never read, write, echo, commit, or paste secret file contents, API keys, tokens, private keys, or credential stores",
+      "Never upload secrets or proprietary client/org content to public gists, pastebins, or untrusted third parties",
+      "Never name confidential GitHub organizations outside the trusted set (rahulnakmol, tqnonline) in public destinations"
+    ]
+  },
+  "adapters": {
+    "claude": {
+      "settings": "claude/.claude/settings.json",
+      "instructions": "claude/.claude/CLAUDE.md",
+      "secretsRule": "claude/.claude/rules/010-secrets.md"
+    },
+    "cursor": {
+      "cliConfig": "cursor/.cursor/cli-config.json",
+      "permissions": "cursor/.cursor/permissions.json",
+      "cursorignore": "cursor/.cursor/.cursorignore",
+      "secretsRule": "cursor/.cursor/rules/010-secrets.md"
+    },
+    "opencode": {
+      "config": "opencode/.config/opencode/opencode.json",
+      "agents": "opencode/.config/opencode/AGENTS.md"
+    }
+  }
+}

@@ -1,14 +1,45 @@
-# Ignore everything in .cursor except rules and ignore-anchor files (configs-only dotfiles)
+# >>> CURSOR MANAGED BLOCK >>>
+# Ignore everything in .cursor
 *
-!.gitignore
-!rules/
-!rules/**
-!plugins/
-plugins/*
-!plugins/.gitignore
+# Un-ignore projects so we can descend to allowlisted subdirs
 !projects/
 projects/*
-!projects/.gitignore
+!projects/*/
+projects/*/*
+# MCP tool descriptors, resources, prompts
+!projects/*/mcps/
+!projects/*/mcps/**
+# Agent transcripts for citation
+!projects/*/agent-transcripts/
+!projects/*/agent-transcripts/**
+# Terminal output files
+!projects/*/terminals/
+!projects/*/terminals/**
+# Conversation notes (shared scratchpad)
+!projects/*/agent-notes/
+!projects/*/agent-notes/**
+# Large tool output files
+!projects/*/agent-tools/
+!projects/*/agent-tools/**
+# Plugin cache (rules, skills, agents)
+!plugins/
+!plugins/**
+# Built-in Cursor skills
 !skills-cursor/
-skills-cursor/*
-!skills-cursor/.gitignore
+!skills-cursor/**
+# User's personal skills
+!skills/
+!skills/**
+# User's personal slash commands
+!commands/
+!commands/**
+# User's plan files
+!plans/
+!plans/**
+# Subagent state/transcripts
+!subagents/
+!subagents/**
+# User-level cursor rules
+!rules/
+!rules/**
+# <<< CURSOR MANAGED BLOCK <<<

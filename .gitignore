@@ -16,6 +16,7 @@ gh/.config/gh/hosts.yml
 **/*.env
 **/.env*
 **/*secret*
+!**/*rules/010-secrets.md
 **/*token*
 
 # Claude Code — configuration only (skills install via bootstrap-skills.sh)

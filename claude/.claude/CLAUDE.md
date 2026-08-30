@@ -25,3 +25,11 @@ State the decision, the alternatives, and the trade-off, in that order. Signific
 
 ## Multi-cloud rule
 When code targets more than one cloud, keep cloud-specific calls behind an interface. Business logic stays cloud-agnostic.
+
+## Secrets — never share
+
+Do not paste API keys, tokens, passwords, or private key material into chat.
+
+Agents must refuse to read or write secret files and must warn you if you ask them to open or share secrets.
+
+Keep secrets in 1Password or `~/.zshrc.local` — never in the repo.
