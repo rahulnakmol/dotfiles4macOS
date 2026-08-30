@@ -26,6 +26,19 @@ Notation: `prefix <key>` means press `C-a`, release, then press `<key>`.
 | `x` | Smart kill — instant for shell, confirm prompt for running processes |
 | `r` | Reload `~/.config/tmux/tmux.conf` |
 
+### Session persistence (with prefix)
+
+| Key | Action |
+|-----|--------|
+| `C-s` | Save session snapshot now (tmux-resurrect) |
+| `C-r` | Restore the last snapshot |
+
+Continuum autosaves every 5 minutes and restores automatically when the tmux
+server starts, so `C-r` is rarely needed. `C-s` is worth pressing before walking
+away from a layout you would not want to rebuild — it bounds your loss to less
+than the autosave interval. Layout, working directories and scrollback come back;
+running processes do not.
+
 ### Claude Code — `prefix C` enters the `claude` key table
 
 | Key | Action |
