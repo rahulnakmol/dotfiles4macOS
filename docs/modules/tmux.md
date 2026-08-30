@@ -12,7 +12,7 @@ Terminal multiplexer with Catppuccin Macchiato theme and AI tool integration.
 
 - **Prefix**: `C-a` (Ctrl+a)
 - **Theme**: Catppuccin Macchiato with rounded window status
-- **AI Integration**: Claude Code (`C-a C`), OpenCode (`C-a O`) and Droid (`C-a D`) key tables
+- **AI Integration**: Claude Code (`C-a C`) and OpenCode (`C-a O`) key tables
 - **Session persistence**: layout, working directories and scrollback survive a reboot
 - **Smart kill**: `C-a x` confirms before killing panes with running processes
 - **Vim navigation**: Seamless pane switching with vim-tmux-navigator

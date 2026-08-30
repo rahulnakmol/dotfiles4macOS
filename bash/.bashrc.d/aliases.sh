@@ -202,11 +202,6 @@ alias ocwf='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs'
 alias ocwfl='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs --list'
 alias ocwfv='node $HOME/.dotfiles/opencode/.config/opencode/workflows/runner.mjs --validate'
 
-# Aliases for factory droid
-alias dr='droid'
-alias dre='droid exec'
-alias drr='droid -r'
-alias drs='droid search'
 
 # Aliases for Azure CLI (az)
 alias azl='az login'

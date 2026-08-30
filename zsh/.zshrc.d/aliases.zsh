@@ -240,11 +240,6 @@ alias azde='azd env list'
 alias azdes='azd env select'
 alias azdt='azd template list'
 
-# Aliases for factory droid
-alias dr='droid'
-alias dre='droid exec'
-alias drr='droid -r'
-alias drs='droid search'
 
 # Aliases for fzf
 alias fzp="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:70%"

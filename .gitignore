@@ -87,7 +87,6 @@ nvim/.config/nvim/lazy-lock.json
 .remember/
 
 # Auto-generated wiki (regeneratable per commit)
-droid-wiki/
 
 # Installed skill agents (third-party, re-installable)
 .agents/
