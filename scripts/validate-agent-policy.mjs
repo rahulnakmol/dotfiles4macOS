@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { codexArtifacts } from "./codex-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalog = JSON.parse(
@@ -254,6 +255,10 @@ function checkOpenCode() {
 checkClaude();
 checkCursor();
 checkOpenCode();
+for (const [rel, expected] of Object.entries(codexArtifacts(ROOT))) {
+  if (exists(rel) && read(rel) === expected) ok('shared', `generated adapter matches: ${rel}`);
+  else fail('shared', `generated adapter missing or stale: ${rel}`);
+}
 
 console.log("\n=== Agent policy validation report ===\n");
 for (const f of findings) {

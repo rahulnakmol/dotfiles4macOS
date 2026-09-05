@@ -48,6 +48,11 @@ See `cc*` aliases in `zsh/.zshrc.d/aliases.zsh` and tmux `C-a c` key table.
 
 ## Global Rules & Skills
 
+The architecture spine and stack guides now share their source with Codex in
+`agent-policy/instructions/`. Edit those sources and run
+`node scripts/apply-agent-policy.mjs --codex-only`; the generated Claude files
+retain their native path-scoped loading. See [Codex parity](codex.md).
+
 Modular AI coding rules for a multi-cloud enterprise architecture practice. One file, one concern. They compose: a session pulls in the spine plus only the slices that match the files in play.
 
 ### Rule map

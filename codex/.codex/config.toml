@@ -1,0 +1,257 @@
+# Codex configuration — managed with GNU Stow. Edit this file directly.
+# App-managed runtime paths are preserved; review them before sharing to another Mac.
+notify = ["/Users/rahulnakmol/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+web_search = "live"
+model_verbosity = "low"
+model_reasoning_summary = "auto"
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
+service_tier = "priority"
+approval_policy = "on-request"
+default_permissions = "dotfiles"
+
+[desktop]
+followUpQueueMode = "steer"
+external-agent-import-sync-item-types = "all"
+external-agent-import-sync-enabled = false
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = true
+realtimeVoiceScreenContextEnabled = true
+show-context-window-usage = true
+composerEnterBehavior = "enter"
+hotkey-window-projectless-default-enabled = true
+git-branch-prefix = "openai/"
+git-pull-request-merge-method = "squash"
+git-pr-watch-auto-merge = true
+git-worktree-root = "/Users/rahulnakmol/Developer/GitHub/.worktrees"
+worktree-upstream-refresh-mode = "best-effort"
+localeOverride = "en-US"
+appearanceLightCodeThemeId = "catppuccin"
+appearanceDarkCodeThemeId = "catppuccin"
+sansFontSize = 14
+enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "persistent", "max"]
+
+[desktop.open-in-target-preferences]
+global = "fileManager"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#8839ef"
+accentSource = "custom"
+contrast = 45
+ink = "#4c4f69"
+opaqueWindows = false
+surface = "#eff1f5"
+
+[desktop.appearanceLightChromeTheme.fonts]
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#40a02b"
+diffRemoved = "#d20f39"
+skill = "#8839ef"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#cba6f7"
+accentSource = "custom"
+contrast = 60
+ink = "#cdd6f4"
+opaqueWindows = false
+surface = "#1e1e2e"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#a6e3a1"
+diffRemoved = "#f38ba8"
+skill = "#cba6f7"
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/Users/rahulnakmol/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/rahulnakmol/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/rahulnakmol/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/rahulnakmol/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.901.31953"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/rahulnakmol/.codex/plugins/cache/openai-bundled/browser/26.901.31953/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/rahulnakmol/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
+
+[projects."/Users/rahulnakmol/Documents/Codex/2026-09-04/realtime-voice-chat"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Documents/Codex/2026-09-04/reply-to-maya-s-message-on"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Documents/Codex/2026-09-04/new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Documents/Codex/2026-09-05/how-can-you-help-me-to"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Documents/Codex/2026-09-05/analyse-the-developer-skills-that-i"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/.dotfiles"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Developer/GitHub/skills"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Documents/Codex"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Developer/GitHub"]
+trust_level = "trusted"
+
+[projects."/Users/rahulnakmol/Developer/Projects"]
+trust_level = "trusted"
+[[skills.config]]
+name = "claude-md-management:source-command-revise-claude-md"
+enabled = false
+
+[[skills.config]]
+name = "ralph-loop:source-command-cancel-ralph"
+enabled = false
+
+[[skills.config]]
+name = "ralph-loop:source-command-help"
+enabled = false
+
+[[skills.config]]
+name = "remember:source-command-doctor"
+enabled = false
+
+# BEGIN GENERATED DOTFILES POLICY
+# Generated from agent-policy/catalog.json; other settings above are editable.
+
+[permissions.dotfiles]
+extends = ":workspace"
+description = "Workspace editing with shared secret-path restrictions on macOS."
+
+[permissions.dotfiles.filesystem]
+"~/.ssh/id_*" = "deny"
+"~/.ssh/*_rsa" = "deny"
+"~/.ssh/*_ed25519" = "deny"
+"~/.ssh/*_ecdsa" = "deny"
+"~/.ssh/*_dsa" = "deny"
+"~/.ssh/authorized_keys" = "deny"
+"~/.gnupg/**" = "deny"
+"~/.aws/credentials" = "deny"
+"~/.aws/config" = "deny"
+"~/.aws/sso/**" = "deny"
+"~/.azure/**" = "deny"
+"~/.config/gcloud/**" = "deny"
+"~/.config/op/**" = "deny"
+"~/.config/1Password/**" = "deny"
+"~/.config/gh/hosts.yml" = "deny"
+"~/.config/git/credentials" = "deny"
+"~/.config/rclone/rclone.conf" = "deny"
+"~/.docker/config.json" = "deny"
+"~/.kube/config" = "deny"
+"~/.netrc" = "deny"
+"~/.npmrc" = "deny"
+"~/.pypirc" = "deny"
+"~/.password-store/**" = "deny"
+"~/.terraform.d/credentials.tfrc.json" = "deny"
+"~/.git-credentials" = "deny"
+"~/.vault-token" = "deny"
+"~/.age/**" = "deny"
+"~/.config/doctl/**" = "deny"
+"~/.config/netlify/**" = "deny"
+"~/.config/fly/**" = "deny"
+"~/.config/heroku/credentials.json" = "deny"
+"/etc/shadow" = "deny"
+"/etc/gshadow" = "deny"
+"/etc/sudoers" = "deny"
+"/etc/sudoers.d/**" = "deny"
+"~/.codex/auth.json" = "deny"
+"~/.zshrc.local" = "deny"
+"~/.bashrc.local" = "deny"
+
+[permissions.dotfiles.filesystem.":workspace_roots"]
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+"**/.envrc" = "deny"
+"**/secrets.yaml" = "deny"
+"**/secrets.yml" = "deny"
+"**/secret.yaml" = "deny"
+"**/secret.yml" = "deny"
+"**/credentials.json" = "deny"
+"**/credentials.yaml" = "deny"
+"**/service-account*.json" = "deny"
+"**/*.pem" = "deny"
+"**/*.key" = "deny"
+"**/*.p12" = "deny"
+"**/*.pfx" = "deny"
+"**/*.asc" = "deny"
+"**/*.tfvars" = "deny"
+"**/*.tfstate" = "deny"
+"**/*.tfstate.backup" = "deny"
+"**/.terraform/**" = "deny"
+"**/.npmrc" = "deny"
+"**/.yarnrc.yml" = "deny"
+"**/hosts.yml" = "deny"
+
+[permissions.dotfiles.network]
+enabled = true
+# END GENERATED DOTFILES POLICY

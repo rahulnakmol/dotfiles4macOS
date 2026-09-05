@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { codexArtifacts } from "./codex-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalog = JSON.parse(
@@ -46,7 +47,6 @@ function ensureWarningSection(existing, marker) {
     // Replace from marker heading through next ## or EOF
     const re = new RegExp(
       `##\\s+${marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[\\s\\S]*?(?=\\n##\\s+|$)`,
-      "m",
     );
     if (re.test(existing)) {
       return existing.replace(re, warning + "\n\n").replace(/\n{3,}/g, "\n\n");
@@ -219,7 +219,7 @@ Also refuse Read/Edit of paths in \`agent-policy/catalog.json\` secrets (env fil
 
 function applyCursor() {
   const cliRel = catalog.adapters.cursor.cliConfig;
-  const cli = readJson(cliRel);
+  const cli = fs.existsSync(path.join(ROOT, cliRel)) ? readJson(cliRel) : {};
   const deny = [];
   for (const p of secretPaths()) {
     deny.push(`Read(${p})`);
@@ -329,7 +329,10 @@ function applyOpenCode() {
   write(agentsRel, agents);
 }
 
-applyClaude();
-applyCursor();
-applyOpenCode();
+if (!process.argv.includes('--codex-only')) {
+  applyClaude();
+  applyCursor();
+  applyOpenCode();
+}
+for (const [rel, contents] of Object.entries(codexArtifacts(ROOT))) write(rel, contents);
 console.log("apply-agent-policy: done");
