@@ -28,6 +28,19 @@ class MigrationTests(unittest.TestCase):
         self.home = self.base/'user' / '.codex'
         self.home.mkdir(parents=True)
         self.install = config.Installation(self.root, self.home, self.base/'backups')
+        # Exercise actual Stow and filesystem changes independently of the
+        # Homebrew app's release cadence. The sandbox suite runs a real runtime.
+        self.runtime_version = 'codex-cli 0.153.1\n'
+        real_run = subprocess.run
+
+        def run_with_fixture_version(command, **kwargs):
+            if command[1:] == ['--version']:
+                return subprocess.CompletedProcess(command, 0, self.runtime_version, '')
+            return real_run(command, **kwargs)
+
+        runner = patch.object(config.subprocess, 'run', side_effect=run_with_fixture_version)
+        runner.start()
+        self.addCleanup(runner.stop)
         self.output = io.StringIO()
         # Keep CLI-style events out of test output.
         self.redirect = contextlib.redirect_stdout(self.output)
@@ -158,6 +171,15 @@ class MigrationTests(unittest.TestCase):
             self.install.apply()
         self.assertFalse((self.base/'backups').exists())
         self.assertFalse((self.home/'AGENTS.md').exists())
+
+    def test_unsupported_runtime_fails_before_backups_or_links(self):
+        for version in ('codex-cli 0.151.0-alpha.7.2\n', 'unrecognized\n'):
+            with self.subTest(version=version):
+                self.runtime_version = version
+                with self.assertRaisesRegex(config.ConfigurationError, '0.153.1 or newer'):
+                    self.install.apply()
+                self.assertFalse((self.base/'backups').exists())
+                self.assertFalse((self.home/'config.toml').exists())
 
     def test_codex_bootstrap_uses_only_requested_target(self):
         repo = self.base/'skills-repo'

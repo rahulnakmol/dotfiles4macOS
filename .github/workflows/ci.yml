@@ -61,7 +61,10 @@ jobs:
           brew install stow
           brew install --cask chatgpt
           /Applications/ChatGPT.app/Contents/Resources/codex --version
-          echo '/Applications/ChatGPT.app/Contents/Resources' >> "$GITHUB_PATH"
+          # The Homebrew app can lag the runtime required by the permission profile.
+          # Use a pinned CLI only for the real sandbox test on this CI runner.
+          npm install --global @openai/codex@0.153.1
+          codex --version
           python -m pip install -r scripts/codex-requirements.txt
       - name: Validate generated policy and migration
         run: |

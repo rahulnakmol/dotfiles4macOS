@@ -32,6 +32,15 @@ installation is not required. The helper locates the bundled runtime in
 `/Applications/ChatGPT.app` or `~/Applications/ChatGPT.app` and requires Codex
 0.153.1 or newer. Update the app with `brew upgrade --cask chatgpt`.
 
+Check the bundled runtime with
+`/Applications/ChatGPT.app/Contents/Resources/codex --version` before deploying.
+The Homebrew release can lag this minimum: the September 7, 2026 CI run received
+0.151.0-alpha.7.2. If the bundle is too old, wait for a compatible app update;
+the migration helper refuses to modify files with an unsupported runtime.
+CI uses a pinned 0.153.1 CLI only for sandbox verification and fixture versions
+for migration tests, including rejection of older bundles. This does not change
+the ChatGPT-only installation on user devices.
+
 ## Deploy
 
 For a clean destination:
