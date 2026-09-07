@@ -65,9 +65,10 @@ agents/
 ai-tracking/
 extensions/
 sandbox-policies/
-cli-config.json
-permissions.json
+# These policy-only adapters are generated and versioned by dotfiles.
+!cli-config.json
+!permissions.json
 argv.json
 agent-cli-state.json
 statsig-cache.json
-.cursorignore
+!.cursorignore

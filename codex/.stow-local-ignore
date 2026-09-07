@@ -1,0 +1,5 @@
+# Configuration files are the module; runtime state must never be adopted.
+(^|/)auth\.json$
+(^|/)(sessions|archived_sessions|cache|plugins|browser|sqlite|logs|tmp|\.tmp)(/|$)
+\.sqlite(-shm|-wal)?$
+\.jsonl$

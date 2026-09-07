@@ -1,0 +1,13 @@
+---
+paths: "**/*.go,**/go.mod,**/go.sum"
+---
+
+
+# Go
+
+- Idiomatic Go, `golangci-lint` clean. Format with `gofmt`/`goimports`.
+- Errors wrapped with `%w` and context; no swallowed errors, no panics across package boundaries.
+- Accept interfaces, return structs. Keep interfaces small and defined at the consumer.
+- Context propagated through every call that does IO; honour cancellation and deadlines.
+- Concurrency with intent: a goroutine without a clear lifecycle and shutdown path is a leak.
+- Use Go for latency-sensitive services, high-throughput ingestion, and CLI tooling. Table-driven tests as the norm.

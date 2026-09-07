@@ -4,6 +4,17 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MANIFEST="${ROOT}/skills.manifest.yaml"
 SKILLS_REPO="${SKILLS_REPO:-$HOME/Developer/GitHub/skills}"
 
+# Codex-only installation uses the upstream linker in the documented user bucket.
+# It does not run other tools' adapters or download unpinned third-party packages.
+if [[ "${1:-}" == --codex ]]; then
+  shift
+  if [[ ! -f "$SKILLS_REPO/scripts/link-skills.sh" ]]; then
+    echo "Clone https://github.com/rahulnakmol/skills.git to $SKILLS_REPO first." >&2
+    exit 1
+  fi
+  exec bash "$SKILLS_REPO/scripts/link-skills.sh" --target "$HOME/.agents/skills" "$@"
+fi
+
 if [[ ! -f "$MANIFEST" ]]; then
   echo "Missing $MANIFEST" >&2
   exit 1

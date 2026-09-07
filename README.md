@@ -18,6 +18,7 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 | `bat` | Syntax-highlighted `cat` with Catppuccin themes |
 | `bash` | Bash shell config with modular .bashrc.d structure |
 | `claude` | Claude Code settings, keybindings, statusline |
+| `codex` | macOS Codex preferences, shared engineering guidance, and permission policy |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
 
@@ -30,6 +31,7 @@ brew install --cask ghostty 1password 1password-cli font-mononoki-nerd-font
 
 # AI coding tools
 brew install claude opencode
+brew install --cask chatgpt
 brew install --cask cursor
 
 # Clone and deploy
@@ -41,6 +43,10 @@ stow zsh git ssh starship bat          # Shell foundation
 stow tmux ghostty nvim                 # Terminal and editor
 stow gh 1password                      # Dev tools
 stow claude opencode cursor            # AI coding tools
+# Codex: back up conflicting config files, then create the Stow symlinks:
+bash scripts/bootstrap-codex.sh plan
+bash scripts/bootstrap-codex.sh apply
+# On a clean home, stow --no-folding codex is sufficient.
 ```
 
 ## Dependencies
@@ -60,6 +66,7 @@ brew install --cask font-mononoki-nerd-font
 ### Tier 3 — AI Coding Tools
 ```bash
 brew install claude opencode
+brew install --cask chatgpt
 brew install --cask cursor
 ```
 
@@ -94,6 +101,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
 - `docs/guides/opencode-sdlc.md` — OpenCode SDLC agent, command, workflow, and handoff guide
 - `docs/modules/` — Per-module documentation
+- [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
 
 ## License
 

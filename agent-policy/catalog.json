@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Shared agent policy catalog for Claude Code, Cursor, and OpenCode adapters.",
+  "description": "Shared agent policy catalog for Claude Code, Cursor, OpenCode, and Codex adapters.",
   "warningMarker": "Secrets — never share",
   "schema": {
     "claudeSettings": "https://json.schemastore.org/claude-code-settings.json",
@@ -50,12 +50,7 @@
       "~/.config/fly/**",
       "~/.config/heroku/credentials.json"
     ],
-    "systemPaths": [
-      "/etc/shadow",
-      "/etc/gshadow",
-      "/etc/sudoers",
-      "/etc/sudoers.d/**"
-    ],
+    "systemPaths": ["/etc/shadow", "/etc/gshadow", "/etc/sudoers", "/etc/sudoers.d/**"],
     "workspaceGlobs": [
       "**/.env",
       "**/.env.*",
@@ -82,12 +77,7 @@
     ]
   },
   "shell": {
-    "secretFetchAsk": [
-      "az keyvault secret show",
-      "gcloud secrets versions access",
-      "op item get",
-      "op read"
-    ],
+    "secretFetchAsk": ["az keyvault secret show", "gcloud secrets versions access", "op item get", "op read"],
     "cursorDenyShellBases": ["rm", "sudo", "chmod", "chown"],
     "cursorAllowShellBases": [
       "ls",
@@ -118,24 +108,9 @@
       "zsh"
     ],
     "opencodeBashDeny": ["rm *", "sudo *", "chmod *", "chown *"],
-    "opencodeBashAsk": [
-      "git push *",
-      "git reset --hard*",
-      "terraform apply*",
-      "terraform destroy*",
-      "az group delete*",
-      "gcloud projects delete*"
-    ],
-    "claudeAllowMustContain": [
-      "cargo",
-      "rustc",
-      "rustup",
-      "podman"
-    ],
-    "claudeSoftDenyMustContain": [
-      "az keyvault secret show",
-      "gcloud secrets versions access"
-    ],
+    "opencodeBashAsk": ["git push *", "git reset --hard*", "terraform apply*", "terraform destroy*", "az group delete*", "gcloud projects delete*"],
+    "claudeAllowMustContain": ["cargo", "rustc", "rustup", "podman"],
+    "claudeSoftDenyMustContain": ["az keyvault secret show", "gcloud secrets versions access"],
     "claudeHardDenyThemes": [
       "Never read, write, echo, commit, or paste secret file contents, API keys, tokens, private keys, or credential stores",
       "Never upload secrets or proprietary client/org content to public gists, pastebins, or untrusted third parties",
@@ -157,6 +132,44 @@
     "opencode": {
       "config": "opencode/.config/opencode/opencode.json",
       "agents": "opencode/.config/opencode/AGENTS.md"
+    },
+    "codex": {
+      "instructions": "codex/.codex/AGENTS.md",
+      "config": "codex/.codex/config.toml",
+      "rules": "codex/.codex/rules/dotfiles.rules",
+      "profile": "dotfiles"
     }
+  },
+  "codex": {
+    "minimumVersion": "0.153.1",
+    "additionalDeniedPaths": ["~/.codex/auth.json", "~/.zshrc.local", "~/.bashrc.local"],
+    "promptPrefixes": [
+      ["rm"],
+      ["rmdir"],
+      ["sudo"],
+      ["chmod"],
+      ["chown"],
+      ["chgrp"],
+      ["kill"],
+      ["killall"],
+      ["pkill"],
+      ["git", "push"],
+      ["git", "reset", "--hard"],
+      ["git", "clean"],
+      ["git", "branch", "-D"],
+      ["terraform", "apply"],
+      ["terraform", "destroy"],
+      ["terragrunt", "apply"],
+      ["tofu", "apply"],
+      ["pulumi", "up"],
+      ["pulumi", "destroy"],
+      ["npm", "publish"],
+      ["gh", "release", "create"],
+      ["helm", "upgrade"],
+      ["helm", "uninstall"],
+      ["kubectl", "delete"],
+      ["az", "group", "delete"],
+      ["gcloud", "projects", "delete"]
+    ]
   }
 }

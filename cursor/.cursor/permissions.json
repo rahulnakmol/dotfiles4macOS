@@ -1,0 +1,15 @@
+{
+  "autoRun": {
+    "allow_instructions": [
+      "Read-only git inspection and feature-branch work in trusted orgs is fine.",
+      "Prefer podman over docker for containers.",
+      "Rust cargo/rustc builds and tests are fine."
+    ],
+    "block_instructions": [
+      "Block reading or writing secret files (.env, credentials, pem/key, SSH, cloud creds, kubeconfig, hosts.yml).",
+      "Block pasting or echoing API keys, tokens, or private keys into the session.",
+      "Require confirmation for git push to main/master/dev, force push, terraform apply/destroy, and cloud resource deletes.",
+      "Require confirmation for az keyvault secret show and gcloud secrets versions access."
+    ]
+  }
+}

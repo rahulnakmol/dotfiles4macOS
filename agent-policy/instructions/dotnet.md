@@ -1,0 +1,13 @@
+---
+paths: "**/*.cs,**/*.csproj,**/Directory.Build.props"
+---
+
+
+# .NET / C#
+
+- .NET 8+ LTS, latest C#. Nullable reference types on; warnings as errors in CI.
+- `async`/`await` end to end. Never block on `.Result` or `.Wait()`.
+- Clean separation: domain, application, infrastructure. Dependencies point inward; the domain holds no framework or SDK references.
+- ASP.NET Core Web API or minimal APIs for thin surfaces. Validate every inbound contract; return problem-details.
+- xUnit for tests. Mock at the interface, never the concrete type.
+- Records and immutability for domain types where it fits. No primitive obsession at boundaries.

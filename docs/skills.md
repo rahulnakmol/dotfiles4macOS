@@ -17,6 +17,11 @@ This installs:
 
 ## What stays in dotfiles
 
+For Codex only, use `bash scripts/bootstrap-skills.sh --codex --dry-run`, then
+`bash scripts/bootstrap-skills.sh --codex`. This invokes the upstream linker for
+`~/.agents/skills` without installing other tools' adapters. Set `SKILLS_REPO` for
+a different local checkout. See [Codex](modules/codex.md) for the macOS setup.
+
 - Shell, editor, git/gh, and harness **configs** only
 - `opencode.json` default model slots and MCP wiring
 - Cavecrew/caveman third-party shims (until fully manifest-driven)

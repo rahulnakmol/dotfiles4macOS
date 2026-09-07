@@ -91,3 +91,20 @@ nvim/.config/nvim/lazy-lock.json
 # Installed skill agents (third-party, re-installable)
 .agents/
 skills-lock.json
+
+# Codex: actual configuration files; credentials and runtime state stay local.
+codex/.codex/*
+!codex/.codex/AGENTS.md
+!codex/.codex/config.toml
+!codex/.codex/hooks.json
+!codex/.codex/keybindings.json
+!codex/.codex/rules/
+codex/.codex/rules/*
+!codex/.codex/rules/dotfiles.rules
+**/__pycache__/
+**/.venv/
+
+# Generated Cursor policy adapters contain policy only; needed on clean clones.
+!cursor/.cursor/cli-config.json
+!cursor/.cursor/permissions.json
+!cursor/.cursor/.cursorignore

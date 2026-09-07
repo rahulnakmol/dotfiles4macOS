@@ -1,0 +1,27 @@
+# Generated from agent-policy/catalog.json — do not hand-edit; re-run apply-agent-policy.mjs
+.env
+.env.*
+.envrc
+secrets.yaml
+secrets.yml
+secret.yaml
+secret.yml
+credentials.json
+credentials.yaml
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.asc
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/**
+.npmrc
+.yarnrc.yml
+hosts.yml
+.env
+.env.*
+!.env.example
+!*.env.example

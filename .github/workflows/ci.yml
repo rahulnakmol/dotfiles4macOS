@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-id: 20
+          node-version: 22
 
       - name: Syntax Check Zsh Configs
         run: |
@@ -45,3 +45,31 @@ jobs:
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
           extra_args: --debug --only-verified
+
+  codex-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install validation dependencies
+        run: |
+          brew install stow
+          brew install --cask chatgpt
+          /Applications/ChatGPT.app/Contents/Resources/codex --version
+          # The Homebrew app can lag the runtime required by the permission profile.
+          # Use a pinned CLI only for the real sandbox test on this CI runner.
+          npm install --global @openai/codex@0.153.1
+          codex --version
+          python -m pip install -r scripts/codex-requirements.txt
+      - name: Validate generated policy and migration
+        run: |
+          node scripts/validate-agent-policy.mjs
+          node --test scripts/test-codex-policy.mjs
+          bash -n scripts/bootstrap-codex.sh scripts/bootstrap-skills.sh
+          python scripts/test-codex-config.py
+          python scripts/test-codex-sandbox.py
