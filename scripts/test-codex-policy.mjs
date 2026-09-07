@@ -7,6 +7,29 @@ import { test } from 'node:test';
 import { codexArtifacts } from './codex-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+test('desktop keybindings have valid entries without conflicting accelerators', () => {
+  const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
+  assert.ok(Array.isArray(bindings));
+  const accelerators = new Set();
+  const commands = new Map();
+  const aliases = {cmd: 'meta', command: 'meta', cmdorctrl: 'meta', control: 'ctrl', option: 'alt'};
+  for (const binding of bindings) {
+    assert.deepEqual(Object.keys(binding).sort(), ['command', 'key']);
+    assert.equal(typeof binding.command, 'string');
+    assert.ok(binding.command.length > 0);
+    assert.ok(binding.key === null || (typeof binding.key === 'string' && binding.key.trim().length > 0));
+    const keys = commands.get(binding.command) ?? [];
+    keys.push(binding.key);
+    commands.set(binding.command, keys);
+    if (binding.key === null) continue;
+    const canonical = binding.key.toLowerCase().split('+').map(key => aliases[key] ?? key).sort().join('+');
+    assert.ok(!accelerators.has(canonical), `Duplicate accelerator: ${binding.key}`);
+    accelerators.add(canonical);
+  }
+  for (const [command, keys] of commands) {
+    assert.ok(!keys.includes(null) || keys.length === 1, `Disabled command also has bindings: ${command}`);
+  }
+});
 test('a guidance change reaches both clients and keeps its scope', () => {
   const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'codex-policy-'));
   try {

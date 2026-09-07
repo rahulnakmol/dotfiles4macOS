@@ -6,7 +6,7 @@ model_verbosity = "low"
 model_reasoning_summary = "auto"
 model = "gpt-6-astra"
 model_reasoning_effort = "high"
-service_tier = "priority"
+service_tier = "default"
 approval_policy = "on-request"
 default_permissions = "dotfiles"
 

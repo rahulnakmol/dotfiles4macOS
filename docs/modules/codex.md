@@ -16,6 +16,7 @@ file directly, just like `claude/.claude/settings.json`. GNU Stow links it to
 
 The current settings were imported from this Mac, including `gpt-6-astra`,
 `high` default reasoning, desktop appearance settings, existing plugins and MCP runtimes.
+The shared service tier is `default`; use Fast mode for individual tasks when needed.
 The earlier migration had already removed two broken Caveman hook entries; the
 current empty hook configuration is now versioned. No nonexistent hook scripts
 are installed. New hooks still require Codex's native review/trust flow.
@@ -74,6 +75,13 @@ and defaults; existing tasks can retain their permission overrides.
 
 ## Update and review
 
+Commit deliberate preferences and reusable keybindings. App-version stamps,
+trusted-service connection metadata, and newly discovered project paths are local
+runtime changes, not automatically useful shared defaults. Stage individual TOML
+hunks when these appear alongside preference edits; do not commit the whole file
+without review. The existing snapshot still contains Mac-specific paths, so this
+workflow does not make the entire TOML portable between different home directories.
+
 Edit `codex/.codex/config.toml`, `keybindings.json`, or `hooks.json` directly.
 Changes through a symlink-aware editor at `~/.codex/config.toml` reach the same
 file in Git. Review GUI changes before committing: apps can add runtime paths,
@@ -103,6 +111,40 @@ adapters; use the command without that flag when changing policy for all clients
 If the app removes the marked block, validation stops instead of guessing where
 to rewrite permissions. Restore the markers around the existing generated
 `permissions.dotfiles` tables before regenerating.
+
+## Hyperkey workflow shortcuts
+
+`codex/.codex/keybindings.json` adds the following app-only shortcuts. Hyper means
+Control + Option + Command + Shift, written `Command+Control+Alt+Shift` in the file.
+Use your existing Hyperkey mapping or hold all four modifiers. No additional
+keyboard remapper or app launcher is installed by this module.
+
+| Shortcut | Action | Best use |
+| --- | --- | --- |
+| Hyper+N | New chat | Start the next piece of work |
+| Hyper+K | Command menu | Find app actions without reaching for the mouse |
+| Hyper+A | Next chat needing attention | Move between parallel Codex tasks |
+| Hyper+P | Toggle plan mode | Switch between planning and implementation |
+| Hyper+R | Open review tab | Inspect the current Codex changes |
+| Hyper+T | Toggle terminal | Run or inspect local commands |
+| Hyper+M | Model picker | Choose the model for the current work |
+
+Existing default bindings for these commands are retained as separate entries.
+In this format, adding entries for a command replaces its implicit default list,
+so include the defaults alongside each Hyper binding. `key: null` disables a
+command's shortcuts; do not combine it with active bindings for that command.
+The existing global dictation shortcuts remain disabled.
+
+These bindings target the ChatGPT desktop app, including its Work and Codex views;
+individual actions depend on the current view and available features. They are not
+global hotkeys and do not configure chatgpt.com in a separate browser. If another
+app intercepts a Hyper combination globally, change that assignment first.
+
+Command IDs and multi-binding behavior were checked against the installed app's
+command registry on September 7, 2026. Open Settings > Keyboard Shortcuts to check
+them after restarting the app; interactive keystrokes were not tested by automation.
+The [official command reference](https://learn.chatgpt.com/docs/reference/commands)
+lists the built-in shortcuts and their feature availability.
 
 ## Other Macs and local state
 
@@ -206,8 +248,8 @@ python3 -m venv /tmp/codex-validation
 /tmp/codex-validation/bin/python scripts/test-codex-sandbox.py
 ```
 
-CI installs the ChatGPT app through Homebrew and tests its bundled Codex runtime
-on macOS. Tests cover real file links, direct edits reaching the repository,
+CI installs the ChatGPT app through Homebrew and uses a pinned CLI for the real
+macOS sandbox test. Tests cover keybinding conflicts, real file links, direct edits reaching the repository,
 rollback, idempotence, conflicts, config validation, policy preservation, and
 sandbox behavior with synthetic fixtures. No model calls or credentials are
 needed. Linux remains outside scope.
