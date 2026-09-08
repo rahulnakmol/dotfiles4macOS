@@ -2,6 +2,7 @@
   {
     "id": "work",
     "name": "Work",
+    "durationMinutes": 30,
     "apps": [
       {
         "id": "edge",
@@ -21,6 +22,7 @@
   {
     "id": "amp",
     "name": "Code + Amp",
+    "durationMinutes": 45,
     "apps": [
       {
         "id": "chrome",
@@ -45,6 +47,7 @@
   {
     "id": "claude",
     "name": "Code + Claude",
+    "durationMinutes": 45,
     "apps": [
       {
         "id": "obsidian",
@@ -69,6 +72,7 @@
   {
     "id": "cursor",
     "name": "Code + Cursor",
+    "durationMinutes": 45,
     "apps": [
       {
         "id": "chrome",
@@ -93,6 +97,7 @@
   {
     "id": "codex",
     "name": "Code + Codex",
+    "durationMinutes": 45,
     "apps": [
       {
         "id": "chrome",

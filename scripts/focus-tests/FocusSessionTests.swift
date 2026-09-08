@@ -2,19 +2,28 @@ import Foundation
 
 final class FakeDesktop: FocusDesktop {
     var events: [String] = []
+    var running: [FocusApp] = []
+    var reopening: String?
+    func runningApps() -> [FocusApp] { running }
     var missing: String?
     var blocked: String?
     var launchFailure: String?
+    var urlFailure: String?
     func installed(_ app: FocusApp) -> Bool { app.id != missing }
     func quitAndWait(_ app: FocusApp) throws {
         events.append("quit:" + app.id)
         if app.id == blocked { throw FocusFailure("User kept app open") }
+        if app.id != reopening { running.removeAll { $0.id == app.id } }
     }
     func launch(_ app: FocusApp) throws {
         events.append("open:" + app.id)
         if app.id == launchFailure { throw FocusFailure("Launch failed") }
+        if !running.contains(where: { $0.id == app.id }) { running.append(app) }
     }
-    func openURL(_ url: String) throws { events.append("url:" + url) }
+    func openURL(_ url: String) throws {
+        events.append("url:" + url)
+        if url == urlFailure { throw FocusFailure("URL delivery failed") }
+    }
 }
 @main
 struct FocusTests {
@@ -26,70 +35,88 @@ struct FocusTests {
         assert(sessions[2].apps.map(\.id) == ["obsidian", "ghostty", "claude"])
         assert(sessions[3].apps.map(\.id) == ["chrome", "ghostty", "cursor"])
         assert(sessions[4].apps.map(\.id) == ["chrome", "ghostty", "codex"])
-        do {
+        func populatedDesktop() -> FakeDesktop {
             let desktop = FakeDesktop()
-            try switchFocus("codex", sessions: sessions, active: "amp", desktop: desktop)
-            assert(desktop.events.contains("quit:amp"))
-            assert(desktop.events.contains("quit:chrome"))
-            assert(desktop.events.contains("quit:ghostty"))
-            assert(desktop.events.filter { $0.hasPrefix("open:") } == ["open:chrome", "open:ghostty", "open:codex"])
-            assert(desktop.events.last == "url:rectangle-pro://execute-layout?name=Code%20Codex")
-            assert(desktop.events.firstIndex(of: "url:rectangle-pro://execute-layout?name=Code%20Browser")! < desktop.events.firstIndex(of: "open:codex")!)
-            let leaving = FakeDesktop()
-            try switchFocus("work", sessions: sessions, active: "codex", desktop: leaving)
-            assert(leaving.events.contains("quit:codex"))
+            var seen = Set<String>()
+            desktop.running = sessions.flatMap(\.apps).filter { seen.insert($0.id).inserted }
+            desktop.running += [FocusApp(id: "slack", name: "Slack", bundleId: "com.tinyspeck.slackmacgap"),
+                                FocusApp(id: "outlook", name: "Outlook", bundleId: "com.microsoft.Outlook"),
+                                FocusApp(id: "unknown", name: "Unbundled app", bundleId: "", processId: 123)]
+            desktop.running += focusSupportBundleIds.sorted().map { FocusApp(id: $0, name: $0, bundleId: $0) }
+            return desktop
         }
-        do {
-            let desktop = FakeDesktop(); desktop.missing = "teams"
-            do { try switchFocus("work", sessions: sessions, active: "amp", desktop: desktop); assertionFailure("Expected missing app") } catch {}
-            assert(desktop.events.isEmpty, "Preflight before quitting")
-        }
-        do {
-            let desktop = FakeDesktop(); desktop.blocked = "ghostty"
-            do { try switchFocus("work", sessions: sessions, active: "amp", desktop: desktop); assertionFailure("Expected quit cancellation") } catch {}
-            assert(!desktop.events.contains(where: { $0.hasPrefix("open:") || $0.hasPrefix("url:") }))
-        }
-        do {
-            let desktop = FakeDesktop()
-            try switchFocus("claude", sessions: sessions, active: "amp", desktop: desktop)
-            assert(desktop.events.contains("quit:ghostty"), "Shared terminal must quit on a real switch")
+        for target in sessions {
+            let desktop = populatedDesktop()
+            try switchFocus(target.id, sessions: sessions, desktop: desktop)
+            let keep = Set(target.apps.map(\.bundleId)).union(focusSupportBundleIds)
+            assert(desktop.running.allSatisfy { keep.contains($0.bundleId) })
+            assert(desktop.events.contains("quit:slack") && desktop.events.contains("quit:outlook") && desktop.events.contains("quit:unknown"))
+            for app in target.apps { assert(!desktop.events.contains("quit:" + app.id), "Preserve every target app, even shared browsers/terminals") }
+            for id in focusSupportBundleIds { assert(!desktop.events.contains("quit:" + id)) }
             let lastQuit = desktop.events.lastIndex(where: { $0.hasPrefix("quit:") })!
             let firstOpen = desktop.events.firstIndex(where: { $0.hasPrefix("open:") })!
             assert(lastQuit < firstOpen)
-            assert(desktop.events.filter { $0 == "quit:chrome" }.count == 1)
-            assert(desktop.events.contains("url:rectangle-pro://execute-layout?name=Code%20Notes"))
-            assert(desktop.events.last == "url:rectangle-pro://execute-layout?name=Code%20Claude")
-            assert(desktop.events.firstIndex(of: "url:rectangle-pro://execute-layout?name=Code%20Notes")! < desktop.events.firstIndex(of: "open:claude")!)
-            assert(!desktop.events.contains("open:slack"))
+            assert(desktop.events.filter { $0.hasPrefix("open:") } == target.apps.map { "open:" + $0.id })
+            assert(desktop.events.last == "url:" + target.timerURL)
+            assert(desktop.events[desktop.events.count - 2] == "url:" + target.layoutURL!)
+            if let pair = target.pairLayoutURL {
+                assert(desktop.events.firstIndex(of: "url:" + pair)! < desktop.events.firstIndex(of: "open:" + target.apps.last!.id)!)
+            }
+            // Reselecting cleans up newly opened distractions while retaining target apps.
+            desktop.events = []
+            desktop.running.append(FocusApp(id: "mail", name: "Mail", bundleId: "com.apple.mail"))
+            try switchFocus(target.id, sessions: sessions, desktop: desktop)
+            assert(desktop.events.filter { $0.hasPrefix("quit:") } == ["quit:mail"])
         }
         do {
-            let desktop = FakeDesktop()
-            try switchFocus("amp", sessions: sessions, active: "amp", desktop: desktop)
-            assert(!desktop.events.contains("quit:ghostty"))
-            assert(!desktop.events.contains("quit:chrome"))
-            assert(!desktop.events.contains("quit:amp"))
-        }
-        do {
-            let desktop = FakeDesktop()
-            try switchFocus("work", sessions: sessions, active: "cursor", desktop: desktop)
-            assert(desktop.events.filter { $0.hasPrefix("open:") } == ["open:edge", "open:teams"])
-            assert(desktop.events.last == "url:rectangle-pro://execute-layout?name=Work")
-        }
-        do {
-            let desktop = FakeDesktop()
-            try switchFocus("claude", sessions: sessions, desktop: desktop)
-            assert(!desktop.events.contains("quit:ghostty"), "First use preserves target apps without inventing session history")
-            assert(!desktop.events.contains("quit:claude"))
-            assert(desktop.events.contains("quit:cursor"))
+            let desktop = populatedDesktop(); desktop.missing = "teams"
+            do { try switchFocus("work", sessions: sessions, desktop: desktop); assertionFailure("Expected missing app") } catch {}
+            assert(desktop.events.isEmpty, "Preflight before quitting")
+            let blocked = populatedDesktop(); blocked.blocked = "slack"
+            do { try switchFocus("work", sessions: sessions, desktop: blocked); assertionFailure("Expected quit cancellation") } catch {}
+            assert(!blocked.events.contains(where: { $0.hasPrefix("open:") || $0.hasPrefix("url:") }))
+            let reopened = populatedDesktop(); reopened.reopening = "outlook"
+            do { try switchFocus("work", sessions: sessions, desktop: reopened); assertionFailure("Expected remaining-app barrier") } catch {}
+            assert(!reopened.events.contains(where: { $0.hasPrefix("open:") || $0.hasPrefix("url:") }))
         }
         do {
             let desktop = FakeDesktop(); desktop.launchFailure = "teams"
             do { try switchFocus("work", sessions: sessions, desktop: desktop); assertionFailure("Expected launch failure") } catch {}
             assert(!desktop.events.contains(where: { $0.hasPrefix("url:") }))
-            let untouched = FakeDesktop()
+            let untouched = populatedDesktop()
             do { try switchFocus("invalid", sessions: sessions, desktop: untouched); assertionFailure("Expected rejection") } catch {}
             assert(untouched.events.isEmpty)
         }
-        print("Focus session scenarios passed: exact five sets, preflight, cancellation, shared-app restart, reselection, first run, launch failure and invalid input")
+        for session in sessions {
+            assert(session.durationMinutes == (session.id == "work" ? 30 : 45))
+            let url = URLComponents(string: session.timerURL)!
+            assert(url.scheme == "session" && url.path == "/start")
+            assert(url.queryItems!.first(where: { $0.name == "intent" })!.value == "Focus Session: " + session.name)
+            let desktop = FakeDesktop()
+            try switchFocus(session.id, sessions: sessions, desktop: desktop)
+            assert(desktop.events.filter { $0 == "url:" + session.timerURL }.count == 1)
+            assert(desktop.events.last == "url:" + session.timerURL)
+        }
+        do {
+            let desktop = FakeDesktop(); desktop.missing = "session-timer"
+            do { try switchFocus("work", sessions: sessions, desktop: desktop); assertionFailure("Expected missing Session") } catch {}
+            assert(desktop.events.isEmpty, "Missing timer must stop before quitting apps")
+            let layoutFailed = FakeDesktop(); layoutFailed.urlFailure = sessions[0].layoutURL
+            do { try switchFocus("work", sessions: sessions, desktop: layoutFailed); assertionFailure("Expected layout failure") } catch {}
+            assert(!layoutFailed.events.contains("url:" + sessions[0].timerURL))
+            let timerFailed = FakeDesktop(); timerFailed.urlFailure = sessions[0].timerURL
+            do { try switchFocus("work", sessions: sessions, desktop: timerFailed); assertionFailure("Expected timer delivery failure") } catch {}
+            assert(timerFailed.events.filter { $0 == "url:" + sessions[0].timerURL }.count == 1, "Never retry timer starts automatically")
+        }
+        do {
+            let invalid = FocusSession(id: "invalid-duration", name: "Code + A&B #1", apps: [], dockURL: nil, layoutURL: nil, pairLayoutURL: nil, durationMinutes: 0)
+            let desktop = FakeDesktop()
+            do { try switchFocus(invalid.id, sessions: [invalid], desktop: desktop); assertionFailure("Expected invalid duration") } catch {}
+            assert(desktop.events.isEmpty)
+            let url = URLComponents(string: invalid.timerURL)!
+            assert(url.queryItems!.first!.value == "Focus Session: Code + A&B #1")
+            assert(url.queryItems!.count == 2, "Intention text must not inject URL parameters")
+        }
+        print("Focus session scenarios passed: exact five sets, preflight, cancellation, unrelated-app quits, support-app preservation, reselection, remaining-app barrier, launch failure and invalid input")
     }
 }

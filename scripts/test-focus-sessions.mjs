@@ -8,9 +8,15 @@ const workflow = new URL('../alfred/.config/alfred/Alfred.alfredpreferences/work
 test('native focus switching preserves quit barriers and the five requested app sets',t=>{
   const temp=mkdtempSync(join(tmpdir(),'focus-tests-'));t.after(()=>rmSync(temp,{recursive:true,force:true}));
   const binary=join(temp,'tests');
-  execFileSync('xcrun',['swiftc','-D','FOCUS_TEST','-parse-as-library',workflow+'FocusSession.swift',new URL('./focus-tests/FocusSessionTests.swift',import.meta.url).pathname,'-o',binary]);
+  execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-D','FOCUS_TEST','-parse-as-library',workflow+'FocusSession.swift',new URL('./focus-tests/FocusSessionTests.swift',import.meta.url).pathname,'-o',binary]);
   const result=execFileSync(binary,[workflow+'focus-sessions.json'],{encoding:'utf8'});
   assert.match(result,/Focus session scenarios passed/);
+  const executable=join(temp,'focus-session');
+  execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-parse-as-library',workflow+'FocusSession.swift','-o',executable]);
+  for (const [id,minutes] of [['work',30],['amp',45],['claude',45],['cursor',45],['codex',45]]) {
+    const preview=execFileSync(executable,[workflow+'focus-sessions.json',id,'--dry-run'],{encoding:'utf8'});
+    assert.ok(preview.includes(`Then request Session timer: ${minutes} minutes`));
+  }
 });
 test('focus sources are portable, tracked and cannot force quit apps',()=>{
   for (const file of ['FocusSession.swift','focus-session.zsh','focus-sessions.json']) {

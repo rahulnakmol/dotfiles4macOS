@@ -18,21 +18,41 @@ keyboard brackets retain their window-management bindings. Rectangle’s native
 import has been applied; live thirds and two-thirds settings match the snapshot.
 Alfred, Karabiner, Rectangle, Ghostty and Codex Stow targets were verified. Log out and back in to
 activate command-line desktop changes. Physical tests of the latest bindings,
-desktop creation/placement, a fresh login and the second Mac require local checks.
+a fresh login and the second Mac require local checks. Four desktops and app placement are already configured on this Mac.
 See the [design decision](../adr/0002-hyper-macos-workspaces.md).
 
 ## Focus sessions and complete manual
 
 The [hotkeys manual](../hotkeys.md) and [standalone visual page](../hotkeys.html)
 cover Work plus the four Code variations. Alfred commands are `fs work`,
-`fs amp`, `fs claude`, `fs cursor` and `fs codex`. A session switch quits outgoing
-apps normally, then opens its exact app set. Code uses two ordinary desktops:
-Chrome (Amp/Cursor/Codex) or Obsidian (Claude) with Ghostty in a ⅔–⅓ split on Desktop 1,
-and the selected coding app maximized on Desktop 2. The earlier four choices were verified in Alfred; Code + Codex adds a fifth
-session and a sixteenth Rectangle layout. A live quit/reopen session and native desktop assignment still
-need acceptance. Set the per-Mac native Dock
-assignments described in the manual; Rectangle sizes windows but cannot assign
-numbered Spaces. The prior general layout commands remain available.
+`fs amp`, `fs claude`, `fs cursor` and `fs codex`.
+
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+
+Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+
+This Mac already has four desktops and app assignments (confirmed by the user).
+They remain unchanged. On another Mac, create four desktops and restore those
+Dock assignments. Full quit/layout/timer switching still needs live acceptance
+with saved work; automated checks use substitute apps.
+
+## Session focus timer
+
+Every `fs` choice also requests a Session timer after the app launches and
+Rectangle layouts succeed: **Work 30 minutes; Code + Amp/Claude/Cursor/Codex
+45 minutes**. Durations live in `scripts/hyper-config.json` as `durationMinutes`.
+The intention uses the same **Focus Session: Name** label as Alfred.
+
+Session must be installed before a switch can quit any app. The Setapp, direct
+and App Store editions are supported; URL automation needs Pro access. Session
+owns existing-timer prompts, breathing preparation, pause, completion and breaks.
+Reselecting a session requests another timer; the workflow never silently finishes
+or abandons one, retries timer delivery, or quits apps at expiry. App delivery is
+not a countdown acknowledgement. Session preferences/history remain local.
+
+Verified on this Mac: the documented API started a 45-minute Code + Codex timer.
+The full app-quit/layout/timer sequence is covered with a substitute desktop;
+a live `fs` switch still needs testing with saved work.
 
 ## Shared Meh actions
 
@@ -144,14 +164,10 @@ layout. Work Balanced and Code Balanced help when app minimum widths prevent thi
 
 Suggested three-desktop structure:
 
-| Mode | Desktop 1 | Desktop 2 | Desktop 3 |
-| --- | --- | --- | --- |
-| Work | Work: Edge + Teams | Office: Word + Excel | Claude maximized, or Present |
-| Code | Code: Chrome + Slack | Terminal: Ghostty | Agents: editor/agent windows |
-| Zen | Chosen editor + Ghostty + Obsidian, maximized and overlapping | Optional | Optional |
+Use your existing four desktops and native app assignments. `wl` applies geometry
+where those apps open; it does not move them to new desktop numbers. On another
+Mac, recreate four desktops and the same assignments before using the layouts.
 
-Create ordinary desktops using Mission Control's + button on each Mac. Visit each
-desktop, move windows there with Hyper+−/=, then apply that desktop's layout.
 Hyper+1…9/0 selects Desktop 1…9/10; it does not create a missing desktop.
 Native Control+Left/Right switches adjacent desktops without moving a window. Use Hyper+Tab or the app
 keys to switch between overlapping maximized apps.
@@ -160,9 +176,7 @@ keys to switch between overlapping maximized apps.
 layouts control geometry; they do not gather every window from arbitrary Spaces.
 Its previous/next-Space action simulates a title-bar drag during native desktop
 navigation. Native fullscreen creates a separate Space, so leave fullscreen before
-ordinary layouts. Static Dock > Options > This Desktop assignments can be used for
-apps with permanent homes; shared apps such as Claude and Ghostty should usually
-remain unassigned. See [Apple's Spaces guide](https://support.apple.com/en-euro/guide/mac-help/mh14112/mac)
+ordinary layouts. Preserve your existing Dock > Options > This Desktop assignments for all apps. See [Apple's Spaces guide](https://support.apple.com/en-euro/guide/mac-help/mh14112/mac)
 and the [Rectangle maintainer's explanation](https://github.com/rxhanson/RectanglePro-Community/discussions/689).
 
 ## Move to another Mac

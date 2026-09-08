@@ -160,3 +160,13 @@ References: [Alfred sync exclusions](https://www.alfredapp.com/help/advanced/syn
 [Show Alfred utility](https://www.alfredapp.com/help/workflows/utilities/show-alfred/),
 [Apple keyboard shortcuts](https://support.apple.com/en-us/102650),
 [CleanShot URL API](https://cleanshot.com/docs-api).
+
+## Session timer prerequisite
+
+Timed `fs` commands require Session (Setapp, direct or App Store edition) with
+Pro URL automation. Install and activate it on each Mac; this bootstrap does not
+install a duplicate copy or migrate its account, preferences or history. The focus
+helper checks availability before quitting apps. Work requests 30 minutes; every
+Code variation requests 45 minutes after the layouts. Verify the timer visibly
+starts and review Session’s existing breathing, completion and break settings.
+Launch at login was already enabled on this Mac; verify it on your other Mac.

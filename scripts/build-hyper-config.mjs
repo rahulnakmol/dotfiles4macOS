@@ -126,7 +126,7 @@ export function buildWorkflow(config, dockflow) {
     concurrently: false, escaping: 0, scriptargtype: 1, scriptfile: '', type: 5,
     script: '/bin/zsh ./dispatch.zsh "$1" 2>&1 || true',
   }, 2, 650);
-  const focusItems = config.focusSessions.map((session) => ({ title: `Focus Session: ${session.name}`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · Quits outgoing session apps`, arg: `focus:${session.id}` }));
+  const focusItems = config.focusSessions.map((session) => ({ title: `Focus Session: ${session.name}`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · ${session.durationMinutes} min in Session · Quits other regular apps`, arg: `focus:${session.id}` }));
   const items = [
     ...focusItems,
     ...config.apps.map((app) => ({ title: `App Launcher: ${app.name}`, subtitle: `Hyper+${app.key.toUpperCase()} · ${app.optional ? 'Launch or focus when installed' : 'Launch or focus'}`, arg: `app:${app.id}` })),
@@ -202,13 +202,17 @@ ${shortMenuTable}
 
 Type the short code to list its actions. Result names use **Category: Name**. For example, \`fs\` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
 
+Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+
 ### Focus sessions
 
 Type \`fs\` in Alfred or search \`Focus Session\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code + Amp opens Chrome, Ghostty and Amp. Code + Claude opens Obsidian, Ghostty and Claude. Code + Cursor opens Chrome, Ghostty and Cursor. Code + Codex opens Chrome, Ghostty and Codex.
 
-Switching sessions requests normal quits for the outgoing session, including shared Ghostty when switching coding variants. Resolve any save/terminal prompt; if an app stays open for 30 seconds, the switch stops before opening the next session. Apps outside these five configured sets are left alone. Re-selecting the active session keeps its apps running. The first use (no local session history) closes only other-session apps not needed by the target. The last active session ID stays in this Mac’s cache, outside Git.
+After the apps and Rectangle layouts are ready, Session receives a timer request: **Work 30 minutes**, **all Code variations 45 minutes**. Session (Setapp, direct or App Store edition) must be installed; its URL API requires Pro access. Each selection requests a timer, including reselecting the same session. Session controls any running-timer prompt, breathing preparation and end-of-session behavior. The workflow does not silently finish or abandon timers, quit apps when time expires, or confirm that a delivered URL actually started counting down.
 
-The first run compiles a small native helper using Apple Command Line Tools; no apps are installed. Coding uses two ordinary desktops. Assign Chrome, Obsidian and Ghostty to Desktop 1, and Amp, Claude, Cursor and Codex to Desktop 2 using Dock > Options > Assign To > This Desktop on each Mac. The first pair is tiled left two-thirds/right third; the selected coding app is maximized on Desktop 2. Rectangle applies sizes but does not create or assign numbered Spaces. Reimport its snapshot after this update. These focus layouts do not open Slack. Existing layout commands and DockFlow number keys remain layout/profile actions and do not quit apps.
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+
+The first run compiles a small native helper using Apple Command Line Tools; no apps are installed. Use the existing four macOS desktops and app assignments. The reference/terminal pair is tiled left two-thirds/right third on its assigned desktop; the coding app is maximized on its assigned desktop. Rectangle applies sizes but does not create or assign numbered Spaces. Reimport its snapshot after this update. These focus layouts do not open Slack. Existing layout commands and DockFlow number keys remain layout/profile actions and do not quit apps.
 
 ### Launch or focus apps
 
@@ -267,7 +271,7 @@ Run bash scripts/bootstrap-hyper.sh plan, then apply, then check. Use rollback w
 
 Install Alfred Powerpack, Karabiner Elements and Rectangle Pro through Homebrew. Stow alfred, karabiner and rectangle-pro. Select the ${config.profile} profile and import RectangleProConfig.json. Choose the Stow-backed Alfred preferences folder and enable startup. Complete each app's macOS permissions and license activation directly on each Mac.
 
-Create ordinary desktops in Mission Control with its + button (start with three). Run bash scripts/setup-hyper-macos.sh apply to enable Control+Option+1…9/0 and turn off automatic Space rearrangement. Log out and back in after command-line preference changes. The supported workflow is to visit each desktop and apply its layout; this stack cannot reliably reconstruct every window's numbered Space in one command. Keep shared apps such as Claude and Ghostty unassigned so Work/Code/Zen can reuse them. Static Dock > Options > This Desktop assignments are optional for apps with permanent homes.
+Create ordinary desktops in Mission Control with its + button (use four). Run bash scripts/setup-hyper-macos.sh apply to enable Control+Option+1…9/0 and turn off automatic Space rearrangement. Log out and back in after command-line preference changes. The supported workflow is to visit each desktop and apply its layout; this stack cannot reliably reconstruct every window's numbered Space in one command. This Mac already has four desktops and app assignments. Preserve them. On a new Mac, recreate those assignments with Dock > Options > Assign To > This Desktop.
 
 ## Customisation
 
@@ -310,7 +314,7 @@ ${cases.join('\n')}
   *) printf '%s\\n' 'Unknown Hyper action. Open Hyper+Space and choose an item.' >&2; exit 64 ;;
 esac
 `;
-  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.3.0', objects, connections, uidata }, script };
+  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.4.0', objects, connections, uidata }, script };
 }
 
 function main() {
@@ -324,7 +328,7 @@ function main() {
   const google=buildGoogleWorkspace(readPlist(googlePath));
   const workflow = buildWorkflow(config, dockflow);
   const focusSessions = config.focusSessions.map((session) => ({
-    id:session.id,name:session.name,apps:session.apps.map((id) => {
+    id:session.id,name:session.name,durationMinutes:session.durationMinutes,apps:session.apps.map((id) => {
       const app=config.apps.find((a) => a.id===id);
       if (!app) throw new Error(`Unknown focus app: ${id}`);
       return {id:app.id,name:app.name,bundleId:app.bundleId};

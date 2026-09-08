@@ -280,7 +280,7 @@
     },
     {
       "name": "Code Browser",
-      "description": "Chrome left two-thirds; Ghostty right third on Desktop 1",
+      "description": "Chrome left two-thirds; Ghostty right third on the assigned reference desktop",
       "mode": "code",
       "launchApps": false,
       "windows": [
@@ -296,7 +296,7 @@
     },
     {
       "name": "Code Notes",
-      "description": "Obsidian left two-thirds; Ghostty right third on Desktop 1",
+      "description": "Obsidian left two-thirds; Ghostty right third on the assigned reference desktop",
       "mode": "code",
       "launchApps": false,
       "windows": [
@@ -312,10 +312,18 @@
     },
     {
       "name": "Code Amp",
-      "description": "Amp maximized on Desktop 2",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop",
       "mode": "code",
-      "launchApps": false,
+      "launchApps": true,
       "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
         [
           "amp",
           2
@@ -324,10 +332,18 @@
     },
     {
       "name": "Code Claude",
-      "description": "Claude maximized on Desktop 2",
+      "description": "Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop",
       "mode": "code",
-      "launchApps": false,
+      "launchApps": true,
       "windows": [
+        [
+          "obsidian",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
         [
           "claude",
           2
@@ -336,10 +352,18 @@
     },
     {
       "name": "Code Cursor",
-      "description": "Cursor maximized on Desktop 2",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop",
       "mode": "code",
-      "launchApps": false,
+      "launchApps": true,
       "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
         [
           "cursor",
           2
@@ -348,10 +372,18 @@
     },
     {
       "name": "Code Codex",
-      "description": "Codex maximized on Desktop 2",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop",
       "mode": "code",
-      "launchApps": false,
+      "launchApps": true,
       "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
         [
           "codex",
           2
@@ -665,7 +697,8 @@
         "teams"
       ],
       "mode": "work",
-      "layout": "Work"
+      "layout": "Work",
+      "durationMinutes": 30
     },
     {
       "id": "amp",
@@ -677,7 +710,8 @@
       ],
       "mode": "code",
       "pairLayout": "Code Browser",
-      "layout": "Code Amp"
+      "layout": "Code Amp",
+      "durationMinutes": 45
     },
     {
       "id": "claude",
@@ -689,7 +723,8 @@
       ],
       "mode": "code",
       "pairLayout": "Code Notes",
-      "layout": "Code Claude"
+      "layout": "Code Claude",
+      "durationMinutes": 45
     },
     {
       "id": "cursor",
@@ -701,7 +736,8 @@
       ],
       "mode": "code",
       "pairLayout": "Code Browser",
-      "layout": "Code Cursor"
+      "layout": "Code Cursor",
+      "durationMinutes": 45
     },
     {
       "id": "codex",
@@ -713,7 +749,8 @@
       ],
       "mode": "code",
       "pairLayout": "Code Browser",
-      "layout": "Code Codex"
+      "layout": "Code Codex",
+      "durationMinutes": 45
     }
   ],
   "menuKeywords": [

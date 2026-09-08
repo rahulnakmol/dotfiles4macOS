@@ -124,6 +124,22 @@ test('portable layouts omit captured titles, pixel frames, Space IDs and destruc
   for (const name of ['Work Balanced','Code Balanced','Office']) assert.deepEqual(layouts.find((l) => l.name === name).children.map((c) => c.windowAction), [0,1]);
   for (const name of ['Agents','Zen']) assert.equal(layouts.find((l) => l.name === name).launchApps, false);
   assert.equal(layouts.find((l) => l.name === 'Default').frontmost, true);
+  for (const [name, ids] of [
+    ['Code Amp', ['chrome','ghostty','amp']],
+    ['Code Claude', ['obsidian','ghostty','claude']],
+    ['Code Cursor', ['chrome','ghostty','cursor']],
+    ['Code Codex', ['chrome','ghostty','codex']],
+  ]) {
+    const layout = layouts.find((l) => l.name === name);
+    assert.equal(layout.launchApps, true);
+    assert.deepEqual(layout.children.map((c) => c.bundleId), ids.map((id) => config.apps.find((a) => a.id === id).bundleId));
+    assert.deepEqual(layout.children.map((c) => c.windowAction), [21,24,2]);
+    const result = spawnSync('zsh', [root + wf + 'user.workflow.hyper/dispatch.zsh', `layout:${name}`], {env:{...process.env,HYPER_DRY_RUN:'1'},encoding:'utf8'});
+    assert.equal(result.status, 0);
+    assert.match(result.stdout, /dockflow:\/\//);
+    assert.match(result.stdout, /rectangle-pro:\/\/execute-layout/);
+    assert.ok(!/session:|focus:|quit/.test(result.stdout));
+  }
   assert.deepEqual(buildRectangle(rectangle, config), rectangle);
 });
 

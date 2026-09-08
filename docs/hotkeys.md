@@ -22,24 +22,26 @@ Type a code by itself to list its actions, then type a name to filter. Titles us
 
 ## Focus sessions
 
-| Alfred command | Session | Apps |
-| --- | --- | --- |
-| fs work | Focus Session: Work | Microsoft Edge + Microsoft Teams |
-| fs amp | Focus Session: Code + Amp | Google Chrome + Ghostty + Amp |
-| fs claude | Focus Session: Code + Claude | Obsidian + Ghostty + Claude |
-| fs cursor | Focus Session: Code + Cursor | Google Chrome + Ghostty + Cursor |
-| fs codex | Focus Session: Code + Codex | Google Chrome + Ghostty + ChatGPT / Codex |
+| Alfred command | Session | Minutes | Apps |
+| --- | --- | --- | --- |
+| fs work | Focus Session: Work | 30 | Microsoft Edge + Microsoft Teams |
+| fs amp | Focus Session: Code + Amp | 45 | Google Chrome + Ghostty + Amp |
+| fs claude | Focus Session: Code + Claude | 45 | Obsidian + Ghostty + Claude |
+| fs cursor | Focus Session: Code + Cursor | 45 | Google Chrome + Ghostty + Cursor |
+| fs codex | Focus Session: Code + Codex | 45 | Google Chrome + Ghostty + ChatGPT / Codex |
 
-Work uses Edge on the left two-thirds and Teams on the right third. Code has exactly four variations, using **two ordinary macOS desktops**:
+Work uses Edge on the left two-thirds and Teams on the right third. Code has four variations, using your existing app assignments across **four ordinary macOS desktops**:
 
-- Desktop 1: Chrome (Amp/Cursor/Codex) or Obsidian (Claude) on the left two-thirds; Ghostty on the right third.
-- Desktop 2: the chosen Amp, Claude, Cursor or Codex app maximized.
+- Reference desktop: Chrome (Amp/Cursor/Codex) or Obsidian (Claude) on the left two-thirds; Ghostty on the right third.
+- Coding desktop: the chosen Amp, Claude, Cursor or Codex app maximized.
 
-On each Mac, create Desktop 1 and Desktop 2 in Mission Control. Visit Desktop 1 and use each app’s Dock icon → Options → Assign To → This Desktop for Chrome, Obsidian and Ghostty. Visit Desktop 2 and assign Amp, Claude, Cursor and Codex there. Assign Edge and Teams to Desktop 1 if Work should use that same desktop. Import the updated Rectangle snapshot. These assignments belong to this Mac; they are not copied as numeric Space IDs. Native fullscreen is not used.
+This Mac already has four desktops and its app assignments configured. Preserve them. On a new Mac create four desktops and restore the Dock → Options → Assign To → This Desktop assignments. Rectangle applies geometry on the assigned desktops; it does not create or reassign Spaces. Native fullscreen is not used.
 
-Session commands quit the outgoing session’s apps normally, including shared Ghostty/Chrome on a real variation change. Save or terminal prompts remain interactive. If an app refuses or takes longer than 30 seconds to quit, the next session does not open. Already-quit apps remain closed; retry after resolving the prompt. Apps outside the five configured sets are unaffected. Re-selecting the active session keeps its apps running. On first use, without session history, target apps stay open and other configured-session apps are quit.
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
 
-The last successful session ID and compiled helper live in ~/Library/Caches/com.rahulnakmol.hyper, outside Git. Missing target apps stop the switch before any quits. Failed launches can leave a partially opened session; retry. Apple Command Line Tools compile the helper on first use. This switches apps and layouts; it does not change macOS notification Focus modes.
+After app launches and Rectangle layout requests succeed, the workflow sends Session one start request: **Work 30 minutes; every Code variation 45 minutes**. The intention is **Focus Session: Name**. Session must be installed before any app quits; Setapp, direct and App Store editions are supported, and its URL API requires Pro access. Each selection requests a timer, including reselecting the active session. Existing-timer prompts, breathing preparation, pause, completion and breaks remain controlled by Session. Timer delivery is not a countdown acknowledgement. The workflow never automatically retries timer starts, finishes/abandons a timer, or quits your apps when the timer expires. On a new Mac install/activate Session and test its [documented URL API](https://www.stayinsession.com/learn/session-url-scheme); its preferences and history remain outside dotfiles.
+
+The compiled helper and switch lock live in ~/Library/Caches/com.rahulnakmol.hyper, outside Git. Missing target apps stop the switch before any quits. Failed launches can leave a partially opened session; retry. Apple Command Line Tools compile the helper on first use. This switches apps and layouts; it does not change macOS notification Focus modes.
 
 ## Launching apps
 
@@ -231,12 +233,14 @@ Meh+C opens the menu without starting a capture. On this Mac, Cmd+Shift+3 captur
 | Agents | Maximize open Codex, Claude, Cursor and Amp windows | No |
 | Zen | Maximize open Amp, Cursor, Ghostty and Obsidian windows | No |
 | Default | Maximize the current app window | No |
-| Code Browser | Chrome left two-thirds; Ghostty right third on Desktop 1 | No |
-| Code Notes | Obsidian left two-thirds; Ghostty right third on Desktop 1 | No |
-| Code Amp | Amp maximized on Desktop 2 | No |
-| Code Claude | Claude maximized on Desktop 2 | No |
-| Code Cursor | Cursor maximized on Desktop 2 | No |
-| Code Codex | Codex maximized on Desktop 2 | No |
+| Code Browser | Chrome left two-thirds; Ghostty right third on the assigned reference desktop | No |
+| Code Notes | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop | No |
+| Code Amp | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop | Yes |
+| Code Claude | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop | Yes |
+| Code Cursor | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop | Yes |
+| Code Codex | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop | Yes |
+
+Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
 
 The older Code/Code Balanced communication layouts include Slack. Focus Code uses the separate Code Browser/Code Notes and Code Amp/Claude/Cursor/Codex layouts. Applying an ordinary layout never quits a focus session.
 
