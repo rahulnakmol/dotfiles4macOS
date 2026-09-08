@@ -127,8 +127,10 @@ export function buildWorkflow(config, dockflow) {
     script: '/bin/zsh ./dispatch.zsh "$1" 2>&1 || true',
   }, 2, 650);
   const focusItems = config.focusSessions.map((session) => ({ title: `Focus Session: ${session.name}`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · ${session.durationMinutes} min in Session · Quits other regular apps`, arg: `focus:${session.id}` }));
+  const timerItems = config.sessionTimers.map((timer) => ({title:`Session Timer: ${timer.name}`,subtitle:'Start Session timer only · Keeps apps and layouts unchanged',arg:`timer:${timer.minutes}`}));
   const items = [
     ...focusItems,
+    ...timerItems,
     ...config.apps.map((app) => ({ title: `App Launcher: ${app.name}`, subtitle: `Hyper+${app.key.toUpperCase()} · ${app.optional ? 'Launch or focus when installed' : 'Launch or focus'}`, arg: `app:${app.id}` })),
     ...config.layouts.map((layout) => ({ title: `Window Layout: ${layout.name}`, subtitle: `${layout.description}${layout.launchApps ? ' · Opens apps' : ' · Open apps first'}`, arg: `layout:${layout.name}` })),
     ...config.windowActions.map((action) => ({ title: `Window Action: ${action.name}`, subtitle: `Hyper+${action.key} · ${action.description}`, arg: `window:${action.id}` })),
@@ -145,6 +147,7 @@ export function buildWorkflow(config, dockflow) {
   connect(dispatch, focusResult);
   // Sessions have their own path so failures are visible as notifications.
   connect(list('menu-focus', 'fs', focusItems, 'Switch focus session'), focusDispatch);
+  connect(list('menu-timers', 'ss', timerItems, 'Session Timer'), dispatch);
   connect(hotkey('menu-hotkey', 'Space', 49), 'menu');
   for (const mode of ['work', 'code', 'zen', 'default']) {
     const selected = config.layouts.filter((l) => l.mode === mode);
@@ -203,6 +206,16 @@ ${shortMenuTable}
 Type the short code to list its actions. Result names use **Category: Name**. For example, \`fs\` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
 
 Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+
+### Session timers
+
+Type \`ss\` to list standalone Session timers: 20- and 25-minute Pomodoro sessions,
+30 minutes, 45 minutes and 1 hour. Filter with \`ss 20\`, \`ss 25\`, \`ss 30\`,
+\`ss 45\` or \`ss 60\`, then press Return. These send a timer start request only:
+no apps are quit, no layouts or DockFlow profiles change. Session owns breathing,
+existing-timer prompts, completion and breaks; this does not create an automatic
+Pomodoro cycle. Session with Pro URL support must be installed. The 20/25-minute
+options use the intention **Pomodoro**; the others use **Focus**.
 
 ### Focus sessions
 
@@ -288,6 +301,11 @@ Owned source is in user.workflow.hyper within the Stow-backed Alfred preferences
 Created by **Rahul N Akmol**.
 `;
   const cases = [];
+  for (const timer of config.sessionTimers) {
+    if (!Number.isInteger(timer.minutes) || timer.minutes < 1 || timer.minutes > 1440) throw new Error('Invalid Session timer duration');
+    const url=`session:///start?intent=${encodeURIComponent(timer.intent)}&duration=${timer.minutes}`;
+    cases.push(`  ${quote(`timer:${timer.minutes}`)}) launch -g ${quote(url)} ;;`);
+  }
   for (const app of config.apps) cases.push(`  ${quote(`app:${app.id}`)}) launch -b ${quote(app.bundleId)} ;;`);
   for (const layout of config.layouts) {
     const profile = dockflow.objects.find((o) => o.uid === `${layout.mode}-open`);
@@ -314,7 +332,7 @@ ${cases.join('\n')}
   *) printf '%s\\n' 'Unknown Hyper action. Open Hyper+Space and choose an item.' >&2; exit 64 ;;
 esac
 `;
-  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.4.0', objects, connections, uidata }, script };
+  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.5.0', objects, connections, uidata }, script };
 }
 
 function main() {

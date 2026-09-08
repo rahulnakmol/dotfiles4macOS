@@ -319,3 +319,13 @@ For example: **Focus Session: Code + Amp** and **Focus Session: Code + Cursor**.
 Existing long menu keywords and direct commands remain available. Vendor workflows
 retain their own names and keywords. The generator maintains all three owned
 workflows; edit their config/source and regenerate the guide before committing.
+
+## Standalone Session timers
+
+Type `ss` to list **Session Timer: Name** choices: `ss 20` and `ss 25` for
+Pomodoro, `ss 30`, `ss 45`, or `ss 60` for one hour. Press Return to start.
+This is part of the owned Hyper workflow, also searchable under `hk`.
+It uses Session's URL API without closing apps, arranging windows or switching
+DockFlow. Session controls breathing, existing-timer prompts, breaks and completion;
+no automatic Pomodoro cycle is configured. Keep Session installed with Pro access.
+The presets live in `scripts/hyper-config.json` under `sessionTimers`.

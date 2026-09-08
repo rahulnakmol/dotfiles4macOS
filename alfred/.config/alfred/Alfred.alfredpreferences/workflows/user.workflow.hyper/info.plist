@@ -255,6 +255,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>menu-timers</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>menu-tools</key>
 		<array>
 			<dict>
@@ -416,7 +429,7 @@
 				<key>fixedorder</key>
 				<true/>
 				<key>items</key>
-				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
 				<key>keyword</key>
 				<string>hk</string>
 				<key>matchmode</key>
@@ -509,6 +522,37 @@
 			<string>alfred.workflow.input.listfilter</string>
 			<key>uid</key>
 			<string>menu-focus</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"}]</string>
+				<key>keyword</key>
+				<string>ss</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Session Timer</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-timers</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1084,7 +1128,7 @@
 				<key>fixedorder</key>
 				<true/>
 				<key>items</key>
-				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
 				<key>keyword</key>
 				<string>hyper</string>
 				<key>matchmode</key>
@@ -1247,6 +1291,7 @@ Type `work`, `code`, `zen` or `default` to narrow the menu. The selected layout 
 | --- | --- | --- |
 | hk | Hotkeys | hyper |
 | fs | Focus Session | focus |
+| ss | Session Timer | Existing direct commands |
 | al | App Launcher | Existing direct commands |
 | wa | Window Action | Existing direct commands |
 | wl | Window Layout | layouts |
@@ -1258,6 +1303,16 @@ Type `work`, `code`, `zen` or `default` to narrow the menu. The selected layout 
 Type the short code to list its actions. Result names use **Category: Name**. For example, `fs` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
 
 Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+
+### Session timers
+
+Type `ss` to list standalone Session timers: 20- and 25-minute Pomodoro sessions,
+30 minutes, 45 minutes and 1 hour. Filter with `ss 20`, `ss 25`, `ss 30`,
+`ss 45` or `ss 60`, then press Return. These send a timer start request only:
+no apps are quit, no layouts or DockFlow profiles change. Session owns breathing,
+existing-timer prompts, completion and breaks; this does not create an automatic
+Pomodoro cycle. Session with Pro URL support must be installed. The 20/25-minute
+options use the intention **Pomodoro**; the others use **Focus**.
 
 ### Focus sessions
 
@@ -1420,35 +1475,35 @@ Created by **Rahul N Akmol**.
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>930</integer>
+			<integer>1020</integer>
 		</dict>
 		<key>guide-hotkey</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1020</integer>
+			<integer>1110</integer>
 		</dict>
 		<key>meh-capture</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1830</integer>
+			<integer>1920</integer>
 		</dict>
 		<key>meh-layouts</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2010</integer>
+			<integer>2100</integer>
 		</dict>
 		<key>meh-tools</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1920</integer>
+			<integer>2010</integer>
 		</dict>
 		<key>menu</key>
 		<dict>
@@ -1462,42 +1517,42 @@ Created by **Rahul N Akmol**.
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2280</integer>
+			<integer>2370</integer>
 		</dict>
 		<key>menu-apps</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2100</integer>
+			<integer>2190</integer>
 		</dict>
 		<key>menu-capture</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1560</integer>
+			<integer>1650</integer>
 		</dict>
 		<key>menu-capture-alias</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2550</integer>
+			<integer>2640</integer>
 		</dict>
 		<key>menu-code</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>660</integer>
+			<integer>750</integer>
 		</dict>
 		<key>menu-default</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>840</integer>
+			<integer>930</integer>
 		</dict>
 		<key>menu-focus</key>
 		<dict>
@@ -1511,101 +1566,108 @@ Created by **Rahul N Akmol**.
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2370</integer>
+			<integer>2460</integer>
 		</dict>
 		<key>menu-hotkey</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>480</integer>
+			<integer>570</integer>
 		</dict>
 		<key>menu-layouts</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1740</integer>
+			<integer>1830</integer>
 		</dict>
 		<key>menu-layouts-alias</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2460</integer>
+			<integer>2550</integer>
+		</dict>
+		<key>menu-timers</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>480</integer>
 		</dict>
 		<key>menu-tools</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1650</integer>
+			<integer>1740</integer>
 		</dict>
 		<key>menu-tools-alias</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2640</integer>
+			<integer>2730</integer>
 		</dict>
 		<key>menu-windows</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>2190</integer>
+			<integer>2280</integer>
 		</dict>
 		<key>menu-work</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>570</integer>
+			<integer>660</integer>
 		</dict>
 		<key>menu-zen</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>750</integer>
+			<integer>840</integer>
 		</dict>
 		<key>next-space-argument</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1290</integer>
+			<integer>1380</integer>
 		</dict>
 		<key>next-space-hotkey</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1380</integer>
+			<integer>1470</integer>
 		</dict>
 		<key>previous-space-argument</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1110</integer>
+			<integer>1200</integer>
 		</dict>
 		<key>previous-space-hotkey</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1200</integer>
+			<integer>1290</integer>
 		</dict>
 		<key>show-tool</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>1470</integer>
+			<integer>1560</integer>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>1.4.0</string>
+	<string>1.5.0</string>
 </dict>
 </plist>

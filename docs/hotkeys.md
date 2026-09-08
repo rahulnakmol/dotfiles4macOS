@@ -10,6 +10,7 @@ Open **Hyper+/** for the searchable visual guide, or view [the standalone page](
 | --- | --- | --- |
 | hk | Hotkeys | hyper |
 | fs | Focus Session | focus |
+| ss | Session Timer | Direct commands unchanged |
 | al | App Launcher | Direct commands unchanged |
 | wa | Window Action | Direct commands unchanged |
 | wl | Window Layout | layouts |
@@ -19,6 +20,23 @@ Open **Hyper+/** for the searchable visual guide, or view [the standalone page](
 | gw | Google Workspace | Direct commands unchanged |
 
 Type a code by itself to list its actions, then type a name to filter. Titles use **Category: Name**, for example **Focus Session: Code + Amp**, **Window Layout: Work**, and **DockFlow Profile: Code**. Long menu aliases and direct Google/DockFlow keywords still work. The convention applies to dotfiles-owned workflows; third-party workflows retain their vendor names and configurable keywords.
+
+## Standalone Session timers
+
+Type **ss** in Alfred to list timers. Press Return after selecting one.
+
+| Alfred filter | Timer | Intention |
+| --- | --- | --- |
+| ss 20 | Pomodoro · 20 minutes | Pomodoro |
+| ss 25 | Pomodoro · 25 minutes | Pomodoro |
+| ss 30 | 30 minutes | Focus |
+| ss 45 | 45 minutes | Focus |
+| ss 60 | 1 hour (60 minutes) | Focus |
+
+These start only a Session timer. They do not quit apps, change DockFlow or arrange
+windows. Session controls existing-timer prompts, breathing, completion and breaks;
+20/25-minute Pomodoro options do not configure an automatic work/break cycle.
+Requires an installed Session edition with Pro URL automation.
 
 ## Focus sessions
 
@@ -145,6 +163,7 @@ DockFlow numbers change the Dock profile only. They do not quit apps or switch f
 | --- | --- |
 | hk | Hotkeys menu |
 | fs | Focus Session menu |
+| ss | Session Timer menu |
 | al | App Launcher menu |
 | wa | Window Action menu |
 | wl | Window Layout menu |

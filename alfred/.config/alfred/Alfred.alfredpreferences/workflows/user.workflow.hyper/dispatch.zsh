@@ -10,6 +10,11 @@ launch() {
   fi
 }
 case "${1:-}" in
+  'timer:20') launch -g 'session:///start?intent=Pomodoro&duration=20' ;;
+  'timer:25') launch -g 'session:///start?intent=Pomodoro&duration=25' ;;
+  'timer:30') launch -g 'session:///start?intent=Focus&duration=30' ;;
+  'timer:45') launch -g 'session:///start?intent=Focus&duration=45' ;;
+  'timer:60') launch -g 'session:///start?intent=Focus&duration=60' ;;
   'app:chrome') launch -b 'com.google.Chrome' ;;
   'app:ghostty') launch -b 'com.mitchellh.ghostty' ;;
   'app:finder') launch -b 'com.apple.finder' ;;

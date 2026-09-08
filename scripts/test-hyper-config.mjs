@@ -171,7 +171,7 @@ test('native workflow graph is connected and each hotkey reaches a valid action'
     assert.ok(objects.has(edges[0].destinationuid));
   }
   assert.equal(data.connections['menu-hotkey'][0].destinationuid, 'menu');
-  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hk','fs','work','code','zen','default','cs','st','wl','al','wa','hyper','focus','layouts','capture','tools']);
+  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hk','fs','ss','work','code','zen','default','cs','st','wl','al','wa','hyper','focus','layouts','capture','tools']);
   assert.equal(data.createdby, 'Rahul N Akmol');
 });
 
@@ -258,4 +258,24 @@ test('category-menu generation is repeatable and retains direct keyword customiz
   assert.equal(item.title,'Google Workspace: New Document');
   assert.match(item.subtitle,/^newdoc/);
   assert.equal(item.arg,'https://docs.new');
+});
+
+
+test('standalone Session presets dispatch only one timer URL with the requested duration', () => {
+  assert.deepEqual(config.sessionTimers.map((timer) => timer.minutes), [20,25,30,45,60]);
+  const menu=workflow.plist.objects.find((o)=>o.uid==='menu-timers');
+  assert.equal(menu.config.keyword,'ss');
+  const items=JSON.parse(menu.config.items);
+  assert.equal(items.length,5);
+  assert.ok(items.every((item)=>item.title.startsWith('Session Timer: ')));
+  const script=root+wf+'user.workflow.hyper/dispatch.zsh';
+  for (const minutes of [20,25,30,45,60]) {
+    const result=spawnSync('zsh',[script,`timer:${minutes}`],{env:{...process.env,HYPER_DRY_RUN:'1'},encoding:'utf8'});
+    assert.equal(result.status,0);
+    const intent=[20,25].includes(minutes)?'Pomodoro':'Focus';
+    assert.equal(result.stdout,`-g\nsession:///start?intent=${intent}&duration=${minutes}\n`);
+  }
+  for (const argument of ['timer:0','timer:26','timer:60; echo injected']) {
+    assert.equal(spawnSync('zsh',[script,argument],{env:{...process.env,HYPER_DRY_RUN:'1'}}).status,64);
+  }
 });

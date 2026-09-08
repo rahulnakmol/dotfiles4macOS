@@ -765,6 +765,11 @@
       "alias": "focus"
     },
     {
+      "code": "ss",
+      "name": "Session Timer",
+      "alias": null
+    },
+    {
       "code": "al",
       "name": "App Launcher",
       "alias": null
@@ -798,6 +803,33 @@
       "code": "gw",
       "name": "Google Workspace",
       "alias": null
+    }
+  ],
+  "sessionTimers": [
+    {
+      "minutes": 20,
+      "name": "Pomodoro · 20 minutes",
+      "intent": "Pomodoro"
+    },
+    {
+      "minutes": 25,
+      "name": "Pomodoro · 25 minutes",
+      "intent": "Pomodoro"
+    },
+    {
+      "minutes": 30,
+      "name": "30 minutes",
+      "intent": "Focus"
+    },
+    {
+      "minutes": 45,
+      "name": "45 minutes",
+      "intent": "Focus"
+    },
+    {
+      "minutes": 60,
+      "name": "1 hour (60 minutes)",
+      "intent": "Focus"
     }
   ]
 }
