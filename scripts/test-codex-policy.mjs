@@ -7,6 +7,44 @@ import { test } from 'node:test';
 import { codexArtifacts } from './codex-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+test('Codex inherits ordinary defaults and reserves Hyper only for voice and dictation', () => {
+  const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
+  const active = bindings.filter((b) => b.key !== null);
+  assert.deepEqual(new Set(active.map((b) => b.command)), new Set(['composer.startVoiceMode', 'composer.startDictation']));
+  for (const [command, defaultKey, hyperKey] of [
+    ['composer.startVoiceMode', 'Ctrl+Shift+V', 'Command+Control+Alt+Shift+V'],
+    ['composer.startDictation', 'Ctrl+Shift+D', 'Command+Control+Alt+Shift+M'],
+  ]) {
+    assert.deepEqual(new Set(active.filter((b) => b.command === command).map((b) => b.key)), new Set([defaultKey, hyperKey]));
+  }
+  // Omitting ordinary commands restores defaults; null would disable them.
+  assert.ok(bindings.filter((b) => b.key === null).every((b) => ['globalDictationHold', 'globalDictationToggle'].includes(b.command)));
+  assert.equal(active.length, 4);
+});
+
+test('desktop keybindings have valid entries without conflicting accelerators', () => {
+  const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
+  assert.ok(Array.isArray(bindings));
+  const accelerators = new Set();
+  const commands = new Map();
+  const aliases = {cmd: 'meta', command: 'meta', cmdorctrl: 'meta', control: 'ctrl', option: 'alt'};
+  for (const binding of bindings) {
+    assert.deepEqual(Object.keys(binding).sort(), ['command', 'key']);
+    assert.equal(typeof binding.command, 'string');
+    assert.ok(binding.command.length > 0);
+    assert.ok(binding.key === null || (typeof binding.key === 'string' && binding.key.trim().length > 0));
+    const keys = commands.get(binding.command) ?? [];
+    keys.push(binding.key);
+    commands.set(binding.command, keys);
+    if (binding.key === null) continue;
+    const canonical = binding.key.toLowerCase().split('+').map(key => aliases[key] ?? key).sort().join('+');
+    assert.ok(!accelerators.has(canonical), `Duplicate accelerator: ${binding.key}`);
+    accelerators.add(canonical);
+  }
+  for (const [command, keys] of commands) {
+    assert.ok(!keys.includes(null) || keys.length === 1, `Disabled command also has bindings: ${command}`);
+  }
+});
 test('a guidance change reaches both clients and keeps its scope', () => {
   const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'codex-policy-'));
   try {

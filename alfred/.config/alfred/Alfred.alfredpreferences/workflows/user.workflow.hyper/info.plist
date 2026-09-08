@@ -1,0 +1,1673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.rahulnakmol.hyper</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>dispatch</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>focus-result</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>focus-dispatch</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>focus-result</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>guide-argument</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>guide-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>guide-argument</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>meh-capture</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>menu-capture</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>meh-layouts</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>menu-layouts</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>meh-tools</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>menu-tools</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-alias</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-apps</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-capture</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-capture-alias</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-code</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-default</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-focus</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>focus-dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-focus-alias</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>focus-dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>menu</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-layouts</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-layouts-alias</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-timers</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-tools</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>show-tool</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-tools-alias</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>show-tool</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-windows</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-work</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>menu-zen</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>next-space-argument</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>next-space-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>next-space-argument</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>previous-space-argument</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>dispatch</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>previous-space-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>previous-space-argument</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Rahul N Akmol</string>
+	<key>description</key>
+	<string>Keyboard-first apps, desktops and window layouts</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Hyper</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>/bin/zsh ./dispatch.zsh "$1" 2&gt;&amp;1 || true</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>dispatch</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
+				<key>keyword</key>
+				<string>hk</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Hyper — apps, layouts and windows</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>/bin/zsh ./focus-session.zsh "$1" 2&gt;&amp;1 || true</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>focus-dispatch</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Hyper</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>focus-result</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"}]</string>
+				<key>keyword</key>
+				<string>fs</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Switch focus session</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-focus</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"}]</string>
+				<key>keyword</key>
+				<string>ss</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Session Timer</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-timers</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>49</integer>
+				<key>hotmod</key>
+				<integer>1966080</integer>
+				<key>hotstring</key>
+				<string>Space</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>menu-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"}]</string>
+				<key>keyword</key>
+				<string>work</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Work layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-work</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"}]</string>
+				<key>keyword</key>
+				<string>code</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Code layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-code</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"}]</string>
+				<key>keyword</key>
+				<string>zen</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Zen layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-zen</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"}]</string>
+				<key>keyword</key>
+				<string>default</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Default layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-default</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>guide</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>guide-argument</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>44</integer>
+				<key>hotmod</key>
+				<integer>1966080</integer>
+				<key>hotstring</key>
+				<string>/</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>guide-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>window:prev-space</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>previous-space-argument</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>27</integer>
+				<key>hotmod</key>
+				<integer>1966080</integer>
+				<key>hotstring</key>
+				<string>−</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>previous-space-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>window:next-space</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>next-space-argument</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>24</integer>
+				<key>hotmod</key>
+				<integer>1966080</integer>
+				<key>hotstring</key>
+				<string>=</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>next-space-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>leftcursor</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.showalfred</string>
+			<key>uid</key>
+			<string>show-tool</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Capture: All-in-one capture","subtitle":"CleanShot X · choose before capture","arg":"capture:all"},{"title":"Capture: Capture area","subtitle":"CleanShot X · choose before capture","arg":"capture:area"},{"title":"Capture: Capture window","subtitle":"CleanShot X · choose before capture","arg":"capture:window"},{"title":"Capture: Record screen","subtitle":"CleanShot X · choose before capture","arg":"capture:record"},{"title":"Capture: Scrolling capture","subtitle":"CleanShot X · choose before capture","arg":"capture:scroll"},{"title":"Capture: Capture text (OCR)","subtitle":"CleanShot X · choose before capture","arg":"capture:text"},{"title":"Capture: Annotate an image file","subtitle":"CleanShot X · choose before capture","arg":"capture:annotate"},{"title":"Capture: Capture history","subtitle":"CleanShot X · choose before capture","arg":"capture:history"},{"title":"Capture: CleanShot settings","subtitle":"CleanShot X · choose before capture","arg":"capture:settings"}]</string>
+				<key>keyword</key>
+				<string>cs</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>CleanShot X capture tools</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-capture</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"System Tool: Audio output","subtitle":"Open the installed workflow menu","arg":"out "},{"title":"System Tool: Audio input","subtitle":"Open the installed workflow menu","arg":"in "},{"title":"System Tool: New timer","subtitle":"Open the installed workflow menu","arg":"timer "},{"title":"System Tool: Running timers","subtitle":"Open the installed workflow menu","arg":"timers"},{"title":"System Tool: Keep awake — duration and status","subtitle":"Open the installed workflow menu","arg":"cfs "},{"title":"System Tool: Activity and system tools","subtitle":"Open the installed workflow menu","arg":"atop"},{"title":"System Tool: macOS System Settings","subtitle":"Open Alfred search","arg":"System Settings"},{"title":"System Tool: Alfred Preferences","subtitle":"Open Alfred search","arg":"preferences"}]</string>
+				<key>keyword</key>
+				<string>st</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>System tools</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-tools</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"}]</string>
+				<key>keyword</key>
+				<string>wl</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Window layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-layouts</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>8</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>C</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>meh-capture</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>49</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>Space</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>meh-tools</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>36</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>Return</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>meh-layouts</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"}]</string>
+				<key>keyword</key>
+				<string>al</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>App Launcher</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-apps</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"}]</string>
+				<key>keyword</key>
+				<string>wa</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Window Action</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-windows</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"},{"title":"Session Timer: Pomodoro · 20 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:20"},{"title":"Session Timer: Pomodoro · 25 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:25"},{"title":"Session Timer: 30 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:30"},{"title":"Session Timer: 45 minutes","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:45"},{"title":"Session Timer: 1 hour (60 minutes)","subtitle":"Start Session timer only · Keeps apps and layouts unchanged","arg":"timer:60"},{"title":"App Launcher: Google Chrome","subtitle":"Hyper+D · Launch or focus","arg":"app:chrome"},{"title":"App Launcher: Ghostty","subtitle":"Hyper+H · Launch or focus","arg":"app:ghostty"},{"title":"App Launcher: Finder","subtitle":"Hyper+F · Launch or focus","arg":"app:finder"},{"title":"App Launcher: ChatGPT / Codex","subtitle":"Hyper+J · Launch or focus","arg":"app:codex"},{"title":"App Launcher: Cursor","subtitle":"Hyper+K · Launch or focus","arg":"app:cursor"},{"title":"App Launcher: Claude","subtitle":"Hyper+L · Launch or focus","arg":"app:claude"},{"title":"App Launcher: Amp","subtitle":"Hyper+A · Launch or focus","arg":"app:amp"},{"title":"App Launcher: Obsidian","subtitle":"Hyper+N · Launch or focus","arg":"app:obsidian"},{"title":"App Launcher: Microsoft Edge","subtitle":"Hyper+E · Launch or focus","arg":"app:edge"},{"title":"App Launcher: Microsoft Teams","subtitle":"Hyper+I · Launch or focus","arg":"app:teams"},{"title":"App Launcher: Slack","subtitle":"Hyper+S · Launch or focus","arg":"app:slack"},{"title":"App Launcher: Microsoft Word","subtitle":"Hyper+W · Launch or focus","arg":"app:word"},{"title":"App Launcher: Microsoft Excel","subtitle":"Hyper+O · Launch or focus","arg":"app:excel"},{"title":"App Launcher: Microsoft PowerPoint","subtitle":"Hyper+P · Launch or focus","arg":"app:powerpoint"},{"title":"App Launcher: Safari","subtitle":"Hyper+R · Launch or focus","arg":"app:safari"},{"title":"App Launcher: Final Cut Pro","subtitle":"Hyper+Z · Launch or focus when installed","arg":"app:finalcut"},{"title":"App Launcher: Motion","subtitle":"Hyper+X · Launch or focus when installed","arg":"app:motion"},{"title":"App Launcher: Compressor","subtitle":"Hyper+C · Launch or focus when installed","arg":"app:compressor"},{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"},{"title":"Window Action: Maximize","subtitle":"Hyper+Return · Fill the available desktop; stay out of native fullscreen","arg":"window:maximize"},{"title":"Window Action: Restore window","subtitle":"Hyper+Backspace · Undo the last Rectangle size and position","arg":"window:restore"},{"title":"Window Action: Left half","subtitle":"Hyper+, · Fit the left half","arg":"window:left-half"},{"title":"Window Action: Right half","subtitle":"Hyper+. · Fit the right half","arg":"window:right-half"},{"title":"Window Action: Left third","subtitle":"Hyper+[ · Fit the left third","arg":"window:first-third"},{"title":"Window Action: Centre third","subtitle":"Hyper+] · Fit the centre third","arg":"window:center-third"},{"title":"Window Action: Right third","subtitle":"Hyper+\\ · Fit the right third","arg":"window:last-third"},{"title":"Window Action: Left two-thirds","subtitle":"Hyper+; · Fit the left two-thirds","arg":"window:first-two-thirds"},{"title":"Window Action: Right two-thirds","subtitle":"Hyper+' · Fit the right two-thirds","arg":"window:last-two-thirds"},{"title":"Window Action: Move window to previous desktop","subtitle":"Hyper+− · Rectangle title-bar drag; requires Control+Left enabled","arg":"window:prev-space"},{"title":"Window Action: Move window to next desktop","subtitle":"Hyper+= · Rectangle title-bar drag; requires Control+Right enabled","arg":"window:next-space"},{"title":"Window Action: Move window to previous display","subtitle":"Hyper+← · Move to the previous connected monitor","arg":"window:previous-display"},{"title":"Window Action: Move window to next display","subtitle":"Hyper+→ · Move to the next connected monitor","arg":"window:next-display"},{"title":"Hotkeys: Guide","subtitle":"Keyboard map, desktops, examples and new-Mac setup","arg":"guide"}]</string>
+				<key>keyword</key>
+				<string>hyper</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Hyper — apps, layouts and windows</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-alias</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Focus Session: Work","subtitle":"Microsoft Edge + Microsoft Teams · 30 min in Session · Quits other regular apps","arg":"focus:work"},{"title":"Focus Session: Code + Amp","subtitle":"Google Chrome + Ghostty + Amp · 45 min in Session · Quits other regular apps","arg":"focus:amp"},{"title":"Focus Session: Code + Claude","subtitle":"Obsidian + Ghostty + Claude · 45 min in Session · Quits other regular apps","arg":"focus:claude"},{"title":"Focus Session: Code + Cursor","subtitle":"Google Chrome + Ghostty + Cursor · 45 min in Session · Quits other regular apps","arg":"focus:cursor"},{"title":"Focus Session: Code + Codex","subtitle":"Google Chrome + Ghostty + ChatGPT / Codex · 45 min in Session · Quits other regular apps","arg":"focus:codex"}]</string>
+				<key>keyword</key>
+				<string>focus</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Switch focus session</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-focus-alias</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Window Layout: Work","subtitle":"Edge left two-thirds; Teams right third · Opens apps","arg":"layout:Work"},{"title":"Window Layout: Work Balanced","subtitle":"Edge and Teams in equal halves · Opens apps","arg":"layout:Work Balanced"},{"title":"Window Layout: Office","subtitle":"Word and Excel in equal halves · Opens apps","arg":"layout:Office"},{"title":"Window Layout: Present","subtitle":"PowerPoint maximized · Opens apps","arg":"layout:Present"},{"title":"Window Layout: Code","subtitle":"Chrome left two-thirds; Slack right third · Opens apps","arg":"layout:Code"},{"title":"Window Layout: Code Balanced","subtitle":"Chrome and Slack in equal halves · Opens apps","arg":"layout:Code Balanced"},{"title":"Window Layout: Terminal","subtitle":"Ghostty maximized · Opens apps","arg":"layout:Terminal"},{"title":"Window Layout: Agents","subtitle":"Maximize open Codex, Claude, Cursor and Amp windows · Open apps first","arg":"layout:Agents"},{"title":"Window Layout: Zen","subtitle":"Maximize open Amp, Cursor, Ghostty and Obsidian windows · Open apps first","arg":"layout:Zen"},{"title":"Window Layout: Default","subtitle":"Maximize the current app window · Open apps first","arg":"layout:Default"},{"title":"Window Layout: Code Browser","subtitle":"Chrome left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Browser"},{"title":"Window Layout: Code Notes","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop · Open apps first","arg":"layout:Code Notes"},{"title":"Window Layout: Code Amp","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Amp"},{"title":"Window Layout: Code Claude","subtitle":"Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Claude"},{"title":"Window Layout: Code Cursor","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Cursor"},{"title":"Window Layout: Code Codex","subtitle":"Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop · Opens apps","arg":"layout:Code Codex"}]</string>
+				<key>keyword</key>
+				<string>layouts</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Window layouts</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-layouts-alias</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Capture: All-in-one capture","subtitle":"CleanShot X · choose before capture","arg":"capture:all"},{"title":"Capture: Capture area","subtitle":"CleanShot X · choose before capture","arg":"capture:area"},{"title":"Capture: Capture window","subtitle":"CleanShot X · choose before capture","arg":"capture:window"},{"title":"Capture: Record screen","subtitle":"CleanShot X · choose before capture","arg":"capture:record"},{"title":"Capture: Scrolling capture","subtitle":"CleanShot X · choose before capture","arg":"capture:scroll"},{"title":"Capture: Capture text (OCR)","subtitle":"CleanShot X · choose before capture","arg":"capture:text"},{"title":"Capture: Annotate an image file","subtitle":"CleanShot X · choose before capture","arg":"capture:annotate"},{"title":"Capture: Capture history","subtitle":"CleanShot X · choose before capture","arg":"capture:history"},{"title":"Capture: CleanShot settings","subtitle":"CleanShot X · choose before capture","arg":"capture:settings"}]</string>
+				<key>keyword</key>
+				<string>capture</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>CleanShot X capture tools</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-capture-alias</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"System Tool: Audio output","subtitle":"Open the installed workflow menu","arg":"out "},{"title":"System Tool: Audio input","subtitle":"Open the installed workflow menu","arg":"in "},{"title":"System Tool: New timer","subtitle":"Open the installed workflow menu","arg":"timer "},{"title":"System Tool: Running timers","subtitle":"Open the installed workflow menu","arg":"timers"},{"title":"System Tool: Keep awake — duration and status","subtitle":"Open the installed workflow menu","arg":"cfs "},{"title":"System Tool: Activity and system tools","subtitle":"Open the installed workflow menu","arg":"atop"},{"title":"System Tool: macOS System Settings","subtitle":"Open Alfred search","arg":"System Settings"},{"title":"System Tool: Alfred Preferences","subtitle":"Open Alfred search","arg":"preferences"}]</string>
+				<key>keyword</key>
+				<string>tools</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>System tools</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>menu-tools-alias</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string># Hyper | Alfred Workflow
+
+A keyboard-first macOS setup for Work, Code and Zen. Hold Caps Lock for **Hyper** (Control+Option+Command+Shift); tap Caps Lock for Escape. Hold Right Option for **Meh** (Control+Option+Shift) and DockFlow numbers. Left Option stays normal. Karabiner's single profile is **Hyperland**.
+
+## Usage
+
+Press **Hyper+Space** or type `hyper` in Alfred, then search for an app, layout or window action. Press Return to run it. **Hyper+/** opens the illustrated guide. Cmd+Space still opens normal Alfred search.
+
+Type `work`, `code`, `zen` or `default` to narrow the menu. The selected layout first switches the corresponding DockFlow profile when one is specified, then asks Rectangle Pro to apply its saved layout. These are desktop layouts, not native fullscreen Spaces. No apps are quit and no agent commands are sent.
+
+### Short menus
+
+| Code | Category | Existing alias |
+| --- | --- | --- |
+| hk | Hotkeys | hyper |
+| fs | Focus Session | focus |
+| ss | Session Timer | Existing direct commands |
+| al | App Launcher | Existing direct commands |
+| wa | Window Action | Existing direct commands |
+| wl | Window Layout | layouts |
+| cs | Capture | capture |
+| st | System Tool | tools |
+| dp | DockFlow Profile | Existing direct commands |
+| gw | Google Workspace | Existing direct commands |
+
+Type the short code to list its actions. Result names use **Category: Name**. For example, `fs` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
+
+Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+
+### Session timers
+
+Type `ss` to list standalone Session timers: 20- and 25-minute Pomodoro sessions,
+30 minutes, 45 minutes and 1 hour. Filter with `ss 20`, `ss 25`, `ss 30`,
+`ss 45` or `ss 60`, then press Return. These send a timer start request only:
+no apps are quit, no layouts or DockFlow profiles change. Session owns breathing,
+existing-timer prompts, completion and breaks; this does not create an automatic
+Pomodoro cycle. Session with Pro URL support must be installed. The 20/25-minute
+options use the intention **Pomodoro**; the others use **Focus**.
+
+### Focus sessions
+
+Type `fs` in Alfred or search `Focus Session` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code + Amp opens Chrome, Ghostty and Amp. Code + Claude opens Obsidian, Ghostty and Claude. Code + Cursor opens Chrome, Ghostty and Cursor. Code + Codex opens Chrome, Ghostty and Codex.
+
+After the apps and Rectangle layouts are ready, Session receives a timer request: **Work 30 minutes**, **all Code variations 45 minutes**. Session (Setapp, direct or App Store edition) must be installed; its URL API requires Pro access. Each selection requests a timer, including reselecting the same session. Session controls any running-timer prompt, breathing preparation and end-of-session behavior. The workflow does not silently finish or abandon timers, quit apps when time expires, or confirm that a delivered URL actually started counting down.
+
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+
+The first run compiles a small native helper using Apple Command Line Tools; no apps are installed. Use the existing four macOS desktops and app assignments. The reference/terminal pair is tiled left two-thirds/right third on its assigned desktop; the coding app is maximized on its assigned desktop. Rectangle applies sizes but does not create or assign numbered Spaces. Reimport its snapshot after this update. These focus layouts do not open Slack. Existing layout commands and DockFlow number keys remain layout/profile actions and do not quit apps.
+
+### Launch or focus apps
+
+| Hyper + | App |
+| --- | --- |
+| D | Google Chrome |
+| H | Ghostty |
+| F | Finder |
+| J | ChatGPT / Codex |
+| K | Cursor |
+| L | Claude |
+| A | Amp |
+| N | Obsidian |
+| E | Microsoft Edge |
+| I | Microsoft Teams |
+| S | Slack |
+| W | Microsoft Word |
+| O | Microsoft Excel |
+| P | Microsoft PowerPoint |
+| R | Safari |
+| Z | Final Cut Pro |
+| X | Motion |
+| C | Compressor |
+
+Each app has exactly one direct Hyper shortcut, stable across Work, Code and Zen. A/S/D/F holds Amp, Slack, Chrome and Finder; H/J/K/L holds Ghostty, ChatGPT/Codex, Cursor and Claude. W/E and I/O/P provide Word/Edge and Teams/Excel/PowerPoint. R is Safari and N is Obsidian notes. Media lives on Z/X/C: Final Cut Pro (edit), Motion (animate), Compressor (export). These three keys work where the apps are installed; this setup does not install them. Hyper+Tab returns to the previous app; Hyper+backtick cycles an app's windows.
+
+### Layouts
+
+| Layout | Arrangement | Launch closed apps |
+| --- | --- | --- |
+| Work | Edge left two-thirds; Teams right third | Yes |
+| Work Balanced | Edge and Teams in equal halves | Yes |
+| Office | Word and Excel in equal halves | Yes |
+| Present | PowerPoint maximized | Yes |
+| Code | Chrome left two-thirds; Slack right third | Yes |
+| Code Balanced | Chrome and Slack in equal halves | Yes |
+| Terminal | Ghostty maximized | Yes |
+| Agents | Maximize open Codex, Claude, Cursor and Amp windows | No |
+| Zen | Maximize open Amp, Cursor, Ghostty and Obsidian windows | No |
+| Default | Maximize the current app window | No |
+| Code Browser | Chrome left two-thirds; Ghostty right third on the assigned reference desktop | No |
+| Code Notes | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop | No |
+| Code Amp | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop | Yes |
+| Code Claude | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop | Yes |
+| Code Cursor | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop | Yes |
+| Code Codex | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop | Yes |
+
+Agents and Zen resize apps already open: choose Amp or Cursor using its app key first. Layouts match one normal window per app. Multiple documents, multiple browser windows and native fullscreen windows may need manual placement. On small displays, choose a Balanced layout if the app's minimum width prevents thirds.
+
+### Navigation and window controls
+
+Hyper+1…9 switches to Desktop 1…9; Hyper+0 selects Desktop 10. Create the desktop first in Mission Control; a number shortcut does not create a missing Space. Native Control+Left/Right switches adjacent desktops; Hyper brackets belong to window thirds. Hyper+− / = moves the current window to the previous/next desktop using Rectangle's title-bar drag. Hyper+Up opens Mission Control; Hyper+Down shows the current app's windows. Control+arrow Mission Control shortcuts must remain enabled.
+
+Hyper+Return maximizes; Hyper+Backspace restores. Hyper+, / . uses halves. Hyper+left bracket / right bracket / backslash uses left/centre/right thirds; Hyper+; / ' uses left/right two-thirds. Hyper+Left/Right moves the window to the previous/next display. Maximize keeps the menu bar and normal Space rather than creating a native fullscreen Space.
+
+Meh+number selects DockFlow: 0 Default, 1 Work, 2 Code, 3 Author, 4 Create, 5 Video, 9 Zen. In Codex, Hyper+V toggles voice chat and Hyper+M starts dictation. All other Codex actions use their defaults. These two Hyper keys are app-only; focus Codex with Hyper+J first.
+
+## Meh actions
+
+| Meh + | Action |
+| --- | --- |
+| A | Universal Actions |
+| V | Clipboard history |
+| S | Snippets |
+| C | CleanShot X capture menu |
+| Space | System tools menu |
+| Return | Layout chooser |
+
+Meh+A acts on the selected text, URL or file using Alfred Universal Actions. Meh+V searches text clipboard history (24 hours); password-app and concealed-data exclusions remain enabled. Meh+S searches your snippets; personal snippets and clipboard data are not stored in Git.
+
+Meh+C or keyword `capture` opens CleanShot X tools. Select an action explicitly; no screen capture or recording starts merely by opening the menu. Your installed Setapp or standalone edition handles the URL. This setup does not upload captures or change CleanShot's own shortcuts.
+
+Meh+Space or `tools` opens Audio Switcher, Timer, Caffeine Dose and atop menus by their configured default keywords. If you customize vendor keywords, update scripts/hyper-config.json. Meh+Return or `layouts` shows only window layouts. These commands preserve Meh's DockFlow numbers and the approved Hyper map.
+
+## Native macOS base
+
+| Shortcut | Action |
+| --- | --- |
+| Cmd+Tab / Cmd+` | Switch apps / windows within an app |
+| Cmd+W / Cmd+Q | Close window / quit app |
+| Cmd+C / Cmd+X / Cmd+V | Copy / cut / paste |
+| Cmd+Z / Cmd+Shift+Z | Undo / redo |
+| Ctrl+Cmd+F | Native fullscreen, where supported |
+| Cmd+Shift+3 / 4 / 5 | Capture keys: use your CleanShot X assignments; verify in CleanShot settings |
+| Ctrl+Cmd+Q | Lock screen |
+| Fn+C / Fn+N | Control Center / Notification Center |
+| Ctrl+Cmd+Space | Emoji and symbols |
+| Ctrl+F2 (add Fn if needed) | Navigate menu bar |
+| Option+Shift+Volume / Brightness | Fine volume / brightness adjustments |
+| Finder: Space / Cmd+Shift+G | Quick Look / Go to Folder |
+| Ctrl+Left / Right | Previous / next desktop |
+| Cmd+Space | Alfred launcher |
+
+Native shortcuts depend on macOS version, keyboard and app support. CleanShot X owns capture in this setup; the native screenshot toolbar is a fallback only. Open CleanShot settings to verify its Cmd+Shift+3/4/5 assignments. Cmd+Space belongs to Alfred. Disable Spotlight’s Show Spotlight Search shortcut and clear Raycast’s launcher binding on each Mac before using it.
+
+## Examples
+
+- Work: Meh+1, then Hyper+1 to visit Desktop 1, open Hyper+Space, type Work, choose Work or Work Balanced. Use another desktop for Office or Present.
+- Code: Meh+2, then Hyper+1 to visit Desktop 1, apply Code on the communication desktop. Move to another desktop and apply Terminal. Place open Codex/Claude/Cursor/Amp windows on a third desktop and apply Agents.
+- Zen: Meh+9, open your chosen editor with Hyper+A or Hyper+K, Ghostty with Hyper+H and Obsidian with Hyper+N. Place them on the same desktop, then apply Zen. Hyper+Tab switches between the two latest apps.
+- Restore a misplaced window: Hyper+Return to maximize, or Hyper+Backspace to restore its previous Rectangle geometry.
+
+## Setup
+
+Run bash scripts/bootstrap-hyper.sh plan, then apply, then check. Use rollback with the printed backup directory to undo only that run's managed preference and link changes. Follow the generated per-Mac checklist for activation, permissions, native imports, vendor workflows and physical/login checks.
+
+Install Alfred Powerpack, Karabiner Elements and Rectangle Pro through Homebrew. Stow alfred, karabiner and rectangle-pro. Select the Hyperland profile and import RectangleProConfig.json. Choose the Stow-backed Alfred preferences folder and enable startup. Complete each app's macOS permissions and license activation directly on each Mac.
+
+Create ordinary desktops in Mission Control with its + button (use four). Run bash scripts/setup-hyper-macos.sh apply to enable Control+Option+1…9/0 and turn off automatic Space rearrangement. Log out and back in after command-line preference changes. The supported workflow is to visit each desktop and apply its layout; this stack cannot reliably reconstruct every window's numbered Space in one command. This Mac already has four desktops and app assignments. Preserve them. On a new Mac, recreate those assignments with Dock &gt; Options &gt; Assign To &gt; This Desktop.
+
+## Customisation
+
+Edit scripts/hyper-config.json in dotfiles, then run node scripts/build-hyper-config.mjs. Reimport the Rectangle snapshot after a layout or shortcut change. App bundle IDs make launches independent of the current Mac's username or app filename. Hyper numbers belong to desktops; Meh numbers belong to DockFlow. New global keys must avoid Rectangle fractions and Codex's app shortcuts.
+
+## Troubleshooting
+
+If Hyper stops working, check Karabiner's selected profile and permissions. If the menu is absent, check Alfred is running with this preferences bundle. If a layout does nothing, check Rectangle is running, activated and has Accessibility, and that the snapshot was imported. A third may overlap when an app enforces a larger minimum width; try Balanced or maximize. A fullscreen window must leave fullscreen before ordinary tiling. Desktop move actions depend on a draggable title bar and macOS Space-switch shortcuts.
+
+## Saved configuration
+
+Owned source is in user.workflow.hyper within the Stow-backed Alfred preferences bundle, with an explicit Git allowlist. Karabiner config is live; Rectangle config is an import snapshot. License, authentication, personal workflow variables, document titles and macOS Space IDs are excluded. Transfer DockFlow presets through its private backup/import flow and verify integration URLs on the second Mac. Commit/push reviewed source to share it; physical storage in dotfiles alone is not remote backup.
+
+Created by **Rahul N Akmol**.
+</string>
+	<key>uidata</key>
+	<dict>
+		<key>dispatch</key>
+		<dict>
+			<key>xpos</key>
+			<integer>650</integer>
+			<key>ypos</key>
+			<integer>30</integer>
+		</dict>
+		<key>focus-dispatch</key>
+		<dict>
+			<key>xpos</key>
+			<integer>650</integer>
+			<key>ypos</key>
+			<integer>210</integer>
+		</dict>
+		<key>focus-result</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>300</integer>
+		</dict>
+		<key>guide-argument</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1020</integer>
+		</dict>
+		<key>guide-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1110</integer>
+		</dict>
+		<key>meh-capture</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1920</integer>
+		</dict>
+		<key>meh-layouts</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2100</integer>
+		</dict>
+		<key>meh-tools</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2010</integer>
+		</dict>
+		<key>menu</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+		<key>menu-alias</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2370</integer>
+		</dict>
+		<key>menu-apps</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2190</integer>
+		</dict>
+		<key>menu-capture</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1650</integer>
+		</dict>
+		<key>menu-capture-alias</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2640</integer>
+		</dict>
+		<key>menu-code</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>750</integer>
+		</dict>
+		<key>menu-default</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>930</integer>
+		</dict>
+		<key>menu-focus</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+		<key>menu-focus-alias</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2460</integer>
+		</dict>
+		<key>menu-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>570</integer>
+		</dict>
+		<key>menu-layouts</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1830</integer>
+		</dict>
+		<key>menu-layouts-alias</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2550</integer>
+		</dict>
+		<key>menu-timers</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>480</integer>
+		</dict>
+		<key>menu-tools</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1740</integer>
+		</dict>
+		<key>menu-tools-alias</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2730</integer>
+		</dict>
+		<key>menu-windows</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>2280</integer>
+		</dict>
+		<key>menu-work</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>660</integer>
+		</dict>
+		<key>menu-zen</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>840</integer>
+		</dict>
+		<key>next-space-argument</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1380</integer>
+		</dict>
+		<key>next-space-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1470</integer>
+		</dict>
+		<key>previous-space-argument</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1200</integer>
+		</dict>
+		<key>previous-space-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1290</integer>
+		</dict>
+		<key>show-tool</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1560</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.5.0</string>
+</dict>
+</plist>

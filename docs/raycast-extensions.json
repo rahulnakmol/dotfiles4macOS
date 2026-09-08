@@ -1,0 +1,792 @@
+{
+  "observed": "2026-09-07",
+  "source": "Installed extension package.json command declarations; UI may expose additional commands. No usage frequency or enabled-state inference.",
+  "extensions": [
+    {
+      "name": "1password",
+      "title": "1Password",
+      "commands": [
+        {
+          "name": "item-list",
+          "title": "My Passwords"
+        },
+        {
+          "name": "renew-auth",
+          "title": "Auto Renew Authorization"
+        },
+        {
+          "name": "vault-list",
+          "title": "My Vaults"
+        },
+        {
+          "name": "generate-password",
+          "title": "Generate Password"
+        }
+      ]
+    },
+    {
+      "name": "appcleaner",
+      "title": "App Cleaner",
+      "commands": [
+        {
+          "name": "uninstall",
+          "title": "Uninstall Application"
+        }
+      ]
+    },
+    {
+      "name": "brew",
+      "title": "Brew",
+      "commands": [
+        {
+          "name": "installed",
+          "title": "Show Installed"
+        },
+        {
+          "name": "search",
+          "title": "Search"
+        },
+        {
+          "name": "outdated",
+          "title": "Show Upgrades"
+        },
+        {
+          "name": "upgrade",
+          "title": "Upgrade"
+        },
+        {
+          "name": "manage-services",
+          "title": "Manage Services"
+        },
+        {
+          "name": "services-menu",
+          "title": "Services Menu Bar"
+        },
+        {
+          "name": "clean-up",
+          "title": "Clean up"
+        },
+        {
+          "name": "clear-cache",
+          "title": "Clear Cache"
+        }
+      ]
+    },
+    {
+      "name": "coffee",
+      "title": "Coffee",
+      "commands": [
+        {
+          "name": "caffeinate",
+          "title": "Caffeinate"
+        },
+        {
+          "name": "decaffeinate",
+          "title": "Decaffeinate"
+        },
+        {
+          "name": "caffeinateWhile",
+          "title": "Caffeinate While"
+        },
+        {
+          "name": "index",
+          "title": "Caffeinate Status Menu Bar"
+        },
+        {
+          "name": "caffeinateToggle",
+          "title": "Toggle Caffeinate"
+        },
+        {
+          "name": "caffeinateFor",
+          "title": "Caffeinate for ..."
+        },
+        {
+          "name": "caffeinateUntil",
+          "title": "Caffeinate Until"
+        },
+        {
+          "name": "addSchedule",
+          "title": "Schedule Caffeination"
+        },
+        {
+          "name": "status",
+          "title": "Caffeinate Status"
+        }
+      ]
+    },
+    {
+      "name": "color-picker",
+      "title": "Color Picker",
+      "commands": [
+        {
+          "name": "pick-color",
+          "title": "Pick Color"
+        },
+        {
+          "name": "extract-color",
+          "title": "Extract Color from Selected Image"
+        },
+        {
+          "name": "menu-bar",
+          "title": "Menu Bar Color Picker"
+        },
+        {
+          "name": "organize-colors",
+          "title": "Organize Colors"
+        },
+        {
+          "name": "favorite-colors",
+          "title": "Favorite Colors"
+        },
+        {
+          "name": "generate-colors",
+          "title": "Generate Colors"
+        },
+        {
+          "name": "color-names",
+          "title": "Color Names"
+        },
+        {
+          "name": "color-wheel",
+          "title": "Color Wheel"
+        },
+        {
+          "name": "convert-color",
+          "title": "Convert Color"
+        }
+      ]
+    },
+    {
+      "name": "downloads-manager",
+      "title": "Downloads Manager",
+      "commands": [
+        {
+          "name": "manage-downloads",
+          "title": "Manage Downloads"
+        },
+        {
+          "name": "open-latest-download",
+          "title": "Open Latest Download"
+        },
+        {
+          "name": "copy-latest-download",
+          "title": "Copy Latest Download"
+        },
+        {
+          "name": "paste-latest-download",
+          "title": "Paste Latest Download"
+        },
+        {
+          "name": "show-latest-download",
+          "title": "Show Latest Download"
+        },
+        {
+          "name": "delete-latest-download",
+          "title": "Delete Latest Download"
+        },
+        {
+          "name": "toggle-deletion-behavior",
+          "title": "Toggle Deletion Behavior"
+        }
+      ]
+    },
+    {
+      "name": "emoji",
+      "title": "Emoji Search",
+      "commands": [
+        {
+          "name": "emoji",
+          "title": "Search Emoji"
+        }
+      ]
+    },
+    {
+      "name": "ghostty",
+      "title": "Ghostty",
+      "commands": [
+        {
+          "name": "new-ghostty-window",
+          "title": "New Ghostty Window"
+        },
+        {
+          "name": "new-ghostty-tab",
+          "title": "New Ghostty Tab"
+        },
+        {
+          "name": "search-ghostty-tab",
+          "title": "Search Ghostty Tabs"
+        },
+        {
+          "name": "open-ghostty-launch-configuration",
+          "title": "Open Ghostty Launch Configuration"
+        },
+        {
+          "name": "open-ghostty-workspace",
+          "title": "Open Workspace from Git Repos"
+        },
+        {
+          "name": "open-with-ghostty",
+          "title": "Open with Ghostty"
+        },
+        {
+          "name": "view-ghostty-config",
+          "title": "Edit Ghostty Config"
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "title": "GitHub",
+      "commands": [
+        {
+          "name": "my-pull-requests",
+          "title": "My Pull Requests"
+        },
+        {
+          "name": "search-pull-requests",
+          "title": "Search Pull Requests"
+        },
+        {
+          "name": "create-pull-request",
+          "title": "Create Pull Request"
+        },
+        {
+          "name": "my-issues",
+          "title": "My Issues"
+        },
+        {
+          "name": "search-issues",
+          "title": "Search Issues"
+        },
+        {
+          "name": "create-issue",
+          "title": "Create Issue"
+        },
+        {
+          "name": "create-branch",
+          "title": "Create Branch"
+        },
+        {
+          "name": "search-repositories",
+          "title": "Search Repositories"
+        },
+        {
+          "name": "my-latest-repositories",
+          "title": "My Latest Repositories"
+        },
+        {
+          "name": "my-starred-repositories",
+          "title": "My Starred Repositories"
+        },
+        {
+          "name": "workflow-runs",
+          "title": "Workflow Runs"
+        },
+        {
+          "name": "notifications",
+          "title": "Notifications"
+        },
+        {
+          "name": "unread-notifications",
+          "title": "Unread Notifications"
+        },
+        {
+          "name": "search-discussions",
+          "title": "Search Discussions"
+        },
+        {
+          "name": "my-discussions",
+          "title": "My Discussions"
+        },
+        {
+          "name": "my-projects",
+          "title": "My Projects"
+        },
+        {
+          "name": "my-issues-menu",
+          "title": "My Issues Menu Bar"
+        },
+        {
+          "name": "my-stats-menu",
+          "title": "My GitHub Stats Menu Bar"
+        },
+        {
+          "name": "my-pull-requests-menu",
+          "title": "My Pull Requests Menu Bar"
+        },
+        {
+          "name": "download-repository",
+          "title": "Download Repository as ZIP"
+        }
+      ]
+    },
+    {
+      "name": "google-chrome",
+      "title": "Google Chrome",
+      "commands": [
+        {
+          "name": "new-tab",
+          "title": "New Tab"
+        },
+        {
+          "name": "search-tab",
+          "title": "Search Tabs"
+        },
+        {
+          "name": "search-history",
+          "title": "Search History"
+        },
+        {
+          "name": "search-bookmarks",
+          "title": "Search Bookmarks"
+        },
+        {
+          "name": "search-all",
+          "title": "Search All"
+        },
+        {
+          "name": "new-window",
+          "title": "Create New Window"
+        },
+        {
+          "name": "new-incognito-window",
+          "title": "Create New Incognito Window"
+        },
+        {
+          "name": "new-guest-window",
+          "title": "Create New Guest Window"
+        },
+        {
+          "name": "open-current-in-guest",
+          "title": "Open Current Tab in Guest"
+        },
+        {
+          "name": "name-window",
+          "title": "Name Window"
+        },
+        {
+          "name": "search-windows",
+          "title": "Search Windows"
+        }
+      ]
+    },
+    {
+      "name": "translate",
+      "title": "Google Translate",
+      "commands": [
+        {
+          "name": "translate",
+          "title": "Translate"
+        },
+        {
+          "name": "translate-form",
+          "title": "Translate Form"
+        },
+        {
+          "name": "quick-translate",
+          "title": "Quick Translate"
+        },
+        {
+          "name": "instant-translate-copy",
+          "title": "Instant Translate Copy"
+        },
+        {
+          "name": "instant-translate-paste",
+          "title": "Instant Translate Paste"
+        },
+        {
+          "name": "instant-translate-view",
+          "title": "Instant Translate View"
+        }
+      ]
+    },
+    {
+      "name": "google-workspace",
+      "title": "Google Workspace",
+      "commands": [
+        {
+          "name": "create-google-document",
+          "title": "Create Google Document"
+        },
+        {
+          "name": "create-google-spreadsheet",
+          "title": "Create Google Spreadsheet"
+        },
+        {
+          "name": "create-google-presentation",
+          "title": "Create Google Presentation"
+        },
+        {
+          "name": "create-google-form",
+          "title": "Create Google Form"
+        },
+        {
+          "name": "open-google-drive-home",
+          "title": "Open Google Drive Home"
+        },
+        {
+          "name": "search-google-drive-files",
+          "title": "Search Google Drive"
+        },
+        {
+          "name": "starred-google-drive-files-menubar",
+          "title": "Starred Google Drive Files"
+        }
+      ]
+    },
+    {
+      "name": "kill-process",
+      "title": "Kill Process",
+      "commands": [
+        {
+          "name": "index",
+          "title": "Kill Process"
+        }
+      ]
+    },
+    {
+      "name": "linear",
+      "title": "Linear",
+      "commands": [
+        {
+          "name": "create-issue",
+          "title": "Create Issue"
+        },
+        {
+          "name": "search-issues",
+          "title": "Search Issues"
+        },
+        {
+          "name": "assigned-issues",
+          "title": "My Issues"
+        },
+        {
+          "name": "created-issues",
+          "title": "Created Issues"
+        },
+        {
+          "name": "active-cycle",
+          "title": "Active Cycle"
+        },
+        {
+          "name": "search-projects",
+          "title": "Search Projects"
+        },
+        {
+          "name": "search-custom-views",
+          "title": "Search Custom Views"
+        },
+        {
+          "name": "search-documents",
+          "title": "Search Documents"
+        },
+        {
+          "name": "create-project",
+          "title": "Create Project"
+        },
+        {
+          "name": "notifications",
+          "title": "Notifications"
+        },
+        {
+          "name": "unread-notifications",
+          "title": "Unread Notifications"
+        },
+        {
+          "name": "create-issue-for-myself",
+          "title": "Create Issue for Myself"
+        },
+        {
+          "name": "quick-add-comment-to-issue",
+          "title": "Quick Add Comment to Issue"
+        },
+        {
+          "name": "favorites",
+          "title": "Favorites"
+        }
+      ]
+    },
+    {
+      "name": "mole",
+      "title": "Mole",
+      "commands": [
+        {
+          "name": "system-status",
+          "title": "System Status"
+        },
+        {
+          "name": "clean",
+          "title": "Clean System"
+        },
+        {
+          "name": "optimize",
+          "title": "Optimize System"
+        },
+        {
+          "name": "uninstall",
+          "title": "Uninstall App"
+        },
+        {
+          "name": "purge",
+          "title": "Purge Dev Artifacts"
+        },
+        {
+          "name": "analyze",
+          "title": "Analyze Disk"
+        },
+        {
+          "name": "installer",
+          "title": "Clean Installers"
+        },
+        {
+          "name": "touchid",
+          "title": "Touch ID for Sudo"
+        },
+        {
+          "name": "update-mole",
+          "title": "Update Mole"
+        },
+        {
+          "name": "health-menu-bar",
+          "title": "Health Menu Bar"
+        }
+      ]
+    },
+    {
+      "name": "pomodoro",
+      "title": "Pomodoro",
+      "commands": [
+        {
+          "name": "pomodoro-menu-bar",
+          "title": "Show Pomodoro in Menu Bar"
+        },
+        {
+          "name": "pomodoro-control-timer",
+          "title": "Control Pomodoro Timer"
+        },
+        {
+          "name": "stats-pomodoro-timer",
+          "title": "View Pomodoro Stats"
+        },
+        {
+          "name": "slack-pomodoro-menu-bar",
+          "title": "Slack Pomodoro in Menu Bar"
+        },
+        {
+          "name": "slack-pomodoro-control-timer",
+          "title": "Slack Control Pomodoro Timer"
+        }
+      ]
+    },
+    {
+      "name": "raycast-explorer",
+      "title": "Raycast Explorer",
+      "commands": [
+        {
+          "name": "explore-prompts",
+          "title": "Explore Prompts"
+        },
+        {
+          "name": "explore-presets",
+          "title": "Explore Presets"
+        },
+        {
+          "name": "explore-quicklinks",
+          "title": "Explore Quicklinks"
+        },
+        {
+          "name": "explore-themes",
+          "title": "Explore Themes"
+        },
+        {
+          "name": "explore-snippets",
+          "title": "Explore Snippets"
+        }
+      ]
+    },
+    {
+      "name": "safari",
+      "title": "Safari",
+      "commands": [
+        {
+          "name": "cloud-tabs",
+          "title": "Search Tabs"
+        },
+        {
+          "name": "search-all",
+          "title": "Search Tabs, Bookmarks and History"
+        },
+        {
+          "name": "reading-list",
+          "title": "Search Reading List"
+        },
+        {
+          "name": "add-to-reading-list",
+          "title": "Add to Reading List"
+        },
+        {
+          "name": "search-history",
+          "title": "Search History"
+        },
+        {
+          "name": "search-bookmarks",
+          "title": "Search Bookmarks"
+        },
+        {
+          "name": "copy-to-clipboard",
+          "title": "Copy URL to Clipboard"
+        },
+        {
+          "name": "copy-title-as-link-to-clipboard",
+          "title": "Copy Title as Link to Clipboard"
+        },
+        {
+          "name": "close-other-tabs",
+          "title": "Close Other Tabs"
+        }
+      ]
+    },
+    {
+      "name": "audio-device",
+      "title": "Set Audio Device",
+      "commands": [
+        {
+          "name": "set-output-device",
+          "title": "Set Output Device"
+        },
+        {
+          "name": "set-input-device",
+          "title": "Set Input Device"
+        },
+        {
+          "name": "set-volume",
+          "title": "Set Output Volume"
+        },
+        {
+          "name": "set-input-volume",
+          "title": "Set Input Volume"
+        },
+        {
+          "name": "auto-switch-input",
+          "title": "Enforce Input Device"
+        },
+        {
+          "name": "auto-switch-output",
+          "title": "Enforce Output Device"
+        },
+        {
+          "name": "customize-order",
+          "title": "Customize Order (Replaced)"
+        },
+        {
+          "name": "favourite",
+          "title": "Set Output Device to Favourite"
+        },
+        {
+          "name": "toggle-favourites",
+          "title": "Toggle Favourites"
+        },
+        {
+          "name": "use-combo1",
+          "title": "Use Combo 1"
+        },
+        {
+          "name": "use-combo2",
+          "title": "Use Combo 2"
+        },
+        {
+          "name": "use-combo3",
+          "title": "Use Combo 3"
+        }
+      ]
+    },
+    {
+      "name": "slack",
+      "title": "Slack",
+      "commands": [
+        {
+          "name": "search",
+          "title": "Open Channel"
+        },
+        {
+          "name": "search-messages",
+          "title": "Search Messages"
+        },
+        {
+          "name": "send-message",
+          "title": "Send Message"
+        },
+        {
+          "name": "open-unread-messages",
+          "title": "Open Unread Messages"
+        },
+        {
+          "name": "unread-messages",
+          "title": "Unread Messages"
+        },
+        {
+          "name": "set-snooze",
+          "title": "Set Snooze"
+        },
+        {
+          "name": "set-presence",
+          "title": "Set Presence"
+        },
+        {
+          "name": "search-emojis",
+          "title": "Search Emojis"
+        },
+        {
+          "name": "set-status",
+          "title": "Set Status"
+        }
+      ]
+    },
+    {
+      "name": "speedtest",
+      "title": "Speedtest",
+      "commands": [
+        {
+          "name": "index",
+          "title": "Test Internet Speed"
+        }
+      ]
+    },
+    {
+      "name": "raycast-system-monitor",
+      "title": "System Monitor",
+      "commands": [
+        {
+          "name": "system-monitor",
+          "title": "System Monitor"
+        },
+        {
+          "name": "menubar-system-monitor",
+          "title": "Menubar System Monitor"
+        }
+      ]
+    },
+    {
+      "name": "youtube",
+      "title": "YouTube",
+      "commands": [
+        {
+          "name": "search-videos",
+          "title": "Search Videos"
+        },
+        {
+          "name": "search-channel",
+          "title": "Search Channels"
+        },
+        {
+          "name": "popular-videos",
+          "title": "Popular Videos"
+        },
+        {
+          "name": "search-live",
+          "title": "Search Live Streams"
+        }
+      ]
+    }
+  ]
+}

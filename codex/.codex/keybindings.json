@@ -6,5 +6,21 @@
   {
     "command": "globalDictationToggle",
     "key": null
+  },
+  {
+    "command": "composer.startVoiceMode",
+    "key": "Ctrl+Shift+V"
+  },
+  {
+    "command": "composer.startVoiceMode",
+    "key": "Command+Control+Alt+Shift+V"
+  },
+  {
+    "command": "composer.startDictation",
+    "key": "Ctrl+Shift+D"
+  },
+  {
+    "command": "composer.startDictation",
+    "key": "Command+Control+Alt+Shift+M"
   }
 ]

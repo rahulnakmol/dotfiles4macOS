@@ -1,0 +1,835 @@
+{
+  "profile": "Hyperland",
+  "apps": [
+    {
+      "id": "chrome",
+      "name": "Google Chrome",
+      "key": "d",
+      "bundleId": "com.google.Chrome"
+    },
+    {
+      "id": "ghostty",
+      "name": "Ghostty",
+      "key": "h",
+      "bundleId": "com.mitchellh.ghostty"
+    },
+    {
+      "id": "finder",
+      "name": "Finder",
+      "key": "f",
+      "bundleId": "com.apple.finder"
+    },
+    {
+      "id": "codex",
+      "name": "ChatGPT / Codex",
+      "key": "j",
+      "bundleId": "com.openai.codex"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "key": "k",
+      "bundleId": "com.todesktop.230313mzl4w4u92"
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "key": "l",
+      "bundleId": "com.anthropic.claudefordesktop"
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "key": "a",
+      "bundleId": "com.ampcode.amp.macos"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "key": "n",
+      "bundleId": "md.obsidian"
+    },
+    {
+      "id": "edge",
+      "name": "Microsoft Edge",
+      "key": "e",
+      "bundleId": "com.microsoft.edgemac"
+    },
+    {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "key": "i",
+      "bundleId": "com.microsoft.teams2"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "key": "s",
+      "bundleId": "com.tinyspeck.slackmacgap"
+    },
+    {
+      "id": "word",
+      "name": "Microsoft Word",
+      "key": "w",
+      "bundleId": "com.microsoft.Word"
+    },
+    {
+      "id": "excel",
+      "name": "Microsoft Excel",
+      "key": "o",
+      "bundleId": "com.microsoft.Excel"
+    },
+    {
+      "id": "powerpoint",
+      "name": "Microsoft PowerPoint",
+      "key": "p",
+      "bundleId": "com.microsoft.Powerpoint"
+    },
+    {
+      "id": "safari",
+      "name": "Safari",
+      "key": "r",
+      "bundleId": "com.apple.Safari"
+    },
+    {
+      "id": "finalcut",
+      "name": "Final Cut Pro",
+      "key": "z",
+      "bundleId": "com.apple.FinalCut",
+      "optional": true
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "key": "x",
+      "bundleId": "com.apple.motionapp",
+      "optional": true
+    },
+    {
+      "id": "compressor",
+      "name": "Compressor",
+      "key": "c",
+      "bundleId": "com.apple.Compressor",
+      "optional": true
+    }
+  ],
+  "layouts": [
+    {
+      "name": "Work",
+      "description": "Edge left two-thirds; Teams right third",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "edge",
+          21
+        ],
+        [
+          "teams",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Work Balanced",
+      "description": "Edge and Teams in equal halves",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "edge",
+          0
+        ],
+        [
+          "teams",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Office",
+      "description": "Word and Excel in equal halves",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "word",
+          0
+        ],
+        [
+          "excel",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Present",
+      "description": "PowerPoint maximized",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "powerpoint",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code",
+      "description": "Chrome left two-thirds; Slack right third",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "slack",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Balanced",
+      "description": "Chrome and Slack in equal halves",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          0
+        ],
+        [
+          "slack",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Terminal",
+      "description": "Ghostty maximized",
+      "launchApps": true,
+      "windows": [
+        [
+          "ghostty",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Agents",
+      "description": "Maximize open Codex, Claude, Cursor and Amp windows",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "codex",
+          2
+        ],
+        [
+          "claude",
+          2
+        ],
+        [
+          "cursor",
+          2
+        ],
+        [
+          "amp",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Zen",
+      "description": "Maximize open Amp, Cursor, Ghostty and Obsidian windows",
+      "mode": "zen",
+      "launchApps": false,
+      "windows": [
+        [
+          "amp",
+          2
+        ],
+        [
+          "cursor",
+          2
+        ],
+        [
+          "ghostty",
+          2
+        ],
+        [
+          "obsidian",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Default",
+      "description": "Maximize the current app window",
+      "mode": "default",
+      "launchApps": false,
+      "frontmost": true,
+      "windows": [
+        [
+          "global",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Browser",
+      "description": "Chrome left two-thirds; Ghostty right third on the assigned reference desktop",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Notes",
+      "description": "Obsidian left two-thirds; Ghostty right third on the assigned reference desktop",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "obsidian",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Amp",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
+        [
+          "amp",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Claude",
+      "description": "Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "obsidian",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
+        [
+          "claude",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Cursor",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
+        [
+          "cursor",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Codex",
+      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ],
+        [
+          "codex",
+          2
+        ]
+      ]
+    }
+  ],
+  "windowActions": [
+    {
+      "id": "maximize",
+      "name": "Maximize",
+      "key": "Return",
+      "description": "Fill the available desktop; stay out of native fullscreen"
+    },
+    {
+      "id": "restore",
+      "name": "Restore window",
+      "key": "Backspace",
+      "description": "Undo the last Rectangle size and position"
+    },
+    {
+      "id": "left-half",
+      "name": "Left half",
+      "key": ",",
+      "description": "Fit the left half"
+    },
+    {
+      "id": "right-half",
+      "name": "Right half",
+      "key": ".",
+      "description": "Fit the right half"
+    },
+    {
+      "id": "first-third",
+      "name": "Left third",
+      "key": "[",
+      "description": "Fit the left third"
+    },
+    {
+      "id": "center-third",
+      "name": "Centre third",
+      "key": "]",
+      "description": "Fit the centre third"
+    },
+    {
+      "id": "last-third",
+      "name": "Right third",
+      "key": "\\",
+      "description": "Fit the right third"
+    },
+    {
+      "id": "first-two-thirds",
+      "name": "Left two-thirds",
+      "key": ";",
+      "description": "Fit the left two-thirds"
+    },
+    {
+      "id": "last-two-thirds",
+      "name": "Right two-thirds",
+      "key": "'",
+      "description": "Fit the right two-thirds"
+    },
+    {
+      "id": "prev-space",
+      "name": "Move window to previous desktop",
+      "key": "−",
+      "description": "Rectangle title-bar drag; requires Control+Left enabled"
+    },
+    {
+      "id": "next-space",
+      "name": "Move window to next desktop",
+      "key": "=",
+      "description": "Rectangle title-bar drag; requires Control+Right enabled"
+    },
+    {
+      "id": "previous-display",
+      "name": "Move window to previous display",
+      "key": "←",
+      "description": "Move to the previous connected monitor"
+    },
+    {
+      "id": "next-display",
+      "name": "Move window to next display",
+      "key": "→",
+      "description": "Move to the next connected monitor"
+    }
+  ],
+  "navigation": [
+    {
+      "key": "1…9 / 0",
+      "name": "Switch to Desktop 1…9 / 10 (create it first)"
+    },
+    {
+      "key": "Space",
+      "name": "Hyper command menu"
+    },
+    {
+      "key": "/",
+      "name": "Hyper guide"
+    },
+    {
+      "key": "Tab",
+      "name": "Previous app"
+    },
+    {
+      "key": "`",
+      "name": "Next window of this app"
+    },
+    {
+      "key": "↑ / ↓",
+      "name": "Mission Control / app windows"
+    }
+  ],
+  "mehActions": [
+    {
+      "id": "actions",
+      "key": "A",
+      "keyCode": 0,
+      "name": "Universal Actions",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "clipboard",
+      "key": "V",
+      "keyCode": 9,
+      "name": "Clipboard history",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "snippets",
+      "key": "S",
+      "keyCode": 1,
+      "name": "Snippets",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "capture",
+      "key": "C",
+      "keyCode": 8,
+      "name": "CleanShot X capture menu",
+      "owner": "alfred-workflow"
+    },
+    {
+      "id": "tools",
+      "key": "Space",
+      "keyCode": 49,
+      "name": "System tools menu",
+      "owner": "alfred-workflow"
+    },
+    {
+      "id": "layouts",
+      "key": "Return",
+      "keyCode": 36,
+      "name": "Layout chooser",
+      "owner": "alfred-workflow"
+    }
+  ],
+  "captureActions": [
+    {
+      "id": "all",
+      "name": "All-in-one capture",
+      "command": "all-in-one"
+    },
+    {
+      "id": "area",
+      "name": "Capture area",
+      "command": "capture-area"
+    },
+    {
+      "id": "window",
+      "name": "Capture window",
+      "command": "capture-window"
+    },
+    {
+      "id": "record",
+      "name": "Record screen",
+      "command": "record-screen"
+    },
+    {
+      "id": "scroll",
+      "name": "Scrolling capture",
+      "command": "scrolling-capture"
+    },
+    {
+      "id": "text",
+      "name": "Capture text (OCR)",
+      "command": "capture-text"
+    },
+    {
+      "id": "annotate",
+      "name": "Annotate an image file",
+      "command": "open-annotate"
+    },
+    {
+      "id": "history",
+      "name": "Capture history",
+      "command": "open-history"
+    },
+    {
+      "id": "settings",
+      "name": "CleanShot settings",
+      "command": "open-settings"
+    }
+  ],
+  "systemTools": [
+    {
+      "name": "Audio output",
+      "query": "out ",
+      "bundleId": "io.mende.alfredapp-audioswitcher"
+    },
+    {
+      "name": "Audio input",
+      "query": "in ",
+      "bundleId": "io.mende.alfredapp-audioswitcher"
+    },
+    {
+      "name": "New timer",
+      "query": "timer ",
+      "bundleId": "timer.workflow"
+    },
+    {
+      "name": "Running timers",
+      "query": "timers",
+      "bundleId": "timer.workflow"
+    },
+    {
+      "name": "Keep awake — duration and status",
+      "query": "cfs ",
+      "bundleId": "com.github.vanstrouble.alfred.caffeinedose"
+    },
+    {
+      "name": "Activity and system tools",
+      "query": "atop",
+      "bundleId": "de.chris-grieser.atop"
+    },
+    {
+      "name": "macOS System Settings",
+      "query": "System Settings",
+      "bundleId": null
+    },
+    {
+      "name": "Alfred Preferences",
+      "query": "preferences",
+      "bundleId": null
+    }
+  ],
+  "nativeShortcuts": [
+    {
+      "key": "Cmd+Tab / Cmd+`",
+      "name": "Switch apps / windows within an app"
+    },
+    {
+      "key": "Cmd+W / Cmd+Q",
+      "name": "Close window / quit app"
+    },
+    {
+      "key": "Cmd+C / Cmd+X / Cmd+V",
+      "name": "Copy / cut / paste"
+    },
+    {
+      "key": "Cmd+Z / Cmd+Shift+Z",
+      "name": "Undo / redo"
+    },
+    {
+      "key": "Ctrl+Cmd+F",
+      "name": "Native fullscreen, where supported"
+    },
+    {
+      "key": "Cmd+Shift+3 / 4 / 5",
+      "name": "Capture keys: use your CleanShot X assignments; verify in CleanShot settings"
+    },
+    {
+      "key": "Ctrl+Cmd+Q",
+      "name": "Lock screen"
+    },
+    {
+      "key": "Fn+C / Fn+N",
+      "name": "Control Center / Notification Center"
+    },
+    {
+      "key": "Ctrl+Cmd+Space",
+      "name": "Emoji and symbols"
+    },
+    {
+      "key": "Ctrl+F2 (add Fn if needed)",
+      "name": "Navigate menu bar"
+    },
+    {
+      "key": "Option+Shift+Volume / Brightness",
+      "name": "Fine volume / brightness adjustments"
+    },
+    {
+      "key": "Finder: Space / Cmd+Shift+G",
+      "name": "Quick Look / Go to Folder"
+    },
+    {
+      "key": "Ctrl+Left / Right",
+      "name": "Previous / next desktop"
+    },
+    {
+      "key": "Cmd+Space",
+      "name": "Alfred launcher"
+    }
+  ],
+  "focusSessions": [
+    {
+      "id": "work",
+      "name": "Work",
+      "apps": [
+        "edge",
+        "teams"
+      ],
+      "mode": "work",
+      "layout": "Work",
+      "durationMinutes": 30
+    },
+    {
+      "id": "amp",
+      "name": "Code + Amp",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "amp"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Amp",
+      "durationMinutes": 45
+    },
+    {
+      "id": "claude",
+      "name": "Code + Claude",
+      "apps": [
+        "obsidian",
+        "ghostty",
+        "claude"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Notes",
+      "layout": "Code Claude",
+      "durationMinutes": 45
+    },
+    {
+      "id": "cursor",
+      "name": "Code + Cursor",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "cursor"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Cursor",
+      "durationMinutes": 45
+    },
+    {
+      "id": "codex",
+      "name": "Code + Codex",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "codex"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Codex",
+      "durationMinutes": 45
+    }
+  ],
+  "menuKeywords": [
+    {
+      "code": "hk",
+      "name": "Hotkeys",
+      "alias": "hyper"
+    },
+    {
+      "code": "fs",
+      "name": "Focus Session",
+      "alias": "focus"
+    },
+    {
+      "code": "ss",
+      "name": "Session Timer",
+      "alias": null
+    },
+    {
+      "code": "al",
+      "name": "App Launcher",
+      "alias": null
+    },
+    {
+      "code": "wa",
+      "name": "Window Action",
+      "alias": null
+    },
+    {
+      "code": "wl",
+      "name": "Window Layout",
+      "alias": "layouts"
+    },
+    {
+      "code": "cs",
+      "name": "Capture",
+      "alias": "capture"
+    },
+    {
+      "code": "st",
+      "name": "System Tool",
+      "alias": "tools"
+    },
+    {
+      "code": "dp",
+      "name": "DockFlow Profile",
+      "alias": null
+    },
+    {
+      "code": "gw",
+      "name": "Google Workspace",
+      "alias": null
+    }
+  ],
+  "sessionTimers": [
+    {
+      "minutes": 20,
+      "name": "Pomodoro · 20 minutes",
+      "intent": "Pomodoro"
+    },
+    {
+      "minutes": 25,
+      "name": "Pomodoro · 25 minutes",
+      "intent": "Pomodoro"
+    },
+    {
+      "minutes": 30,
+      "name": "30 minutes",
+      "intent": "Focus"
+    },
+    {
+      "minutes": 45,
+      "name": "45 minutes",
+      "intent": "Focus"
+    },
+    {
+      "minutes": 60,
+      "name": "1 hour (60 minutes)",
+      "intent": "Focus"
+    }
+  ]
+}

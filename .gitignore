@@ -20,6 +20,37 @@ gh/.config/gh/hosts.yml
 **/.ssh/authorized_keys
 **/*.env
 **/.env*
+# Raycast exports contain personal data, even when encrypted.
+*.rayconfig
+**/Library/Application Support/com.raycast.macos/
+**/Library/Preferences/com.raycast.macos.plist
+**/.config/raycast/extensions/
+**/.config/raycast/node-compile-cache/
+**/.config/raycast/ai/
+# Alfred: opt in reviewed settings and owned workflow source only.
+# Workflow variables, snippets, local settings, licenses and history stay private.
+alfred/.config/alfred/*
+!alfred/.config/alfred/Alfred.alfredpreferences/
+alfred/.config/alfred/Alfred.alfredpreferences/*
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/
+alfred/.config/alfred/Alfred.alfredpreferences/workflows/*
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.google-workspace/
+alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.google-workspace/*
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.google-workspace/info.plist
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.google-workspace/icon.png
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.dockflow-profiles/
+alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.dockflow-profiles/*
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.dockflow-profiles/info.plist
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.dockflow-profiles/icon.png
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/
+alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/*
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/info.plist
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/icon.png
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/dispatch.zsh
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/FocusSession.swift
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-session.zsh
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-sessions.json
 **/*secret*
 !**/*rules/010-secrets.md
 **/*token*

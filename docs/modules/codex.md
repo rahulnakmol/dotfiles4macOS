@@ -16,6 +16,7 @@ file directly, just like `claude/.claude/settings.json`. GNU Stow links it to
 
 The current settings were imported from this Mac, including `gpt-6-astra`,
 `high` default reasoning, desktop appearance settings, existing plugins and MCP runtimes.
+The shared service tier is `default`; use Fast mode for individual tasks when needed.
 The earlier migration had already removed two broken Caveman hook entries; the
 current empty hook configuration is now versioned. No nonexistent hook scripts
 are installed. New hooks still require Codex's native review/trust flow.
@@ -74,6 +75,13 @@ and defaults; existing tasks can retain their permission overrides.
 
 ## Update and review
 
+Commit deliberate preferences and reusable keybindings. App-version stamps,
+trusted-service connection metadata, and newly discovered project paths are local
+runtime changes, not automatically useful shared defaults. Stage individual TOML
+hunks when these appear alongside preference edits; do not commit the whole file
+without review. The existing snapshot still contains Mac-specific paths, so this
+workflow does not make the entire TOML portable between different home directories.
+
 Edit `codex/.codex/config.toml`, `keybindings.json`, or `hooks.json` directly.
 Changes through a symlink-aware editor at `~/.codex/config.toml` reach the same
 file in Git. Review GUI changes before committing: apps can add runtime paths,
@@ -103,6 +111,40 @@ adapters; use the command without that flag when changing policy for all clients
 If the app removes the marked block, validation stops instead of guessing where
 to rewrite permissions. Restore the markers around the existing generated
 `permissions.dotfiles` tables before regenerating.
+
+## Keyboard shortcuts: defaults with voice exceptions
+
+Codex inherits its current built-in shortcuts for ordinary app actions. There are
+no overrides for new task, command menu, attention navigation, plan mode, review,
+terminal or model picker. Removing those entries lets future app defaults apply.
+
+The only active custom bindings in `codex/.codex/keybindings.json` are voice:
+
+| Shortcut | Action | Scope |
+| --- | --- | --- |
+| Hyper+V | Toggle voice chat | Codex/ChatGPT app |
+| Hyper+M | Start dictation | Codex/ChatGPT app |
+| Control+Shift+V | Default voice chat shortcut, retained | App |
+| Control+Shift+D | Default dictation shortcut, retained | App |
+
+Hyper means Control+Option+Command+Shift, supplied by held Caps Lock in the
+**Hyperland** Karabiner profile. Focus Codex with Hyper+J first. V means voice; M means microphone. These two keys are reserved from global app launches,
+Rectangle actions and Alfred workflows. Existing global dictation shortcuts remain
+disabled; these bindings operate inside the app.
+
+An override replaces a command's default list, so the two voice commands explicitly
+include their native shortcuts. Other commands are omitted to inherit defaults;
+`key: null` disables a shortcut and is not how defaults are restored.
+Command IDs and override semantics were verified in the installed app's registry
+on September 8, 2026. The default voice keys also match the
+[official command reference](https://learn.chatgpt.com/docs/reference/commands).
+
+Hyper+number routes to Control+Option+number for macOS desktops, preserving Codex's
+native Control+1/2/3 view switches. Run `bash scripts/setup-hyper-macos.sh apply`
+when deploying this change to another Mac and log out/back in to load the native
+shortcut changes. Open Settings > Keyboard Shortcuts to inspect the app bindings;
+voice availability depends on the current view. If an already-running app shows
+old overrides, reopen it when convenient. No microphone session is started by setup.
 
 ## Other Macs and local state
 
@@ -206,8 +248,8 @@ python3 -m venv /tmp/codex-validation
 /tmp/codex-validation/bin/python scripts/test-codex-sandbox.py
 ```
 
-CI installs the ChatGPT app through Homebrew and tests its bundled Codex runtime
-on macOS. Tests cover real file links, direct edits reaching the repository,
+CI installs the ChatGPT app through Homebrew and uses a pinned CLI for the real
+macOS sandbox test. Tests cover keybinding conflicts, real file links, direct edits reaching the repository,
 rollback, idempotence, conflicts, config validation, policy preservation, and
 sandbox behavior with synthetic fixtures. No model calls or credentials are
 needed. Linux remains outside scope.
