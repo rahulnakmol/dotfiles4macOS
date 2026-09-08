@@ -2,7 +2,7 @@
 
 The single Karabiner profile is **Hyperland**. Hold Caps Lock for Hyper
 (Control+Option+Command+Shift); tap it for Escape. Right Option is Meh
-(Control+Option+Shift) for DockFlow; Left Option remains normal. This setup borrows Omarchy's
+(Control+Option+Shift) for shared tools and DockFlow; Left Option remains normal. This setup borrows Omarchy's
 keyboard-first structure while using Alfred, Karabiner and Rectangle Pro on macOS.
 
 Open the [illustrated Hyper guide](../../alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html)
@@ -10,7 +10,7 @@ with Hyper+/ for the complete map, workspace diagrams, research and limitations.
 Hyper+Space opens the searchable command menu. Alfred keywords are `hyper`, `work`,
 `code`, `zen` and `default`.
 
-Setup checkpoint, September 8, 2026: all 28 launcher, Hyper and Codex policy tests
+Setup checkpoint, September 8, 2026: all 37 focus, bootstrap, launcher, Hyper and Codex policy tests
 pass. The approved tactile map gives each of the 18 apps exactly one direct shortcut. Letters prioritize coding/work apps and
 voice; punctuation and arrows control windows. Native Desktop 1…10 shortcuts are
 saved, with unrelated keyboard shortcuts preserved. The running Hyperland profile
@@ -20,6 +20,27 @@ Alfred, Karabiner, Rectangle, Ghostty and Codex Stow targets were verified. Log 
 activate command-line desktop changes. Physical tests of the latest bindings,
 desktop creation/placement, a fresh login and the second Mac require local checks.
 See the [design decision](../adr/0002-hyper-macos-workspaces.md).
+
+## Focus sessions and complete manual
+
+The [hotkeys manual](../hotkeys.md) and [standalone visual page](../hotkeys.html)
+cover Work plus the four Code variations. Alfred commands are `focus work`,
+`focus amp`, `focus claude`, `focus cursor` and `focus codex`. A session switch quits outgoing
+apps normally, then opens its exact app set. Code uses two ordinary desktops:
+Chrome (Amp/Cursor/Codex) or Obsidian (Claude) with Ghostty in a ⅔–⅓ split on Desktop 1,
+and the selected coding app maximized on Desktop 2. The earlier four choices were verified in Alfred; Code · Codex adds a fifth
+session and a sixteenth Rectangle layout. A live quit/reopen session and native desktop assignment still
+need acceptance. Set the per-Mac native Dock
+assignments described in the manual; Rectangle sizes windows but cannot assign
+numbered Spaces. The prior general layout commands remain available.
+
+## Shared Meh actions
+
+Meh+A opens Universal Actions, V clipboard history, S snippets, C CleanShot X
+capture tools, Space system tools, and Return the layout chooser. DockFlow number
+keys stay unchanged. See [bootstrap, native keys and rollback](hyper-bootstrap.md)
+for fresh-Mac setup and the exact verification boundaries. Hyper+/ includes the
+Meh and native shortcut tables.
 
 ## Daily keys
 
@@ -159,7 +180,7 @@ On each Mac, create the desktops, keep Control+Left/Right and Control+Up/Down
 enabled in Keyboard > Keyboard Shortcuts > Mission Control, activate licenses and
 complete required Karabiner/Alfred/Rectangle permissions directly. Enable Alfred,
 Rectangle Pro and DockFlow at login; Karabiner's background services provide its
-startup. Do not turn on Raycast's Hyper remapper again. Alfred's main Option+Space
+startup. Do not turn on Raycast's Hyper remapper again. Alfred's main Cmd+Space
 hotkey and several preferences are machine-specific.
 
 Transfer DockFlow's presets using its private Backup & Restore UI, then compare

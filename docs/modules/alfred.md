@@ -17,8 +17,8 @@ remains available while the remaining plugin migration is unfinished.
 The agreed setup is Alfred + Karabiner + Rectangle Pro, with macOS retaining drag
 snapping. Rectangle Pro's own drag snapping is disabled. Alfred's launch-at-login
 checkbox and Rectangle Pro's launch-on-login switch are both enabled. Alfred's
-General page reports Option+Space as its main hotkey; Raycast retains Command+Space
-during this transition.
+main hotkey is Command+Space (updated September 9, 2026). Spotlight’s conflicting
+shortcut is disabled and Raycast has no launcher hotkey configured on this Mac.
 macOS's login-item registry also reports both Alfred and Rectangle Pro as enabled
 and allowed (`sfltool dumpbtm`, checked September 7, 2026).
 Karabiner's Setup page confirms background services, Accessibility, input capture,
@@ -279,7 +279,7 @@ For Alfred, reset its preferences folder to the prior local bundle before
    their contents. No private history has been migrated.
 5. Hyperkey cutover and physical Rectangle, Escape, and Alfred DockFlow shortcut
    checks passed on this Mac. Repeat after a fresh login and on additional Macs;
-   also check Alfred's Option+Space launcher hotkey.
+   also check Alfred's Cmd+Space launcher hotkey.
 6. Disable Raycast launch at login and quit it only after acceptance. Retain a
    private export for rollback before uninstalling it.
 
@@ -300,3 +300,11 @@ Native Control+Left/Right switches adjacent desktops; Hyper+numbers selects one.
 Codex alone uses Hyper+V/M for voice/dictation. B/G/Q/T/U/Y remain free.
 Generate changes from
 `scripts/hyper-config.json` with `node scripts/build-hyper-config.mjs`.
+
+## Shared Meh tools
+
+The Hyper workflow now adds `capture`, `tools` and `layouts` menus. Meh+C uses
+CleanShot X, including its Setapp edition; Meh+Space opens installed utility
+workflows, and Meh+Return lists layouts. Native Alfred preferences own Meh+A/V/S.
+See [the bootstrap guide](hyper-bootstrap.md) for backed-up configuration and
+rollback. Clipboard data and personal snippets remain local and ignored.

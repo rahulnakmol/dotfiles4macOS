@@ -51,7 +51,8 @@ App minimum widths can prevent thirds; balanced halves and maximize are included
 
 Native desktop placement remains a deliberate per-Mac step. Rectangle does not
 provide reliable exact numbered-Space restoration, so the workflow visits and
-arranges each desktop. Shared apps remain unassigned by default. Licenses,
+arranges each desktop. Shared apps remain unassigned for the general layouts; the later
+[focus-session decision](0003-focus-sessions.md) assigns its specific apps to two desktops. Licenses,
 permissions, desktop creation and physical/fresh-login checks stay device-local.
 
 Evidence: [Rectangle layouts](https://rectangleapp.com/pro/docs/layouts/),

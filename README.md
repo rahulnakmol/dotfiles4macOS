@@ -2,6 +2,8 @@
 
 Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Catppuccin Macchiato theme across all tools. Homebrew as primary package manager.
 
+[Hotkeys manual](docs/hotkeys.md) · [Standalone visual guide](docs/hotkeys.html) — Hyper, Meh, focus sessions, layouts and fresh-Mac setup.
+
 ## Modules
 
 | Module | Purpose |
@@ -109,6 +111,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - [Raycast settings checklist and private migration](docs/modules/raycast.md) — not a Stow module
 - [Alfred migration and installed-plugin parity](docs/modules/alfred.md)
 - [Hyper keyboard navigation and Work/Code/Zen layouts](docs/modules/hyper.md)
+- [Fresh-Mac Hyper/Meh bootstrap, CleanShot capture, checks and rollback](docs/modules/hyper-bootstrap.md)
 
 ## License
 

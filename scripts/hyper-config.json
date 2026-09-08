@@ -277,6 +277,86 @@
           2
         ]
       ]
+    },
+    {
+      "name": "Code Browser",
+      "description": "Chrome left two-thirds; Ghostty right third on Desktop 1",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Notes",
+      "description": "Obsidian left two-thirds; Ghostty right third on Desktop 1",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "obsidian",
+          21
+        ],
+        [
+          "ghostty",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Amp",
+      "description": "Amp maximized on Desktop 2",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "amp",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Claude",
+      "description": "Claude maximized on Desktop 2",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "claude",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Cursor",
+      "description": "Cursor maximized on Desktop 2",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "cursor",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code Codex",
+      "description": "Codex maximized on Desktop 2",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "codex",
+          2
+        ]
+      ]
     }
   ],
   "windowActions": [
@@ -337,7 +417,7 @@
     {
       "id": "prev-space",
       "name": "Move window to previous desktop",
-      "key": "\u2212",
+      "key": "−",
       "description": "Rectangle title-bar drag; requires Control+Left enabled"
     },
     {
@@ -349,20 +429,20 @@
     {
       "id": "previous-display",
       "name": "Move window to previous display",
-      "key": "\u2190",
+      "key": "←",
       "description": "Move to the previous connected monitor"
     },
     {
       "id": "next-display",
       "name": "Move window to next display",
-      "key": "\u2192",
+      "key": "→",
       "description": "Move to the next connected monitor"
     }
   ],
   "navigation": [
     {
-      "key": "1\u20269 / 0",
-      "name": "Switch to Desktop 1\u20269 / 10 (create it first)"
+      "key": "1…9 / 0",
+      "name": "Switch to Desktop 1…9 / 10 (create it first)"
     },
     {
       "key": "Space",
@@ -381,8 +461,259 @@
       "name": "Next window of this app"
     },
     {
-      "key": "\u2191 / \u2193",
+      "key": "↑ / ↓",
       "name": "Mission Control / app windows"
+    }
+  ],
+  "mehActions": [
+    {
+      "id": "actions",
+      "key": "A",
+      "keyCode": 0,
+      "name": "Universal Actions",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "clipboard",
+      "key": "V",
+      "keyCode": 9,
+      "name": "Clipboard history",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "snippets",
+      "key": "S",
+      "keyCode": 1,
+      "name": "Snippets",
+      "owner": "alfred-native"
+    },
+    {
+      "id": "capture",
+      "key": "C",
+      "keyCode": 8,
+      "name": "CleanShot X capture menu",
+      "owner": "alfred-workflow"
+    },
+    {
+      "id": "tools",
+      "key": "Space",
+      "keyCode": 49,
+      "name": "System tools menu",
+      "owner": "alfred-workflow"
+    },
+    {
+      "id": "layouts",
+      "key": "Return",
+      "keyCode": 36,
+      "name": "Layout chooser",
+      "owner": "alfred-workflow"
+    }
+  ],
+  "captureActions": [
+    {
+      "id": "all",
+      "name": "All-in-one capture",
+      "command": "all-in-one"
+    },
+    {
+      "id": "area",
+      "name": "Capture area",
+      "command": "capture-area"
+    },
+    {
+      "id": "window",
+      "name": "Capture window",
+      "command": "capture-window"
+    },
+    {
+      "id": "record",
+      "name": "Record screen",
+      "command": "record-screen"
+    },
+    {
+      "id": "scroll",
+      "name": "Scrolling capture",
+      "command": "scrolling-capture"
+    },
+    {
+      "id": "text",
+      "name": "Capture text (OCR)",
+      "command": "capture-text"
+    },
+    {
+      "id": "annotate",
+      "name": "Annotate an image file",
+      "command": "open-annotate"
+    },
+    {
+      "id": "history",
+      "name": "Capture history",
+      "command": "open-history"
+    },
+    {
+      "id": "settings",
+      "name": "CleanShot settings",
+      "command": "open-settings"
+    }
+  ],
+  "systemTools": [
+    {
+      "name": "Audio output",
+      "query": "out ",
+      "bundleId": "io.mende.alfredapp-audioswitcher"
+    },
+    {
+      "name": "Audio input",
+      "query": "in ",
+      "bundleId": "io.mende.alfredapp-audioswitcher"
+    },
+    {
+      "name": "New timer",
+      "query": "timer ",
+      "bundleId": "timer.workflow"
+    },
+    {
+      "name": "Running timers",
+      "query": "timers",
+      "bundleId": "timer.workflow"
+    },
+    {
+      "name": "Keep awake — duration and status",
+      "query": "cfs ",
+      "bundleId": "com.github.vanstrouble.alfred.caffeinedose"
+    },
+    {
+      "name": "Activity and system tools",
+      "query": "atop",
+      "bundleId": "de.chris-grieser.atop"
+    },
+    {
+      "name": "macOS System Settings",
+      "query": "System Settings",
+      "bundleId": null
+    },
+    {
+      "name": "Alfred Preferences",
+      "query": "preferences",
+      "bundleId": null
+    }
+  ],
+  "nativeShortcuts": [
+    {
+      "key": "Cmd+Tab / Cmd+`",
+      "name": "Switch apps / windows within an app"
+    },
+    {
+      "key": "Cmd+W / Cmd+Q",
+      "name": "Close window / quit app"
+    },
+    {
+      "key": "Cmd+C / Cmd+X / Cmd+V",
+      "name": "Copy / cut / paste"
+    },
+    {
+      "key": "Cmd+Z / Cmd+Shift+Z",
+      "name": "Undo / redo"
+    },
+    {
+      "key": "Ctrl+Cmd+F",
+      "name": "Native fullscreen, where supported"
+    },
+    {
+      "key": "Cmd+Shift+3 / 4 / 5",
+      "name": "Capture keys: use your CleanShot X assignments; verify in CleanShot settings"
+    },
+    {
+      "key": "Ctrl+Cmd+Q",
+      "name": "Lock screen"
+    },
+    {
+      "key": "Fn+C / Fn+N",
+      "name": "Control Center / Notification Center"
+    },
+    {
+      "key": "Ctrl+Cmd+Space",
+      "name": "Emoji and symbols"
+    },
+    {
+      "key": "Ctrl+F2 (add Fn if needed)",
+      "name": "Navigate menu bar"
+    },
+    {
+      "key": "Option+Shift+Volume / Brightness",
+      "name": "Fine volume / brightness adjustments"
+    },
+    {
+      "key": "Finder: Space / Cmd+Shift+G",
+      "name": "Quick Look / Go to Folder"
+    },
+    {
+      "key": "Ctrl+Left / Right",
+      "name": "Previous / next desktop"
+    },
+    {
+      "key": "Cmd+Space",
+      "name": "Alfred launcher"
+    }
+  ],
+  "focusSessions": [
+    {
+      "id": "work",
+      "name": "Work",
+      "apps": [
+        "edge",
+        "teams"
+      ],
+      "mode": "work",
+      "layout": "Work"
+    },
+    {
+      "id": "amp",
+      "name": "Code · Amp",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "amp"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Amp"
+    },
+    {
+      "id": "claude",
+      "name": "Code · Claude",
+      "apps": [
+        "obsidian",
+        "ghostty",
+        "claude"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Notes",
+      "layout": "Code Claude"
+    },
+    {
+      "id": "cursor",
+      "name": "Code · Cursor",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "cursor"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Cursor"
+    },
+    {
+      "id": "codex",
+      "name": "Code · Codex",
+      "apps": [
+        "chrome",
+        "ghostty",
+        "codex"
+      ],
+      "mode": "code",
+      "pairLayout": "Code Browser",
+      "layout": "Code Codex"
     }
   ]
 }

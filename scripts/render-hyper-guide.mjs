@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -9,34 +10,175 @@ const key = (s) => `<kbd>${escape(s)}</kbd>`;
 const appRows = config.apps.map((a) => `<tr><td>${key('Hyper')} + ${key(a.key.toUpperCase())}</td><td>${escape(a.name)}</td><td>${a.optional ? 'When installed' : 'Launch or focus'}</td></tr>`).join('');
 const navRows = config.navigation.map((a) => `<tr><td>${key('Hyper')} + ${key(a.key)}</td><td>${escape(a.name)}</td></tr>`).join('');
 const windowRows = config.windowActions.map((a) => `<tr><td>${key('Hyper')} + ${key(a.key)}</td><td>${escape(a.name)}</td></tr>`).join('');
+const mehRows = config.mehActions.map((a) => `<tr><td>${key('Meh')} + ${key(a.key)}</td><td>${escape(a.name)}</td></tr>`).join('');
+const nativeRows = config.nativeShortcuts.map((a) => `<tr><td>${key(a.key)}</td><td>${escape(a.name)}</td></tr>`).join('');
 const codexCommands = { 'composer.startVoiceMode': 'Toggle voice chat · Codex app', 'composer.startDictation': 'Start dictation · Codex app' };
 const codexRows = JSON.parse(readFileSync(root + 'codex/.codex/keybindings.json', 'utf8'))
   .filter((b) => b.key?.startsWith('Command+Control+Alt+Shift+'))
   .map((b) => `<tr><td>${key('Hyper')} + ${key(b.key.split('+').at(-1))}</td><td>${escape(codexCommands[b.command] ?? b.command)}</td></tr>`).join('');
 const layouts = config.layouts.map((l) => `<tr><td>${escape(l.name)}</td><td>${escape(l.description)}</td><td>${l.launchApps ? 'Yes' : 'Open apps first'}</td></tr>`).join('');
 
+const appName = (id) => config.apps.find((a) => a.id === id).name;
+const focusRows = config.focusSessions.map((s) => `<tr><td><code>focus ${escape(s.id)}</code></td><td>${escape(s.name)}</td><td>${escape(s.apps.map(appName).join(' + '))}</td><td>${s.id === 'work' ? 'Edge ⅔ · Teams ⅓' : 'Desktop 1: first app ⅔ · Ghostty ⅓<br>Desktop 2: chosen coding app maximized'}</td></tr>`).join('');
+const owned = (name) => JSON.parse(execFileSync('plutil', ['-convert','json','-o','-',root + 'alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.'+name+'/info.plist']));
+const dock = owned('dockflow-profiles');
+const dockRows = dock.objects.filter((o) => o.type.endsWith('.input.keyword')).map((o) => {
+  const mode=o.uid.replace('-input','');
+  return [dock.objects.find((h) => h.uid===mode+'-hotkey')?.config.hotstring, o.config.keyword, mode];
+});
+const googleRows = owned('google-workspace').objects.filter((o) => o.type.endsWith('.input.keyword')).map((o) => [o.config.keyword,o.config.title]);
+const table = (headers, rows) => `<table class="key-table"><thead><tr>${headers.map((h)=>'<th>'+escape(h)+'</th>').join('')}</tr></thead><tbody>${rows.map((r)=>'<tr>'+r.map((c)=>'<td>'+escape(c)+'</td>').join('')+'</tr>').join('')}</tbody></table>`;
+const catalog = JSON.parse(readFileSync(root+'docs/alfred-workflows.json','utf8')).workflows;
+const keywordRows = [['hyper','All apps, focus sessions, layouts and window actions'],['focus work','Work: Edge and Teams'],['focus amp','Code: Amp, Ghostty and Chrome'],['focus claude','Code: Claude, Ghostty and Obsidian'],['focus cursor','Code: Cursor, Ghostty and Chrome'],['focus codex','Code: Codex, Ghostty and Chrome'],['work / code / zen / default','Layout menus; do not quit apps'],['layouts','All named Rectangle layouts'],['capture','CleanShot X capture menu'],['tools','Audio, timers, keep-awake, activity and settings'],...googleRows];
+const mdTable = (headers,rows) => [headers,headers.map(()=> '---'),...rows].map((r)=>'| '+r.map((c)=>String(c).replaceAll('|','\\|').replaceAll('\n',' ')).join(' | ')+' |').join('\n');
+const manual = `# macOS Hotkeys
+
+Your Hyperland manual. Hold **Caps Lock** for Hyper (Control + Option + Command + Shift); tap it for Escape. Hold **Right Option** for Meh (Control + Option + Shift). Left Option stays normal.
+
+Open **Hyper+/** for the searchable visual guide, or view [the standalone page](hotkeys.html). This reference is generated from the same configuration as the workflows.
+
+## Focus sessions
+
+${mdTable(['Alfred command','Session','Apps'],config.focusSessions.map((s)=>['focus '+s.id,s.name,s.apps.map(appName).join(' + ')]))}
+
+Work uses Edge on the left two-thirds and Teams on the right third. Code has exactly four variations, using **two ordinary macOS desktops**:
+
+- Desktop 1: Chrome (Amp/Cursor/Codex) or Obsidian (Claude) on the left two-thirds; Ghostty on the right third.
+- Desktop 2: the chosen Amp, Claude, Cursor or Codex app maximized.
+
+On each Mac, create Desktop 1 and Desktop 2 in Mission Control. Visit Desktop 1 and use each app’s Dock icon → Options → Assign To → This Desktop for Chrome, Obsidian and Ghostty. Visit Desktop 2 and assign Amp, Claude, Cursor and Codex there. Assign Edge and Teams to Desktop 1 if Work should use that same desktop. Import the updated Rectangle snapshot. These assignments belong to this Mac; they are not copied as numeric Space IDs. Native fullscreen is not used.
+
+Session commands quit the outgoing session’s apps normally, including shared Ghostty/Chrome on a real variation change. Save or terminal prompts remain interactive. If an app refuses or takes longer than 30 seconds to quit, the next session does not open. Already-quit apps remain closed; retry after resolving the prompt. Apps outside the five configured sets are unaffected. Re-selecting the active session keeps its apps running. On first use, without session history, target apps stay open and other configured-session apps are quit.
+
+The last successful session ID and compiled helper live in ~/Library/Caches/com.rahulnakmol.hyper, outside Git. Missing target apps stop the switch before any quits. Failed launches can leave a partially opened session; retry. Apple Command Line Tools compile the helper on first use. This switches apps and layouts; it does not change macOS notification Focus modes.
+
+## Launching apps
+
+${mdTable(['Hyper +','App'],config.apps.map((a)=>[a.key.toUpperCase(),a.name+(a.optional?' (when installed)':'')]))}
+
+Each app has one direct shortcut. Final Cut Pro, Motion and Compressor are mapped but not installed by this setup.
+
+## Navigation and Spaces
+
+${mdTable(['Hyper +','Action'],config.navigation.map((a)=>[a.key,a.name]))}
+
+Hyper+1…9/0 selects existing Desktops 1…10. It does not create them. Hyper+Space opens the menu; Hyper+/ opens this manual. Use Control+Left/Right for neighboring desktops. Run the Mission Control helper during new-Mac setup and log out/in to activate its changes.
+
+## Windows and displays
+
+${mdTable(['Hyper +','Action','Notes'],config.windowActions.map((a)=>[a.key,a.name,a.description]))}
+
+Maximize fills the current desktop without creating a native fullscreen Space. Layouts size windows; native Dock assignments provide the two-desktop placement. Multiple restored windows and slow app startup may need reapplying a layout from Meh+Return.
+
+## Shared tools with Meh
+
+${mdTable(['Meh +','Action'],config.mehActions.map((a)=>[a.key,a.name]))}
+
+Universal Actions uses selected text, URLs or files. Clipboard stores text for 24 hours with concealed data and password-app exclusions; images/files are off. Snippet contents stay private. Meh+Up retains Rectangle’s maximize-height shortcut.
+
+## DockFlow profiles
+
+${mdTable(['Meh +','Alfred keyword','Profile'],dockRows)}
+
+DockFlow numbers change the Dock profile only. They do not quit apps or switch focus sessions. Focus commands select the Work or Code Dock profile automatically. Transfer DockFlow profiles privately on each Mac; their integration links may need updating.
+
+## Alfred keywords
+
+${mdTable(['Keyword','Action'],keywordRows)}
+
+${mdTable(['System tools entry','Alfred query'],config.systemTools.map((a)=>[a.name,a.query]))}
+
+Utility workflows must be installed; the bootstrap checks their IDs. Google Workspace keywords use browser shortcuts, not Google Drive desktop indexing.
+
+## Installed workflow reference
+
+${catalog.map((w)=>'- ['+w.name+']('+w.galleryUrl+')').join('\n')}
+
+These links document vendor-specific actions and configurable keywords. Third-party workflow source, credentials and personal settings remain outside Git. The shared Meh tools above provide the stable entry points.
+
+## Capture with CleanShot X
+
+${mdTable(['Capture menu entry','CleanShot command'],config.captureActions.map((a)=>[a.name,a.command]))}
+
+Meh+C opens the menu without starting a capture. On this Mac, Cmd+Shift+3 captures fullscreen, Cmd+Shift+4 captures an area and Cmd+Shift+5 opens All-in-One. Verify these assignments and enable CleanShot at login on another Mac. The workflow adds no automatic upload. Use the installed Setapp or standalone edition.
+
+## Named layouts
+
+${mdTable(['Layout','Arrangement','Launch closed apps'],config.layouts.map((l)=>[l.name,l.description,l.launchApps?'Yes':'No']))}
+
+The older Code/Code Balanced communication layouts include Slack. Focus Code uses the separate Code Browser/Code Notes and Code Amp/Claude/Cursor/Codex layouts. Applying an ordinary layout never quits a focus session.
+
+## Native macOS shortcuts
+
+${mdTable(['Shortcut','Action'],config.nativeShortcuts.map((a)=>[a.key,a.name]))}
+
+Alfred’s configured launcher is Cmd+Space. Disable Spotlight’s Show Spotlight Search shortcut and clear Raycast’s launcher binding so Alfred is the sole owner of Cmd+Space. Hardware/Fn behavior varies by keyboard. Native Codex shortcuts remain at defaults; Hyper+V is voice chat and Hyper+M dictation while Codex is focused.
+
+## Terminal and editor reference
+
+Ghostty uses its native app shortcuts; this setup adds no global terminal key overrides. Your tmux configuration has its own Ctrl+A prefix and Option+arrow pane navigation. See [tmux source](../tmux/.config/tmux/tmux.conf), [Ghostty source](../ghostty/.config/ghostty/config) and [module documentation](modules/) for their complete local settings. Native app menus remain the source for editor-specific shortcuts.
+
+## New Mac, checks and rollback
+
+Run from the dotfiles clone:
+
+\`\`\`sh
+bash scripts/bootstrap-hyper.sh plan
+bash scripts/bootstrap-hyper.sh apply
+bash scripts/bootstrap-hyper.sh check
+# Undo only the changes recorded by a bootstrap run:
+bash scripts/bootstrap-hyper.sh rollback BACKUP_DIRECTORY
+\`\`\`
+
+Follow [the bootstrap guide](modules/hyper-bootstrap.md) for Homebrew, Stow, permissions, licenses, login, vendor workflows and rollback boundaries. Set the per-Mac Dock desktop assignments above. Source tests cannot prove physical keys, native app assignments, a fresh login or behavior on a second Mac. Focus quit/launch behavior is tested with substitutes; a live session switch still requires acceptance with saved work.
+
+## Maintain the manual
+
+Edit scripts/hyper-config.json, then regenerate:
+
+\`\`\`sh
+node scripts/build-hyper-config.mjs
+node scripts/render-hyper-guide.mjs
+node --test scripts/test-focus-sessions.mjs scripts/test-hyper-bootstrap.mjs scripts/test-hyper-config.mjs scripts/test-launcher-config.mjs scripts/test-codex-policy.mjs
+\`\`\`
+
+The HTML page, Alfred guide and Markdown reference are generated together. Reimport Rectangle after layout changes. Source is Stow-backed; app licenses, clipboard, snippets and runtime state are not committed.
+
+Structure inspired by [Omarchy’s Hotkeys manual](https://learn.omacom.io/2/the-omarchy-manual/53/hotkeys). Behavior uses [Apple’s normal quit API](https://developer.apple.com/documentation/appkit/nsrunningapplication/terminate()) and [Rectangle’s supported layout API](https://rectangleapp.com/pro/docs/url-api/).
+
+Created by Rahul N Akmol.
+`;
+
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hyper — keyboard-first macOS</title>
+<title>Hotkeys — Hyperland macOS manual</title>
 <style>
 :root{color-scheme:dark;--bg:#24273a;--panel:#1e2030;--line:#494d64;--text:#cad3f5;--muted:#a5adcb;--accent:#8bd5ca;--blue:#8aadf4;--pink:#f5bde6;--peach:#f5a97f}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--accent);text-underline-offset:3px}button,input{font:inherit}button{cursor:pointer}main{max-width:1200px;margin:auto;padding:56px 40px 90px}nav{display:flex;gap:24px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:50px;font-size:14px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.15em;font-size:12px;font-weight:700}.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:50px;align-items:center}h1{font-size:clamp(70px,10vw,126px);line-height:.95;letter-spacing:-.065em;margin:20px 0 30px;font-weight:650}h2{font-size:32px;letter-spacing:-.035em;line-height:1.2;margin:0 0 18px}h3{font-size:20px;line-height:1.35;margin:0 0 12px}p{margin:0 0 18px}.lead{font-size:23px;line-height:1.5;max-width:660px}.muted,small{color:var(--muted)}section{margin-top:65px;scroll-margin-top:28px}.caps{background:var(--panel);border:1px solid var(--line);border-bottom:9px solid #181926;border-radius:24px;min-height:225px;padding:32px;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-3deg)}.caps strong{font-size:34px;letter-spacing:-1px}.caps .mods{display:flex;gap:15px;color:var(--accent);font-size:25px}.caps small{font-size:14px}.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:38px}.quick article,.card{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:21px}.quick article p{margin:12px 0 0;font-size:14px;color:var(--muted)}kbd{display:inline-block;font:600 13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid #5b6078;border-bottom-width:3px;border-radius:6px;background:#363a4f;padding:2px 7px;white-space:nowrap}.callout{border-left:3px solid var(--peach);padding:4px 0 4px 20px;margin:24px 0;color:var(--muted)}.callout strong{color:var(--text)}.tabs{display:flex;gap:8px;margin:25px 0}.tabs button{color:var(--text);border:1px solid var(--line);padding:9px 22px;border-radius:30px;background:var(--panel)}.tabs button[aria-selected=true]{background:var(--accent);color:#181926;border-color:var(--accent);font-weight:700}.spaces{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.space{border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--panel)}.space .label{display:flex;justify-content:space-between;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:16px}.screen{height:165px;border:5px solid #363a4f;border-radius:9px;display:flex;gap:3px;padding:4px;background:#181926;overflow:hidden}.pane{display:flex;align-items:center;justify-content:center;border-radius:4px;background:var(--blue);color:#181926;font-weight:650;text-align:center;font-size:14px;line-height:1.35;flex:1;padding:8px}.pane.wide{flex:2}.pane.alt{background:var(--pink)}.pane.zen{background:var(--accent)}.space p{font-size:14px;color:var(--muted);margin:16px 0 0}.workspace-intro{color:var(--muted);max-width:850px}.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}.search{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 18px;margin:8px 0 20px}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th{text-align:left;text-transform:uppercase;font-size:11px;letter-spacing:.1em;color:var(--muted);padding:12px 10px;border-bottom:1px solid var(--line)}td{padding:11px 10px;border-bottom:1px solid #363a4f;vertical-align:top}tr[hidden]{display:none}td:first-child{white-space:nowrap}.step{display:grid;grid-template-columns:36px 1fr;gap:15px;margin:22px 0}.step b.number{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#181926;text-align:center;line-height:30px;font-size:14px}.step p{margin-bottom:8px}pre{overflow:auto;padding:20px;border:1px solid var(--line);background:var(--panel);border-radius:12px;font:13px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap}ul{padding-left:22px}li{margin:8px 0}.research-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.research-grid p{font-size:15px}.tag{display:inline-block;padding:3px 8px;border:1px solid var(--line);border-radius:6px;color:var(--muted);font-size:12px;margin-bottom:12px}.sources{display:grid;grid-template-columns:1fr 1fr;gap:8px 30px;font-size:13px}.sources a{display:block}.footer{margin-top:65px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-size:13px;gap:20px}.no-results{display:none;color:var(--muted)}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--peach);outline-offset:4px}
 @media(max-width:780px){main{padding:30px 22px 60px}.hero,.two,.research-grid{grid-template-columns:1fr}.caps{display:none}.quick{grid-template-columns:repeat(2,1fr)}.spaces{grid-template-columns:1fr}.screen{height:180px}.sources{grid-template-columns:1fr}.lead{font-size:20px}.footer{display:block}nav{gap:16px;margin-bottom:28px}}
 @media print{body{background:white;color:#17202b;font-size:11px}main{padding:0;max-width:none}nav,.tabs,.search,.print-hide{display:none}.hero{display:block}h1{font-size:50px}.caps{display:none}section{margin-top:26px;break-inside:avoid}h2{font-size:22px}.quick,.spaces,.two,.research-grid{break-inside:avoid}.quick article,.card,.space,pre{background:#fafafa;border-color:#ccc}kbd{color:#111;background:#eee;border-color:#ccc}.muted,small,.space p,.workspace-intro,.callout{color:#444}.footer{margin-top:20px}a{color:#164d58}td,th{border-color:#ddd}.sources{font-size:10px}}
 </style></head><body><main>
-<nav aria-label="Guide sections"><a href="#start">Start</a><a href="#desktops">Desktops</a><a href="#keys">Keys</a><a href="#layouts">Layouts</a><a href="#setup">New Mac</a><a href="#research">Research</a></nav>
-<header class="hero" id="start"><div><div class="eyebrow">macOS · Hyperland · Rahul N Akmol</div><h1>Hyper.</h1><p class="lead">Work, Code, Zen.<br>One keyboard vocabulary across your Macs.</p><p class="muted">An Omarchy-inspired setup using Karabiner, Alfred, Rectangle Pro and your existing DockFlow profiles. Hold Caps Lock for Hyper; tap it for Escape. Right Option is Meh (⌃⌥⇧) for DockFlow. Left Option stays normal.</p></div><div class="caps" aria-label="Hold Caps Lock for Control Option Command Shift"><strong>Caps Lock</strong><div class="mods"><span>⌃</span><span>⌥</span><span>⌘</span><span>⇧</span></div><small>Hold → Hyper &nbsp; / &nbsp; Tap → Escape</small></div></header>
+<nav aria-label="Guide sections"><a href="#start">Start</a><a href="#focus">Focus sessions</a><a href="#desktops">Desktops</a><a href="#keys">Keys</a><a href="#tools">Meh tools</a><a href="#commands">Commands</a><a href="#native">Native keys</a><a href="#layouts">Layouts</a><a href="#setup">New Mac</a><a href="#research">Research</a></nav>
+<header class="hero" id="start"><div><div class="eyebrow">macOS · Hyperland · Rahul N Akmol</div><h1>Hotkeys.</h1><p class="lead">Work, Code, Zen.<br>One keyboard vocabulary across your Macs.</p><p class="muted">An Omarchy-inspired setup using Karabiner, Alfred, Rectangle Pro and your existing DockFlow profiles. Hold Caps Lock for Hyper; tap it for Escape. Right Option is Meh (⌃⌥⇧) for shared tools and DockFlow. Left Option stays normal.</p></div><div class="caps" aria-label="Hold Caps Lock for Control Option Command Shift"><strong>Caps Lock</strong><div class="mods"><span>⌃</span><span>⌥</span><span>⌘</span><span>⇧</span></div><small>Hold → Hyper &nbsp; / &nbsp; Tap → Escape</small></div></header>
 <div class="quick"><article>${key('Hyper')} + ${key('Space')}<p>Search every app and layout.</p></article><article>${key('Hyper')} + ${key('H')}<p>Open or focus Ghostty.</p></article><article>${key('Hyper')} + ${key('Return')}<p>Maximize on this desktop.</p></article><article>${key('Hyper')} + ${key('Tab')}<p>Return to the previous app.</p></article></div>
-<section id="desktops"><div class="eyebrow">A place for each kind of work</div><h2>Three desktops. Familiar apps.</h2><p class="workspace-intro">Use ordinary macOS desktops. Arrange each one, then select them with Hyper+1, 2, 3… (0 selects Desktop 10), or move between neighbours with native Control+Left and Control+Right. Create each desktop first using Mission Control’s + button. App keys keep the same meaning in every mode.</p>
+<section id="focus"><div class="eyebrow">Work + four Code variations</div><h2>Focus sessions</h2><p>Type <code>focus</code> in Alfred or search for a focus session in Hyper+Space. Switching quits the outgoing session’s apps completely before opening the next set. A normal save or terminal prompt can stop the switch; there is no force quit.</p><div class="table-scroll"><table class="key-table"><thead><tr><th>Command</th><th>Session</th><th>Apps</th><th>Arrangement</th></tr></thead><tbody>${focusRows}</tbody></table></div><div class="two"><article class="card"><h3>Desktop 1 · reference + terminal</h3><div class="screen"><div class="pane wide">Chrome<br>or Obsidian<br>⅔</div><div class="pane alt">Ghostty<br>⅓</div></div></article><article class="card"><h3>Desktop 2 · coding</h3><div class="screen"><div class="pane">Amp / Claude / Cursor / Codex<br>Maximized</div></div></article></div><p class="callout"><strong>One-time setup on each Mac:</strong> create two ordinary desktops. On Desktop 1 assign Chrome, Obsidian and Ghostty using each Dock icon → Options → Assign To → This Desktop. On Desktop 2 assign Amp, Claude, Cursor and Codex. Edge and Teams can be assigned to Desktop 1. Import the updated Rectangle snapshot. Rectangle sizes windows but does not assign numbered Spaces; native fullscreen is not used.</p><p>Switching coding variants also quits shared Ghostty and Chrome before reopening them. Re-selecting the active session keeps its apps running. On first use, target apps are preserved and other configured-session apps are quit. Apps outside these session sets remain untouched. Missing apps stop the switch before any quits. The helper waits up to 30 seconds for each outgoing app; resolve prompts and retry if it stops. Coding sessions use the layouts below without opening Slack. Slow startup or extra restored windows may need a layout reapplication.</p><p>The first run compiles a native helper using Apple Command Line Tools. Its binary and last session ID stay in this Mac’s cache. These are app sessions; macOS notification Focus modes are unchanged.</p></section>
+<section id="commands"><div class="eyebrow">Searchable Alfred commands</div><h2>Commands and DockFlow</h2>${table(['Keyword','Action'],keywordRows)}<h3>DockFlow profiles</h3>${table(['Meh +','Keyword','Profile'],dockRows)}<p>DockFlow number keys change the Dock only. Use the explicit focus commands when you want apps to quit.</p><h3>Installed workflow reference</h3><div class="sources">${catalog.map((w)=>`<a href="${escape(w.galleryUrl)}">${escape(w.name)}</a>`).join('')}</div><p>Vendor pages document each workflow’s full commands and configurable keywords. Personal settings remain outside Git.</p><h3>System tools</h3>${table(['Tool','Query'],config.systemTools.map((a)=>[a.name,a.query]))}<h3>CleanShot menu</h3>${table(['Capture action','Command'],config.captureActions.map((a)=>[a.name,a.command]))}</section>
+<section id="desktops"><div class="eyebrow">A place for each kind of work</div><h2>Desktop navigation and general layouts</h2><p class="workspace-intro">Use ordinary macOS desktops. Arrange each one, then select them with Hyper+1, 2, 3… (0 selects Desktop 10), or move between neighbours with native Control+Left and Control+Right. Create each desktop first using Mission Control’s + button. App keys keep the same meaning in every mode.</p>
 <div class="tabs" role="tablist" aria-label="Workspace mode"><button role="tab" id="tab-work" aria-selected="true" aria-controls="workspace" data-mode="work">Work</button><button role="tab" id="tab-code" aria-selected="false" aria-controls="workspace" data-mode="code">Code</button><button role="tab" id="tab-zen" aria-selected="false" aria-controls="workspace" data-mode="zen">Zen</button></div>
 <div id="workspace" role="tabpanel" aria-labelledby="tab-work" aria-live="polite"></div>
 <div class="callout"><strong>Maximized is different from native fullscreen.</strong> Maximized windows can share a normal desktop, overlap and tile. Native fullscreen creates a separate Space. Rectangle layouts do not automatically recover numbered Space placement; move windows to the intended desktop before applying its layout.</div>
 </section>
-<section id="keys"><div class="eyebrow">Muscle memory, with a searchable fallback</div><h2>The key map</h2><p>Hold Caps Lock with the key below. App keys launch or focus without opening an extra agent session. Hyper+/ returns to this guide.</p><label for="key-search" class="muted">Find an app or action</label><input class="search" id="key-search" type="search" placeholder="Try: Ghostty, Teams, desktop, half…" autocomplete="off">
+<section id="keys"><div class="eyebrow">Muscle memory, with a searchable fallback</div><h2>The key map</h2><p>Hold Caps Lock with the key below. App keys launch or focus without opening an extra agent session. Hyper+/ returns to this guide.</p><label for="key-search" class="muted">Search all shortcut and command tables</label><input class="search" id="key-search" type="search" placeholder="Try: focus, Claude, capture, thirds…" autocomplete="off">
 <div class="two"><div><h3>Apps</h3><div class="table-scroll"><table class="key-table"><thead><tr><th>Shortcut</th><th>App</th><th>Action</th></tr></thead><tbody>${appRows}</tbody></table></div><p class="muted" style="margin-top:16px;font-size:13px">A/S/D/F = Amp, Slack, Chrome, Finder. H/J/K/L = Ghostty, Codex, Cursor, Claude. W/E = Word/Edge; I/O/P = Teams/Excel/PowerPoint. R = Safari; N = Obsidian notes. Z/X/C = Final Cut Pro, Motion, Compressor: edit → animate → export. Creative app keys work where installed; no apps are installed by this setup. One direct key per app. On this Mac, ChatGPT is the installed Codex host. Letters prioritize apps and voice; punctuation and arrows control windows. Native Control+Left/Right switches adjacent desktops.</p></div><div><h3>Navigation & windows</h3><div class="table-scroll"><table class="key-table"><thead><tr><th>Shortcut</th><th>Action</th></tr></thead><tbody>${navRows}${windowRows}${codexRows}</tbody></table></div></div></div>
-<p class="no-results" id="no-results">No matching shortcut. Clear the search to see the full map.</p><p class="callout"><strong>Meh chooses your Dock; Hyper chooses your desktop.</strong> Hold Right Option for Meh (Control+Option+Shift). Meh+0/1/2/3/4/5/9 switches DockFlow Default/Work/Code/Author/Create/Video/Zen. Inside Codex, Hyper+V toggles voice chat and Hyper+M starts dictation. Other Codex actions use their defaults. Hyper+J focuses Codex first. Option+Space still opens normal Alfred.</p></section>
-<section id="layouts"><div class="eyebrow">Alfred → DockFlow → Rectangle Pro</div><h2>Choose a layout by name</h2><p>Open Hyper+Space and type a name, or type <code>work</code>, <code>code</code>, <code>zen</code> or <code>default</code> in Alfred. A layout with an associated mode switches its DockFlow profile before applying the geometry. Terminal leaves the Dock profile alone.</p><div class="table-scroll"><table><thead><tr><th>Layout</th><th>Arrangement</th><th>Opens closed apps</th></tr></thead><tbody>${layouts}</tbody></table></div><p class="callout"><strong>On a small screen:</strong> Teams or Slack may refuse a narrow third. Use Work Balanced / Code Balanced, or maximize. Agents and Zen arrange the apps already open so you can choose Amp or Cursor. One ordinary window per matching app is targeted; extra windows and documents need deliberate placement.</p></section>
-<section id="setup"><div class="eyebrow">Same source, each Mac configured deliberately</div><h2>Set up your Air or Pro</h2>
+<p class="no-results" id="no-results">No matching shortcut. Clear the search to see the full map.</p><p class="callout"><strong>Meh chooses your Dock; Hyper chooses your desktop.</strong> Hold Right Option for Meh (Control+Option+Shift). Meh+0/1/2/3/4/5/9 switches DockFlow Default/Work/Code/Author/Create/Video/Zen. Inside Codex, Hyper+V toggles voice chat and Hyper+M starts dictation. Other Codex actions use their defaults. Hyper+J focuses Codex first. Cmd+Space still opens normal Alfred.</p></section>
+<section id="tools"><div class="eyebrow">Right Option · Control + Option + Shift</div><h2>Shared actions with Meh</h2><table class="key-table"><thead><tr><th>Shortcut</th><th>Action</th></tr></thead><tbody>${mehRows}</tbody></table><p class="callout">Select text, a URL or file before Meh+A. Clipboard history is plain text for 24 hours, with password-app and concealed-content exclusions. Meh+S searches your own snippets; their contents and history remain local.</p><p>Meh+C opens the CleanShot X menu: all-in-one, area, window, recording, scrolling capture, OCR, annotation and history. Nothing is captured merely by opening the menu. CleanShot uses your existing settings; the workflow adds no automatic cloud upload. Its Setapp and standalone editions use the same URL scheme.</p><p>Meh+Space opens Audio Switcher, Timer, Caffeine Dose and atop through their default keywords. Meh+Return opens only the layout list. Alfred keywords <code>capture</code>, <code>tools</code> and <code>layouts</code> provide searchable alternatives.</p></section>
+<section id="native"><div class="eyebrow">Keep macOS and app defaults</div><h2>The native foundation</h2><table class="key-table"><thead><tr><th>Shortcut</th><th>Action</th></tr></thead><tbody>${nativeRows}</tbody></table><p class="callout">CleanShot X is the capture owner. Cmd+Shift+3/4/5 are familiar capture keys, but their exact actions must be verified in your CleanShot settings. This setup leaves those assignments intact. Hardware/Fn shortcuts depend on the keyboard and macOS release. Native screenshot controls remain a fallback, not the recommended capture tool.</p><p><a href="https://support.apple.com/en-us/102650">Apple keyboard reference</a> · <a href="https://cleanshot.com/docs-api">CleanShot URL API</a> · <a href="https://www.alfredapp.com/help/features/universal-actions/">Alfred Universal Actions</a></p></section>
+<section id="layouts"><div class="eyebrow">Alfred → DockFlow → Rectangle Pro</div><h2>Choose a layout by name</h2><p>Open Hyper+Space and type a name, or type <code>work</code>, <code>code</code>, <code>zen</code> or <code>default</code> in Alfred. A layout with an associated mode switches its DockFlow profile before applying the geometry. Terminal leaves the Dock profile alone.</p><div class="table-scroll"><table class="key-table"><thead><tr><th>Layout</th><th>Arrangement</th><th>Opens closed apps</th></tr></thead><tbody>${layouts}</tbody></table></div><p class="callout"><strong>On a small screen:</strong> Teams or Slack may refuse a narrow third. Use Work Balanced / Code Balanced, or maximize. Agents and Zen arrange the apps already open so you can choose Amp or Cursor. One ordinary window per matching app is targeted; extra windows and documents need deliberate placement.</p></section>
+<section id="setup"><div class="eyebrow">Same source, each Mac configured deliberately</div><h2>Set up your Air or Pro</h2><p>Use the backed-up bootstrap for managed links and the six Meh actions:</p><pre>bash scripts/bootstrap-hyper.sh plan
+bash scripts/bootstrap-hyper.sh apply
+bash scripts/bootstrap-hyper.sh check
+# To undo one run:
+bash scripts/bootstrap-hyper.sh rollback BACKUP_DIRECTORY</pre><p>Start with Homebrew and Git, clone dotfiles, then run apply. The script installs missing Node/Stow and the three core apps. CleanShot may come from Setapp or a separate installation; no duplicate copy is installed. Follow <code>docs/modules/hyper-bootstrap.md</code> for native imports, Gallery workflows, licenses, permissions and rollback boundaries.</p>
 <div class="step"><b class="number">1</b><div><h3>Install and link</h3><p>Use Homebrew, then Stow the three modules. Back up any existing conflicting configurations first.</p><pre>brew install --cask alfred karabiner-elements rectangle-pro
 cd ~/.dotfiles
 stow -n -v alfred karabiner rectangle-pro
@@ -60,7 +202,7 @@ node --test scripts/test-launcher-config.mjs scripts/test-hyper-config.mjs</pre>
 </main><script>
 const views={
 work:[['Desktop 1','Work','Edge','Teams','Work or Work Balanced. Edge gets the wider panel.'],['Desktop 2','Office','Word','Excel','Office uses equal halves for two documents.'],['Desktop 3','Focus','Claude / PowerPoint','','Hyper+L, then Hyper+Return; or choose Present.']],
-code:[['Desktop 1','Code','Chrome','Slack','Code or Code Balanced keeps communication together.'],['Desktop 2','Terminal','Ghostty','','Choose Terminal after moving Ghostty here.'],['Desktop 3','Agents','Codex · Claude<br>Cursor · Amp','','Open the apps you want, place them here, then choose Agents.']],
+code:[['Desktop 1','Reference + terminal','Chrome / Obsidian','Ghostty','Code Browser or Code Notes: left two-thirds and right third.'],['Desktop 2','Code','Amp / Claude / Cursor / Codex','','The selected focus variation maximizes its coding app here.']],
 zen:[['Desktop 1','Zen','Amp or Cursor<br>Ghostty · Obsidian','','Open your chosen apps and apply Zen. All are maximized and overlap.'],['Switch apps','Stay in flow','Hyper + Tab','','Return to the previous app, or use a direct app key.'],['No extra Space','Normal windows','Hyper + Return','','Maximize without entering native fullscreen.']]};
 function show(mode){const data=views[mode];document.querySelector('#workspace').innerHTML='<div class="spaces">'+data.map((d,i)=>'<article class="space"><div class="label"><span>'+d[0]+'</span><span>'+d[1]+'</span></div><div class="screen"><div class="pane '+(d[3]&&i===0?'wide ':'')+(mode==='zen'?'zen':'')+'">'+d[2]+'</div>'+(d[3]?'<div class="pane alt">'+d[3]+'</div>':'')+'</div><p>'+d[4]+'</p></article>').join('')+'</div>';document.querySelector('#workspace').setAttribute('aria-labelledby','tab-'+mode);document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.mode===mode)));}
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.mode)));show('work');
@@ -69,9 +211,12 @@ document.querySelector('#key-search').addEventListener('input',e=>{const q=e.tar
 
 const output = root + 'alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html';
 if (process.argv.includes('--check')) {
+  if (readFileSync(root+'docs/hotkeys.html','utf8') !== html || readFileSync(root+'docs/hotkeys.md','utf8') !== manual) throw new Error('Regenerate the hotkeys manual.');
   if (readFileSync(output, 'utf8') !== html) throw new Error('Regenerate the Hyper guide.');
   console.log('Hyper guide is current.');
 } else {
   writeFileSync(output, html);
+  writeFileSync(root+'docs/hotkeys.html',html);
+  writeFileSync(root+'docs/hotkeys.md',manual);
   console.log('Hyper guide rendered.');
 }

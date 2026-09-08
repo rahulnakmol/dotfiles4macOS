@@ -90,16 +90,18 @@ export function buildWorkflow(config, dockflow) {
     return uid;
   };
   const connect = (source, target) => { connections[source] = [{ destinationuid: target, modifiers: 0, modifiersubtext: '', vitoclose: false }]; };
-  const hotkey = (uid, key, code) => add(uid, 'trigger.hotkey', {
-    action: 0, argument: 0, hotkey: code, hotmod: 1966080, hotstring: key,
+  const hotkey = (uid, key, code, modifiers = 1966080) => add(uid, 'trigger.hotkey', {
+    action: 0, argument: 0, hotkey: code, hotmod: modifiers, hotstring: key,
     focusedappvariable: false, focusedappvariablename: '', leftcursor: false,
     modsmode: 0, relatedAppsMode: 0,
   }, 2);
   const dispatch = add('dispatch', 'action.script', {
     concurrently: false, escaping: 0, scriptargtype: 1, scriptfile: '', type: 5,
-    script: '/bin/zsh ./dispatch.zsh "$1"',
+    script: '/bin/zsh ./dispatch.zsh "$1" 2>&1 || true',
   }, 2, 650);
+  const focusItems = config.focusSessions.map((session) => ({ title: `${session.name} focus session`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · Quits outgoing session apps`, arg: `focus:${session.id}` }));
   const items = [
+    ...focusItems,
     ...config.apps.map((app) => ({ title: app.name, subtitle: `Hyper+${app.key.toUpperCase()} · ${app.optional ? 'Launch or focus when installed' : 'Launch or focus'}`, arg: `app:${app.id}` })),
     ...config.layouts.map((layout) => ({ title: `${layout.name} layout`, subtitle: `${layout.description}${layout.launchApps ? ' · Opens apps' : ' · Open apps first'}`, arg: `layout:${layout.name}` })),
     ...config.windowActions.map((action) => ({ title: action.name, subtitle: `Hyper+${action.key} · ${action.description}`, arg: `window:${action.id}` })),
@@ -110,6 +112,12 @@ export function buildWorkflow(config, dockflow) {
     keyword, matchmode: 0, runningsubtext: '', subtext: 'Type to filter; Return to run', title, withspace: true,
   });
   connect(list('menu', 'hyper', items, 'Hyper — apps, layouts and windows'), dispatch);
+  const focusDispatch = add('focus-dispatch', 'action.script', { concurrently:false, escaping:0, scriptargtype:1, scriptfile:'', type:5, script:'/bin/zsh ./focus-session.zsh "$1" 2>&1 || true' }, 2, 650);
+  const focusResult = add('focus-result', 'output.notification', { title:'Hyper', text:'{query}', onlyshowifquerypopulated:true, removeextension:false, lastpathcomponent:false }, 0);
+  connect(focusDispatch, focusResult);
+  connect(dispatch, focusResult);
+  // Sessions have their own path so failures are visible as notifications.
+  connect(list('menu-focus', 'focus', focusItems, 'Switch focus session'), focusDispatch);
   connect(hotkey('menu-hotkey', 'Space', 49), 'menu');
   for (const mode of ['work', 'code', 'zen', 'default']) {
     const selected = config.layouts.filter((l) => l.mode === mode);
@@ -125,6 +133,19 @@ export function buildWorkflow(config, dockflow) {
     connect(hotkey(`${uid}-hotkey`, key, code), arg);
     connect(arg, dispatch);
   }
+  // Native Alfred feature hotkeys (A/V/S) are configured by bootstrap; these three belong to the workflow.
+  const show = add('show-tool', 'utility.showalfred', { argument: '{query}', leftcursor: false });
+  const capture = list('menu-capture', 'capture', config.captureActions.map((a) => ({ title:a.name, subtitle:'CleanShot X · choose before capture', arg:`capture:${a.id}` })), 'CleanShot X capture tools');
+  connect(capture, dispatch);
+  const toolMenu = list('menu-tools', 'tools', config.systemTools.map((a) => ({ title:a.name, subtitle:a.bundleId ? 'Open the installed workflow menu' : 'Open Alfred search', arg:a.query })), 'System tools');
+  connect(toolMenu, show);
+  const layoutMenu = list('menu-layouts', 'layouts', config.layouts.map((l) => items.find((i) => i.arg === `layout:${l.name}`)), 'Window layouts');
+  connect(layoutMenu, dispatch);
+  for (const action of config.mehActions.filter((a) => a.owner === 'alfred-workflow')) {
+    connect(hotkey(`meh-${action.id}`, action.key, action.keyCode, 917504), `menu-${action.id}`);
+  }
+  const mehTable = config.mehActions.map((a) => `| ${a.key} | ${a.name} |`).join('\n');
+  const nativeTable = config.nativeShortcuts.map((a) => `| ${a.key} | ${a.name} |`).join('\n');
   const appTable = config.apps.map((a) => `| ${a.key.toUpperCase()} | ${a.name} |`).join('\n');
   const layoutTable = config.layouts.map((l) => `| ${l.name} | ${l.description} | ${l.launchApps ? 'Yes' : 'No'} |`).join('\n');
   const readme = `# Hyper | Alfred Workflow
@@ -133,9 +154,17 @@ A keyboard-first macOS setup for Work, Code and Zen. Hold Caps Lock for **Hyper*
 
 ## Usage
 
-Press **Hyper+Space** or type \`hyper\` in Alfred, then search for an app, layout or window action. Press Return to run it. **Hyper+/** opens the illustrated guide. Option+Space still opens normal Alfred search.
+Press **Hyper+Space** or type \`hyper\` in Alfred, then search for an app, layout or window action. Press Return to run it. **Hyper+/** opens the illustrated guide. Cmd+Space still opens normal Alfred search.
 
 Type \`work\`, \`code\`, \`zen\` or \`default\` to narrow the menu. The selected layout first switches the corresponding DockFlow profile when one is specified, then asks Rectangle Pro to apply its saved layout. These are desktop layouts, not native fullscreen Spaces. No apps are quit and no agent commands are sent.
+
+### Focus sessions
+
+Type \`focus\` in Alfred or search \`focus\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code · Amp opens Chrome, Ghostty and Amp. Code · Claude opens Obsidian, Ghostty and Claude. Code · Cursor opens Chrome, Ghostty and Cursor. Code · Codex opens Chrome, Ghostty and Codex.
+
+Switching sessions requests normal quits for the outgoing session, including shared Ghostty when switching coding variants. Resolve any save/terminal prompt; if an app stays open for 30 seconds, the switch stops before opening the next session. Apps outside these five configured sets are left alone. Re-selecting the active session keeps its apps running. The first use (no local session history) closes only other-session apps not needed by the target. The last active session ID stays in this Mac’s cache, outside Git.
+
+The first run compiles a small native helper using Apple Command Line Tools; no apps are installed. Coding uses two ordinary desktops. Assign Chrome, Obsidian and Ghostty to Desktop 1, and Amp, Claude, Cursor and Codex to Desktop 2 using Dock > Options > Assign To > This Desktop on each Mac. The first pair is tiled left two-thirds/right third; the selected coding app is maximized on Desktop 2. Rectangle applies sizes but does not create or assign numbered Spaces. Reimport its snapshot after this update. These focus layouts do not open Slack. Existing layout commands and DockFlow number keys remain layout/profile actions and do not quit apps.
 
 ### Launch or focus apps
 
@@ -161,6 +190,26 @@ Hyper+Return maximizes; Hyper+Backspace restores. Hyper+, / . uses halves. Hyper
 
 Meh+number selects DockFlow: 0 Default, 1 Work, 2 Code, 3 Author, 4 Create, 5 Video, 9 Zen. In Codex, Hyper+V toggles voice chat and Hyper+M starts dictation. All other Codex actions use their defaults. These two Hyper keys are app-only; focus Codex with Hyper+J first.
 
+## Meh actions
+
+| Meh + | Action |
+| --- | --- |
+${mehTable}
+
+Meh+A acts on the selected text, URL or file using Alfred Universal Actions. Meh+V searches text clipboard history (24 hours); password-app and concealed-data exclusions remain enabled. Meh+S searches your snippets; personal snippets and clipboard data are not stored in Git.
+
+Meh+C or keyword \`capture\` opens CleanShot X tools. Select an action explicitly; no screen capture or recording starts merely by opening the menu. Your installed Setapp or standalone edition handles the URL. This setup does not upload captures or change CleanShot's own shortcuts.
+
+Meh+Space or \`tools\` opens Audio Switcher, Timer, Caffeine Dose and atop menus by their configured default keywords. If you customize vendor keywords, update scripts/hyper-config.json. Meh+Return or \`layouts\` shows only window layouts. These commands preserve Meh's DockFlow numbers and the approved Hyper map.
+
+## Native macOS base
+
+| Shortcut | Action |
+| --- | --- |
+${nativeTable}
+
+Native shortcuts depend on macOS version, keyboard and app support. CleanShot X owns capture in this setup; the native screenshot toolbar is a fallback only. Open CleanShot settings to verify its Cmd+Shift+3/4/5 assignments. Cmd+Space belongs to Alfred. Disable Spotlight’s Show Spotlight Search shortcut and clear Raycast’s launcher binding on each Mac before using it.
+
 ## Examples
 
 - Work: Meh+1, then Hyper+1 to visit Desktop 1, open Hyper+Space, type Work, choose Work or Work Balanced. Use another desktop for Office or Present.
@@ -169,6 +218,8 @@ Meh+number selects DockFlow: 0 Default, 1 Work, 2 Code, 3 Author, 4 Create, 5 Vi
 - Restore a misplaced window: Hyper+Return to maximize, or Hyper+Backspace to restore its previous Rectangle geometry.
 
 ## Setup
+
+Run bash scripts/bootstrap-hyper.sh plan, then apply, then check. Use rollback with the printed backup directory to undo only that run's managed preference and link changes. Follow the generated per-Mac checklist for activation, permissions, native imports, vendor workflows and physical/login checks.
 
 Install Alfred Powerpack, Karabiner Elements and Rectangle Pro through Homebrew. Stow alfred, karabiner and rectangle-pro. Select the ${config.profile} profile and import RectangleProConfig.json. Choose the Stow-backed Alfred preferences folder and enable startup. Complete each app's macOS permissions and license activation directly on each Mac.
 
@@ -196,6 +247,8 @@ Created by **Rahul N Akmol**.
     cases.push(`  ${quote(`layout:${layout.name}`)}) ${dock}launch -g ${quote(`rectangle-pro://execute-layout?name=${encodeURIComponent(layout.name)}`)} ;;`);
   }
   for (const action of config.windowActions) cases.push(`  ${quote(`window:${action.id}`)}) launch -g ${quote(`rectangle-pro://execute-action?name=${action.id}`)} ;;`);
+  for (const session of config.focusSessions) cases.push(`  ${quote(`focus:${session.id}`)}) if [[ \"\${HYPER_DRY_RUN:-0}\" == 1 ]]; then printf '%s\\n' ${quote(`focus:${session.id}`)}; else /bin/zsh \"$workflow_dir/focus-session.zsh\" ${quote(session.id)}; fi ;;`);
+  for (const action of config.captureActions) cases.push(`  ${quote(`capture:${action.id}`)}) launch ${quote(`cleanshot://${action.command}`)} ;;`);
   cases.push('  guide) launch "$workflow_dir/guide.html" ;;');
   const script = `#!/bin/zsh
 # Generated by scripts/build-hyper-config.mjs. Fixed actions only; never eval a query.
@@ -213,7 +266,7 @@ ${cases.join('\n')}
   *) printf '%s\\n' 'Unknown Hyper action. Open Hyper+Space and choose an item.' >&2; exit 64 ;;
 esac
 `;
-  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.0.0', objects, connections, uidata }, script };
+  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.2.0', objects, connections, uidata }, script };
 }
 
 function main() {
@@ -224,7 +277,18 @@ function main() {
   const dockflowPath = `${bundle}/user.workflow.dockflow-profiles/info.plist`;
   const dockflow = buildDockflow(readPlist(dockflowPath));
   const workflow = buildWorkflow(config, dockflow);
+  const focusSessions = config.focusSessions.map((session) => ({
+    id:session.id,name:session.name,apps:session.apps.map((id) => {
+      const app=config.apps.find((a) => a.id===id);
+      if (!app) throw new Error(`Unknown focus app: ${id}`);
+      return {id:app.id,name:app.name,bundleId:app.bundleId};
+    }),
+    dockURL:dockflow.objects.find((o) => o.uid===`${session.mode}-open`)?.config.url ?? null,
+    pairLayoutURL:session.pairLayout ? `rectangle-pro://execute-layout?name=${encodeURIComponent(session.pairLayout)}` : null,
+    layoutURL:session.layout ? `rectangle-pro://execute-layout?name=${encodeURIComponent(session.layout)}` : null,
+  }));
   const outputs = [
+    [`${folder}/focus-sessions.json`, JSON.stringify(focusSessions,null,2)+'\n'],
     [karabinerPath, JSON.stringify(buildKarabiner(readJSON(karabinerPath), config), null, 2) + '\n'],
     [rectanglePath, JSON.stringify(buildRectangle(readJSON(rectanglePath), config), null, 2) + '\n'],
     [`${folder}/dispatch.zsh`, workflow.script],

@@ -1,0 +1,117 @@
+[
+  {
+    "id": "work",
+    "name": "Work",
+    "apps": [
+      {
+        "id": "edge",
+        "name": "Microsoft Edge",
+        "bundleId": "com.microsoft.edgemac"
+      },
+      {
+        "id": "teams",
+        "name": "Microsoft Teams",
+        "bundleId": "com.microsoft.teams2"
+      }
+    ],
+    "dockURL": "dockflow://switch?id=01BAE638-6C40-47C3-A97D-F52F4CB3A9A3",
+    "pairLayoutURL": null,
+    "layoutURL": "rectangle-pro://execute-layout?name=Work"
+  },
+  {
+    "id": "amp",
+    "name": "Code · Amp",
+    "apps": [
+      {
+        "id": "chrome",
+        "name": "Google Chrome",
+        "bundleId": "com.google.Chrome"
+      },
+      {
+        "id": "ghostty",
+        "name": "Ghostty",
+        "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "amp",
+        "name": "Amp",
+        "bundleId": "com.ampcode.amp.macos"
+      }
+    ],
+    "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
+    "layoutURL": "rectangle-pro://execute-layout?name=Code%20Amp"
+  },
+  {
+    "id": "claude",
+    "name": "Code · Claude",
+    "apps": [
+      {
+        "id": "obsidian",
+        "name": "Obsidian",
+        "bundleId": "md.obsidian"
+      },
+      {
+        "id": "ghostty",
+        "name": "Ghostty",
+        "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "claude",
+        "name": "Claude",
+        "bundleId": "com.anthropic.claudefordesktop"
+      }
+    ],
+    "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Notes",
+    "layoutURL": "rectangle-pro://execute-layout?name=Code%20Claude"
+  },
+  {
+    "id": "cursor",
+    "name": "Code · Cursor",
+    "apps": [
+      {
+        "id": "chrome",
+        "name": "Google Chrome",
+        "bundleId": "com.google.Chrome"
+      },
+      {
+        "id": "ghostty",
+        "name": "Ghostty",
+        "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "cursor",
+        "name": "Cursor",
+        "bundleId": "com.todesktop.230313mzl4w4u92"
+      }
+    ],
+    "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
+    "layoutURL": "rectangle-pro://execute-layout?name=Code%20Cursor"
+  },
+  {
+    "id": "codex",
+    "name": "Code · Codex",
+    "apps": [
+      {
+        "id": "chrome",
+        "name": "Google Chrome",
+        "bundleId": "com.google.Chrome"
+      },
+      {
+        "id": "ghostty",
+        "name": "Ghostty",
+        "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "codex",
+        "name": "ChatGPT / Codex",
+        "bundleId": "com.openai.codex"
+      }
+    ],
+    "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
+    "layoutURL": "rectangle-pro://execute-layout?name=Code%20Codex"
+  }
+]

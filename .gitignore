@@ -48,6 +48,9 @@ alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/*
 !alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/icon.png
 !alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/dispatch.zsh
 !alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/FocusSession.swift
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-session.zsh
+!alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-sessions.json
 **/*secret*
 !**/*rules/010-secrets.md
 **/*token*

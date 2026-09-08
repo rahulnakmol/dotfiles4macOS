@@ -106,7 +106,7 @@ test('window aliases resolve to existing native Rectangle shortcuts', () => {
 
 test('portable layouts omit captured titles, pixel frames, Space IDs and destructive behavior', () => {
   const layouts = JSON.parse(rectangle.defaults.appSpecs.string);
-  assert.equal(layouts.length, 10);
+  assert.equal(layouts.length, 16);
   assert.deepEqual(layouts.map((l) => l.name), config.layouts.map((l) => l.name));
   const ids = [];
   for (const l of layouts) {
@@ -130,7 +130,7 @@ test('portable layouts omit captured titles, pixel frames, Space IDs and destruc
 test('all menu items dispatch known actions; shell-looking and empty queries are rejected', () => {
   const script = root + wf + 'user.workflow.hyper/dispatch.zsh';
   const items = workflow.plist.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').flatMap((o) => JSON.parse(o.config.items));
-  for (const item of items) {
+  for (const item of items.filter((i) => !config.systemTools.some((t) => t.query === i.arg))) {
     const r = spawnSync('zsh', [script, item.arg], { env: { ...process.env, HYPER_DRY_RUN:'1' }, encoding:'utf8' });
     assert.equal(r.status, 0, item.arg + ': ' + r.stderr);
     assert.ok(r.stdout.length);
@@ -149,13 +149,13 @@ test('native workflow graph is connected and each hotkey reaches a valid action'
   const objects = new Map(data.objects.map((o) => [o.uid, o]));
   assert.equal(objects.size, data.objects.length);
   for (const o of data.objects) {
-    if (o.uid === 'dispatch') continue;
+    if (['dispatch','show-tool','focus-result'].includes(o.uid)) continue;
     const edges = data.connections[o.uid];
     assert.equal(edges.length, 1);
     assert.ok(objects.has(edges[0].destinationuid));
   }
   assert.equal(data.connections['menu-hotkey'][0].destinationuid, 'menu');
-  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hyper','work','code','zen','default']);
+  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hyper','focus','work','code','zen','default','capture','tools','layouts']);
   assert.equal(data.createdby, 'Rahul N Akmol');
 });
 

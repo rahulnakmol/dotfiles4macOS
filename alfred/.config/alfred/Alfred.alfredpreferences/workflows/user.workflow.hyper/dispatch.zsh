@@ -47,6 +47,18 @@ case "${1:-}" in
     launch -g 'rectangle-pro://execute-layout?name=Zen' ;;
   'layout:Default') launch -g 'dockflow://switch?id=68FBB9EF-7C52-46B1-9483-E0A6F625ED1E'
     launch -g 'rectangle-pro://execute-layout?name=Default' ;;
+  'layout:Code Browser') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Browser' ;;
+  'layout:Code Notes') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Notes' ;;
+  'layout:Code Amp') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Amp' ;;
+  'layout:Code Claude') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Claude' ;;
+  'layout:Code Cursor') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Cursor' ;;
+  'layout:Code Codex') launch -g 'dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2'
+    launch -g 'rectangle-pro://execute-layout?name=Code%20Codex' ;;
   'window:maximize') launch -g 'rectangle-pro://execute-action?name=maximize' ;;
   'window:restore') launch -g 'rectangle-pro://execute-action?name=restore' ;;
   'window:left-half') launch -g 'rectangle-pro://execute-action?name=left-half' ;;
@@ -60,6 +72,20 @@ case "${1:-}" in
   'window:next-space') launch -g 'rectangle-pro://execute-action?name=next-space' ;;
   'window:previous-display') launch -g 'rectangle-pro://execute-action?name=previous-display' ;;
   'window:next-display') launch -g 'rectangle-pro://execute-action?name=next-display' ;;
+  'focus:work') if [[ "${HYPER_DRY_RUN:-0}" == 1 ]]; then printf '%s\n' 'focus:work'; else /bin/zsh "$workflow_dir/focus-session.zsh" 'work'; fi ;;
+  'focus:amp') if [[ "${HYPER_DRY_RUN:-0}" == 1 ]]; then printf '%s\n' 'focus:amp'; else /bin/zsh "$workflow_dir/focus-session.zsh" 'amp'; fi ;;
+  'focus:claude') if [[ "${HYPER_DRY_RUN:-0}" == 1 ]]; then printf '%s\n' 'focus:claude'; else /bin/zsh "$workflow_dir/focus-session.zsh" 'claude'; fi ;;
+  'focus:cursor') if [[ "${HYPER_DRY_RUN:-0}" == 1 ]]; then printf '%s\n' 'focus:cursor'; else /bin/zsh "$workflow_dir/focus-session.zsh" 'cursor'; fi ;;
+  'focus:codex') if [[ "${HYPER_DRY_RUN:-0}" == 1 ]]; then printf '%s\n' 'focus:codex'; else /bin/zsh "$workflow_dir/focus-session.zsh" 'codex'; fi ;;
+  'capture:all') launch 'cleanshot://all-in-one' ;;
+  'capture:area') launch 'cleanshot://capture-area' ;;
+  'capture:window') launch 'cleanshot://capture-window' ;;
+  'capture:record') launch 'cleanshot://record-screen' ;;
+  'capture:scroll') launch 'cleanshot://scrolling-capture' ;;
+  'capture:text') launch 'cleanshot://capture-text' ;;
+  'capture:annotate') launch 'cleanshot://open-annotate' ;;
+  'capture:history') launch 'cleanshot://open-history' ;;
+  'capture:settings') launch 'cleanshot://open-settings' ;;
   guide) launch "$workflow_dir/guide.html" ;;
   *) printf '%s\n' 'Unknown Hyper action. Open Hyper+Space and choose an item.' >&2; exit 64 ;;
 esac
