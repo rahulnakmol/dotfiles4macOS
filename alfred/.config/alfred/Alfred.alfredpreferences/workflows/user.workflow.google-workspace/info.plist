@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.rahulnakmol.dotfiles.google</string>
+	<key>connections</key>
+	<dict>
+		<key>gdoc-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>gdoc-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>gdrive-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>gdrive-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>gform-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>gform-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>gsheet-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>gsheet-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>gslides-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>gslides-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Rahul N Akmol</string>
+	<key>description</key>
+	<string>Create Google files and open Drive in your default browser.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Google Workspace Shortcuts</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>gdoc</string>
+				<key>subtext</key>
+				<string>Open in your default browser</string>
+				<key>text</key>
+				<string>Create Google Document</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>gdoc-input</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://docs.new</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>gdoc-open</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>gsheet</string>
+				<key>subtext</key>
+				<string>Open in your default browser</string>
+				<key>text</key>
+				<string>Create Google Spreadsheet</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>gsheet-input</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://sheets.new</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>gsheet-open</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>gslides</string>
+				<key>subtext</key>
+				<string>Open in your default browser</string>
+				<key>text</key>
+				<string>Create Google Presentation</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>gslides-input</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://slides.new</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>gslides-open</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>gform</string>
+				<key>subtext</key>
+				<string>Open in your default browser</string>
+				<key>text</key>
+				<string>Create Google Form</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>gform-input</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://forms.new</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>gform-open</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>gdrive</string>
+				<key>subtext</key>
+				<string>Open in your default browser</string>
+				<key>text</key>
+				<string>Open Google Drive</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>gdrive-input</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://drive.google.com/</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>gdrive-open</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string># Google Workspace Shortcuts | Alfred Workflow
+
+Create Google documents, spreadsheets, presentations, and forms, or open Google Drive, directly from Alfred. Each command opens Google's destination in your default browser.
+
+## Usage
+
+Open Alfred with **Option + Space**, type a keyword below, and press **Return**. These commands take no arguments: give a new file its title after it opens in the browser.
+
+### Create a document (`gdoc`)
+
+Start a new Google Docs document for notes, a brief, or a first draft.
+
+- **Keyword:** `gdoc`
+- **Destination:** [https://docs.new](https://docs.new)
+
+### Create a spreadsheet (`gsheet`)
+
+Start a new Google Sheets spreadsheet for a tracker, budget, or analysis.
+
+- **Keyword:** `gsheet`
+- **Destination:** [https://sheets.new](https://sheets.new)
+
+### Create a presentation (`gslides`)
+
+Start a new Google Slides presentation.
+
+- **Keyword:** `gslides`
+- **Destination:** [https://slides.new](https://slides.new)
+
+### Create a form (`gform`)
+
+Start a new Google Form for a survey, questionnaire, or registration.
+
+- **Keyword:** `gform`
+- **Destination:** [https://forms.new](https://forms.new)
+
+### Open Google Drive (`gdrive`)
+
+Open Drive to browse or search your existing files in the browser.
+
+- **Keyword:** `gdrive`
+- **Destination:** [https://drive.google.com/](https://drive.google.com/)
+
+## Examples
+
+- `gdoc` → Return → write meeting notes in the new document.
+- `gsheet` → Return → start a project tracker.
+- `gslides` → Return → start a presentation.
+- `gform` → Return → create a feedback form.
+- `gdrive` → Return → find an existing file in Drive.
+
+The four creation commands start the new-file flow when you press Return. Typing a keyword alone only shows the Alfred result. There are no extra modifier-key actions or global hotkeys configured for this workflow.
+
+## Setup
+
+Requires macOS, Alfred 5 with an activated Powerpack, and a browser with access to Google Workspace. Sign in to Google in the browser when prompted. Your browser session determines the account used; this workflow does not choose an account or store Google credentials.
+
+On this Mac, the workflow is already installed in Alfred's Stow-managed preferences. On another Mac, deploy the `alfred` module and point Alfred's preferences folder to `~/.config/alfred`; activate your Powerpack separately.
+
+## Customisation
+
+In Alfred Preferences → Workflows → Google Workspace Shortcuts, double-click a **Keyword** object to change its keyword or result label. Double-click its connected **Open URL** object to change the destination or browser. Keep each keyword connected to the corresponding action.
+
+## Troubleshooting
+
+- **No Alfred result:** Check that the workflow is enabled and the keyword has not been changed. Type just the keyword, without a title or other arguments.
+- **Wrong Google account:** Switch accounts in the browser. If needed, choose a browser with the desired session in the Open URL action.
+- **Sign-in or access page instead of a new file:** Complete Google's sign-in flow or check the account's Workspace access in your browser.
+- **Looking for files inside Alfred:** This workflow opens Drive in the browser. It does not search Drive files inside Alfred or provide a starred-files menu.
+
+## Saved configuration
+
+This workflow's source lives in `~/.dotfiles/alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.google-workspace/`.
+
+Alfred saves the workflow, including this guide, in `info.plist`; `icon.png` supplies its icon. Both files are included in the repository's Git allowlist. Changes made in Alfred update these local files directly, but still need a Git commit and push to reach the remote repository. New workflow folders are ignored by default until reviewed and allowlisted.
+
+**Created by:** Rahul N Akmol
+
+The Google icon identifies the service; Google owns its brand assets. This is a personal workflow, not an official Google product.
+</string>
+	<key>uidata</key>
+	<dict>
+		<key>gdoc-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>0</integer>
+		</dict>
+		<key>gdoc-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>0</integer>
+		</dict>
+		<key>gdrive-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>520</integer>
+		</dict>
+		<key>gdrive-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>520</integer>
+		</dict>
+		<key>gform-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+		<key>gform-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+		<key>gsheet-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>130</integer>
+		</dict>
+		<key>gsheet-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>130</integer>
+		</dict>
+		<key>gslides-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>260</integer>
+		</dict>
+		<key>gslides-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>260</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/rahulnakmol/dotfiles4macOS</string>
+</dict>
+</plist>

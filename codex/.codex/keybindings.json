@@ -8,63 +8,19 @@
     "key": null
   },
   {
-    "command": "newTask",
-    "key": "CmdOrCtrl+N"
+    "command": "composer.startVoiceMode",
+    "key": "Ctrl+Shift+V"
   },
   {
-    "command": "newTask",
-    "key": "CmdOrCtrl+Shift+O"
+    "command": "composer.startVoiceMode",
+    "key": "Command+Control+Alt+Shift+V"
   },
   {
-    "command": "newTask",
-    "key": "Command+Control+Alt+Shift+N"
+    "command": "composer.startDictation",
+    "key": "Ctrl+Shift+D"
   },
   {
-    "command": "openCommandMenu",
-    "key": "CmdOrCtrl+K"
-  },
-  {
-    "command": "openCommandMenu",
-    "key": "CmdOrCtrl+Shift+P"
-  },
-  {
-    "command": "openCommandMenu",
-    "key": "Command+Control+Alt+Shift+K"
-  },
-  {
-    "command": "nextThreadNeedingAttention",
-    "key": "CmdOrCtrl+Alt+A"
-  },
-  {
-    "command": "nextThreadNeedingAttention",
-    "key": "Command+Control+Alt+Shift+A"
-  },
-  {
-    "command": "composer.togglePlanMode",
-    "key": "Command+Control+Alt+Shift+P"
-  },
-  {
-    "command": "openReviewTab",
-    "key": "Ctrl+Shift+G"
-  },
-  {
-    "command": "openReviewTab",
-    "key": "Command+Control+Alt+Shift+R"
-  },
-  {
-    "command": "toggleTerminal",
-    "key": "Control+`"
-  },
-  {
-    "command": "toggleTerminal",
-    "key": "Command+Control+Alt+Shift+T"
-  },
-  {
-    "command": "composer.openModelPicker",
-    "key": "Ctrl+Shift+M"
-  },
-  {
-    "command": "composer.openModelPicker",
+    "command": "composer.startDictation",
     "key": "Command+Control+Alt+Shift+M"
   }
 ]

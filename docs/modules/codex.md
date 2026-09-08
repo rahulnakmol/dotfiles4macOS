@@ -112,39 +112,39 @@ If the app removes the marked block, validation stops instead of guessing where
 to rewrite permissions. Restore the markers around the existing generated
 `permissions.dotfiles` tables before regenerating.
 
-## Hyperkey workflow shortcuts
+## Keyboard shortcuts: defaults with voice exceptions
 
-`codex/.codex/keybindings.json` adds the following app-only shortcuts. Hyper means
-Control + Option + Command + Shift, written `Command+Control+Alt+Shift` in the file.
-Use your existing Hyperkey mapping or hold all four modifiers. No additional
-keyboard remapper or app launcher is installed by this module.
+Codex inherits its current built-in shortcuts for ordinary app actions. There are
+no overrides for new task, command menu, attention navigation, plan mode, review,
+terminal or model picker. Removing those entries lets future app defaults apply.
 
-| Shortcut | Action | Best use |
+The only active custom bindings in `codex/.codex/keybindings.json` are voice:
+
+| Shortcut | Action | Scope |
 | --- | --- | --- |
-| Hyper+N | New chat | Start the next piece of work |
-| Hyper+K | Command menu | Find app actions without reaching for the mouse |
-| Hyper+A | Next chat needing attention | Move between parallel Codex tasks |
-| Hyper+P | Toggle plan mode | Switch between planning and implementation |
-| Hyper+R | Open review tab | Inspect the current Codex changes |
-| Hyper+T | Toggle terminal | Run or inspect local commands |
-| Hyper+M | Model picker | Choose the model for the current work |
+| Hyper+V | Toggle voice chat | Codex/ChatGPT app |
+| Hyper+M | Start dictation | Codex/ChatGPT app |
+| Control+Shift+V | Default voice chat shortcut, retained | App |
+| Control+Shift+D | Default dictation shortcut, retained | App |
 
-Existing default bindings for these commands are retained as separate entries.
-In this format, adding entries for a command replaces its implicit default list,
-so include the defaults alongside each Hyper binding. `key: null` disables a
-command's shortcuts; do not combine it with active bindings for that command.
-The existing global dictation shortcuts remain disabled.
+Hyper means Control+Option+Command+Shift, supplied by held Caps Lock in the
+**Hyperland** Karabiner profile. Focus Codex with Hyper+J first. V means voice; M means microphone. These two keys are reserved from global app launches,
+Rectangle actions and Alfred workflows. Existing global dictation shortcuts remain
+disabled; these bindings operate inside the app.
 
-These bindings target the ChatGPT desktop app, including its Work and Codex views;
-individual actions depend on the current view and available features. They are not
-global hotkeys and do not configure chatgpt.com in a separate browser. If another
-app intercepts a Hyper combination globally, change that assignment first.
+An override replaces a command's default list, so the two voice commands explicitly
+include their native shortcuts. Other commands are omitted to inherit defaults;
+`key: null` disables a shortcut and is not how defaults are restored.
+Command IDs and override semantics were verified in the installed app's registry
+on September 8, 2026. The default voice keys also match the
+[official command reference](https://learn.chatgpt.com/docs/reference/commands).
 
-Command IDs and multi-binding behavior were checked against the installed app's
-command registry on September 7, 2026. Open Settings > Keyboard Shortcuts to check
-them after restarting the app; interactive keystrokes were not tested by automation.
-The [official command reference](https://learn.chatgpt.com/docs/reference/commands)
-lists the built-in shortcuts and their feature availability.
+Hyper+number routes to Control+Option+number for macOS desktops, preserving Codex's
+native Control+1/2/3 view switches. Run `bash scripts/setup-hyper-macos.sh apply`
+when deploying this change to another Mac and log out/back in to load the native
+shortcut changes. Open Settings > Keyboard Shortcuts to inspect the app bindings;
+voice availability depends on the current view. If an already-running app shows
+old overrides, reopen it when convenient. No microphone session is started by setup.
 
 ## Other Macs and local state
 

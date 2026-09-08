@@ -1,0 +1,388 @@
+{
+  "profile": "Hyperland",
+  "apps": [
+    {
+      "id": "chrome",
+      "name": "Google Chrome",
+      "key": "d",
+      "bundleId": "com.google.Chrome"
+    },
+    {
+      "id": "ghostty",
+      "name": "Ghostty",
+      "key": "h",
+      "bundleId": "com.mitchellh.ghostty"
+    },
+    {
+      "id": "finder",
+      "name": "Finder",
+      "key": "f",
+      "bundleId": "com.apple.finder"
+    },
+    {
+      "id": "codex",
+      "name": "ChatGPT / Codex",
+      "key": "j",
+      "bundleId": "com.openai.codex"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "key": "k",
+      "bundleId": "com.todesktop.230313mzl4w4u92"
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "key": "l",
+      "bundleId": "com.anthropic.claudefordesktop"
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "key": "a",
+      "bundleId": "com.ampcode.amp.macos"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "key": "n",
+      "bundleId": "md.obsidian"
+    },
+    {
+      "id": "edge",
+      "name": "Microsoft Edge",
+      "key": "e",
+      "bundleId": "com.microsoft.edgemac"
+    },
+    {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "key": "i",
+      "bundleId": "com.microsoft.teams2"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "key": "s",
+      "bundleId": "com.tinyspeck.slackmacgap"
+    },
+    {
+      "id": "word",
+      "name": "Microsoft Word",
+      "key": "w",
+      "bundleId": "com.microsoft.Word"
+    },
+    {
+      "id": "excel",
+      "name": "Microsoft Excel",
+      "key": "o",
+      "bundleId": "com.microsoft.Excel"
+    },
+    {
+      "id": "powerpoint",
+      "name": "Microsoft PowerPoint",
+      "key": "p",
+      "bundleId": "com.microsoft.Powerpoint"
+    },
+    {
+      "id": "safari",
+      "name": "Safari",
+      "key": "r",
+      "bundleId": "com.apple.Safari"
+    },
+    {
+      "id": "finalcut",
+      "name": "Final Cut Pro",
+      "key": "z",
+      "bundleId": "com.apple.FinalCut",
+      "optional": true
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "key": "x",
+      "bundleId": "com.apple.motionapp",
+      "optional": true
+    },
+    {
+      "id": "compressor",
+      "name": "Compressor",
+      "key": "c",
+      "bundleId": "com.apple.Compressor",
+      "optional": true
+    }
+  ],
+  "layouts": [
+    {
+      "name": "Work",
+      "description": "Edge left two-thirds; Teams right third",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "edge",
+          21
+        ],
+        [
+          "teams",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Work Balanced",
+      "description": "Edge and Teams in equal halves",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "edge",
+          0
+        ],
+        [
+          "teams",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Office",
+      "description": "Word and Excel in equal halves",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "word",
+          0
+        ],
+        [
+          "excel",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Present",
+      "description": "PowerPoint maximized",
+      "mode": "work",
+      "launchApps": true,
+      "windows": [
+        [
+          "powerpoint",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Code",
+      "description": "Chrome left two-thirds; Slack right third",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          21
+        ],
+        [
+          "slack",
+          24
+        ]
+      ]
+    },
+    {
+      "name": "Code Balanced",
+      "description": "Chrome and Slack in equal halves",
+      "mode": "code",
+      "launchApps": true,
+      "windows": [
+        [
+          "chrome",
+          0
+        ],
+        [
+          "slack",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Terminal",
+      "description": "Ghostty maximized",
+      "launchApps": true,
+      "windows": [
+        [
+          "ghostty",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Agents",
+      "description": "Maximize open Codex, Claude, Cursor and Amp windows",
+      "mode": "code",
+      "launchApps": false,
+      "windows": [
+        [
+          "codex",
+          2
+        ],
+        [
+          "claude",
+          2
+        ],
+        [
+          "cursor",
+          2
+        ],
+        [
+          "amp",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Zen",
+      "description": "Maximize open Amp, Cursor, Ghostty and Obsidian windows",
+      "mode": "zen",
+      "launchApps": false,
+      "windows": [
+        [
+          "amp",
+          2
+        ],
+        [
+          "cursor",
+          2
+        ],
+        [
+          "ghostty",
+          2
+        ],
+        [
+          "obsidian",
+          2
+        ]
+      ]
+    },
+    {
+      "name": "Default",
+      "description": "Maximize the current app window",
+      "mode": "default",
+      "launchApps": false,
+      "frontmost": true,
+      "windows": [
+        [
+          "global",
+          2
+        ]
+      ]
+    }
+  ],
+  "windowActions": [
+    {
+      "id": "maximize",
+      "name": "Maximize",
+      "key": "Return",
+      "description": "Fill the available desktop; stay out of native fullscreen"
+    },
+    {
+      "id": "restore",
+      "name": "Restore window",
+      "key": "Backspace",
+      "description": "Undo the last Rectangle size and position"
+    },
+    {
+      "id": "left-half",
+      "name": "Left half",
+      "key": ",",
+      "description": "Fit the left half"
+    },
+    {
+      "id": "right-half",
+      "name": "Right half",
+      "key": ".",
+      "description": "Fit the right half"
+    },
+    {
+      "id": "first-third",
+      "name": "Left third",
+      "key": "[",
+      "description": "Fit the left third"
+    },
+    {
+      "id": "center-third",
+      "name": "Centre third",
+      "key": "]",
+      "description": "Fit the centre third"
+    },
+    {
+      "id": "last-third",
+      "name": "Right third",
+      "key": "\\",
+      "description": "Fit the right third"
+    },
+    {
+      "id": "first-two-thirds",
+      "name": "Left two-thirds",
+      "key": ";",
+      "description": "Fit the left two-thirds"
+    },
+    {
+      "id": "last-two-thirds",
+      "name": "Right two-thirds",
+      "key": "'",
+      "description": "Fit the right two-thirds"
+    },
+    {
+      "id": "prev-space",
+      "name": "Move window to previous desktop",
+      "key": "\u2212",
+      "description": "Rectangle title-bar drag; requires Control+Left enabled"
+    },
+    {
+      "id": "next-space",
+      "name": "Move window to next desktop",
+      "key": "=",
+      "description": "Rectangle title-bar drag; requires Control+Right enabled"
+    },
+    {
+      "id": "previous-display",
+      "name": "Move window to previous display",
+      "key": "\u2190",
+      "description": "Move to the previous connected monitor"
+    },
+    {
+      "id": "next-display",
+      "name": "Move window to next display",
+      "key": "\u2192",
+      "description": "Move to the next connected monitor"
+    }
+  ],
+  "navigation": [
+    {
+      "key": "1\u20269 / 0",
+      "name": "Switch to Desktop 1\u20269 / 10 (create it first)"
+    },
+    {
+      "key": "Space",
+      "name": "Hyper command menu"
+    },
+    {
+      "key": "/",
+      "name": "Hyper guide"
+    },
+    {
+      "key": "Tab",
+      "name": "Previous app"
+    },
+    {
+      "key": "`",
+      "name": "Next window of this app"
+    },
+    {
+      "key": "\u2191 / \u2193",
+      "name": "Mission Control / app windows"
+    }
+  ]
+}

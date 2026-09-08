@@ -21,6 +21,9 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 | `codex` | macOS Codex preferences, shared engineering guidance, and permission policy |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
+| `alfred` | Google Workspace and DockFlow workflows; broader migration in progress |
+| `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
+| `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
 
 ## Quick Start
 
@@ -77,6 +80,7 @@ brew install node go rustup dotnet     # Language runtimes
 brew install stylua                    # Lua formatter
 brew install azure-cli                 # Azure CLI
 brew install mas                       # Mac App Store CLI
+brew install --cask alfred rectangle-pro karabiner-elements # Launcher and window shortcuts
 ```
 
 ## Post-Install
@@ -102,6 +106,9 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/opencode-sdlc.md` — OpenCode SDLC agent, command, workflow, and handoff guide
 - `docs/modules/` — Per-module documentation
 - [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
+- [Raycast settings checklist and private migration](docs/modules/raycast.md) — not a Stow module
+- [Alfred migration and installed-plugin parity](docs/modules/alfred.md)
+- [Hyper keyboard navigation and Work/Code/Zen layouts](docs/modules/hyper.md)
 
 ## License
 

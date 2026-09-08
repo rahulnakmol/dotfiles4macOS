@@ -7,6 +7,21 @@ import { test } from 'node:test';
 import { codexArtifacts } from './codex-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+test('Codex inherits ordinary defaults and reserves Hyper only for voice and dictation', () => {
+  const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
+  const active = bindings.filter((b) => b.key !== null);
+  assert.deepEqual(new Set(active.map((b) => b.command)), new Set(['composer.startVoiceMode', 'composer.startDictation']));
+  for (const [command, defaultKey, hyperKey] of [
+    ['composer.startVoiceMode', 'Ctrl+Shift+V', 'Command+Control+Alt+Shift+V'],
+    ['composer.startDictation', 'Ctrl+Shift+D', 'Command+Control+Alt+Shift+M'],
+  ]) {
+    assert.deepEqual(new Set(active.filter((b) => b.command === command).map((b) => b.key)), new Set([defaultKey, hyperKey]));
+  }
+  // Omitting ordinary commands restores defaults; null would disable them.
+  assert.ok(bindings.filter((b) => b.key === null).every((b) => ['globalDictationHold', 'globalDictationToggle'].includes(b.command)));
+  assert.equal(active.length, 4);
+});
+
 test('desktop keybindings have valid entries without conflicting accelerators', () => {
   const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
   assert.ok(Array.isArray(bindings));

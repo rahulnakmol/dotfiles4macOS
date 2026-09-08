@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.rahulnakmol.dotfiles.dockflow</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>4815EB15-4B39-42ED-B6D3-0C7A8C29EE6B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>author-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>author-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>author-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>author-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>author-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>code-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>code-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>code-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>code-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>create-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>create-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>create-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>create-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>default-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>default-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>default-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>default-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>video-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>video-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>video-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>video-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>work-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>work-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>work-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>work-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>zen-hotkey</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>zen-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>zen-input</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>zen-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Rahul N Akmol</string>
+	<key>description</key>
+	<string>Switch existing DockFlow presets with keywords and Hyper number shortcuts.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>DockFlow Profiles</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>ddef</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 0. Default</string>
+				<key>text</key>
+				<string>Dock | Default</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>default-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=68FBB9EF-7C52-46B1-9483-E0A6F625ED1E</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>default-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=01BAE638-6C40-47C3-A97D-F52F4CB3A9A3</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>work-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dwork</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 1. Work</string>
+				<key>text</key>
+				<string>Dock | Work</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>work-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>code-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dcode</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 2. Code</string>
+				<key>text</key>
+				<string>Dock | Code</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>code-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=843F75F4-4CF2-46DB-92B8-EB2F5A4DCB80</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>author-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dauthor</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 3. Author</string>
+				<key>text</key>
+				<string>Dock | Author</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>author-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dcreate</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 4. Create</string>
+				<key>text</key>
+				<string>Dock | Create</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>create-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=36DE5127-17EC-4F8E-BA5B-D4091B34062E</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>create-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=FAFBC05C-3C0D-496D-B660-A015E77EF8DF</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>video-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dvideo</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 5. Video</string>
+				<key>text</key>
+				<string>Dock | Video</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>video-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>dockflow://switch?id=48FF680F-04C9-4EC1-8E23-2E6BC88A3702</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>zen-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>dzen</string>
+				<key>subtext</key>
+				<string>Switch DockFlow profile 9. Zen</string>
+				<key>text</key>
+				<string>Dock | Zen</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>zen-input</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>29</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>0</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>default-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>18</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>1</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>work-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>19</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>2</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>code-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>20</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>3</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>author-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>21</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>4</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>create-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>23</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>5</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>video-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>25</integer>
+				<key>hotmod</key>
+				<integer>917504</integer>
+				<key>hotstring</key>
+				<string>9</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>zen-hotkey</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string># DockFlow Profiles | Alfred Workflow
+
+Switch your existing DockFlow presets from Alfred using short keywords or Meh + number shortcuts. Both methods open the preset's link from DockFlow's Integrations page, so DockFlow applies the preset and its configured behaviour.
+
+## Usage
+
+Open Alfred with **Option + Space**, type a keyword, and press **Return**. No arguments are required.
+
+For an immediate switch, hold **Right Option** and press the preset's number. Karabiner turns Right Option into **Control + Option + Shift** (Meh). Left Option remains a normal Option key. Caps Lock still provides Hyper, with Escape when tapped.
+
+### Default (`ddef`)
+
+Return to your **0. Default** preset.
+
+- **Keyword:** `ddef`
+- **Shortcut:** Meh + **0**
+
+### Work (`dwork`)
+
+Apply your **1. Work** preset.
+
+- **Keyword:** `dwork`
+- **Shortcut:** Meh + **1**
+
+### Code (`dcode`)
+
+Apply your **2. Code** preset.
+
+- **Keyword:** `dcode`
+- **Shortcut:** Meh + **2**
+
+### Author (`dauthor`)
+
+Apply your **3. Author** preset.
+
+- **Keyword:** `dauthor`
+- **Shortcut:** Meh + **3**
+
+### Create (`dcreate`)
+
+Apply your **4. Create** preset.
+
+- **Keyword:** `dcreate`
+- **Shortcut:** Meh + **4**
+
+### Video (`dvideo`)
+
+Apply your **5. Video** preset.
+
+- **Keyword:** `dvideo`
+- **Shortcut:** Meh + **5**
+
+### Zen (`dzen`)
+
+Apply your **9. Zen** preset.
+
+- **Keyword:** `dzen`
+- **Shortcut:** Meh + **9**
+
+## Examples
+
+- `dwork` → Return → switch to your Work Dock.
+- Hold Right Option + **2** → switch directly to Code without opening Alfred.
+- `dzen` → Return → apply Zen.
+- Hold Right Option + **0** → return to Default.
+
+The shortcut numbers match the preset names. Numbers 6, 7, and 8 are not assigned by this workflow. There are no additional modifier-key actions on the keywords.
+
+## Setup
+
+Requires macOS, Alfred 5 with an activated Powerpack, and DockFlow with the seven corresponding presets. Karabiner is needed for the Right Option convenience mapping; you can also press the three Meh modifiers directly.
+
+Alfred and DockFlow are configured to launch at login on this Mac. Karabiner's background services supply Meh. The matching Raycast quicklink hotkeys have been cleared, so these switches no longer depend on Raycast. Keep those duplicate hotkeys unassigned.
+
+## Customisation
+
+Edit the apps, Dock items, and switching behaviour of a preset in **DockFlow**. This workflow only launches presets; it does not define their layouts.
+
+In Alfred Preferences → Workflows → DockFlow Profiles:
+
+- Double-click a **Keyword** object to change its keyword or result label.
+- Double-click a **Hotkey** object to change its number. The dotfiles generator keeps DockFlow hotkeys on Meh (Control+Option+Shift).
+- Double-click the corresponding **Open URL** object to update its preset link.
+
+Each preset's Keyword and Hotkey connect to the same Open URL action. Copy replacement links from **DockFlow Settings → Integrations → Preset Links**. The link has the form `dockflow://switch?id=&lt;preset-uuid&gt;`; copy the complete link rather than using the preset's number or name as its ID.
+
+## Moving to another Mac
+
+1. Install Alfred and DockFlow, and activate your licenses in the apps.
+2. Transfer your presets using **DockFlow Settings → Backup &amp; Restore**. Keep that backup private; the live DockFlow database is not managed by Stow.
+3. Deploy the `alfred` module and select `~/.config/alfred` as Alfred's preferences folder.
+4. Compare the imported presets' Integrations links with this workflow's Open URL actions. If the UUIDs differ, replace the links.
+5. Configure Karabiner and login startup, then test a keyword and its matching Meh shortcut.
+
+Copying this Alfred workflow alone does not copy the DockFlow layouts or install the apps used by those layouts.
+
+## Troubleshooting
+
+- **Keyword is missing:** Check that the workflow is enabled, then type just the keyword without arguments.
+- **DockFlow opens but the preset does not switch:** Copy a fresh link from Integrations and update the corresponding Open URL action. The preset may have been recreated or imported with a different UUID.
+- **Keyword works but Right Option + number does not:** Verify Karabiner's Right Option rule is enabled and Alfred's Hotkey object has Control, Option and Shift only. Check that another app has not claimed the same shortcut.
+- **Wrong apps appear in the Dock:** Review the preset in DockFlow and confirm its apps exist on this Mac.
+
+## Saved configuration
+
+This workflow's source lives in `~/.dotfiles/alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.dockflow-profiles/`.
+
+Alfred saves the workflow, including this guide, in `info.plist`; `icon.png` supplies its icon. Both files are included in the repository's Git allowlist. Changes made in Alfred update these local files directly, but still need a Git commit and push to reach the remote repository. New workflow folders are ignored by default until reviewed and allowlisted.
+
+**Created by:** Rahul N Akmol
+
+The DockFlow icon comes from the installed app and remains its owner's brand asset. This is a personal integration workflow.
+</string>
+	<key>uidata</key>
+	<dict>
+		<key>author-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>420</integer>
+		</dict>
+		<key>author-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>420</integer>
+		</dict>
+		<key>author-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>465</integer>
+		</dict>
+		<key>code-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>280</integer>
+		</dict>
+		<key>code-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>280</integer>
+		</dict>
+		<key>code-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>325</integer>
+		</dict>
+		<key>create-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>560</integer>
+		</dict>
+		<key>create-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>560</integer>
+		</dict>
+		<key>create-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>605</integer>
+		</dict>
+		<key>default-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>0</integer>
+		</dict>
+		<key>default-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>15</integer>
+		</dict>
+		<key>default-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>45</integer>
+		</dict>
+		<key>video-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>700</integer>
+		</dict>
+		<key>video-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>700</integer>
+		</dict>
+		<key>video-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>745</integer>
+		</dict>
+		<key>work-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>140</integer>
+		</dict>
+		<key>work-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>140</integer>
+		</dict>
+		<key>work-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>185</integer>
+		</dict>
+		<key>zen-hotkey</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>840</integer>
+		</dict>
+		<key>zen-input</key>
+		<dict>
+			<key>xpos</key>
+			<integer>50</integer>
+			<key>ypos</key>
+			<integer>840</integer>
+		</dict>
+		<key>zen-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>885</integer>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/rahulnakmol/dotfiles4macOS</string>
+</dict>
+</plist>
