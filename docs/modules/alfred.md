@@ -308,3 +308,14 @@ CleanShot X, including its Setapp edition; Meh+Space opens installed utility
 workflows, and Meh+Return lists layouts. Native Alfred preferences own Meh+A/V/S.
 See [the bootstrap guide](hyper-bootstrap.md) for backed-up configuration and
 rollback. Clipboard data and personal snippets remain local and ignored.
+
+## Short menus and result names
+
+Dotfiles-owned workflows use **Category: Name** result labels and short menus:
+`fs` Focus Session, `hk` Hotkeys, `al` App Launcher, `wa` Window Action,
+`wl` Window Layout, `cs` Capture, `st` System Tool, `dp` DockFlow Profile,
+and `gw` Google Workspace. Type the code alone to list actions, then filter by name.
+For example: **Focus Session: Code + Amp** and **Focus Session: Code + Cursor**.
+Existing long menu keywords and direct commands remain available. Vendor workflows
+retain their own names and keywords. The generator maintains all three owned
+workflows; edit their config/source and regenerate the guide before committing.

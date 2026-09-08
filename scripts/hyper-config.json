@@ -669,7 +669,7 @@
     },
     {
       "id": "amp",
-      "name": "Code · Amp",
+      "name": "Code + Amp",
       "apps": [
         "chrome",
         "ghostty",
@@ -681,7 +681,7 @@
     },
     {
       "id": "claude",
-      "name": "Code · Claude",
+      "name": "Code + Claude",
       "apps": [
         "obsidian",
         "ghostty",
@@ -693,7 +693,7 @@
     },
     {
       "id": "cursor",
-      "name": "Code · Cursor",
+      "name": "Code + Cursor",
       "apps": [
         "chrome",
         "ghostty",
@@ -705,7 +705,7 @@
     },
     {
       "id": "codex",
-      "name": "Code · Codex",
+      "name": "Code + Codex",
       "apps": [
         "chrome",
         "ghostty",
@@ -714,6 +714,53 @@
       "mode": "code",
       "pairLayout": "Code Browser",
       "layout": "Code Codex"
+    }
+  ],
+  "menuKeywords": [
+    {
+      "code": "hk",
+      "name": "Hotkeys",
+      "alias": "hyper"
+    },
+    {
+      "code": "fs",
+      "name": "Focus Session",
+      "alias": "focus"
+    },
+    {
+      "code": "al",
+      "name": "App Launcher",
+      "alias": null
+    },
+    {
+      "code": "wa",
+      "name": "Window Action",
+      "alias": null
+    },
+    {
+      "code": "wl",
+      "name": "Window Layout",
+      "alias": "layouts"
+    },
+    {
+      "code": "cs",
+      "name": "Capture",
+      "alias": "capture"
+    },
+    {
+      "code": "st",
+      "name": "System Tool",
+      "alias": "tools"
+    },
+    {
+      "code": "dp",
+      "name": "DockFlow Profile",
+      "alias": null
+    },
+    {
+      "code": "gw",
+      "name": "Google Workspace",
+      "alias": null
     }
   ]
 }

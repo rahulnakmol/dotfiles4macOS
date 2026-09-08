@@ -35,6 +35,167 @@
             ]
           },
           {
+            "description": "MX Master: browser and Finder navigation, thumb Hyper, forward Meh elsewhere",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "pointing_button": "button4",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "open_bracket",
+                    "modifiers": [
+                      "left_command"
+                    ],
+                    "repeat": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "vendor_id": 1133,
+                        "product_id": 45108,
+                        "is_pointing_device": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.microsoft\\.edgemac$",
+                      "^com\\.apple\\.finder$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "pointing_button": "button5",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "close_bracket",
+                    "modifiers": [
+                      "left_command"
+                    ],
+                    "repeat": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "vendor_id": 1133,
+                        "product_id": 45108,
+                        "is_pointing_device": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.microsoft\\.edgemac$",
+                      "^com\\.apple\\.finder$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "pointing_button": "button5",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_option",
+                    "modifiers": [
+                      "left_control",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "vendor_id": 1133,
+                        "product_id": 45108,
+                        "is_pointing_device": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.microsoft\\.edgemac$",
+                      "^com\\.apple\\.finder$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "pointing_button": "button6",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_shift",
+                    "modifiers": [
+                      "left_control",
+                      "left_option",
+                      "left_command"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "vendor_id": 1133,
+                        "product_id": 45108,
+                        "is_pointing_device": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Meh: Right Option becomes Control + Option + Shift",
             "manipulators": [
               {
@@ -987,6 +1148,16 @@
           }
         ]
       },
+      "devices": [
+        {
+          "identifiers": {
+            "is_pointing_device": true,
+            "product_id": 45108,
+            "vendor_id": 1133
+          },
+          "ignore": false
+        }
+      ],
       "name": "Hyperland",
       "selected": true,
       "virtual_hid_keyboard": {

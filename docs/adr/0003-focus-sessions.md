@@ -10,7 +10,7 @@ sessions must quit outgoing applications completely. Coding uses two desktops.
 
 ## Decision
 
-Add explicit Alfred `focus work|amp|claude|cursor|codex` choices to the existing Hyper
+Add explicit Alfred `fs work|amp|claude|cursor|codex` choices to the existing Hyper
 workflow. Keep ordinary layout commands and DockFlow number shortcuts unchanged.
 Use Apple's native normal-quit API, wait for each app to exit, then open the next
 set. Preflight missing target apps before any quit. A pending save/terminal prompt

@@ -62,9 +62,11 @@ test('Caps Lock retains all four Hyper modifiers and tap Escape alongside naviga
   assert.equal(config.profiles[0].selected, true);
   assert.equal(config.profiles[0].virtual_hid_keyboard.keyboard_type_v2, 'ansi');
   const rules = config.profiles[0].complex_modifications.rules;
-  assert.equal(rules.length, 5);
-  assert.equal(rules[0].manipulators.length, 1);
-  const mapping = rules[0].manipulators[0];
+  const keyboardRules = rules.filter((rule) => rule.manipulators.some((item) => item.from.key_code));
+  assert.equal(keyboardRules.length, 5);
+  const capsMappings = rules.flatMap((rule) => rule.manipulators).filter((item) => item.from.key_code === 'caps_lock');
+  assert.equal(capsMappings.length, 1);
+  const [mapping] = capsMappings;
   assert.equal(mapping.from.key_code, 'caps_lock');
   assert.deepEqual(mapping.to_if_alone, [{ key_code: 'escape' }]);
   assert.deepEqual(new Set([mapping.to[0].key_code, ...mapping.to[0].modifiers]),
@@ -81,7 +83,7 @@ test('native Google workflow has five connected keywords with fixed vendor desti
       ['gslides', 'https://slides.new'], ['gform', 'https://forms.new'],
       ['gdrive', 'https://drive.google.com/'],
     ]);
-    assert.equal(data.objects.length, 10);
+    assert.equal(data.objects.length, 12);
     const keywords = data.objects.filter((object) => object.type === 'alfred.workflow.input.keyword');
     assert.equal(keywords.length, 5);
     assert.equal(new Set(keywords.map((object) => object.config.keyword)).size, 5);
@@ -124,8 +126,8 @@ test('DockFlow keywords and Meh numbers target the same seven integration links'
       ['zen', 'dzen', '9', 25, '48FF680F-04C9-4EC1-8E23-2E6BC88A3702'],
     ];
     assert.equal(data.disabled, false);
-    assert.equal(data.objects.length, 21);
-    assert.equal(new Set(data.objects.map((object) => object.uid)).size, 21);
+    assert.equal(data.objects.length, 23);
+    assert.equal(new Set(data.objects.map((object) => object.uid)).size, 23);
     for (const [name, keyword, key, keyCode, presetId] of expected) {
       const input = data.objects.find((object) => object.uid === `${name}-input`);
       const hotkey = data.objects.find((object) => object.uid === `${name}-hotkey`);

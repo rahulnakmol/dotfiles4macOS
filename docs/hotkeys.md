@@ -4,15 +4,31 @@ Your Hyperland manual. Hold **Caps Lock** for Hyper (Control + Option + Command 
 
 Open **Hyper+/** for the searchable visual guide, or view [the standalone page](hotkeys.html). This reference is generated from the same configuration as the workflows.
 
+## Short workflow menus
+
+| Code | Category | Existing alias |
+| --- | --- | --- |
+| hk | Hotkeys | hyper |
+| fs | Focus Session | focus |
+| al | App Launcher | Direct commands unchanged |
+| wa | Window Action | Direct commands unchanged |
+| wl | Window Layout | layouts |
+| cs | Capture | capture |
+| st | System Tool | tools |
+| dp | DockFlow Profile | Direct commands unchanged |
+| gw | Google Workspace | Direct commands unchanged |
+
+Type a code by itself to list its actions, then type a name to filter. Titles use **Category: Name**, for example **Focus Session: Code + Amp**, **Window Layout: Work**, and **DockFlow Profile: Code**. Long menu aliases and direct Google/DockFlow keywords still work. The convention applies to dotfiles-owned workflows; third-party workflows retain their vendor names and configurable keywords.
+
 ## Focus sessions
 
 | Alfred command | Session | Apps |
 | --- | --- | --- |
-| focus work | Work | Microsoft Edge + Microsoft Teams |
-| focus amp | Code · Amp | Google Chrome + Ghostty + Amp |
-| focus claude | Code · Claude | Obsidian + Ghostty + Claude |
-| focus cursor | Code · Cursor | Google Chrome + Ghostty + Cursor |
-| focus codex | Code · Codex | Google Chrome + Ghostty + ChatGPT / Codex |
+| fs work | Focus Session: Work | Microsoft Edge + Microsoft Teams |
+| fs amp | Focus Session: Code + Amp | Google Chrome + Ghostty + Amp |
+| fs claude | Focus Session: Code + Claude | Obsidian + Ghostty + Claude |
+| fs cursor | Focus Session: Code + Cursor | Google Chrome + Ghostty + Cursor |
+| fs codex | Focus Session: Code + Codex | Google Chrome + Ghostty + ChatGPT / Codex |
 
 Work uses Edge on the left two-thirds and Teams on the right third. Code has exactly four variations, using **two ordinary macOS desktops**:
 
@@ -96,6 +112,17 @@ Maximize fills the current desktop without creating a native fullscreen Space. L
 
 Universal Actions uses selected text, URLs or files. Clipboard stores text for 24 hours with concealed data and password-app exclusions; images/files are off. Snippet contents stay private. Meh+Up retains Rectangle’s maximize-height shortcut.
 
+## MX Master mouse
+
+| Button | Context | Action |
+| --- | --- | --- |
+| Back · button4 | Chrome, Safari, Edge and Finder | Command+[ · Back |
+| Forward · button5 | Chrome, Safari, Edge and Finder | Command+] · Forward |
+| Hold Forward · button5 | Other apps | Meh · Control+Option+Shift |
+| Hold thumb · button6 | All apps | Hyper · Control+Option+Command+Shift |
+
+These mappings target the MX Master 3S Bluetooth device (vendor 1133, product 45108). The desktop counts as Finder, so Forward there navigates rather than supplying Meh. Back retains its normal behavior in other apps. Left, right and middle clicks are unchanged. Hold the modifier button while pressing a keyboard key; thumb + H opens Ghostty. On another Mac, verify the device identifiers in Karabiner-EventViewer before enabling the rule; a receiver or different mouse may report different IDs. Physical button behavior still needs user testing.
+
 ## DockFlow profiles
 
 | Meh + | Alfred keyword | Profile |
@@ -114,21 +141,30 @@ DockFlow numbers change the Dock profile only. They do not quit apps or switch f
 
 | Keyword | Action |
 | --- | --- |
+| hk | Hotkeys menu |
+| fs | Focus Session menu |
+| al | App Launcher menu |
+| wa | Window Action menu |
+| wl | Window Layout menu |
+| cs | Capture menu |
+| st | System Tool menu |
+| dp | DockFlow Profile menu |
+| gw | Google Workspace menu |
 | hyper | All apps, focus sessions, layouts and window actions |
-| focus work | Work: Edge and Teams |
-| focus amp | Code: Amp, Ghostty and Chrome |
-| focus claude | Code: Claude, Ghostty and Obsidian |
-| focus cursor | Code: Cursor, Ghostty and Chrome |
-| focus codex | Code: Codex, Ghostty and Chrome |
+| fs work | Work: Edge and Teams |
+| fs amp | Code: Amp, Ghostty and Chrome |
+| fs claude | Code: Claude, Ghostty and Obsidian |
+| fs cursor | Code: Cursor, Ghostty and Chrome |
+| fs codex | Code: Codex, Ghostty and Chrome |
 | work / code / zen / default | Layout menus; do not quit apps |
 | layouts | All named Rectangle layouts |
 | capture | CleanShot X capture menu |
 | tools | Audio, timers, keep-awake, activity and settings |
-| gdoc | undefined |
-| gsheet | undefined |
-| gslides | undefined |
-| gform | undefined |
-| gdrive | undefined |
+| gdoc | Google Workspace: New Document |
+| gsheet | Google Workspace: New Spreadsheet |
+| gslides | Google Workspace: New Presentation |
+| gform | Google Workspace: New Form |
+| gdrive | Google Workspace: Open Drive |
 
 | System tools entry | Alfred query |
 | --- | --- |
@@ -250,7 +286,7 @@ Edit scripts/hyper-config.json, then regenerate:
 ```sh
 node scripts/build-hyper-config.mjs
 node scripts/render-hyper-guide.mjs
-node --test scripts/test-focus-sessions.mjs scripts/test-hyper-bootstrap.mjs scripts/test-hyper-config.mjs scripts/test-launcher-config.mjs scripts/test-codex-policy.mjs
+node --test scripts/test-focus-sessions.mjs scripts/test-hyper-bootstrap.mjs scripts/test-hyper-config.mjs scripts/test-launcher-config.mjs scripts/test-codex-policy.mjs scripts/test-mx-master-config.mjs
 ```
 
 The HTML page, Alfred guide and Markdown reference are generated together. Reimport Rectangle after layout changes. Source is Stow-backed; app licenses, clipboard, snippets and runtime state are not committed.

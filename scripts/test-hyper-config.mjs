@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
 import test from 'node:test';
-import { buildKarabiner, buildRectangle, buildWorkflow, buildDockflow } from './build-hyper-config.mjs';
+import { buildKarabiner, buildRectangle, buildWorkflow, buildDockflow, buildGoogleWorkspace } from './build-hyper-config.mjs';
 
 import { desktopShortcuts } from './setup-hyper-macos.mjs';
 
@@ -155,7 +155,7 @@ test('native workflow graph is connected and each hotkey reaches a valid action'
     assert.ok(objects.has(edges[0].destinationuid));
   }
   assert.equal(data.connections['menu-hotkey'][0].destinationuid, 'menu');
-  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hyper','focus','work','code','zen','default','capture','tools','layouts']);
+  assert.deepEqual(data.objects.filter((o) => o.type === 'alfred.workflow.input.listfilter').map((o) => o.config.keyword), ['hk','fs','work','code','zen','default','cs','st','wl','al','wa','hyper','focus','layouts','capture','tools']);
   assert.equal(data.createdby, 'Rahul N Akmol');
 });
 
@@ -198,4 +198,48 @@ test('punctuation owns fractions and former desktop aliases do not intercept the
   assert.deepEqual(buildRectangle(legacy, config), rectangle);
   assert.ok(workflow.plist.readme.includes('Control+Left/Right'));
   assert.ok(!workflow.plist.readme.includes('Hyper+U/I/O'));
+});
+
+test('short menu codes list categorized actions and aliases retain their original destinations', () => {
+  const google = plist(wf + 'user.workflow.google-workspace/info.plist');
+  const bundles=[workflow.plist,dockflow,google];
+  const menus=bundles.flatMap((data)=>data.objects.filter((o)=>o.type==='alfred.workflow.input.listfilter').map((o)=>({data,node:o})));
+  for (const spec of config.menuKeywords) {
+    assert.match(spec.code,/^[a-z]{2}$/);
+    const found=menus.filter(({node})=>node.config.keyword===spec.code);
+    assert.equal(found.length,1,spec.code);
+    const {data,node}=found[0];
+    const items=JSON.parse(node.config.items);
+    assert.ok(items.length>0);
+    if(spec.code!=='hk') assert.ok(items.every((i)=>i.title.startsWith(spec.name+': ')),spec.code);
+    if(spec.alias) {
+      const alias=menus.find(({node})=>node.config.keyword===spec.alias).node;
+      assert.deepEqual(JSON.parse(alias.config.items),items);
+      assert.deepEqual(data.connections[alias.uid],data.connections[node.uid]);
+    }
+  }
+  const fs=menus.find(({node})=>node.config.keyword==='fs').node;
+  assert.deepEqual(JSON.parse(fs.config.items).map(i=>i.title),[
+    'Focus Session: Work','Focus Session: Code + Amp','Focus Session: Code + Claude',
+    'Focus Session: Code + Cursor','Focus Session: Code + Codex',
+  ]);
+  for(const data of [dockflow,google]) {
+    const menu=data.objects.find(o=>o.uid==='category-menu');
+    const expected=data.objects.filter(o=>o.type==='alfred.workflow.input.keyword').map(o=>data.objects.find(a=>a.uid===data.connections[o.uid][0].destinationuid).config.url);
+    assert.deepEqual(JSON.parse(menu.config.items).map(i=>i.arg),expected);
+    assert.equal(data.objects.find(o=>o.uid==='category-open').config.url,'{query}');
+  }
+});
+
+test('category-menu generation is repeatable and retains direct keyword customizations', () => {
+  const google=plist(wf+'user.workflow.google-workspace/info.plist');
+  assert.deepEqual(buildGoogleWorkspace(google),google);
+  assert.deepEqual(buildDockflow(dockflow),dockflow);
+  const changed=structuredClone(google);
+  changed.objects.find(o=>o.uid==='gdoc-input').config.keyword='newdoc';
+  const generated=buildGoogleWorkspace(changed);
+  const item=JSON.parse(generated.objects.find(o=>o.uid==='category-menu').config.items)[0];
+  assert.equal(item.title,'Google Workspace: New Document');
+  assert.match(item.subtitle,/^newdoc/);
+  assert.equal(item.arg,'https://docs.new');
 });

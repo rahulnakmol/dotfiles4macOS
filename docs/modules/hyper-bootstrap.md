@@ -33,7 +33,7 @@ can ask for permission to accept external URL commands on first use; approve tha
 in its own prompt. Verify your Cmd+Shift+3/4/5 assignments in CleanShot settings.
 
 Local checkpoint, September 8, 2026: bootstrap `check` passes on this MacBook Air;
-all 37 automated checks pass. Alfred’s layout menu and system-tools handoff were
+all 39 automated checks pass. Alfred’s layout menu and system-tools handoff were
 verified live. CleanShot accepted the approved external command and opened its
 settings; its Cmd+Shift+3/4/5 capture bindings and Launch at login were verified.
 Physical Meh keys, a fresh login and the second Mac still need testing. CleanShot’s

@@ -6,6 +6,19 @@
 	<string>com.rahulnakmol.dotfiles.google</string>
 	<key>connections</key>
 	<dict>
+		<key>category-menu</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>category-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>gdoc-input</key>
 		<array>
 			<dict>
@@ -92,7 +105,7 @@
 				<key>subtext</key>
 				<string>Open in your default browser</string>
 				<key>text</key>
-				<string>Create Google Document</string>
+				<string>Google Workspace: New Document</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -132,7 +145,7 @@
 				<key>subtext</key>
 				<string>Open in your default browser</string>
 				<key>text</key>
-				<string>Create Google Spreadsheet</string>
+				<string>Google Workspace: New Spreadsheet</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -172,7 +185,7 @@
 				<key>subtext</key>
 				<string>Open in your default browser</string>
 				<key>text</key>
-				<string>Create Google Presentation</string>
+				<string>Google Workspace: New Presentation</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -212,7 +225,7 @@
 				<key>subtext</key>
 				<string>Open in your default browser</string>
 				<key>text</key>
-				<string>Create Google Form</string>
+				<string>Google Workspace: New Form</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -252,7 +265,7 @@
 				<key>subtext</key>
 				<string>Open in your default browser</string>
 				<key>text</key>
-				<string>Open Google Drive</string>
+				<string>Google Workspace: Open Drive</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -282,15 +295,71 @@
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Google Workspace: New Document","subtitle":"gdoc · Open in your default browser","arg":"https://docs.new"},{"title":"Google Workspace: New Spreadsheet","subtitle":"gsheet · Open in your default browser","arg":"https://sheets.new"},{"title":"Google Workspace: New Presentation","subtitle":"gslides · Open in your default browser","arg":"https://slides.new"},{"title":"Google Workspace: New Form","subtitle":"gform · Open in your default browser","arg":"https://forms.new"},{"title":"Google Workspace: Open Drive","subtitle":"gdrive · Open in your default browser","arg":"https://drive.google.com/"}]</string>
+				<key>keyword</key>
+				<string>gw</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>Google Workspace</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>category-menu</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<true/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>category-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Google Workspace Shortcuts | Alfred Workflow
 
 Create Google documents, spreadsheets, presentations, and forms, or open Google Drive, directly from Alfred. Each command opens Google's destination in your default browser.
 
+## Short menu
+
+Type `gw` to list every google workspace action. Results use **Google Workspace: Name**. Existing direct keywords remain available.
+
 ## Usage
 
-Open Alfred with **Option + Space**, type a keyword below, and press **Return**. These commands take no arguments: give a new file its title after it opens in the browser.
+Open Alfred with **Command + Space**, type a keyword below, and press **Return**. These commands take no arguments: give a new file its title after it opens in the browser.
 
 ### Create a document (`gdoc`)
 
@@ -366,6 +435,20 @@ The Google icon identifies the service; Google owns its brand assets. This is a 
 </string>
 	<key>uidata</key>
 	<dict>
+		<key>category-menu</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1000</integer>
+		</dict>
+		<key>category-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>650</integer>
+			<key>ypos</key>
+			<integer>1000</integer>
+		</dict>
 		<key>gdoc-input</key>
 		<dict>
 			<key>xpos</key>

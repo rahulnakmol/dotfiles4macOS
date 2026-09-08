@@ -20,7 +20,7 @@
   },
   {
     "id": "amp",
-    "name": "Code · Amp",
+    "name": "Code + Amp",
     "apps": [
       {
         "id": "chrome",
@@ -44,7 +44,7 @@
   },
   {
     "id": "claude",
-    "name": "Code · Claude",
+    "name": "Code + Claude",
     "apps": [
       {
         "id": "obsidian",
@@ -68,7 +68,7 @@
   },
   {
     "id": "cursor",
-    "name": "Code · Cursor",
+    "name": "Code + Cursor",
     "apps": [
       {
         "id": "chrome",
@@ -92,7 +92,7 @@
   },
   {
     "id": "codex",
-    "name": "Code · Codex",
+    "name": "Code + Codex",
     "apps": [
       {
         "id": "chrome",

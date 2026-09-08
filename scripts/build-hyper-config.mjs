@@ -73,8 +73,35 @@ export function buildRectangle(base, config) {
   return result;
 }
 
+function namedMenu(base, code, category, label) {
+  const result=structuredClone(base);
+  const ids=new Set(['category-menu','category-open']);
+  result.objects=result.objects.filter((o)=>!ids.has(o.uid));
+  const inputs=result.objects.filter((o)=>o.type==='alfred.workflow.input.keyword');
+  const items=inputs.map((o)=>{
+    const destination=result.connections[o.uid][0].destinationuid;
+    const action=result.objects.find((a)=>a.uid===destination);
+    o.config.text=`${category}: ${label(o)}`;
+    return {title:o.config.text,subtitle:`${o.config.keyword} · ${o.config.subtext}`,arg:action.config.url};
+  });
+  result.objects.push({uid:'category-menu',type:'alfred.workflow.input.listfilter',version:1,config:{keyword:code,argumenttype:1,argumenttrimmode:0,fixedorder:true,items:JSON.stringify(items),matchmode:0,runningsubtext:'',subtext:'Type to filter; Return to run',title:category,withspace:true}},
+    {uid:'category-open',type:'alfred.workflow.action.openurl',version:1,config:{browser:'',skipqueryencode:true,skipvarencode:false,spaces:'',url:'{query}'}});
+  result.connections['category-menu']=[{destinationuid:'category-open',modifiers:0,modifiersubtext:'',vitoclose:false}];
+  result.uidata ??= {};
+  result.uidata['category-menu']={xpos:40,ypos:1000};result.uidata['category-open']={xpos:650,ypos:1000};
+  result.readme=result.readme.replaceAll('Option + Space','Command + Space');
+  const help=`## Short menu\n\nType \`${code}\` to list every ${category.toLowerCase()} action. Results use **${category}: Name**. Existing direct keywords remain available.\n\n`;
+  if (!result.readme.includes('## Short menu')) result.readme=result.readme.replace('## Usage',help+'## Usage');
+  return result;
+}
+
+export function buildGoogleWorkspace(base) {
+  const labels={gdoc:'New Document',gsheet:'New Spreadsheet',gslides:'New Presentation',gform:'New Form',gdrive:'Open Drive'};
+  return namedMenu(base,'gw','Google Workspace',(o)=>labels[o.uid.replace('-input','')]);
+}
+
 export function buildDockflow(base) {
-  const result = structuredClone(base);
+  const result = namedMenu(base,'dp','DockFlow Profile',(o)=>{const id=o.uid.replace('-input','');return id[0].toUpperCase()+id.slice(1);});
   for (const object of result.objects) {
     if (object.type === 'alfred.workflow.trigger.hotkey') object.config.hotmod = 917504;
   }
@@ -99,25 +126,25 @@ export function buildWorkflow(config, dockflow) {
     concurrently: false, escaping: 0, scriptargtype: 1, scriptfile: '', type: 5,
     script: '/bin/zsh ./dispatch.zsh "$1" 2>&1 || true',
   }, 2, 650);
-  const focusItems = config.focusSessions.map((session) => ({ title: `${session.name} focus session`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · Quits outgoing session apps`, arg: `focus:${session.id}` }));
+  const focusItems = config.focusSessions.map((session) => ({ title: `Focus Session: ${session.name}`, subtitle: `${session.apps.map((id) => config.apps.find((a) => a.id === id).name).join(' + ')} · Quits outgoing session apps`, arg: `focus:${session.id}` }));
   const items = [
     ...focusItems,
-    ...config.apps.map((app) => ({ title: app.name, subtitle: `Hyper+${app.key.toUpperCase()} · ${app.optional ? 'Launch or focus when installed' : 'Launch or focus'}`, arg: `app:${app.id}` })),
-    ...config.layouts.map((layout) => ({ title: `${layout.name} layout`, subtitle: `${layout.description}${layout.launchApps ? ' · Opens apps' : ' · Open apps first'}`, arg: `layout:${layout.name}` })),
-    ...config.windowActions.map((action) => ({ title: action.name, subtitle: `Hyper+${action.key} · ${action.description}`, arg: `window:${action.id}` })),
-    { title: 'Hyper guide', subtitle: 'Keyboard map, desktops, examples and new-Mac setup', arg: 'guide' },
+    ...config.apps.map((app) => ({ title: `App Launcher: ${app.name}`, subtitle: `Hyper+${app.key.toUpperCase()} · ${app.optional ? 'Launch or focus when installed' : 'Launch or focus'}`, arg: `app:${app.id}` })),
+    ...config.layouts.map((layout) => ({ title: `Window Layout: ${layout.name}`, subtitle: `${layout.description}${layout.launchApps ? ' · Opens apps' : ' · Open apps first'}`, arg: `layout:${layout.name}` })),
+    ...config.windowActions.map((action) => ({ title: `Window Action: ${action.name}`, subtitle: `Hyper+${action.key} · ${action.description}`, arg: `window:${action.id}` })),
+    { title: 'Hotkeys: Guide', subtitle: 'Keyboard map, desktops, examples and new-Mac setup', arg: 'guide' },
   ];
   const list = (uid, keyword, values, title) => add(uid, 'input.listfilter', {
     argumenttrimmode: 0, argumenttype: 1, fixedorder: true, items: JSON.stringify(values),
     keyword, matchmode: 0, runningsubtext: '', subtext: 'Type to filter; Return to run', title, withspace: true,
   });
-  connect(list('menu', 'hyper', items, 'Hyper — apps, layouts and windows'), dispatch);
+  connect(list('menu', 'hk', items, 'Hyper — apps, layouts and windows'), dispatch);
   const focusDispatch = add('focus-dispatch', 'action.script', { concurrently:false, escaping:0, scriptargtype:1, scriptfile:'', type:5, script:'/bin/zsh ./focus-session.zsh "$1" 2>&1 || true' }, 2, 650);
   const focusResult = add('focus-result', 'output.notification', { title:'Hyper', text:'{query}', onlyshowifquerypopulated:true, removeextension:false, lastpathcomponent:false }, 0);
   connect(focusDispatch, focusResult);
   connect(dispatch, focusResult);
   // Sessions have their own path so failures are visible as notifications.
-  connect(list('menu-focus', 'focus', focusItems, 'Switch focus session'), focusDispatch);
+  connect(list('menu-focus', 'fs', focusItems, 'Switch focus session'), focusDispatch);
   connect(hotkey('menu-hotkey', 'Space', 49), 'menu');
   for (const mode of ['work', 'code', 'zen', 'default']) {
     const selected = config.layouts.filter((l) => l.mode === mode);
@@ -135,15 +162,24 @@ export function buildWorkflow(config, dockflow) {
   }
   // Native Alfred feature hotkeys (A/V/S) are configured by bootstrap; these three belong to the workflow.
   const show = add('show-tool', 'utility.showalfred', { argument: '{query}', leftcursor: false });
-  const capture = list('menu-capture', 'capture', config.captureActions.map((a) => ({ title:a.name, subtitle:'CleanShot X · choose before capture', arg:`capture:${a.id}` })), 'CleanShot X capture tools');
+  const capture = list('menu-capture', 'cs', config.captureActions.map((a) => ({ title:`Capture: ${a.name}`, subtitle:'CleanShot X · choose before capture', arg:`capture:${a.id}` })), 'CleanShot X capture tools');
   connect(capture, dispatch);
-  const toolMenu = list('menu-tools', 'tools', config.systemTools.map((a) => ({ title:a.name, subtitle:a.bundleId ? 'Open the installed workflow menu' : 'Open Alfred search', arg:a.query })), 'System tools');
+  const toolMenu = list('menu-tools', 'st', config.systemTools.map((a) => ({ title:`System Tool: ${a.name}`, subtitle:a.bundleId ? 'Open the installed workflow menu' : 'Open Alfred search', arg:a.query })), 'System tools');
   connect(toolMenu, show);
-  const layoutMenu = list('menu-layouts', 'layouts', config.layouts.map((l) => items.find((i) => i.arg === `layout:${l.name}`)), 'Window layouts');
+  const layoutMenu = list('menu-layouts', 'wl', config.layouts.map((l) => items.find((i) => i.arg === `layout:${l.name}`)), 'Window layouts');
   connect(layoutMenu, dispatch);
   for (const action of config.mehActions.filter((a) => a.owner === 'alfred-workflow')) {
     connect(hotkey(`meh-${action.id}`, action.key, action.keyCode, 917504), `menu-${action.id}`);
   }
+  connect(list('menu-apps','al',items.filter((i)=>i.arg.startsWith('app:')),'App Launcher'),dispatch);
+  connect(list('menu-windows','wa',items.filter((i)=>i.arg.startsWith('window:')),'Window Action'),dispatch);
+  // Separate native List Filters keep old keywords usable without changing hotkey destinations.
+  for (const spec of config.menuKeywords.filter((m)=>m.alias)) {
+    const primary=objects.find((o)=>o.type==='alfred.workflow.input.listfilter' && o.config.keyword===spec.code);
+    const uid=add(`${primary.uid}-alias`,'input.listfilter',{...primary.config,keyword:spec.alias});
+    connect(uid,connections[primary.uid][0].destinationuid);
+  }
+  const shortMenuTable=config.menuKeywords.map((m)=>`| ${m.code} | ${m.name} | ${m.alias ?? 'Existing direct commands'} |`).join('\n');
   const mehTable = config.mehActions.map((a) => `| ${a.key} | ${a.name} |`).join('\n');
   const nativeTable = config.nativeShortcuts.map((a) => `| ${a.key} | ${a.name} |`).join('\n');
   const appTable = config.apps.map((a) => `| ${a.key.toUpperCase()} | ${a.name} |`).join('\n');
@@ -158,9 +194,17 @@ Press **Hyper+Space** or type \`hyper\` in Alfred, then search for an app, layou
 
 Type \`work\`, \`code\`, \`zen\` or \`default\` to narrow the menu. The selected layout first switches the corresponding DockFlow profile when one is specified, then asks Rectangle Pro to apply its saved layout. These are desktop layouts, not native fullscreen Spaces. No apps are quit and no agent commands are sent.
 
+### Short menus
+
+| Code | Category | Existing alias |
+| --- | --- | --- |
+${shortMenuTable}
+
+Type the short code to list its actions. Result names use **Category: Name**. For example, \`fs\` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
+
 ### Focus sessions
 
-Type \`focus\` in Alfred or search \`focus\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code · Amp opens Chrome, Ghostty and Amp. Code · Claude opens Obsidian, Ghostty and Claude. Code · Cursor opens Chrome, Ghostty and Cursor. Code · Codex opens Chrome, Ghostty and Codex.
+Type \`fs\` in Alfred or search \`Focus Session\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code + Amp opens Chrome, Ghostty and Amp. Code + Claude opens Obsidian, Ghostty and Claude. Code + Cursor opens Chrome, Ghostty and Cursor. Code + Codex opens Chrome, Ghostty and Codex.
 
 Switching sessions requests normal quits for the outgoing session, including shared Ghostty when switching coding variants. Resolve any save/terminal prompt; if an app stays open for 30 seconds, the switch stops before opening the next session. Apps outside these five configured sets are left alone. Re-selecting the active session keeps its apps running. The first use (no local session history) closes only other-session apps not needed by the target. The last active session ID stays in this Mac’s cache, outside Git.
 
@@ -266,7 +310,7 @@ ${cases.join('\n')}
   *) printf '%s\\n' 'Unknown Hyper action. Open Hyper+Space and choose an item.' >&2; exit 64 ;;
 esac
 `;
-  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.2.0', objects, connections, uidata }, script };
+  return { plist: { bundleid: 'com.rahulnakmol.hyper', category: 'Productivity', createdby: 'Rahul N Akmol', description: 'Keyboard-first apps, desktops and window layouts', disabled: false, name: 'Hyper', readme, version: '1.3.0', objects, connections, uidata }, script };
 }
 
 function main() {
@@ -276,6 +320,8 @@ function main() {
   const rectanglePath = 'rectangle-pro/.config/rectangle-pro/RectangleProConfig.json';
   const dockflowPath = `${bundle}/user.workflow.dockflow-profiles/info.plist`;
   const dockflow = buildDockflow(readPlist(dockflowPath));
+  const googlePath=`${bundle}/user.workflow.google-workspace/info.plist`;
+  const google=buildGoogleWorkspace(readPlist(googlePath));
   const workflow = buildWorkflow(config, dockflow);
   const focusSessions = config.focusSessions.map((session) => ({
     id:session.id,name:session.name,apps:session.apps.map((id) => {
@@ -301,7 +347,7 @@ function main() {
       writeFileSync(join(root, path), text);
     }
   }
-  for (const [path, data] of [[`${folder}/info.plist`, workflow.plist], [dockflowPath, dockflow]]) {
+  for (const [path, data] of [[`${folder}/info.plist`, workflow.plist], [dockflowPath, dockflow], [googlePath,google]]) {
     if (check) {
       if (JSON.stringify(readPlist(path)) !== JSON.stringify(data)) {
         // plutil changes dictionary ordering; compare canonical JSON recursively.

@@ -47,6 +47,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>category-menu</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>category-open</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>code-hotkey</key>
 		<array>
 			<dict>
@@ -224,7 +237,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 0. Default</string>
 				<key>text</key>
-				<string>Dock | Default</string>
+				<string>DockFlow Profile: Default</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -287,7 +300,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 1. Work</string>
 				<key>text</key>
-				<string>Dock | Work</string>
+				<string>DockFlow Profile: Work</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -329,7 +342,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 2. Code</string>
 				<key>text</key>
-				<string>Dock | Code</string>
+				<string>DockFlow Profile: Code</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -371,7 +384,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 3. Author</string>
 				<key>text</key>
-				<string>Dock | Author</string>
+				<string>DockFlow Profile: Author</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -392,7 +405,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 4. Create</string>
 				<key>text</key>
-				<string>Dock | Create</string>
+				<string>DockFlow Profile: Create</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -455,7 +468,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 5. Video</string>
 				<key>text</key>
-				<string>Dock | Video</string>
+				<string>DockFlow Profile: Video</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -497,7 +510,7 @@
 				<key>subtext</key>
 				<string>Switch DockFlow profile 9. Zen</string>
 				<key>text</key>
-				<string>Dock | Zen</string>
+				<string>DockFlow Profile: Zen</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -725,15 +738,71 @@
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"DockFlow Profile: Default","subtitle":"ddef · Switch DockFlow profile 0. Default","arg":"dockflow://switch?id=68FBB9EF-7C52-46B1-9483-E0A6F625ED1E"},{"title":"DockFlow Profile: Work","subtitle":"dwork · Switch DockFlow profile 1. Work","arg":"dockflow://switch?id=01BAE638-6C40-47C3-A97D-F52F4CB3A9A3"},{"title":"DockFlow Profile: Code","subtitle":"dcode · Switch DockFlow profile 2. Code","arg":"dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2"},{"title":"DockFlow Profile: Author","subtitle":"dauthor · Switch DockFlow profile 3. Author","arg":"dockflow://switch?id=843F75F4-4CF2-46DB-92B8-EB2F5A4DCB80"},{"title":"DockFlow Profile: Create","subtitle":"dcreate · Switch DockFlow profile 4. Create","arg":"dockflow://switch?id=36DE5127-17EC-4F8E-BA5B-D4091B34062E"},{"title":"DockFlow Profile: Video","subtitle":"dvideo · Switch DockFlow profile 5. Video","arg":"dockflow://switch?id=FAFBC05C-3C0D-496D-B660-A015E77EF8DF"},{"title":"DockFlow Profile: Zen","subtitle":"dzen · Switch DockFlow profile 9. Zen","arg":"dockflow://switch?id=48FF680F-04C9-4EC1-8E23-2E6BC88A3702"}]</string>
+				<key>keyword</key>
+				<string>dp</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type to filter; Return to run</string>
+				<key>title</key>
+				<string>DockFlow Profile</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>category-menu</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<true/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>category-open</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># DockFlow Profiles | Alfred Workflow
 
 Switch your existing DockFlow presets from Alfred using short keywords or Meh + number shortcuts. Both methods open the preset's link from DockFlow's Integrations page, so DockFlow applies the preset and its configured behaviour.
 
+## Short menu
+
+Type `dp` to list every dockflow profile action. Results use **DockFlow Profile: Name**. Existing direct keywords remain available.
+
 ## Usage
 
-Open Alfred with **Option + Space**, type a keyword, and press **Return**. No arguments are required.
+Open Alfred with **Command + Space**, type a keyword, and press **Return**. No arguments are required.
 
 For an immediate switch, hold **Right Option** and press the preset's number. Karabiner turns Right Option into **Control + Option + Shift** (Meh). Left Option remains a normal Option key. Caps Lock still provides Hyper, with Escape when tapped.
 
@@ -862,6 +931,20 @@ The DockFlow icon comes from the installed app and remains its owner's brand ass
 			<integer>550</integer>
 			<key>ypos</key>
 			<integer>465</integer>
+		</dict>
+		<key>category-menu</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>1000</integer>
+		</dict>
+		<key>category-open</key>
+		<dict>
+			<key>xpos</key>
+			<integer>650</integer>
+			<key>ypos</key>
+			<integer>1000</integer>
 		</dict>
 		<key>code-hotkey</key>
 		<dict>

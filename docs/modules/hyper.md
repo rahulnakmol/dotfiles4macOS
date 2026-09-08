@@ -10,11 +10,11 @@ with Hyper+/ for the complete map, workspace diagrams, research and limitations.
 Hyper+Space opens the searchable command menu. Alfred keywords are `hyper`, `work`,
 `code`, `zen` and `default`.
 
-Setup checkpoint, September 8, 2026: all 37 focus, bootstrap, launcher, Hyper and Codex policy tests
+Setup checkpoint, September 9, 2026: all 44 focus, bootstrap, launcher, Hyper, mouse and Codex policy tests
 pass. The approved tactile map gives each of the 18 apps exactly one direct shortcut. Letters prioritize coding/work apps and
 voice; punctuation and arrows control windows. Native Desktop 1…10 shortcuts are
-saved, with unrelated keyboard shortcuts preserved. The running Hyperland profile
-has all five rules enabled and no bracket navigation alias. Rectangle’s native
+saved, with unrelated keyboard shortcuts preserved. Hyperland includes the keyboard rules and a device-scoped MX Master rule;
+keyboard brackets retain their window-management bindings. Rectangle’s native
 import has been applied; live thirds and two-thirds settings match the snapshot.
 Alfred, Karabiner, Rectangle, Ghostty and Codex Stow targets were verified. Log out and back in to
 activate command-line desktop changes. Physical tests of the latest bindings,
@@ -24,11 +24,11 @@ See the [design decision](../adr/0002-hyper-macos-workspaces.md).
 ## Focus sessions and complete manual
 
 The [hotkeys manual](../hotkeys.md) and [standalone visual page](../hotkeys.html)
-cover Work plus the four Code variations. Alfred commands are `focus work`,
-`focus amp`, `focus claude`, `focus cursor` and `focus codex`. A session switch quits outgoing
+cover Work plus the four Code variations. Alfred commands are `fs work`,
+`fs amp`, `fs claude`, `fs cursor` and `fs codex`. A session switch quits outgoing
 apps normally, then opens its exact app set. Code uses two ordinary desktops:
 Chrome (Amp/Cursor/Codex) or Obsidian (Claude) with Ghostty in a ⅔–⅓ split on Desktop 1,
-and the selected coding app maximized on Desktop 2. The earlier four choices were verified in Alfred; Code · Codex adds a fifth
+and the selected coding app maximized on Desktop 2. The earlier four choices were verified in Alfred; Code + Codex adds a fifth
 session and a sixteenth Rectangle layout. A live quit/reopen session and native desktop assignment still
 need acceptance. Set the per-Mac native Dock
 assignments described in the manual; Rectangle sizes windows but cannot assign
@@ -41,6 +41,23 @@ capture tools, Space system tools, and Return the layout chooser. DockFlow numbe
 keys stay unchanged. See [bootstrap, native keys and rollback](hyper-bootstrap.md)
 for fresh-Mac setup and the exact verification boundaries. Hyper+/ includes the
 Meh and native shortcut tables.
+
+## MX Master mouse
+
+The MX Master 3S Bluetooth mapping is stored with the Hyperland profile in
+`karabiner/.config/karabiner/karabiner.json` and preserved by the generator.
+
+- Back (button4) and Forward (button5) send Command+[ and Command+] in Chrome,
+  Safari, Edge and Finder.
+- Hold Forward in other apps for Meh. Back keeps its normal behavior there.
+- Hold the thumb button (button6) in any app for Hyper; press a keyboard key while
+  holding it, for example thumb+H for Ghostty.
+
+The desktop counts as Finder, so Forward on the desktop is navigation, not Meh.
+Ordinary left/right/middle clicks are unchanged. Only vendor 1133, product 45108
+is targeted. On a new Mac or with a USB receiver, check Karabiner-EventViewer for
+matching identifiers; do not broaden the rule to all pointing devices. Regression
+tests and Karabiner lint validate the source; physical button testing is pending.
 
 ## Daily keys
 
