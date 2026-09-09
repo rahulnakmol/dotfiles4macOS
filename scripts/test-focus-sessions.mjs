@@ -1,7 +1,8 @@
+import {workstationFiles} from './build-workstation.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync, spawnSync} from 'node:child_process';
-import {mkdtempSync, rmSync, readFileSync} from 'node:fs';
+import {mkdtempSync, rmSync, readFileSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const workflow = new URL('../alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/',import.meta.url).pathname;
@@ -9,7 +10,9 @@ test('native focus switching preserves quit barriers and the five requested app 
   const temp=mkdtempSync(join(tmpdir(),'focus-tests-'));t.after(()=>rmSync(temp,{recursive:true,force:true}));
   const binary=join(temp,'tests');
   execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-D','FOCUS_TEST','-parse-as-library',workflow+'FocusSession.swift',new URL('./focus-tests/FocusSessionTests.swift',import.meta.url).pathname,'-o',binary]);
-  const result=execFileSync(binary,[workflow+'focus-sessions.json'],{encoding:'utf8'});
+  const tf=join(temp,'tf.json');
+  writeFileSync(tf,workstationFiles('tf').get('alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-sessions.json'));
+  const result=execFileSync(binary,[workflow+'focus-sessions.json',tf],{encoding:'utf8'});
   assert.match(result,/Focus session scenarios passed/);
   const executable=join(temp,'focus-session');
   execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-parse-as-library',workflow+'FocusSession.swift','-o',executable]);

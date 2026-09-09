@@ -28,8 +28,8 @@
 bash scripts/bootstrap-hyper.sh apply
 bash scripts/bootstrap-hyper.sh check
 # To undo one run:
-bash scripts/bootstrap-hyper.sh rollback BACKUP_DIRECTORY</pre><p>Start with Homebrew and Git, clone dotfiles, then run apply. The script installs missing Node/Stow and the three core apps. CleanShot may come from Setapp or a separate installation; no duplicate copy is installed. Follow <code>docs/modules/hyper-bootstrap.md</code> for native imports, Gallery workflows, licenses, permissions and rollback boundaries.</p>
-<div class="step"><b class="number">1</b><div><h3>Install and link</h3><p>Use Homebrew, then Stow the three modules. Back up any existing conflicting configurations first.</p><pre>brew install --cask alfred karabiner-elements rectangle-pro
+bash scripts/bootstrap-hyper.sh rollback BACKUP_DIRECTORY</pre><p>Start with Homebrew and Git, clone dotfiles, then run apply. The script installs missing Node/Stow, Alfred and Rectangle Pro. Install Karabiner using the official DMG and PKG installer from karabiner-elements.pqrs.org. CleanShot may come from Setapp or a separate installation; no duplicate copy is installed. Follow <code>docs/modules/hyper-bootstrap.md</code> for native imports, Gallery workflows, licenses, permissions and rollback boundaries.</p>
+<div class="step"><b class="number">1</b><div><h3>Install and link</h3><p>Use Homebrew, then Stow the three modules. Back up any existing conflicting configurations first.</p><pre>brew install --cask alfred rectangle-pro
 cd ~/.dotfiles
 stow -n -v alfred karabiner rectangle-pro
 stow alfred karabiner rectangle-pro</pre></div></div>

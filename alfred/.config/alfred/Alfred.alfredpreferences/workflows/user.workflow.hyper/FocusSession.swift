@@ -14,6 +14,7 @@ struct FocusSession: Codable {
     let layoutURL: String?
     let pairLayoutURL: String?
     let durationMinutes: Int
+    var dockName: String? = nil
 
     var timerURL: String {
         var url = URLComponents()
@@ -45,6 +46,8 @@ protocol FocusDesktop {
     func quitAndWait(_ app: FocusApp) throws
     func launch(_ app: FocusApp) throws
     func openURL(_ url: String) throws
+    func checkDockPreset(_ name: String) throws
+    func applyDockPreset(_ name: String) throws
 }
 
 func appsToQuit(for target: FocusSession, running: [FocusApp]) -> [FocusApp] {
@@ -64,6 +67,7 @@ func switchFocus(_ id: String, sessions: [FocusSession], desktop: FocusDesktop) 
     for app in target.apps where !desktop.installed(app) {
         throw FocusFailure("Install \(app.name) before starting \(target.name). No apps were quit.")
     }
+    if let name = target.dockName { try desktop.checkDockPreset(name) }
     for app in appsToQuit(for: target, running: desktop.runningApps()) {
         try desktop.quitAndWait(app)
     }
@@ -78,7 +82,8 @@ func switchFocus(_ id: String, sessions: [FocusSession], desktop: FocusDesktop) 
     } else {
         for app in target.apps { try desktop.launch(app) }
     }
-    if let url = target.dockURL { try desktop.openURL(url) }
+    if let name = target.dockName { try desktop.applyDockPreset(name) }
+    else if let url = target.dockURL { try desktop.openURL(url) }
     if let url = target.layoutURL { try desktop.openURL(url) }
     // Start once, only after all app launches and layout requests succeed.
     // Session owns any existing-timer prompt; never abandon or finish it silently.
@@ -86,6 +91,30 @@ func switchFocus(_ id: String, sessions: [FocusSession], desktop: FocusDesktop) 
 }
 
 struct MacFocusDesktop: FocusDesktop {
+    private func dockCLI(_ arguments: [String]) throws -> String {
+        guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.appit.DockFlow") else {
+            throw FocusFailure("Install DockFlow and import the selected preset pack first. No timer was started.")
+        }
+        let process = Process(), output = Pipe()
+        process.executableURL = app.appendingPathComponent("Contents/MacOS/DockFlowCLI")
+        process.arguments = arguments
+        process.standardOutput = output
+        process.standardError = output
+        try process.run()
+        let data = output.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        guard process.terminationStatus == 0 else { throw FocusFailure("DockFlow command failed. Check its preset import and integration.") }
+        return String(decoding: data, as: UTF8.self)
+    }
+    func checkDockPreset(_ name: String) throws {
+        let lines = try dockCLI(["list"]).components(separatedBy: "\n")
+        let count = lines.filter { $0.hasPrefix("- \(name) (ID: ") && $0.hasSuffix(")") }.count
+        guard count == 1 else { throw FocusFailure("DockFlow needs exactly one preset named \(name). Import the pack or rename duplicates before starting focus.") }
+    }
+    func applyDockPreset(_ name: String) throws {
+        try checkDockPreset(name)
+        _ = try dockCLI(["apply", "--name", name])
+    }
     func runningApps() -> [FocusApp] {
         NSWorkspace.shared.runningApplications.filter { $0.activationPolicy == .regular && !$0.isTerminated }.map {
             FocusApp(id: $0.bundleIdentifier ?? "pid-\($0.processIdentifier)", name: $0.localizedName ?? "Application \($0.processIdentifier)",

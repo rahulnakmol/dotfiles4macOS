@@ -9,6 +9,12 @@ final class FakeDesktop: FocusDesktop {
     var blocked: String?
     var launchFailure: String?
     var urlFailure: String?
+    var dockMissing = false
+    func checkDockPreset(_ name: String) throws {
+        if dockMissing { throw FocusFailure("Missing Dock preset") }
+        events.append("check-dock:" + name)
+    }
+    func applyDockPreset(_ name: String) throws { events.append("dock:" + name) }
     func installed(_ app: FocusApp) -> Bool { app.id != missing }
     func quitAndWait(_ app: FocusApp) throws {
         events.append("quit:" + app.id)
@@ -116,6 +122,22 @@ struct FocusTests {
             let url = URLComponents(string: invalid.timerURL)!
             assert(url.queryItems!.first!.value == "Focus Session: Code + A&B #1")
             assert(url.queryItems!.count == 2, "Intention text must not inject URL parameters")
+        }
+        if CommandLine.arguments.count > 2 {
+            let tf = try JSONDecoder().decode([FocusSession].self, from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[2])))
+            assert(tf.map(\.id) == ["work", "amp"])
+            assert(tf[0].apps.map(\.id) == ["edge", "teams", "claude"])
+            assert(tf[1].apps.map(\.id) == ["chrome", "ghostty", "amp"])
+            for target in tf {
+                let desktop = populatedDesktop()
+                try switchFocus(target.id, sessions: tf, desktop: desktop)
+                assert(desktop.events.first == "check-dock:" + target.dockName!)
+                assert(desktop.events.contains("dock:" + target.dockName!))
+                assert(desktop.events.last == "url:" + target.timerURL)
+                let missing = populatedDesktop(); missing.dockMissing = true
+                do { try switchFocus(target.id, sessions: tf, desktop: missing); assertionFailure("Missing Dock preset should stop") } catch {}
+                assert(missing.events.isEmpty, "Dock preflight happens before quitting")
+            }
         }
         print("Focus session scenarios passed: exact five sets, preflight, cancellation, unrelated-app quits, support-app preservation, reselection, remaining-app barrier, launch failure and invalid input")
     }

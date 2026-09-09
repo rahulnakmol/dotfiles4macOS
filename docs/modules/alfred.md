@@ -41,7 +41,7 @@ DockFlow profiles in Alfred. The matching Raycast quicklink hotkeys have been
 cleared to prevent duplicate handlers. Other existing Rectangle shortcuts remain.
 
 ```sh
-brew install --cask alfred rectangle-pro karabiner-elements
+brew install --cask alfred rectangle-pro
 stow alfred rectangle-pro
 ```
 
@@ -225,11 +225,11 @@ The initialized ANSI virtual keyboard setting is preserved. The pre-migration
 directory is backed up locally at
 `~/.local/state/dotfiles/backups/karabiner-20260907-181808`.
 
-On another Mac, install Karabiner with Homebrew, complete macOS's required permissions
+On another Mac, install Karabiner using the official DMG and its PKG installer, complete macOS's required permissions
 yourself, disable Raycast's Caps Lock remapping, then deploy:
 
 ```sh
-brew install --cask karabiner-elements
+# Install Karabiner via the official DMG and Karabiner-Elements.pkg first.
 # Back up any config generated during first launch before Stow.
 stow -n -v karabiner
 stow karabiner
@@ -245,8 +245,8 @@ shortcuts. App licenses and macOS permissions must be set up on each device.
 
 After an interrupted privileged installation, Homebrew can list the cask as
 installed even though `/Applications/Karabiner-Elements.app` and its package
-receipt are absent. In that case run `brew reinstall --cask karabiner-elements`
-in an interactive terminal and complete administrator authentication. Verify the
+receipt are absent. In that case follow the vendor uninstall/reinstall guidance, then run the official
+DMG/PKG installer and complete administrator authentication directly. Verify the
 app and services exist before switching off the working Raycast remapper.
 
 Stow must link the whole `~/.config/karabiner` directory. Do not use `--no-folding`:

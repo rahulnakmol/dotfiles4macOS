@@ -182,7 +182,7 @@ and the [Rectangle maintainer's explanation](https://github.com/rxhanson/Rectang
 ## Move to another Mac
 
 ```sh
-brew install --cask alfred karabiner-elements rectangle-pro
+brew install --cask alfred rectangle-pro
 cd ~/.dotfiles
 stow -n -v alfred karabiner rectangle-pro
 stow alfred karabiner rectangle-pro

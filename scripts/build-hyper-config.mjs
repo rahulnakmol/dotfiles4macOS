@@ -282,7 +282,7 @@ Native shortcuts depend on macOS version, keyboard and app support. CleanShot X 
 
 Run bash scripts/bootstrap-hyper.sh plan, then apply, then check. Use rollback with the printed backup directory to undo only that run's managed preference and link changes. Follow the generated per-Mac checklist for activation, permissions, native imports, vendor workflows and physical/login checks.
 
-Install Alfred Powerpack, Karabiner Elements and Rectangle Pro through Homebrew. Stow alfred, karabiner and rectangle-pro. Select the ${config.profile} profile and import RectangleProConfig.json. Choose the Stow-backed Alfred preferences folder and enable startup. Complete each app's macOS permissions and license activation directly on each Mac.
+Install Alfred and Rectangle Pro through Homebrew. Install Karabiner using the official DMG and Karabiner-Elements.pkg from https://karabiner-elements.pqrs.org/. Stow alfred, karabiner and rectangle-pro. Select the ${config.profile} profile and import RectangleProConfig.json. Choose the Stow-backed Alfred preferences folder and enable startup. Complete each app's macOS permissions and license activation directly on each Mac.
 
 Create ordinary desktops in Mission Control with its + button (use four). Run bash scripts/setup-hyper-macos.sh apply to enable Control+Option+1…9/0 and turn off automatic Space rearrangement. Log out and back in after command-line preference changes. The supported workflow is to visit each desktop and apply its layout; this stack cannot reliably reconstruct every window's numbered Space in one command. This Mac already has four desktops and app assignments. Preserve them. On a new Mac, recreate those assignments with Dock > Options > Assign To > This Desktop.
 
@@ -309,7 +309,8 @@ Created by **Rahul N Akmol**.
   for (const app of config.apps) cases.push(`  ${quote(`app:${app.id}`)}) launch -b ${quote(app.bundleId)} ;;`);
   for (const layout of config.layouts) {
     const profile = dockflow.objects.find((o) => o.uid === `${layout.mode}-open`);
-    const dock = profile ? `launch -g ${quote(profile.config.url)}\n    ` : '';
+    const named = config.dockPresets?.find(p=>p.id===layout.mode);
+    const dock = named ? `node "$workflow_dir/dockflow.mjs" apply ${quote(named.id)}\n    ` : profile ? `launch -g ${quote(profile.config.url)}\n    ` : '';
     cases.push(`  ${quote(`layout:${layout.name}`)}) ${dock}launch -g ${quote(`rectangle-pro://execute-layout?name=${encodeURIComponent(layout.name)}`)} ;;`);
   }
   for (const action of config.windowActions) cases.push(`  ${quote(`window:${action.id}`)}) launch -g ${quote(`rectangle-pro://execute-action?name=${action.id}`)} ;;`);

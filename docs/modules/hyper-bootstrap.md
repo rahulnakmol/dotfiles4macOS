@@ -56,8 +56,9 @@ bash scripts/bootstrap-hyper.sh apply
 bash scripts/bootstrap-hyper.sh check
 ```
 
-`apply` installs missing Stow, Alfred, Karabiner Elements and Rectangle Pro through
-Homebrew. Administrator-required Karabiner installation may need your terminal.
+`apply` installs missing Stow, Alfred and Rectangle Pro through Homebrew.
+Install Karabiner separately from https://karabiner-elements.pqrs.org/: open the
+DMG, run Karabiner-Elements.pkg, and complete its services and input permissions.
 It does not install every mapped app, CleanShot, or licensed media apps. Install
 CleanShot through your existing Setapp subscription or your standalone license;
 a Setapp installation already satisfies the check, so there is no duplicate cask.
