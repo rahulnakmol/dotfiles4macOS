@@ -1,0 +1,344 @@
+{
+  "version": 1,
+  "apps": [
+    {
+      "id": "zen-browser",
+      "name": "Zen Browser",
+      "key": "d",
+      "bundleId": "app.zen-browser.zen"
+    },
+    {
+      "id": "ghostty",
+      "name": "Ghostty",
+      "key": "h",
+      "bundleId": "com.mitchellh.ghostty"
+    },
+    {
+      "id": "finder",
+      "name": "Finder",
+      "key": "f",
+      "bundleId": "com.apple.finder"
+    },
+    {
+      "id": "codex",
+      "name": "ChatGPT / Codex",
+      "key": "j",
+      "bundleId": "com.openai.codex"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "key": "k",
+      "bundleId": "com.todesktop.230313mzl4w4u92"
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "key": "l",
+      "bundleId": "com.anthropic.claudefordesktop"
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "key": "a",
+      "bundleId": "com.ampcode.amp.macos",
+      "optional": true
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "key": "n",
+      "bundleId": "md.obsidian"
+    },
+    {
+      "id": "edge",
+      "name": "Microsoft Edge",
+      "key": "e",
+      "bundleId": "com.microsoft.edgemac"
+    },
+    {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "key": "i",
+      "bundleId": "com.microsoft.teams2"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "key": "s",
+      "bundleId": "com.tinyspeck.slackmacgap"
+    },
+    {
+      "id": "word",
+      "name": "Microsoft Word",
+      "key": "w",
+      "bundleId": "com.microsoft.Word"
+    },
+    {
+      "id": "excel",
+      "name": "Microsoft Excel",
+      "key": "o",
+      "bundleId": "com.microsoft.Excel"
+    },
+    {
+      "id": "powerpoint",
+      "name": "Microsoft PowerPoint",
+      "key": "p",
+      "bundleId": "com.microsoft.Powerpoint"
+    },
+    {
+      "id": "finalcut",
+      "name": "Final Cut Pro",
+      "key": "z",
+      "bundleId": "com.apple.FinalCut",
+      "optional": true
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "key": "x",
+      "bundleId": "com.apple.motionapp",
+      "optional": true
+    },
+    {
+      "id": "compressor",
+      "name": "Compressor",
+      "key": "c",
+      "bundleId": "com.apple.Compressor",
+      "optional": true
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram",
+      "key": "t",
+      "bundleId": "ru.keepcoder.Telegram",
+      "optional": true
+    },
+    {
+      "id": "t3code",
+      "name": "T3 Code",
+      "key": "g",
+      "bundleId": "com.t3tools.t3code",
+      "optional": true
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "bundleId": "com.figma.Desktop",
+      "key": "r"
+    },
+    {
+      "id": "affinity",
+      "name": "Affinity",
+      "bundleId": "com.canva.affinity",
+      "key": "u",
+      "optional": true
+    }
+  ],
+  "modes": [
+    {
+      "id": "default",
+      "name": "Default",
+      "key": "0",
+      "dock": "0. Default",
+      "category": "Default",
+      "minutes": 0,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "work",
+      "name": "Work",
+      "key": "1",
+      "dock": "1. Work",
+      "category": "Work",
+      "minutes": 30,
+      "placements": [
+        {
+          "app": "edge",
+          "desktop": 2,
+          "shape": "left-two-thirds"
+        },
+        {
+          "app": "teams",
+          "desktop": 2,
+          "shape": "right-third"
+        },
+        {
+          "app": "claude",
+          "desktop": 3,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "code",
+      "name": "Code",
+      "key": "2",
+      "dock": "2. Code",
+      "category": "Code",
+      "minutes": 45,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "left-two-thirds"
+        },
+        {
+          "app": "amp",
+          "desktop": 3,
+          "shape": "maximize"
+        },
+        {
+          "app": "ghostty",
+          "desktop": 4,
+          "shape": "maximize"
+        },
+        {
+          "app": "slack",
+          "desktop": 2,
+          "shape": "right-third"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "author",
+      "name": "Author",
+      "key": "3",
+      "dock": "3. Author",
+      "category": "Author",
+      "minutes": 45,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "maximize"
+        },
+        {
+          "app": "claude",
+          "desktop": 3,
+          "shape": "maximize"
+        },
+        {
+          "app": "obsidian",
+          "desktop": 4,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "design",
+      "name": "Design",
+      "key": "4",
+      "dock": "4. Design",
+      "category": "Design",
+      "minutes": 45,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "maximize"
+        },
+        {
+          "app": "figma",
+          "desktop": 3,
+          "shape": "maximize"
+        },
+        {
+          "app": "affinity",
+          "desktop": 4,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "innovate",
+      "name": "Innovate",
+      "key": "5",
+      "dock": "5. Innovate",
+      "category": "Innovate",
+      "minutes": 45,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "left-two-thirds"
+        },
+        {
+          "app": "codex",
+          "desktop": 3,
+          "shape": "maximize"
+        },
+        {
+          "app": "ghostty",
+          "desktop": 4,
+          "shape": "maximize"
+        },
+        {
+          "app": "slack",
+          "desktop": 2,
+          "shape": "right-third"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "video",
+      "name": "Video",
+      "key": "6",
+      "dock": "6. Video",
+      "category": "Video",
+      "minutes": 45,
+      "placements": [
+        {
+          "app": "finalcut",
+          "desktop": 3,
+          "shape": "maximize"
+        },
+        {
+          "app": "motion",
+          "desktop": 4,
+          "shape": "maximize"
+        },
+        {
+          "app": "finder",
+          "desktop": 1,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    },
+    {
+      "id": "zen",
+      "name": "Zen",
+      "key": "9",
+      "dock": "9. Zen",
+      "category": "Zen",
+      "minutes": 25,
+      "placements": [
+        {
+          "app": "zen-browser",
+          "desktop": 2,
+          "shape": "maximize"
+        },
+        {
+          "app": "obsidian",
+          "desktop": 4,
+          "shape": "maximize"
+        }
+      ],
+      "urls": []
+    }
+  ],
+  "desktopIds": {}
+}

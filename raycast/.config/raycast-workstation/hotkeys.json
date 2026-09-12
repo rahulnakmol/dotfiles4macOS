@@ -1,0 +1,344 @@
+[
+  {
+    "layer": "Hyper",
+    "key": "D",
+    "command": "Zen Browser",
+    "owner": "Applications",
+    "bundleId": "app.zen-browser.zen",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "H",
+    "command": "Ghostty",
+    "owner": "Applications",
+    "bundleId": "com.mitchellh.ghostty",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "F",
+    "command": "Finder",
+    "owner": "Applications",
+    "bundleId": "com.apple.finder",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "J",
+    "command": "ChatGPT / Codex",
+    "owner": "Applications",
+    "bundleId": "com.openai.codex",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "K",
+    "command": "Cursor",
+    "owner": "Applications",
+    "bundleId": "com.todesktop.230313mzl4w4u92",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "L",
+    "command": "Claude",
+    "owner": "Applications",
+    "bundleId": "com.anthropic.claudefordesktop",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "A",
+    "command": "Amp",
+    "owner": "Applications",
+    "bundleId": "com.ampcode.amp.macos",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "N",
+    "command": "Obsidian",
+    "owner": "Applications",
+    "bundleId": "md.obsidian",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "E",
+    "command": "Microsoft Edge",
+    "owner": "Applications",
+    "bundleId": "com.microsoft.edgemac",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "I",
+    "command": "Microsoft Teams",
+    "owner": "Applications",
+    "bundleId": "com.microsoft.teams2",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "S",
+    "command": "Slack",
+    "owner": "Applications",
+    "bundleId": "com.tinyspeck.slackmacgap",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "W",
+    "command": "Microsoft Word",
+    "owner": "Applications",
+    "bundleId": "com.microsoft.Word",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "O",
+    "command": "Microsoft Excel",
+    "owner": "Applications",
+    "bundleId": "com.microsoft.Excel",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "P",
+    "command": "Microsoft PowerPoint",
+    "owner": "Applications",
+    "bundleId": "com.microsoft.Powerpoint",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "Z",
+    "command": "Final Cut Pro",
+    "owner": "Applications",
+    "bundleId": "com.apple.FinalCut",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "X",
+    "command": "Motion",
+    "owner": "Applications",
+    "bundleId": "com.apple.motionapp",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "C",
+    "command": "Compressor",
+    "owner": "Applications",
+    "bundleId": "com.apple.Compressor",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "T",
+    "command": "Telegram",
+    "owner": "Applications",
+    "bundleId": "ru.keepcoder.Telegram",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "G",
+    "command": "T3 Code",
+    "owner": "Applications",
+    "bundleId": "com.t3tools.t3code",
+    "optional": true
+  },
+  {
+    "layer": "Hyper",
+    "key": "R",
+    "command": "Figma",
+    "owner": "Applications",
+    "bundleId": "com.figma.Desktop",
+    "optional": false
+  },
+  {
+    "layer": "Hyper",
+    "key": "U",
+    "command": "Affinity",
+    "owner": "Applications",
+    "bundleId": "com.canva.affinity",
+    "optional": true
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Return",
+    "command": "Maximize",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Delete",
+    "command": "Restore",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Left",
+    "command": "Left Half",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Right",
+    "command": "Right Half",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Up",
+    "command": "Top Half",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "Down",
+    "command": "Bottom Half",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "D",
+    "command": "First Third",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "F",
+    "command": "Center Third",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "G",
+    "command": "Last Third",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "E",
+    "command": "First Two Thirds",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "T",
+    "command": "Last Two Thirds",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": ",",
+    "command": "Move to Previous Space",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": ".",
+    "command": "Move to Next Space",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "-",
+    "command": "Make Smaller",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Control+Option",
+    "key": "=",
+    "command": "Make Larger",
+    "owner": "Window Management"
+  },
+  {
+    "layer": "Hyper",
+    "key": "Space",
+    "command": "Workmode",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "Return",
+    "command": "Window Layout",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "F",
+    "command": "Focus Session",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "C",
+    "command": "Capture",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "V",
+    "command": "Clipboard History",
+    "owner": "Raycast"
+  },
+  {
+    "layer": "Meh",
+    "key": "S",
+    "command": "Search Snippets",
+    "owner": "Raycast"
+  },
+  {
+    "layer": "Meh",
+    "key": "0",
+    "command": "DockFlow: Default",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "1",
+    "command": "DockFlow: Work",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "2",
+    "command": "DockFlow: Code",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "3",
+    "command": "DockFlow: Author",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "4",
+    "command": "DockFlow: Design",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "5",
+    "command": "DockFlow: Innovate",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "6",
+    "command": "DockFlow: Video",
+    "owner": "Workmode"
+  },
+  {
+    "layer": "Meh",
+    "key": "9",
+    "command": "DockFlow: Zen",
+    "owner": "Workmode"
+  }
+]

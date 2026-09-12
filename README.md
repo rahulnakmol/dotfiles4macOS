@@ -6,6 +6,24 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 
 See [Start here](docs/setup.md) for fresh-Mac setup, the four FDE/TF launchers, resumable installation and the GitHub human checklists. From a checkout: `bash install.sh --profile fde` or `bash install.sh --profile tf`. Add `--productivity` only when wanted.
 
+## Optional Raycast Workmode
+
+For the current shared FDE/TF productivity setup, use **Workmode** on macOS:
+
+```sh
+bash scripts/setup-raycast-workstation.sh install
+```
+
+Or double-click `setup/Raycast.command`. After “Importing Workmode”, wait for **ready**, then press **Control+C**; the
+extension stays installed. [Prerequisites and manual steps](docs/raycast-workstation.md#install)
+cover Raycast Pro, DockFlow, Session, four Spaces, categories and shortcuts.
+Use `build` for validation without Stow/import, `check` for source/link checks,
+and `rollback` to unlink. Setup is optional; core dotfiles do not Stow it.
+
+Workmode uses Amp for Code and Codex for Innovate, each with Zen, Ghostty and Slack.
+The FDE/TF `--productivity` instructions below describe the **legacy
+Alfred/Karabiner/Rectangle setup**. Do not apply that flag when choosing Raycast.
+
 ## Choose your setup: FDE or TF
 
 Both profiles install **Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex** by default. Set Zen as the macOS default browser during setup. FDE code sessions use three desktops: Zen maximized, Amp/Claude/Cursor/T3 Code maximized, and Ghostty ⅔ + Slack ⅓. FDE installs T3 Code; TF retains Codex for Innovate. Work keeps Edge. **Google Chrome Canary** is optional for end-to-end testing: `brew install --cask google-chrome@canary`. Stable Chrome and Amp are not installation requirements.
@@ -60,6 +78,7 @@ to a colleague by this installer.
 | `codex` | macOS Codex preferences, shared engineering guidance, and permission policy |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
+| `raycast` | Optional Workmode config; build/import via `setup-raycast-workstation.sh install` |
 | `alfred` | Google Workspace and DockFlow workflows; broader migration in progress |
 | `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
 | `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
@@ -116,7 +135,7 @@ brew install node go rustup dotnet     # Language runtimes
 brew install stylua                    # Lua formatter
 brew install azure-cli                 # Azure CLI
 brew install mas                       # Mac App Store CLI
-brew install --cask alfred rectangle-pro # Launcher and window shortcuts
+brew install --cask raycast             # Optional launcher; see Workmode setup above
 ```
 
 ## Post-Install
@@ -142,7 +161,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/opencode-sdlc.md` — OpenCode SDLC agent, command, workflow, and handoff guide
 - `docs/modules/` — Per-module documentation
 - [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
-- [Raycast settings checklist and private migration](docs/modules/raycast.md) — not a Stow module
+- [Raycast Workmode installation and native settings](docs/modules/raycast.md)
 - [Alfred migration and installed-plugin parity](docs/modules/alfred.md)
 - [Hyper keyboard navigation and Work/Code/Zen layouts](docs/modules/hyper.md)
 - [Fresh-Mac Hyper/Meh bootstrap, CleanShot capture, checks and rollback](docs/modules/hyper-bootstrap.md)
