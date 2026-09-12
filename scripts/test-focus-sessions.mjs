@@ -16,7 +16,7 @@ test('native focus switching preserves quit barriers and the five requested app 
   assert.match(result,/Focus session scenarios passed/);
   const executable=join(temp,'focus-session');
   execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-parse-as-library',workflow+'FocusSession.swift','-o',executable]);
-  for (const [id,minutes] of [['work',30],['amp',45],['claude',45],['cursor',45],['codex',45]]) {
+  for (const [id,minutes] of [['work',30],['amp',45],['claude',45],['cursor',45],['t3code',45]]) {
     const preview=execFileSync(executable,[workflow+'focus-sessions.json',id,'--dry-run'],{encoding:'utf8'});
     assert.ok(preview.includes(`Then request Session timer: ${minutes} minutes`));
   }

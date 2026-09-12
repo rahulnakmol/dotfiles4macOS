@@ -10,7 +10,7 @@ const apps = [
   ['rectangle-pro', 'com.knollsoft.Hookshot', 'Rectangle Pro'],
   ['dockflow', 'com.appit.DockFlow', 'DockFlow'],
   ['ghostty', 'com.mitchellh.ghostty', 'Ghostty'],
-  ['google-chrome', 'com.google.Chrome', 'Google Chrome'],
+  ['zen', 'app.zen-browser.zen', 'Zen'],
   ['microsoft-edge', 'com.microsoft.edgemac', 'Microsoft Edge'],
   ['microsoft-teams', 'com.microsoft.teams2', 'Microsoft Teams'],
   ['claude', 'com.anthropic.claudefordesktop', 'Claude'],
@@ -43,13 +43,14 @@ export function resolveProfile(value, {productivity=false} = {}) {
   ];
   config.install = {
     modules: [...commonModules, ...(productivity ? ['alfred','karabiner','rectangle-pro'] : [])],
-    guided: guidedApps.filter(a=>a.name==='Amp' ? id==='fde' : productivity),
+    guided: guidedApps.filter(a=>a.name!=='Amp' && productivity),
     formulae: [...commonFormulae, ...(id==='fde' ? ['opencode'] : [])],
-    casks: [...apps.filter(([cask])=>id!=='tf'||cask!=='google-chrome'),
+    casks: [...apps,
       ['cursor','com.todesktop.230313mzl4w4u92','Cursor'],
       ['chatgpt','com.openai.codex','ChatGPT'],
       ['slack','com.tinyspeck.slackmacgap','Slack'],
-      ...(id==='tf' ? [['zen','app.zen-browser.zen','Zen']] : []), ...(id==='fde' ? [
+      ...(id==='fde' ? [
+      ['t3-code','com.t3tools.t3code','T3 Code (Alpha)'],
       ['microsoft-word','com.microsoft.Word','Microsoft Word'],
       ['microsoft-excel','com.microsoft.Excel','Microsoft Excel'],
       ['microsoft-powerpoint','com.microsoft.Powerpoint','Microsoft PowerPoint'],
@@ -61,7 +62,7 @@ export function resolveProfile(value, {productivity=false} = {}) {
   if (id==='tf') {
     const keep = new Set(['ghostty','finder','claude','cursor','codex','slack','obsidian','edge','teams','safari']);
     config.apps=config.apps.filter(a=>keep.has(a.id));
-    // The browser role retains Hyper+D when TF replaces Chrome with Zen.
+    // Both profiles retain Zen Browser on Hyper+D.
     config.apps.unshift({id:'zen-browser',name:'Zen Browser',key:'d',bundleId:'app.zen-browser.zen'});
     config.layouts=config.layouts.filter(l=>['Work','Work Balanced','Default'].includes(l.name));
     for (const layout of config.layouts.filter(l=>l.name.startsWith('Work'))) {

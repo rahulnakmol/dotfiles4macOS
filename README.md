@@ -2,7 +2,13 @@
 
 Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Catppuccin Macchiato theme across all tools. Homebrew as primary package manager.
 
+## Start with one command or a double-click launcher
+
+See [Start here](docs/setup.md) for fresh-Mac setup, the four FDE/TF launchers, resumable installation and the GitHub human checklists. From a checkout: `bash install.sh --profile fde` or `bash install.sh --profile tf`. Add `--productivity` only when wanted.
+
 ## Choose your setup: FDE or TF
+
+Both profiles install **Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex** by default. Set Zen as the macOS default browser during setup. FDE code sessions use three desktops: Zen maximized, Amp/Claude/Cursor/T3 Code maximized, and Ghostty ⅔ + Slack ⅓. FDE installs T3 Code; TF retains Codex for Innovate. Work keeps Edge. **Google Chrome Canary** is optional for end-to-end testing: `brew install --cask google-chrome@canary`. Stable Chrome and Amp are not installation requirements.
 
 New machines should start with the [FDE manual](docs/profiles/fde.md) or
 [TF (Tech Founder) manual](docs/profiles/tf.md). Browser guides:
@@ -17,7 +23,7 @@ bash scripts/setup-workstation.sh check --profile tf
 Use `fde` for the full setup; `tf` provides Claude Desktop, Cursor, Codex and Zen Browser, with five DockFlow
 presets when productivity is enabled. Both include the shared CLI toolkit and role apps. Selection
 is local to each Mac. Karabiner uses its official DMG/PKG installer, not Homebrew.
-FDE's native Amp app has guided installation. TF uses Code + Cursor and Innovate + Codex. Productivity is **opt-in**: default
+Amp is optional; FDE retains its workflow for users who install it. FDE Hyper+G opens T3 Code and Hyper+T opens optional Telegram (shortcut only). TF uses Code + Cursor and Innovate + Codex. Productivity is **opt-in**: default
 setup does not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow,
 CleanShot or Session management. Add `--productivity` to each `plan`, `apply`
 and `check` command to include them. Without that flag, existing productivity
@@ -58,32 +64,31 @@ to a colleague by this installer.
 | `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
 | `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
 
-## Quick Start
+## Quick Start — manual Stow, core setup
 
-```bash
-# Install prerequisites
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh
-brew install --cask ghostty 1password 1password-cli font-mononoki-nerd-font
+Use this path to choose modules yourself without Alfred, Karabiner, Rectangle Pro or session automation. Both profiles recommend the same default desktop apps for this path.
 
-# AI coding tools
-brew install claude opencode
-brew install --cask chatgpt
-brew install --cask cursor
+```sh
+# Shared CLI tools and terminal
+brew install git node stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
+brew install --cask ghostty font-jetbrains-mono-nerd-font
 
-# Clone and deploy
+# Default desktop apps and browser
+brew install --cask zen claude cursor chatgpt
+
+# Clone your dotfiles repository, then preview and deploy only core modules
 git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
 cd ~/.dotfiles
+stow -n zsh bash bat starship tmux ghostty nvim
+stow zsh bash bat starship tmux ghostty nvim
 
-# Deploy modules (order matters for dependencies)
-stow zsh git ssh starship bat          # Shell foundation
-stow tmux ghostty nvim                 # Terminal and editor
-stow gh 1password                      # Dev tools
-stow claude opencode cursor            # AI coding tools
-# Codex: back up conflicting config files, then create the Stow symlinks:
-bash scripts/bootstrap-codex.sh plan
-bash scripts/bootstrap-codex.sh apply
-# On a clean home, stow --no-folding codex is sufficient.
+# Optional browser for end-to-end testing
+# brew install --cask google-chrome@canary
 ```
+
+Open Zen and set it as Default web browser in macOS System Settings. Sign in to your own Claude, Cursor and ChatGPT/Codex accounts directly. Installing these apps does not require stowing their configuration modules. Amp is optional; download its native app from https://ampcode.com/app if needed.
+
+Add other modules individually after reviewing them for your own machine. Personal Git/SSH/signing, credentials and agent trust settings are separate from this baseline. Avoid `stow */`; use the explicit module list above. See the [manual setup guide](docs/guides/setup.md) for conflicts, validation and updates.
 
 ## Dependencies
 
@@ -95,15 +100,13 @@ brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship cur
 ### Tier 2 — Recommended
 ```bash
 brew install gh
-brew install --cask ghostty 1password 1password-cli
-brew install --cask font-mononoki-nerd-font
+brew install --cask ghostty font-jetbrains-mono-nerd-font
 ```
 
 ### Tier 3 — AI Coding Tools
 ```bash
-brew install claude opencode
-brew install --cask chatgpt
-brew install --cask cursor
+brew install --cask zen claude cursor chatgpt
+# Optional: brew install --cask google-chrome@canary
 ```
 
 ### Tier 4 — Optional

@@ -27,14 +27,19 @@
     "durationMinutes": 45,
     "apps": [
       {
-        "id": "chrome",
-        "name": "Google Chrome",
-        "bundleId": "com.google.Chrome"
+        "id": "zen-browser",
+        "name": "Zen Browser",
+        "bundleId": "app.zen-browser.zen"
       },
       {
         "id": "ghostty",
         "name": "Ghostty",
         "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "bundleId": "com.tinyspeck.slackmacgap"
       },
       {
         "id": "amp",
@@ -43,7 +48,7 @@
       }
     ],
     "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
-    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Reference",
     "layoutURL": "rectangle-pro://execute-layout?name=Code%20Amp"
   },
   {
@@ -53,14 +58,19 @@
     "durationMinutes": 45,
     "apps": [
       {
-        "id": "obsidian",
-        "name": "Obsidian",
-        "bundleId": "md.obsidian"
+        "id": "zen-browser",
+        "name": "Zen Browser",
+        "bundleId": "app.zen-browser.zen"
       },
       {
         "id": "ghostty",
         "name": "Ghostty",
         "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "bundleId": "com.tinyspeck.slackmacgap"
       },
       {
         "id": "claude",
@@ -69,7 +79,7 @@
       }
     ],
     "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
-    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Notes",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Reference",
     "layoutURL": "rectangle-pro://execute-layout?name=Code%20Claude"
   },
   {
@@ -79,14 +89,19 @@
     "durationMinutes": 45,
     "apps": [
       {
-        "id": "chrome",
-        "name": "Google Chrome",
-        "bundleId": "com.google.Chrome"
+        "id": "zen-browser",
+        "name": "Zen Browser",
+        "bundleId": "app.zen-browser.zen"
       },
       {
         "id": "ghostty",
         "name": "Ghostty",
         "bundleId": "com.mitchellh.ghostty"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "bundleId": "com.tinyspeck.slackmacgap"
       },
       {
         "id": "cursor",
@@ -95,19 +110,19 @@
       }
     ],
     "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
-    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Reference",
     "layoutURL": "rectangle-pro://execute-layout?name=Code%20Cursor"
   },
   {
-    "id": "codex",
-    "name": "Code + Codex",
+    "id": "t3code",
+    "name": "Code + T3 Code",
     "categoryName": "Code",
     "durationMinutes": 45,
     "apps": [
       {
-        "id": "chrome",
-        "name": "Google Chrome",
-        "bundleId": "com.google.Chrome"
+        "id": "zen-browser",
+        "name": "Zen Browser",
+        "bundleId": "app.zen-browser.zen"
       },
       {
         "id": "ghostty",
@@ -115,13 +130,18 @@
         "bundleId": "com.mitchellh.ghostty"
       },
       {
-        "id": "codex",
-        "name": "ChatGPT / Codex",
-        "bundleId": "com.openai.codex"
+        "id": "slack",
+        "name": "Slack",
+        "bundleId": "com.tinyspeck.slackmacgap"
+      },
+      {
+        "id": "t3code",
+        "name": "T3 Code",
+        "bundleId": "com.t3tools.t3code"
       }
     ],
     "dockURL": "dockflow://switch?id=D405D7FD-6999-4EC7-8428-7E361C0D51A2",
-    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Browser",
-    "layoutURL": "rectangle-pro://execute-layout?name=Code%20Codex"
+    "pairLayoutURL": "rectangle-pro://execute-layout?name=Code%20Reference",
+    "layoutURL": "rectangle-pro://execute-layout?name=Code%20T3%20Code"
   }
 ]

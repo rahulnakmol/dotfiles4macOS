@@ -31,21 +31,23 @@ See the [design decision](../adr/0002-hyper-macos-workspaces.md).
 
 The [hotkeys manual](../hotkeys.md) and [standalone visual page](../hotkeys.html)
 cover Work plus the four Code variations. Alfred commands are `fs work`,
-`fs amp`, `fs claude`, `fs cursor` and `fs codex`.
+`fs amp`, `fs claude`, `fs cursor` and `fs t3code`.
 
-Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Zen Browser/Ghostty/Slack when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
 
-Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+Window Layout: Code Amp/Claude/Cursor/T3 Code opens the full corresponding four-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Desktop 1 has Zen maximized, Desktop 2 has the chosen coding app maximized, and Desktop 3 has Ghostty left two-thirds and Slack right third. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
 
-This Mac already has four desktops and app assignments (confirmed by the user).
-They remain unchanged. On another Mac, create four desktops and restore those
-Dock assignments. Full quit/layout/timer switching still needs live acceptance
+Keep four desktops. Assign Zen to Desktop 1, the coding app to Desktop 2, and
+Ghostty plus Slack to Desktop 3. Desktop 4 remains available. On another Mac,
+create four desktops and restore these Dock assignments. Full quit/layout/timer switching still needs live acceptance
 with saved work; automated checks use substitute apps.
+
+Telegram is an optional shortcut-only app on **Hyper+T** (brew install --cask telegram). **Hyper+G** opens T3 Code. **Hyper+J** retains ChatGPT/Codex. FDE uses T3 Code instead of Codex for focus sessions; TF keeps Innovate + Codex.
 
 ## Session focus timer
 
 Every `fs` choice also requests a Session timer after the app launches and
-Rectangle layouts succeed: **Work 30 minutes; Code + Amp/Claude/Cursor/Codex
+Rectangle layouts succeed: **Work 30 minutes; Code + Amp/Claude/Cursor/T3 Code
 45 minutes**. Durations live in `scripts/hyper-config.json` as `durationMinutes`.
 The intention uses the same **Focus Session: Name** label as Alfred.
 
@@ -91,7 +93,7 @@ tests and Karabiner lint validate the source; physical button testing is pending
 | --- | --- | --- |
 | A | Amp | Left home: Zen coding |
 | S | Slack | Left home: communication |
-| D | Google Chrome | Left home: development browser |
+| D | Zen Browser | Left home: development browser |
 | F | Finder | Left home: files |
 | H | Ghostty | Right home: terminal |
 | J | ChatGPT / Codex | Right home: agent |

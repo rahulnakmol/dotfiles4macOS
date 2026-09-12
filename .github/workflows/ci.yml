@@ -18,11 +18,11 @@ jobs:
         run: brew install stow
       - name: Validate FDE and TF generation, activation and rollback
         run: |
-          bash -n scripts/setup-workstation.sh scripts/bootstrap-hyper.sh
+          bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/bootstrap-hyper.sh
           node scripts/build-hyper-config.mjs --check
           node scripts/render-hyper-guide.mjs --check
           node scripts/render-workstation-docs.mjs --check
-          node --test scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
+          node --test scripts/test-install.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
 
   lint-and-validate:
     runs-on: macos-latest

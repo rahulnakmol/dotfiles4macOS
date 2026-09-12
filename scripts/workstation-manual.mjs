@@ -11,9 +11,39 @@ export function renderManual(c) {
 
 Your keyboard-first macOS manual. Choose FDE for the full environment or TF for Tech Founder. Both offer an optional productivity setup with Hyperland, Alfred, Rectangle Pro, DockFlow and Session. It is disabled by default. Profile selection belongs to this Mac; the shared repository remains identical on every device.
 
+## Quick setup
+
+From a checkout, run one command:
+
+\`\`\`sh
+bash install.sh --profile ${id}
+\`\`\`
+
+For optional productivity, add --productivity. For a fresh Mac without a checkout or for double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
+
+## Finish setup human checklist
+
+Managed installation and human setup are tracked separately. These steps are unverified until you perform the checks below; setup does not collect credentials or record a checkbox as proof.
+
+| Step | What you do | How to verify |
+| --- | --- | --- |
+| Default browser | Complete Zen onboarding; choose Zen under Default web browser in macOS System Settings | Open an ordinary web link and confirm it opens in Zen |
+| Desktop apps | Complete your own app sign-ins; ${id==='fde'?'configure a provider in T3 Code if using it':'open Cursor and ChatGPT/Codex'} | Start your own small task in each app |
+| Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
+| Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
+| Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
+| Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
+| DockFlow | Import this profile's preset pack; resolve duplicate names | dp selects the expected Dock profile |
+| Session | Install the correct app, enable Pro URL automation and create ${id==='tf'?'Work, Code and Innovate':'Work and Code'} categories | A real session shows the right category and countdown |
+| Desktops | Assign apps to the numbered desktops as documented below | Zen, coding app and terminal/chat appear on Desktops 1, 2 and 3 |
+| CleanShot and login | Complete capture permission and external-control prompts; enable utility startup | Capture works; utilities and shortcuts work after login |
+| Codex pet (optional) | In Codex keyboard settings set Show pet to Hyper+B (replaces Option+Space) | While Codex runs, Hyper+B shows the pet; press again to hide it |
+
+Skip all productivity-only rows when using the core setup. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
+
 ## Start on a new Mac
 
-1. Install Apple Command Line Tools (xcode-select --install), then Homebrew from https://brew.sh. This setup targets Apple Silicon; ${id==='fde'?"Amp's native app requires macOS 26 or later.":'TF uses Cursor, Codex and Zen Browser; it does not require Amp.'}
+1. Install Apple Command Line Tools (xcode-select --install), then Homebrew from https://brew.sh. This setup targets Apple Silicon; ${id==='fde'?"optional Amp requires macOS 26 or later; it is not a prerequisite for FDE.":'TF uses Cursor, Codex and Zen Browser; it does not require Amp.'}
 2. Install Git, Node and Stow, then clone your dotfiles fork into ~/.dotfiles. Do not clone someone else's private credentials or signing files.
 3. Preview the selected profile, then apply it. Existing real files or unrelated symlinks are reported as conflicts before any installation. Move your conflicting configuration to a private backup yourself, compare it, and rerun; never use Stow adopt blindly.
 
@@ -47,13 +77,31 @@ The flag is required on every run that manages productivity; a previous opt-in d
 
 General CLI tools are shared: ${c.install.formulae.join(', ')}. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: ${resolveProfile(id).install.casks.map(a=>a.cask).join(', ')}. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
 
-${id==='tf'?'TF uses Claude Desktop for Work, Cursor for Code and Codex for Innovate. Zen Browser replaces Chrome for development; Ghostty and Slack are shared by Code and Innovate. Amp, OpenCode and Claude Code are absent from its install list and focus menu. General shell aliases may still exist but do not install or run those tools.':'FDE keeps all four Code variations and the full app map. Existing Claude/Codex/Cursor/OpenCode configuration modules remain available in the repository; agent trust/auth settings are an explicit personal setup step, not copied to colleagues by this installer.'}
+${id==='tf'?'TF uses Claude Desktop for Work, Cursor for Code and Codex for Innovate. Zen Browser is the default for development; Ghostty and Slack are shared by Code and Innovate. Amp, OpenCode and Claude Code are absent from its install list and focus menu. General shell aliases may still exist but do not install or run those tools.':'FDE keeps Amp, Claude, Cursor and T3 Code variations and the full app map; Amp is optional and only its own workflow requires it. Existing Claude/Codex/Cursor/OpenCode configuration modules remain available in the repository; agent trust/auth settings are an explicit personal setup step, not copied to colleagues by this installer.'}
 
 Git and gh are installed, but personal Git identity, SSH, signing and credential configuration are retained on this Mac and never copied from the repository. Set up your own identity and account separately. No authentication or license information is included in either profile.
 
+## Default apps and browser setup
+
+Both profiles install Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default. Zen is the everyday browser for code sessions. Work keeps Microsoft Edge. Stable Google Chrome is not installed by the setup.
+
+1. Open Zen once to complete its onboarding. In macOS System Settings, search for Default web browser and select Zen. This is a human step on each Mac; Stow does not set the OS default browser. Google Workspace links use that OS default.
+2. If you previously used Chrome for code, assign Zen to the reference desktop, rerun apply with --productivity and reimport Rectangle Pro and the DockFlow preset pack. Resolve duplicate preset names before testing. Existing Chrome installations and browser data are retained.
+3. Optional end-to-end testing browser: install Google Chrome Canary with the command below. Launch it by name in Alfred when testing; it is not part of focus-session layouts or the default install. Use the Canary app explicitly in your test runner configuration; this setup does not change browser binaries managed by Playwright or other test tools.
+
+\`\`\`sh
+brew install --cask google-chrome@canary
+\`\`\`
+
+Official casks: https://formulae.brew.sh/cask/zen and https://formulae.brew.sh/cask/google-chrome%40canary.
+
+${id==='fde'?'FDE additionally installs T3 Code via brew install --cask t3-code. It uses at least one separately configured provider CLI; opening the desktop app alone does not configure a provider. Follow https://github.com/pingdotgg/t3code/blob/main/docs/user/install.md for provider prerequisites. Hyper+G opens T3 Code; Hyper+J still opens ChatGPT/Codex. Telegram is shortcut-only on Hyper+T: optionally install it with brew install --cask telegram. It is not included in focus sessions or Dock presets.':'TF keeps its existing Cursor and Codex sessions and shortcuts.'}
+
+Amp is an optional native app from https://ampcode.com/app. Install it only if needed; the installer and check command do not require it. FDE retains Hyper+A and Code + Amp for users who install it. Its macOS 26+ requirement applies only to Amp, not to the base profile. TF does not include Amp workflows.
+
 ## Productivity: Karabiner official installer
 
-Everything from this section through the workflow reference is optional and requires --productivity. Without it, keep your preferred launcher, shortcuts and window manager. ${id==='fde'?'Install the native Amp app separately from https://ampcode.com/app.':'Zen Browser uses the official Homebrew zen cask (https://formulae.brew.sh/cask/zen), installed as Zen.app. Codex uses the ChatGPT desktop package already used by this repository. Choose Zen as your default browser in macOS if you want Google Workspace links to open there.'}
+Everything from this section through the workflow reference is optional and requires --productivity. Without it, keep your preferred launcher, shortcuts and window manager. ${id==='fde'?'Amp is optional: install its native app separately from https://ampcode.com/app only if you want its workflow.':'Zen Browser uses the official Homebrew zen cask (https://formulae.brew.sh/cask/zen), installed as Zen.app. Codex uses the ChatGPT desktop package already used by this repository. Choose Zen as your default browser in macOS if you want Google Workspace links to open there.'}
 
 1. Visit https://karabiner-elements.pqrs.org/ and download the stable DMG suitable for your macOS version. The setup command prints this link when it is missing.
 2. Open the DMG, then Karabiner-Elements.pkg. Complete macOS Installer and enter administrator credentials directly.
@@ -68,7 +116,7 @@ Karabiner is deliberately excluded from Homebrew installation. An existing healt
 1. Alfred: activate Powerpack; Advanced → Set preferences folder → ~/.config/alfred. Restart Alfred. Rerun apply with --productivity to set this machine's Command+Space launcher and Meh feature keys. Disable Spotlight's Command+Space and any Raycast launcher/Hyper bindings that overlap.
 2. Rectangle Pro: activate, grant Accessibility, enable login, then App Settings → Import Config → ~/.config/rectangle-pro/RectangleProConfig.json. Repeat this import after changing profiles or updating layouts; Stow alone does not apply native Rectangle settings.
 3. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation, enable login and review breathing/break settings. Complete the Session categories checklist below before using focus sessions. Do not install the Homebrew session cask: it is an unrelated messenger.
-4. ${id==='fde'?'Amp: install the native Mac app from https://ampcode.com/app. The CLI alone does not satisfy the Amp window layout. Sign in directly in the app.':'Cursor and Codex: sign in directly in the installed desktop apps. Code launches Cursor; Innovate launches Codex. No Amp app or Amp CLI installation is needed.'}
+4. ${id==='fde'?'Optional Amp: install the native Mac app from https://ampcode.com/app. The CLI alone does not satisfy the Amp window layout. Sign in directly in the app.':'Cursor and Codex: sign in directly in the installed desktop apps. Code launches Cursor; Innovate launches Codex. No Amp app or Amp CLI installation is needed.'}
 5. DockFlow: activate, enable login, and import the preset pack described below. Leave its automatic app quit/launch actions off; Alfred owns focus orchestration and Rectangle owns window geometry.
 6. CleanShot X: an existing Setapp copy is accepted. Otherwise install/activate the standalone app. Enable login, grant capture permission, and configure Command+Shift+3/4/5 in CleanShot. Approve its external-command prompt when you first use the capture menu.
 7. Install the utility workflows from Alfred Gallery using the links below. Keep their default keywords. Their credentials, settings, snippets and history stay local.
@@ -81,7 +129,7 @@ Owned Hyper, DockFlow Profiles and Google Workspace workflows are generated auto
 
 This checklist is part of optional productivity setup only. Create these categories in Session once, then verify they are available on each Mac. Reuse existing matching categories instead of creating duplicates.
 
-${table(['Category','Use for'],id==='tf'?[['Work','fs work'],['Code','fs code — Cursor'],['Innovate','fs innovate — Codex']]:[['Work','fs work'],['Code','fs amp, fs claude, fs cursor and fs codex']])}
+${table(['Category','Use for'],id==='tf'?[['Work','fs work'],['Code','fs code — Cursor'],['Innovate','fs innovate — Codex']]:[['Work','fs work'],['Code','fs amp, fs claude, fs cursor and fs t3code']])}
 
 1. Open Session's main timer screen. In the intention field, type @ to open category selection and use its add-category option for each name above. Choose any colors you prefer.
 2. Reopen category selection and confirm each category is available. On another Mac, check for existing categories first and create only missing ones.
@@ -102,7 +150,7 @@ bash scripts/setup-hyper-macos.sh apply
 bash scripts/setup-hyper-macos.sh check
 \`\`\`
 
-Log out and back in after changing Mission Control settings. In each app's Dock icon → Options → Assign To → This Desktop, ${id==='tf'?'assign Zen Browser, Obsidian, Edge and Teams to Desktop 1; Claude, Cursor and Codex to Desktop 2; Ghostty and Slack to Desktop 3. Desktop 4 stays available.':'assign Chrome, Obsidian, Ghostty, Edge and Teams to Desktop 1; Amp, Claude, Cursor and Codex to Desktop 2. Use Desktops 3 and 4 for other tasks.'} Existing assignments are respected, never recreated by window-title matching. Native fullscreen creates separate Spaces; these workflows use maximized and tiled ordinary windows.
+Log out and back in after changing Mission Control settings. In each app's Dock icon → Options → Assign To → This Desktop, ${id==='tf'?'assign Zen Browser, Obsidian, Edge and Teams to Desktop 1; Claude, Cursor and Codex to Desktop 2; Ghostty and Slack to Desktop 3. Desktop 4 stays available.':'assign Zen Browser, Obsidian, Edge and Teams to Desktop 1; Claude, Cursor and T3 Code (plus Amp if installed) to Desktop 2; Ghostty and Slack to Desktop 3. Desktop 4 stays available.'} Existing assignments are respected, never recreated by window-title matching. Native fullscreen creates separate Spaces; these workflows use maximized and tiled ordinary windows.
 
 ${id==='tf'?'Code and Innovate arrangement:':'Code arrangement:'}
 
@@ -110,12 +158,13 @@ ${id==='tf'?'Code and Innovate arrangement:':'Code arrangement:'}
 ${id==='tf'?`Desktop 1: [ Zen Browser maximized                       ]
 Desktop 2: [ Cursor (Code) or Codex (Innovate) maximized   ]
 Desktop 3: [ Ghostty                    2/3 ][ Slack 1/3 ]
-Desktop 4: available for other tasks`:`Desktop 1: [ Chrome / Obsidian          2/3 ][ Ghostty 1/3 ]
-Desktop 2: [ chosen coding app maximized                  ]
-Desktop 3 and 4: available for other tasks`}
+Desktop 4: available for other tasks`:`Desktop 1: [ Zen Browser maximized                       ]
+Desktop 2: [ Amp / Claude / Cursor / T3 Code maximized    ]
+Desktop 3: [ Ghostty                    2/3 ][ Slack 1/3 ]
+Desktop 4: available for other tasks`}
 \`\`\`
 
-${id==='tf'?'Work remains Edge 2/3 + Teams 1/3 on Desktop 1 and Claude Desktop maximized on Desktop 2, for 30 minutes. Code + Cursor and Innovate + Codex each run for 45 minutes. Zen is still the separate Obsidian/Claude quiet layout; Zen Browser is the browser app, not that layout. Switching between Code and Innovate retains Zen Browser, Ghostty and Slack and quits the outgoing coding app. If you previously assigned Ghostty to Desktop 1, move its Dock assignment to Desktop 3 once on each Mac.':'Work uses Edge 2/3 + Teams 1/3. Code + Claude uses Obsidian in place of Chrome. All other Code variants use Chrome.'}
+${id==='tf'?'Work remains Edge 2/3 + Teams 1/3 on Desktop 1 and Claude Desktop maximized on Desktop 2, for 30 minutes. Code + Cursor and Innovate + Codex each run for 45 minutes. Zen is still the separate Obsidian/Claude quiet layout; Zen Browser is the browser app, not that layout. Switching between Code and Innovate retains Zen Browser, Ghostty and Slack and quits the outgoing coding app. If you previously assigned Ghostty to Desktop 1, move its Dock assignment to Desktop 3 once on each Mac.':'Work uses Edge 2/3 + Teams 1/3. Every Code variant uses three working desktops: Zen maximized, the coding app maximized, and Ghostty 2/3 + Slack 1/3. Move Ghostty from Desktop 1 to Desktop 3 once on each Mac. These are virtual desktops, not three required physical monitors. T3 Code replaces the FDE Codex session; TF retains Innovate + Codex. Obsidian remains available in the separate Code Notes and Zen layouts. Amp sessions require the optional Amp app.'}
 
 On small displays Teams may refuse a narrow third. Choose Work Balanced or use Hyper+Return to maximize. Extra app windows may need manual placement. Exact native fullscreen Split View recreation is not part of this setup.
 
@@ -148,7 +197,7 @@ Choose ss 20 or ss 25 for a Pomodoro timer. These are single sessions; they do n
 
 ## Hyper and Meh
 
-Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF. Hyper+D opens the browser: Chrome in FDE, Zen Browser in TF.
+Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF. Hyper+D opens the browser: Zen Browser in both FDE and TF.
 
 ${table(['Hyper +','App'],c.apps.map(a=>[a.key.toUpperCase(),a.name]))}
 
@@ -156,13 +205,13 @@ ${table(['Hyper +','Window action'],c.windowActions.map(a=>[a.key,a.name]))}
 
 ${table(['Hyper +','Navigation'],c.navigation.map(a=>[a.key,a.name]))}
 
-Hyper+Space opens hk; Hyper+/ opens this guide. Hyper+1…9/0 navigates existing desktops; it does not create them. ${id==='fde'?'Codex retains its defaults; Hyper+V voice and Hyper+M dictation are supplied by its separate existing keybindings module.':''}
+Hyper+Space opens hk; Hyper+/ opens this guide. Hyper+1…9/0 navigates existing desktops; it does not create them. Codex retains its defaults; Hyper+V voice, Hyper+M dictation and Hyper+B toggle pet (buddy) are supplied by its separate keybindings module. The pet shortcut toggles visibility globally while Codex runs. Codex supports one global pet binding, so Hyper+B replaces Option+Space. Profile setup does not Stow personal Codex settings: configure Show pet as Hyper+B in Codex keyboard settings, or use your reviewed keybindings module.
 
 ${table(['Meh +','Action'],c.mehActions.map(a=>[a.key,a.name]))}
 
 ${table(['Meh +','DockFlow','Keyword'],c.dockPresets.map(p=>[p.key,p.name,p.keyword]))}
 
-Optional MX Master 3S Bluetooth rules remain scoped to vendor 1133/product 45108. Back/Forward navigate in ${id==='tf'?'Zen Browser':'Chrome'}, Edge, Safari and Finder; hold Forward elsewhere for Meh, and hold thumb button6 for Hyper. Verify identifiers in EventViewer for another mouse/receiver. Keyboard navigation does not require that mouse.
+Optional MX Master 3S Bluetooth rules remain scoped to vendor 1133/product 45108. Back/Forward navigate in Zen Browser and optional Chrome Canary, Edge, Safari and Finder; hold Forward elsewhere for Meh, and hold thumb button6 for Hyper. Verify identifiers in EventViewer for another mouse/receiver. Keyboard navigation does not require that mouse.
 
 ## Native shortcuts and Google Workspace
 
@@ -201,8 +250,8 @@ For the default setup, check validates only core settings and role apps. The fol
 
 1. check --productivity must report no file/link drift, missing packages, required apps or preset names. Complete any remaining guided requirements.
 2. Test physical Caps Lock, Right Option, application launch keys, the four desktop shortcuts, and Meh numbers.
-3. Test wl work and ${id==='tf'?'wl Code and wl Innovate':'wl Code Amp'}; windows should land on their assigned desktops. If they land elsewhere, repair native Dock assignments and ensure automatic Space rearrangement is disabled.
-4. With work saved, test fs work (30 minutes) and ${id==='tf'?'fs code and fs innovate (45 each)':'fs amp (45)' }. Resolve prompts; verify the countdown in Session. Check unrelated apps closed and support tools stayed open.
+3. Test wl work and ${id==='tf'?'wl Code and wl Innovate':'wl Code Cursor'}; windows should land on their assigned desktops. If they land elsewhere, repair native Dock assignments and ensure automatic Space rearrangement is disabled.
+4. With work saved, test fs work (30 minutes) and ${id==='tf'?'fs code and fs innovate (45 each)':'fs cursor (45); test fs amp only when Amp is installed' }. Resolve prompts; verify the countdown in Session. Check unrelated apps closed and support tools stayed open.
 5. Verify Alfred, Rectangle, DockFlow, Session and CleanShot after a logout/login. Repeat on Air and Pro, and with an external display. Report physical checks separately from automated tests.
 
 Missing Alfred menus: select the right preferences folder and restart. Missing utility: install its Gallery workflow. Missing layout: reimport Rectangle snapshot. Wrong Dock: inspect duplicate preset names. No Hyper: complete Karabiner services/driver permissions and check the selected profile. Timer absent: verify the correct Session app and Pro automation. There is no automated license activation.
@@ -232,7 +281,7 @@ export function manualHTML(c) {
     else if(line.trim())body+='<p>'+inline(line)+'</p>';
   }
   const diagrams='<div class="sessions">'+c.focusSessions.map(s=>{
-    if(c.setupProfile==='TF'&&s.id!=='work') {
+    if(s.id!=='work') {
       const agent=c.apps.find(a=>a.id===s.apps.at(-1)).name;
       return '<article><h3>'+esc(s.name)+' <small>'+s.durationMinutes+' min</small></h3><p>Desktop 1</p><div class="desktop agent"><b>Zen Browser<br>Maximized</b></div><p>Desktop 2</p><div class="desktop agent"><b>'+esc(agent)+'<br>Maximized</b></div><p>Desktop 3</p><div class="desktop pair"><b>Ghostty<br>⅔</b><b>Slack<br>⅓</b></div><p>Desktop 4 remains available.</p></article>';
     }

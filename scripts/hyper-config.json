@@ -2,10 +2,10 @@
   "profile": "Hyperland",
   "apps": [
     {
-      "id": "chrome",
-      "name": "Google Chrome",
+      "id": "zen-browser",
+      "name": "Zen Browser",
       "key": "d",
-      "bundleId": "com.google.Chrome"
+      "bundleId": "app.zen-browser.zen"
     },
     {
       "id": "ghostty",
@@ -41,7 +41,8 @@
       "id": "amp",
       "name": "Amp",
       "key": "a",
-      "bundleId": "com.ampcode.amp.macos"
+      "bundleId": "com.ampcode.amp.macos",
+      "optional": true
     },
     {
       "id": "obsidian",
@@ -111,6 +112,19 @@
       "key": "c",
       "bundleId": "com.apple.Compressor",
       "optional": true
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram",
+      "key": "t",
+      "bundleId": "ru.keepcoder.Telegram",
+      "optional": true
+    },
+    {
+      "id": "t3code",
+      "name": "T3 Code",
+      "key": "g",
+      "bundleId": "com.t3tools.t3code"
     }
   ],
   "layouts": [
@@ -176,12 +190,16 @@
     },
     {
       "name": "Code",
-      "description": "Chrome left two-thirds; Slack right third",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "chrome",
+          "zen-browser",
+          2
+        ],
+        [
+          "ghostty",
           21
         ],
         [
@@ -192,12 +210,16 @@
     },
     {
       "name": "Code Balanced",
-      "description": "Chrome and Slack in equal halves",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty and Slack in equal halves",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "chrome",
+          "zen-browser",
+          2
+        ],
+        [
+          "ghostty",
           0
         ],
         [
@@ -208,23 +230,27 @@
     },
     {
       "name": "Terminal",
-      "description": "Ghostty maximized",
+      "description": "Desktop 3: Ghostty left two-thirds; Slack right third",
       "launchApps": true,
       "windows": [
         [
           "ghostty",
-          2
+          21
+        ],
+        [
+          "slack",
+          24
         ]
       ]
     },
     {
       "name": "Agents",
-      "description": "Maximize open Codex, Claude, Cursor and Amp windows",
+      "description": "Maximize open T3 Code, Claude, Cursor and Amp windows",
       "mode": "code",
       "launchApps": false,
       "windows": [
         [
-          "codex",
+          "t3code",
           2
         ],
         [
@@ -279,17 +305,21 @@
       ]
     },
     {
-      "name": "Code Browser",
-      "description": "Chrome left two-thirds; Ghostty right third on the assigned reference desktop",
+      "name": "Code Reference",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third",
       "mode": "code",
-      "launchApps": false,
+      "launchApps": true,
       "windows": [
         [
-          "chrome",
-          21
+          "zen-browser",
+          2
         ],
         [
           "ghostty",
+          21
+        ],
+        [
+          "slack",
           24
         ]
       ]
@@ -312,16 +342,20 @@
     },
     {
       "name": "Code Amp",
-      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Amp maximized",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "chrome",
-          21
+          "zen-browser",
+          2
         ],
         [
           "ghostty",
+          21
+        ],
+        [
+          "slack",
           24
         ],
         [
@@ -332,16 +366,20 @@
     },
     {
       "name": "Code Claude",
-      "description": "Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Claude maximized",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "obsidian",
-          21
+          "zen-browser",
+          2
         ],
         [
           "ghostty",
+          21
+        ],
+        [
+          "slack",
           24
         ],
         [
@@ -352,16 +390,20 @@
     },
     {
       "name": "Code Cursor",
-      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Cursor maximized",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "chrome",
-          21
+          "zen-browser",
+          2
         ],
         [
           "ghostty",
+          21
+        ],
+        [
+          "slack",
           24
         ],
         [
@@ -371,21 +413,25 @@
       ]
     },
     {
-      "name": "Code Codex",
-      "description": "Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop",
+      "name": "Code T3 Code",
+      "description": "Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: T3 Code maximized",
       "mode": "code",
       "launchApps": true,
       "windows": [
         [
-          "chrome",
-          21
+          "zen-browser",
+          2
         ],
         [
           "ghostty",
+          21
+        ],
+        [
+          "slack",
           24
         ],
         [
-          "codex",
+          "t3code",
           2
         ]
       ]
@@ -705,12 +751,13 @@
       "id": "amp",
       "name": "Code + Amp",
       "apps": [
-        "chrome",
+        "zen-browser",
         "ghostty",
+        "slack",
         "amp"
       ],
       "mode": "code",
-      "pairLayout": "Code Browser",
+      "pairLayout": "Code Reference",
       "layout": "Code Amp",
       "durationMinutes": 45,
       "categoryName": "Code"
@@ -719,12 +766,13 @@
       "id": "claude",
       "name": "Code + Claude",
       "apps": [
-        "obsidian",
+        "zen-browser",
         "ghostty",
+        "slack",
         "claude"
       ],
       "mode": "code",
-      "pairLayout": "Code Notes",
+      "pairLayout": "Code Reference",
       "layout": "Code Claude",
       "durationMinutes": 45,
       "categoryName": "Code"
@@ -733,27 +781,29 @@
       "id": "cursor",
       "name": "Code + Cursor",
       "apps": [
-        "chrome",
+        "zen-browser",
         "ghostty",
+        "slack",
         "cursor"
       ],
       "mode": "code",
-      "pairLayout": "Code Browser",
+      "pairLayout": "Code Reference",
       "layout": "Code Cursor",
       "durationMinutes": 45,
       "categoryName": "Code"
     },
     {
-      "id": "codex",
-      "name": "Code + Codex",
+      "id": "t3code",
+      "name": "Code + T3 Code",
       "apps": [
-        "chrome",
+        "zen-browser",
         "ghostty",
-        "codex"
+        "slack",
+        "t3code"
       ],
       "mode": "code",
-      "pairLayout": "Code Browser",
-      "layout": "Code Codex",
+      "pairLayout": "Code Reference",
+      "layout": "Code T3 Code",
       "durationMinutes": 45,
       "categoryName": "Code"
     }

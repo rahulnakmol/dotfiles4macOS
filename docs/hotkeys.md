@@ -43,19 +43,20 @@ Requires an installed Session edition with Pro URL automation.
 | Alfred command | Session | Minutes | Apps |
 | --- | --- | --- | --- |
 | fs work | Focus Session: Work | 30 | Microsoft Edge + Microsoft Teams |
-| fs amp | Focus Session: Code + Amp | 45 | Google Chrome + Ghostty + Amp |
-| fs claude | Focus Session: Code + Claude | 45 | Obsidian + Ghostty + Claude |
-| fs cursor | Focus Session: Code + Cursor | 45 | Google Chrome + Ghostty + Cursor |
-| fs codex | Focus Session: Code + Codex | 45 | Google Chrome + Ghostty + ChatGPT / Codex |
+| fs amp | Focus Session: Code + Amp | 45 | Zen Browser + Ghostty + Slack + Amp |
+| fs claude | Focus Session: Code + Claude | 45 | Zen Browser + Ghostty + Slack + Claude |
+| fs cursor | Focus Session: Code + Cursor | 45 | Zen Browser + Ghostty + Slack + Cursor |
+| fs t3code | Focus Session: Code + T3 Code | 45 | Zen Browser + Ghostty + Slack + T3 Code |
 
 Work uses Edge on the left two-thirds and Teams on the right third. Code has four variations, using your existing app assignments across **four ordinary macOS desktops**:
 
-- Reference desktop: Chrome (Amp/Cursor/Codex) or Obsidian (Claude) on the left two-thirds; Ghostty on the right third.
-- Coding desktop: the chosen Amp, Claude, Cursor or Codex app maximized.
+- Desktop 1: Zen Browser maximized.
+- Desktop 2: the chosen Amp, Claude, Cursor or T3 Code app maximized.
+- Desktop 3: Ghostty left two-thirds and Slack right third.
 
-This Mac already has four desktops and its app assignments configured. Preserve them. On a new Mac create four desktops and restore the Dock → Options → Assign To → This Desktop assignments. Rectangle applies geometry on the assigned desktops; it does not create or reassign Spaces. Native fullscreen is not used.
+Keep four desktops; use the first three for coding and leave the fourth available. Assign Zen to Desktop 1, the coding app to Desktop 2, and Ghostty + Slack to Desktop 3. On a new Mac create four desktops and restore the Dock → Options → Assign To → This Desktop assignments. Rectangle applies geometry on the assigned desktops; it does not create or reassign Spaces. Native fullscreen is not used.
 
-Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Zen Browser/Ghostty/Slack when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
 
 After app launches and Rectangle layout requests succeed, the workflow sends Session one start request: **Work 30 minutes; every Code variation 45 minutes**. The intention is **Focus Session: Name**. Session must be installed before any app quits; Setapp, direct and App Store editions are supported, and its URL API requires Pro access. Each selection requests a timer, including reselecting the active session. Existing-timer prompts, breathing preparation, pause, completion and breaks remain controlled by Session. Timer delivery is not a countdown acknowledgement. The workflow never automatically retries timer starts, finishes/abandons a timer, or quits your apps when the timer expires. On a new Mac install/activate Session and test its [documented URL API](https://www.stayinsession.com/learn/session-url-scheme); its preferences and history remain outside dotfiles.
 
@@ -65,13 +66,13 @@ The compiled helper and switch lock live in ~/Library/Caches/com.rahulnakmol.hyp
 
 | Hyper + | App |
 | --- | --- |
-| D | Google Chrome |
+| D | Zen Browser |
 | H | Ghostty |
 | F | Finder |
 | J | ChatGPT / Codex |
 | K | Cursor |
 | L | Claude |
-| A | Amp |
+| A | Amp (when installed) |
 | N | Obsidian |
 | E | Microsoft Edge |
 | I | Microsoft Teams |
@@ -83,6 +84,8 @@ The compiled helper and switch lock live in ~/Library/Caches/com.rahulnakmol.hyp
 | Z | Final Cut Pro (when installed) |
 | X | Motion (when installed) |
 | C | Compressor (when installed) |
+| T | Telegram (when installed) |
+| G | T3 Code |
 
 Each app has one direct shortcut. Final Cut Pro, Motion and Compressor are mapped but not installed by this setup.
 
@@ -117,7 +120,7 @@ Hyper+1…9/0 selects existing Desktops 1…10. It does not create them. Hyper+S
 | ← | Move window to previous display | Move to the previous connected monitor |
 | → | Move window to next display | Move to the next connected monitor |
 
-Maximize fills the current desktop without creating a native fullscreen Space. Layouts size windows; native Dock assignments provide the two-desktop placement. Multiple restored windows and slow app startup may need reapplying a layout from Meh+Return.
+Maximize fills the current desktop without creating a native fullscreen Space. Layouts size windows; native Dock assignments provide the three-desktop placement. Multiple restored windows and slow app startup may need reapplying a layout from Meh+Return.
 
 ## Shared tools with Meh
 
@@ -136,8 +139,8 @@ Universal Actions uses selected text, URLs or files. Clipboard stores text for 2
 
 | Button | Context | Action |
 | --- | --- | --- |
-| Back · button4 | Chrome, Safari, Edge and Finder | Command+[ · Back |
-| Forward · button5 | Chrome, Safari, Edge and Finder | Command+] · Forward |
+| Back · button4 | Zen Browser, Safari, Edge and Finder | Command+[ · Back |
+| Forward · button5 | Zen Browser, Safari, Edge and Finder | Command+] · Forward |
 | Hold Forward · button5 | Other apps | Meh · Control+Option+Shift |
 | Hold thumb · button6 | All apps | Hyper · Control+Option+Command+Shift |
 
@@ -173,10 +176,10 @@ DockFlow numbers change the Dock profile only. They do not quit apps or switch f
 | gw | Google Workspace menu |
 | hyper | All apps, focus sessions, layouts and window actions |
 | fs work | Work: Edge and Teams |
-| fs amp | Code: Amp, Ghostty and Chrome |
-| fs claude | Code: Claude, Ghostty and Obsidian |
-| fs cursor | Code: Cursor, Ghostty and Chrome |
-| fs codex | Code: Codex, Ghostty and Chrome |
+| fs amp | Code: Amp, Ghostty, Slack and Zen Browser |
+| fs claude | Code: Claude, Ghostty, Slack and Zen Browser |
+| fs cursor | Code: Cursor, Ghostty, Slack and Zen Browser |
+| fs t3code | Code: T3 Code, Ghostty, Slack and Zen Browser |
 | work / code / zen / default | Layout menus; do not quit apps |
 | layouts | All named Rectangle layouts |
 | capture | CleanShot X capture menu |
@@ -246,22 +249,22 @@ Meh+C opens the menu without starting a capture. On this Mac, Cmd+Shift+3 captur
 | Work Balanced | Edge and Teams in equal halves | Yes |
 | Office | Word and Excel in equal halves | Yes |
 | Present | PowerPoint maximized | Yes |
-| Code | Chrome left two-thirds; Slack right third | Yes |
-| Code Balanced | Chrome and Slack in equal halves | Yes |
-| Terminal | Ghostty maximized | Yes |
-| Agents | Maximize open Codex, Claude, Cursor and Amp windows | No |
+| Code | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third | Yes |
+| Code Balanced | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty and Slack in equal halves | Yes |
+| Terminal | Desktop 3: Ghostty left two-thirds; Slack right third | Yes |
+| Agents | Maximize open T3 Code, Claude, Cursor and Amp windows | No |
 | Zen | Maximize open Amp, Cursor, Ghostty and Obsidian windows | No |
 | Default | Maximize the current app window | No |
-| Code Browser | Chrome left two-thirds; Ghostty right third on the assigned reference desktop | No |
+| Code Reference | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third | Yes |
 | Code Notes | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop | No |
-| Code Amp | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Amp maximized on the assigned coding desktop | Yes |
-| Code Claude | Obsidian left two-thirds; Ghostty right third on the assigned reference desktop; Claude maximized on the assigned coding desktop | Yes |
-| Code Cursor | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; Cursor maximized on the assigned coding desktop | Yes |
-| Code Codex | Google Chrome left two-thirds; Ghostty right third on the assigned reference desktop; ChatGPT / Codex maximized on the assigned coding desktop | Yes |
+| Code Amp | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Amp maximized | Yes |
+| Code Claude | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Claude maximized | Yes |
+| Code Cursor | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: Cursor maximized | Yes |
+| Code T3 Code | Desktop 1: Zen Browser maximized; Desktop 3: Ghostty left two-thirds, Slack right third; Desktop 2: T3 Code maximized | Yes |
 
-Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+Window Layout: Code Amp/Claude/Cursor/T3 Code opens the full corresponding four-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. All Code variants use Desktop 1 for Zen Browser maximized, Desktop 2 for the coding app maximized, and Desktop 3 for Ghostty left two-thirds with Slack right third. Amp requires its optional native app. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
 
-The older Code/Code Balanced communication layouts include Slack. Focus Code uses the separate Code Browser/Code Notes and Code Amp/Claude/Cursor/Codex layouts. Applying an ordinary layout never quits a focus session.
+Code and Code Balanced arrange Zen, Ghostty and Slack. Focus Code uses Code Reference and the selected Code Amp/Claude/Cursor/T3 Code layout. Code Notes remains a separate Obsidian layout. Applying an ordinary layout never quits a focus session.
 
 ## Native macOS shortcuts
 

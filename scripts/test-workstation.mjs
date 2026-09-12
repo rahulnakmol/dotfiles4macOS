@@ -25,11 +25,11 @@ test('TF has Work, Code + Cursor and Innovate + Codex; FDE retains every variati
   assert.deepEqual(tf.focusSessions[1].apps,['zen-browser','ghostty','slack','cursor']);
   assert.deepEqual(tf.focusSessions[2].apps,['zen-browser','ghostty','slack','codex']);
   assert.deepEqual(tf.focusSessions.map(s=>s.durationMinutes),[30,45,45]);
-  assert.deepEqual(fde.focusSessions.map(s=>s.id),['work','amp','claude','cursor','codex']);
+  assert.deepEqual(fde.focusSessions.map(s=>s.id),['work','amp','claude','cursor','t3code']);
   assert.deepEqual(fde.focusSessions[0].apps,['edge','teams']);
   for(const id of ['amp','chrome','opencode'])assert.ok(!tf.apps.some(a=>a.id===id));
   assert.equal(tf.dockPresets.length,5);assert.equal(fde.dockPresets.length,7);
-  for(const app of tf.apps)assert.equal(app.key,fde.apps.find(a=>a.id===(app.id==='zen-browser'?'chrome':app.id)).key);
+  for(const app of tf.apps)assert.equal(app.key,fde.apps.find(a=>a.id===app.id).key);
   for(const c of [tf,fde])for(const layout of c.layouts)for(const [app] of layout.windows)assert.ok(app==='global'||c.apps.some(a=>a.id===app));
 });
 
@@ -43,6 +43,64 @@ test('install plans avoid Karabiner cask, wrong Session, personal credentials an
   assert.equal(packagePlan(tf,[],[],()=>false).guided.length,2);
   assert.ok(!packagePlan(resolveProfile('fde'),[],[],()=>true,()=>true).casks.includes('claude-code'));
   for(const id of ['tf','fde'])for(const p of workstationFiles(id).keys())assert.ok(!/^(git|ssh|1password|gh|codex|claude|cursor|opencode)\//.test(p),p);
+});
+
+test('both profiles default to Zen and core desktop tools; Canary and Amp stay optional',()=>{
+  for(const id of ['fde','tf'])for(const productivity of [false,true]) {
+    const config=resolveProfile(id,{productivity});
+    const casks=config.install.casks.map(a=>a.cask);
+    for(const name of ['zen','claude','cursor','chatgpt'])assert.equal(casks.filter(c=>c===name).length,1);
+    for(const name of ['google-chrome','google-chrome@canary','amp'])assert.ok(!casks.includes(name));
+    assert.ok(!config.install.guided.some(a=>a.name==='Amp'));
+    assert.ok(!packagePlan(config,[],[],()=>false).guided.some(a=>a.name==='Amp'));
+    assert.equal(config.apps.find(a=>a.key==='d').bundleId,'app.zen-browser.zen');
+    for(const session of config.focusSessions.filter(s=>s.id!=='work')) {
+      assert.ok(session.apps.includes('zen-browser'));
+      assert.ok(!session.apps.includes('chrome'));
+      assert.ok(config.layouts.find(l=>l.name===session.layout).windows.some(([app])=>app==='zen-browser'));
+    }
+    assert.match(renderManual(config),/brew install --cask google-chrome@canary/);
+    assert.match(renderManual(config),/Default web browser and select Zen/);
+  }
+  const fde=resolveProfile('fde');
+  assert.equal(fde.apps.find(a=>a.id==='amp').optional,true);
+  assert.ok(fde.focusSessions.some(s=>s.id==='amp'));
+  const codePreset=JSON.parse(readFileSync(new URL('../dockflow/presets/fde.json',import.meta.url))).find(p=>p.name==='2. Code');
+  assert.ok(JSON.parse(codePreset.apps).includes('file:///Applications/Zen.app/'));
+  assert.ok(!codePreset.apps.includes('Google%20Chrome'));
+});
+
+test('manual setup recommends core apps and explicitly stows only core modules',()=>{
+  for(const file of ['../README.md','../docs/guides/setup.md']) {
+    const guide=readFileSync(new URL(file,import.meta.url),'utf8');
+    assert.match(guide,/brew install --cask zen claude cursor chatgpt/);
+    assert.match(guide,/stow -n zsh bash bat starship tmux ghostty nvim/);
+    assert.match(guide,/stow zsh bash bat starship tmux ghostty nvim/);
+    assert.match(guide,/# brew install --cask google-chrome@canary/);
+    assert.match(guide,/Amp is optional/);
+  }
+});
+
+test('FDE uses three working desktops with Slack and T3 Code; Telegram is shortcut-only',()=>{
+  const fde=resolveProfile('fde',{productivity:true});
+  assert.ok(fde.install.casks.some(a=>a.cask==='t3-code'&&a.bundleId==='com.t3tools.t3code'));
+  assert.ok(!fde.install.casks.some(a=>a.cask==='telegram'));
+  assert.equal(fde.apps.find(a=>a.id==='telegram').key,'t');
+  assert.equal(fde.apps.find(a=>a.id==='t3code').key,'g');
+  assert.equal(fde.apps.find(a=>a.id==='codex').key,'j');
+  for(const s of fde.focusSessions.filter(s=>s.id!=='work')) {
+    assert.deepEqual(s.apps.slice(0,3),['zen-browser','ghostty','slack']);
+    assert.ok(!s.apps.includes('telegram'));
+    assert.ok(!s.apps.includes('codex'));
+    assert.deepEqual(fde.layouts.find(l=>l.name===s.layout).windows,[['zen-browser',2],['ghostty',21],['slack',24],[s.apps.at(-1),2]]);
+    assert.equal(s.pairLayout,'Code Reference');
+  }
+  assert.match(manualHTML(fde),/Ghostty<br>⅔/);
+  assert.match(manualHTML(fde),/Slack<br>⅓/);
+  assert.match(manualHTML(fde),/T3 Code<br>Maximized/);
+  const tf=resolveProfile('tf');
+  assert.ok(!tf.install.casks.some(a=>a.cask==='t3-code'));
+  assert.equal(tf.focusSessions.find(s=>s.id==='innovate').apps.at(-1),'codex');
 });
 
 test('generated TF hotkeys, menus, native layouts and docs agree and have no full-profile launchers',()=>{
@@ -79,7 +137,7 @@ test('both profile guides include manual Session categories and explain automati
     assert.match(section,/\| Work \| fs work \|/);
     assert.match(section,/\| Code \|/);
     if(id==='tf')assert.match(section,/\| Innovate \| fs innovate — Codex \|/);
-    else {assert.match(section,/fs amp, fs claude, fs cursor and fs codex/);assert.ok(!section.includes('| Innovate |'));}
+    else {assert.match(section,/fs amp, fs claude, fs cursor and fs t3code/);assert.ok(!section.includes('| Innovate |'));}
   }
 });
 
@@ -166,7 +224,7 @@ test('both profiles default to core settings and skip productivity packages and 
   for(const id of ['fde','tf']) {
     const config=resolveProfile(id),files=workstationFiles(id);
     assert.equal(config.productivity,false);
-    assert.deepEqual(config.install.guided.map(a=>a.name),id==='fde'?['Amp']:[]);
+    assert.deepEqual(config.install.guided.map(a=>a.name),[]);
     for(const name of ['alfred','karabiner','rectangle-pro','dockflow','cleanshot','session']) {
       assert.ok(!config.install.modules.includes(name));
       assert.ok(!config.install.casks.some(a=>a.cask===name));
@@ -174,7 +232,7 @@ test('both profiles default to core settings and skip productivity packages and 
     }
     assert.ok(!files.has('scripts/hyper-config.json'));
     const plan=packagePlan(config,[],[],()=>false,()=>false);
-    assert.deepEqual(plan.guided.map(a=>a.name),id==='fde'?['Amp']:[]);
+    assert.deepEqual(plan.guided.map(a=>a.name),[]);
     assert.equal(machineReport(config,join(p,id),home).productivityChecks,'skipped');
     assert.ok(!desiredLinks(files,join(p,id),home).some(l=>/alfred|karabiner|rectangle-pro/.test(l.path)));
     assert.ok(resolveProfile(id,{productivity:true}).install.modules.includes('alfred'));
@@ -240,7 +298,8 @@ test('TF Code and Innovate arrange four apps, select matching Dock presets and e
   assert.match(html,/Ghostty<br>⅔/);assert.match(html,/Slack<br>⅓/);
   const keyboard=files.get('karabiner/.config/karabiner/karabiner.json').toString();
   assert.ok(keyboard.includes('zen-browser'));
-  assert.ok(!keyboard.includes('Chrome'));
+  const launchers=JSON.parse(keyboard).profiles[0].complex_modifications.rules.find(r=>r.description==='Hyper: launch or focus apps');
+  assert.ok(!JSON.stringify(launchers).includes('Chrome'), 'Chrome mouse navigation is allowed, but TF must launch Zen');
   assert.match(html,/Zen Browser<br>Maximized/);assert.match(html,/Desktop 3/);
   assert.deepEqual(config.layouts.find(l=>l.name==='Work').windows,[['edge',21],['teams',24],['claude',2]]);
 });

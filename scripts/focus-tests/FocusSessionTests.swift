@@ -35,18 +35,17 @@ final class FakeDesktop: FocusDesktop {
 struct FocusTests {
     static func main() throws {
         let sessions = try JSONDecoder().decode([FocusSession].self, from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1])))
-        assert(sessions.map(\.id) == ["work", "amp", "claude", "cursor", "codex"])
+        assert(sessions.map(\.id) == ["work", "amp", "claude", "cursor", "t3code"])
         assert(sessions[0].apps.map(\.id) == ["edge", "teams"])
-        assert(sessions[1].apps.map(\.id) == ["chrome", "ghostty", "amp"])
-        assert(sessions[2].apps.map(\.id) == ["obsidian", "ghostty", "claude"])
-        assert(sessions[3].apps.map(\.id) == ["chrome", "ghostty", "cursor"])
-        assert(sessions[4].apps.map(\.id) == ["chrome", "ghostty", "codex"])
+        assert(sessions[1].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "amp"])
+        assert(sessions[2].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "claude"])
+        assert(sessions[3].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "cursor"])
+        assert(sessions[4].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "t3code"])
         func populatedDesktop() -> FakeDesktop {
             let desktop = FakeDesktop()
             var seen = Set<String>()
             desktop.running = sessions.flatMap(\.apps).filter { seen.insert($0.id).inserted }
-            desktop.running += [FocusApp(id: "slack", name: "Slack", bundleId: "com.tinyspeck.slackmacgap"),
-                                FocusApp(id: "outlook", name: "Outlook", bundleId: "com.microsoft.Outlook"),
+            desktop.running += [FocusApp(id: "outlook", name: "Outlook", bundleId: "com.microsoft.Outlook"),
                                 FocusApp(id: "unknown", name: "Unbundled app", bundleId: "", processId: 123)]
             desktop.running += focusSupportBundleIds.sorted().map { FocusApp(id: $0, name: $0, bundleId: $0) }
             return desktop
@@ -56,7 +55,8 @@ struct FocusTests {
             try switchFocus(target.id, sessions: sessions, desktop: desktop)
             let keep = Set(target.apps.map(\.bundleId)).union(focusSupportBundleIds)
             assert(desktop.running.allSatisfy { keep.contains($0.bundleId) })
-            assert(desktop.events.contains("quit:slack") && desktop.events.contains("quit:outlook") && desktop.events.contains("quit:unknown"))
+            assert(desktop.events.contains("quit:outlook") && desktop.events.contains("quit:unknown"))
+            assert(desktop.events.contains("quit:slack") == !target.apps.contains(where: { $0.id == "slack" }))
             for app in target.apps { assert(!desktop.events.contains("quit:" + app.id), "Preserve every target app, even shared browsers/terminals") }
             for id in focusSupportBundleIds { assert(!desktop.events.contains("quit:" + id)) }
             let lastQuit = desktop.events.lastIndex(where: { $0.hasPrefix("quit:") })!

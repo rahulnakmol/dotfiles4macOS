@@ -19,7 +19,7 @@ const output = (button, app, device = mouse) => rule.manipulators.find((item) =>
   }))?.to;
 
 test('installed browsers and Finder receive single back/forward shortcuts', () => {
-  for (const app of ['com.apple.Safari', 'com.google.Chrome', 'com.microsoft.edgemac', 'com.apple.finder']) {
+  for (const app of ['app.zen-browser.zen', 'com.google.Chrome.canary', 'com.apple.Safari', 'com.google.Chrome', 'com.microsoft.edgemac', 'com.apple.finder']) {
     assert.deepEqual(output('button4', app), [{ key_code: 'open_bracket', modifiers: ['left_command'], repeat: false }]);
     assert.deepEqual(output('button5', app), [{ key_code: 'close_bracket', modifiers: ['left_command'], repeat: false }]);
   }

@@ -112,23 +112,24 @@ If the app removes the marked block, validation stops instead of guessing where
 to rewrite permissions. Restore the markers around the existing generated
 `permissions.dotfiles` tables before regenerating.
 
-## Keyboard shortcuts: defaults with voice exceptions
+## Keyboard shortcuts: defaults with voice and pet shortcuts
 
 Codex inherits its current built-in shortcuts for ordinary app actions. There are
 no overrides for new task, command menu, attention navigation, plan mode, review,
 terminal or model picker. Removing those entries lets future app defaults apply.
 
-The only active custom bindings in `codex/.codex/keybindings.json` are voice:
+The only active custom bindings in `codex/.codex/keybindings.json` are voice and the pet:
 
 | Shortcut | Action | Scope |
 | --- | --- | --- |
 | Hyper+V | Toggle voice chat | Codex/ChatGPT app |
 | Hyper+M | Start dictation | Codex/ChatGPT app |
+| Hyper+B | Show/hide pet (buddy) | Global while Codex runs |
 | Control+Shift+V | Default voice chat shortcut, retained | App |
 | Control+Shift+D | Default dictation shortcut, retained | App |
 
 Hyper means Control+Option+Command+Shift, supplied by held Caps Lock in the
-**Hyperland** Karabiner profile. Focus Codex with Hyper+J first. V means voice; M means microphone. These two keys are reserved from global app launches,
+**Hyperland** Karabiner profile. Focus Codex with Hyper+J for voice or dictation. V means voice; M means microphone; B means buddy. The pet hotkey toggles visibility through the native openAvatarOverlay command, replacing Option+Space because Codex allows only one global pet binding. This was verified from the installed desktop app’s bundled command handler on September 12, 2026. These three Hyper keys are reserved from global app launches,
 Rectangle actions and Alfred workflows. Existing global dictation shortcuts remain
 disabled; these bindings operate inside the app.
 

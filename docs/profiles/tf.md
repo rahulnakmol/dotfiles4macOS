@@ -2,6 +2,36 @@
 
 Your keyboard-first macOS manual. Choose FDE for the full environment or TF for Tech Founder. Both offer an optional productivity setup with Hyperland, Alfred, Rectangle Pro, DockFlow and Session. It is disabled by default. Profile selection belongs to this Mac; the shared repository remains identical on every device.
 
+## Quick setup
+
+From a checkout, run one command:
+
+```sh
+bash install.sh --profile tf
+```
+
+For optional productivity, add --productivity. For a fresh Mac without a checkout or for double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
+
+## Finish setup human checklist
+
+Managed installation and human setup are tracked separately. These steps are unverified until you perform the checks below; setup does not collect credentials or record a checkbox as proof.
+
+| Step | What you do | How to verify |
+| --- | --- | --- |
+| Default browser | Complete Zen onboarding; choose Zen under Default web browser in macOS System Settings | Open an ordinary web link and confirm it opens in Zen |
+| Desktop apps | Complete your own app sign-ins; open Cursor and ChatGPT/Codex | Start your own small task in each app |
+| Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
+| Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
+| Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
+| Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
+| DockFlow | Import this profile's preset pack; resolve duplicate names | dp selects the expected Dock profile |
+| Session | Install the correct app, enable Pro URL automation and create Work, Code and Innovate categories | A real session shows the right category and countdown |
+| Desktops | Assign apps to the numbered desktops as documented below | Zen, coding app and terminal/chat appear on Desktops 1, 2 and 3 |
+| CleanShot and login | Complete capture permission and external-control prompts; enable utility startup | Capture works; utilities and shortcuts work after login |
+| Codex pet (optional) | In Codex keyboard settings set Show pet to Hyper+B (replaces Option+Space) | While Codex runs, Hyper+B shows the pet; press again to hide it |
+
+Skip all productivity-only rows when using the core setup. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
+
 ## Start on a new Mac
 
 1. Install Apple Command Line Tools (xcode-select --install), then Homebrew from https://brew.sh. This setup targets Apple Silicon; TF uses Cursor, Codex and Zen Browser; it does not require Amp.
@@ -36,11 +66,29 @@ The flag is required on every run that manages productivity; a previous opt-in d
 
 ## What is installed
 
-General CLI tools are shared: git, node, stow, zsh, tmux, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: font-jetbrains-mono-nerd-font, ghostty, microsoft-edge, microsoft-teams, claude, obsidian, cursor, chatgpt, slack, zen. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
+General CLI tools are shared: git, node, stow, zsh, tmux, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: font-jetbrains-mono-nerd-font, ghostty, zen, microsoft-edge, microsoft-teams, claude, obsidian, cursor, chatgpt, slack. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
 
-TF uses Claude Desktop for Work, Cursor for Code and Codex for Innovate. Zen Browser replaces Chrome for development; Ghostty and Slack are shared by Code and Innovate. Amp, OpenCode and Claude Code are absent from its install list and focus menu. General shell aliases may still exist but do not install or run those tools.
+TF uses Claude Desktop for Work, Cursor for Code and Codex for Innovate. Zen Browser is the default for development; Ghostty and Slack are shared by Code and Innovate. Amp, OpenCode and Claude Code are absent from its install list and focus menu. General shell aliases may still exist but do not install or run those tools.
 
 Git and gh are installed, but personal Git identity, SSH, signing and credential configuration are retained on this Mac and never copied from the repository. Set up your own identity and account separately. No authentication or license information is included in either profile.
+
+## Default apps and browser setup
+
+Both profiles install Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default. Zen is the everyday browser for code sessions. Work keeps Microsoft Edge. Stable Google Chrome is not installed by the setup.
+
+1. Open Zen once to complete its onboarding. In macOS System Settings, search for Default web browser and select Zen. This is a human step on each Mac; Stow does not set the OS default browser. Google Workspace links use that OS default.
+2. If you previously used Chrome for code, assign Zen to the reference desktop, rerun apply with --productivity and reimport Rectangle Pro and the DockFlow preset pack. Resolve duplicate preset names before testing. Existing Chrome installations and browser data are retained.
+3. Optional end-to-end testing browser: install Google Chrome Canary with the command below. Launch it by name in Alfred when testing; it is not part of focus-session layouts or the default install. Use the Canary app explicitly in your test runner configuration; this setup does not change browser binaries managed by Playwright or other test tools.
+
+```sh
+brew install --cask google-chrome@canary
+```
+
+Official casks: https://formulae.brew.sh/cask/zen and https://formulae.brew.sh/cask/google-chrome%40canary.
+
+TF keeps its existing Cursor and Codex sessions and shortcuts.
+
+Amp is an optional native app from https://ampcode.com/app. Install it only if needed; the installer and check command do not require it. FDE retains Hyper+A and Code + Amp for users who install it. Its macOS 26+ requirement applies only to Amp, not to the base profile. TF does not include Amp workflows.
 
 ## Productivity: Karabiner official installer
 
@@ -171,7 +219,7 @@ Choose ss 20 or ss 25 for a Pomodoro timer. These are single sessions; they do n
 
 ## Hyper and Meh
 
-Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF. Hyper+D opens the browser: Chrome in FDE, Zen Browser in TF.
+Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF. Hyper+D opens the browser: Zen Browser in both FDE and TF.
 
 | Hyper + | App |
 | --- | --- |
@@ -212,7 +260,7 @@ Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Ri
 | ` | Next window of this app |
 | ↑ / ↓ | Mission Control / app windows |
 
-Hyper+Space opens hk; Hyper+/ opens this guide. Hyper+1…9/0 navigates existing desktops; it does not create them. 
+Hyper+Space opens hk; Hyper+/ opens this guide. Hyper+1…9/0 navigates existing desktops; it does not create them. Codex retains its defaults; Hyper+V voice, Hyper+M dictation and Hyper+B toggle pet (buddy) are supplied by its separate keybindings module. The pet shortcut toggles visibility globally while Codex runs. Codex supports one global pet binding, so Hyper+B replaces Option+Space. Profile setup does not Stow personal Codex settings: configure Show pet as Hyper+B in Codex keyboard settings, or use your reviewed keybindings module.
 
 | Meh + | Action |
 | --- | --- |
@@ -231,7 +279,7 @@ Hyper+Space opens hk; Hyper+/ opens this guide. Hyper+1…9/0 navigates existing
 | 3 | 3. Innovate | dinnovate |
 | 9 | 9. Zen | dzen |
 
-Optional MX Master 3S Bluetooth rules remain scoped to vendor 1133/product 45108. Back/Forward navigate in Zen Browser, Edge, Safari and Finder; hold Forward elsewhere for Meh, and hold thumb button6 for Hyper. Verify identifiers in EventViewer for another mouse/receiver. Keyboard navigation does not require that mouse.
+Optional MX Master 3S Bluetooth rules remain scoped to vendor 1133/product 45108. Back/Forward navigate in Zen Browser and optional Chrome Canary, Edge, Safari and Finder; hold Forward elsewhere for Meh, and hold thumb button6 for Hyper. Verify identifiers in EventViewer for another mouse/receiver. Keyboard navigation does not require that mouse.
 
 ## Native shortcuts and Google Workspace
 
