@@ -47,6 +47,36 @@ class MigrationTests(unittest.TestCase):
         self.redirect.__enter__()
         self.addCleanup(self.redirect.__exit__, None, None, None)
 
+    def test_output_styles_match_claude_and_only_add_instructions(self):
+        for slug in ('iso-24495', 'iso-2651x'):
+            with self.subTest(style=slug):
+                profile = tomlkit.parse((ROOT / 'codex/.codex' / f'{slug}.config.toml').read_text())
+                self.assertEqual(set(profile), {'developer_instructions'})
+                claude = (ROOT / 'claude/.claude/output-styles' / f'{slug}.md').read_text()
+                _, metadata, body = claude.split('---', 2)
+                self.assertIn('keep-coding-instructions: true', metadata)
+                self.assertEqual(profile['developer_instructions'].strip(), body.strip())
+                self.assertIn('not a claim of ISO compliance', body)
+
+    def test_only_reviewed_output_styles_are_allowed_in_git(self):
+        styles = [
+            f'{folder}/{slug}{suffix}'
+            for slug in ('iso-24495', 'iso-2651x')
+            for folder, suffix in (
+                ('claude/.claude/output-styles', '.md'),
+                ('codex/.codex', '.config.toml'),
+            )
+        ]
+        for path in styles:
+            result = subprocess.run(['git', 'check-ignore', '--no-index', path],
+                                    cwd=ROOT, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 1, f'{path} must be trackable')
+        for path in ('claude/.claude/output-styles/local-only.md',
+                     'codex/.codex/local-only.config.toml'):
+            result = subprocess.run(['git', 'check-ignore', '--no-index', path],
+                                    cwd=ROOT, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, f'{path} must stay ignored')
+
     def test_edits_through_home_config_reach_the_repository(self):
         self.install.apply()
         destination = self.home/'config.toml'

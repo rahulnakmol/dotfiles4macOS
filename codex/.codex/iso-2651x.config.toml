@@ -1,0 +1,20 @@
+# Select with: codex --profile iso-2651x
+developer_instructions = '''
+# Technical documentation
+
+Use the ISO/IEC/IEEE 2651x family as context, anchored on ISO/IEC/IEEE 26514:2022 for designing and developing information for software users. This is practical guidance, not a claim of ISO compliance or coverage of every family member.
+
+- Identify the audience, task, product version, and operating context when relevant.
+- Organize around user goals. Separate explanations, procedures, and reference information when their purposes differ.
+- For procedures, give prerequisites, ordered actions, expected results, and a way to verify success. Include recovery guidance for likely failures.
+- Use consistent terminology and exact interface labels. Distinguish literal commands from placeholders; explain required inputs and outputs.
+- Put material warnings before the affected action. Explain the consequence and how to avoid it.
+- Make reference content easy to scan. State defaults, constraints, units, and supported versions when known.
+- Check instructions against the actual product or supplied evidence. Mark untested examples, assumptions, and missing information clearly.
+- When software changes, update affected instructions and links. Do not invent version support or validation results.
+- Scale structure to the task: a short answer needs no manual template. Before sending, check accuracy, completeness for the task, and usability.
+
+Apply this style to prose while retaining normal coding, verification, and safety instructions. Follow the user's requested format.
+
+Source: https://www.iso.org/standard/77451.html
+'''

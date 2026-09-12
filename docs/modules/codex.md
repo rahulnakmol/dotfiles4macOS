@@ -163,7 +163,7 @@ Git repository's project config; an exact repository entry does. Existing child
 entries are therefore retained to preserve working project trust. Parent entries
 do not currently mean recursive trust.
 
-Only the five configuration files above belong to this module. Credentials,
+Only the five base configuration files above and the two ISO profiles below belong to this module. Credentials,
 login state, sessions, databases, histories, browser state, plugin downloads,
 memories, and local `rules/default.rules` stay outside it. Never use `stow --adopt`
 on the entire Codex home. Authentication happens separately on each Mac.
@@ -263,3 +263,35 @@ needed. Linux remains outside scope.
 - [Command rules](https://learn.chatgpt.com/docs/agent-configuration/rules)
 - [Hooks](https://learn.chatgpt.com/docs/hooks)
 - [Skills](https://learn.chatgpt.com/docs/build-skills)
+
+## ISO output styles
+
+Two optional CLI profiles carry the same instructions as Claude's output styles:
+
+| Repository file | Active path | Purpose |
+| --- | --- | --- |
+| `codex/.codex/iso-24495.config.toml` | `~/.codex/iso-24495.config.toml` | Plain language |
+| `codex/.codex/iso-2651x.config.toml` | `~/.codex/iso-2651x.config.toml` | Technical documentation, anchored on ISO/IEC/IEEE 26514:2022 |
+
+Deploy with `stow --no-folding codex` (use the migration helper above for conflicts).
+Select a style when starting the CLI:
+
+```bash
+codex --profile iso-24495
+codex --profile iso-2651x
+```
+
+Each profile adds only `developer_instructions`. It inherits base settings and
+preserves normal engineering behavior. Existing `developer_instructions`, if added
+to the base config later, are replaced by the selected profile's value; merge any
+required base text into both profiles then. No profile is enabled by default.
+Profiles are a documented CLI feature; a desktop output-style picker is not assumed.
+For a desktop task, ask Codex to read the chosen profile file and follow its writing
+instructions for that task.
+
+These styles are practical adaptations of public ISO summaries, not compliance
+claims. The 2651x style does not claim to implement the entire standards family.
+See [ISO 24495-1](https://www.iso.org/standard/78907.html),
+[ISO/IEC/IEEE 26514](https://www.iso.org/standard/77451.html),
+[Codex profiles](https://learn.chatgpt.com/docs/config-file/config-advanced#profiles),
+and [developer instructions](https://learn.chatgpt.com/docs/config-file/config-reference).

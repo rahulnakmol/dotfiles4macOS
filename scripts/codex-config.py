@@ -17,7 +17,8 @@ import time
 import tomlkit
 
 ROOT = Path(__file__).resolve().parents[1]
-MANAGED = ('config.toml', 'keybindings.json', 'hooks.json', 'AGENTS.md', 'rules/dotfiles.rules')
+MANAGED = ('config.toml', 'keybindings.json', 'hooks.json', 'AGENTS.md', 'rules/dotfiles.rules',
+           'iso-24495.config.toml', 'iso-2651x.config.toml')
 PROFILE = 'dotfiles'
 LEGACY = ('sandbox_mode', 'sandbox_workspace_write')
 
