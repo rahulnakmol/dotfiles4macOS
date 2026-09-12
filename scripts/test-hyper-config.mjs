@@ -72,12 +72,12 @@ test('global Hyper keys have one owner and preserve Codex app bindings', () => {
 
 test('all daily apps use native portable launch/focus and never send shell input', () => {
   const launches = karabiner.profiles[0].complex_modifications.rules.find((r) => r.description === 'Hyper: launch or focus apps').manipulators;
-  assert.equal(new Set(config.apps.map((a) => a.bundleId)).size, 18);
-  assert.equal(launches.length, 18, 'No app aliases, including the former Ghostty Return alias');
+  assert.equal(new Set(config.apps.map((a) => a.bundleId)).size, 20);
+  assert.equal(launches.length, 20, 'No app aliases, including the former Ghostty Return alias');
   assert.deepEqual(Object.fromEntries(config.apps.map((a) => [a.id, a.key])), {
-    chrome:'d', ghostty:'h', finder:'f', codex:'j', cursor:'k', claude:'l', amp:'a',
+    'zen-browser':'d', ghostty:'h', finder:'f', codex:'j', cursor:'k', claude:'l', amp:'a',
     obsidian:'n', edge:'e', teams:'i', slack:'s', word:'w', excel:'o', powerpoint:'p',
-    safari:'r', finalcut:'z', motion:'x', compressor:'c',
+    telegram:'t', t3code:'g', safari:'r', finalcut:'z', motion:'x', compressor:'c',
   });
   for (const app of config.apps) {
     const matches = launches.filter((m) => m.to[0]?.software_function?.open_application?.bundle_identifier === app.bundleId);
@@ -120,20 +120,20 @@ test('portable layouts omit captured titles, pixel frames, Space IDs and destruc
     }
   }
   assert.equal(new Set(ids).size, ids.length);
-  for (const name of ['Work','Code']) assert.deepEqual(layouts.find((l) => l.name === name).children.map((c) => c.windowAction), [21,24]);
-  for (const name of ['Work Balanced','Code Balanced','Office']) assert.deepEqual(layouts.find((l) => l.name === name).children.map((c) => c.windowAction), [0,1]);
+  for (const name of ['Work']) assert.deepEqual(layouts.find((l) => l.name === name).children.map((c) => c.windowAction), [21,24]);
+  for (const name of ['Work Balanced','Office']) assert.deepEqual(layouts.find((l) => l.name === name).children.map((c) => c.windowAction), [0,1]);
   for (const name of ['Agents','Zen']) assert.equal(layouts.find((l) => l.name === name).launchApps, false);
   assert.equal(layouts.find((l) => l.name === 'Default').frontmost, true);
   for (const [name, ids] of [
-    ['Code Amp', ['chrome','ghostty','amp']],
-    ['Code Claude', ['obsidian','ghostty','claude']],
-    ['Code Cursor', ['chrome','ghostty','cursor']],
-    ['Code Codex', ['chrome','ghostty','codex']],
+    ['Code Amp', ['zen-browser','ghostty','slack','amp']],
+    ['Code Claude', ['zen-browser','ghostty','slack','claude']],
+    ['Code Cursor', ['zen-browser','ghostty','slack','cursor']],
+    ['Code T3 Code', ['zen-browser','ghostty','slack','t3code']],
   ]) {
     const layout = layouts.find((l) => l.name === name);
     assert.equal(layout.launchApps, true);
     assert.deepEqual(layout.children.map((c) => c.bundleId), ids.map((id) => config.apps.find((a) => a.id === id).bundleId));
-    assert.deepEqual(layout.children.map((c) => c.windowAction), [21,24,2]);
+    assert.deepEqual(layout.children.map((c) => c.windowAction), [2,21,24,2]);
     const result = spawnSync('zsh', [root + wf + 'user.workflow.hyper/dispatch.zsh', `layout:${name}`], {env:{...process.env,HYPER_DRY_RUN:'1'},encoding:'utf8'});
     assert.equal(result.status, 0);
     assert.match(result.stdout, /dockflow:\/\//);
@@ -237,7 +237,7 @@ test('short menu codes list categorized actions and aliases retain their origina
   const fs=menus.find(({node})=>node.config.keyword==='fs').node;
   assert.deepEqual(JSON.parse(fs.config.items).map(i=>i.title),[
     'Focus Session: Work','Focus Session: Code + Amp','Focus Session: Code + Claude',
-    'Focus Session: Code + Cursor','Focus Session: Code + Codex',
+    'Focus Session: Code + Cursor','Focus Session: Code + T3 Code',
   ]);
   for(const data of [dockflow,google]) {
     const menu=data.objects.find(o=>o.uid==='category-menu');

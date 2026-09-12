@@ -39,6 +39,13 @@ export function buildKarabiner(base, config) {
     mapping('right_arrow', stroke('right_arrow', ['left_control', 'left_option', 'left_command'])),
   ];
   const rules = profile.complex_modifications.rules.filter((r) => !r.description.startsWith('Hyper:') && !r.description.startsWith('Meh:'));
+  for (const rule of rules.filter(r=>r.description.startsWith('MX Master:'))) {
+    for (const manipulator of rule.manipulators) for (const condition of manipulator.conditions??[]) {
+      if (condition.bundle_identifiers) condition.bundle_identifiers=[...new Set([
+        ...condition.bundle_identifiers, '^app\\.zen-browser\\.zen$', '^com\\.google\\.Chrome\\.canary$',
+      ])];
+    }
+  }
   profile.complex_modifications.rules = [...rules,
     { description: 'Meh: Right Option becomes Control + Option + Shift', manipulators: [{
       type: 'basic', from: { key_code: 'right_option', modifiers: { optional: ['any'] } },
@@ -203,9 +210,9 @@ Type \`work\`, \`code\`, \`zen\` or \`default\` to narrow the menu. The selected
 | --- | --- | --- |
 ${shortMenuTable}
 
-Type the short code to list its actions. Result names use **Category: Name**. For example, \`fs\` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/Codex**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
+Type the short code to list its actions. Result names use **Category: Name**. For example, \`fs\` lists **Focus Session: Work** and **Focus Session: Code + Amp/Claude/Cursor/T3 Code**. Direct DockFlow and Google commands remain available in their own workflows. Third-party workflows retain their vendor names and keywords.
 
-Window Layout: Code Amp/Claude/Cursor/Codex opens the full corresponding three-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. Amp/Cursor/Codex use Chrome left two-thirds, Ghostty right third and the chosen coding app maximized. Claude uses Obsidian instead of Chrome. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
+Window Layout: Code Amp/Claude/Cursor/T3 Code opens the full corresponding four-app set, selects DockFlow Code and arranges it without quitting other apps or starting a timer. All Code variants use Desktop 1 for Zen Browser maximized, Desktop 2 for the coding app maximized, and Desktop 3 for Ghostty left two-thirds with Slack right third. Amp requires its optional native app. Existing macOS Dock assignments decide which desktop each app opens on; Rectangle only sets geometry.
 
 ### Session timers
 
@@ -219,11 +226,11 @@ options use the intention **Pomodoro**; the others use **Focus**.
 
 ### Focus sessions
 
-Type \`fs\` in Alfred or search \`Focus Session\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code + Amp opens Chrome, Ghostty and Amp. Code + Claude opens Obsidian, Ghostty and Claude. Code + Cursor opens Chrome, Ghostty and Cursor. Code + Codex opens Chrome, Ghostty and Codex.
+Type \`fs\` in Alfred or search \`Focus Session\` in Hyper+Space. Work opens only Edge and Teams and applies the Work two-thirds/one-third layout. Code + Amp opens Zen Browser, Ghostty, Slack and Amp. Code + Claude opens Zen Browser, Ghostty, Slack and Claude. Code + Cursor opens Zen Browser, Ghostty, Slack and Cursor. Code + T3 Code opens Zen Browser, Ghostty, Slack and T3 Code.
 
 After the apps and Rectangle layouts are ready, Session receives a timer request: **Work 30 minutes**, **all Code variations 45 minutes**. Session (Setapp, direct or App Store edition) must be installed; its URL API requires Pro access. Each selection requests a timer, including reselecting the same session. Session controls any running-timer prompt, breathing preparation and end-of-session behavior. The workflow does not silently finish or abandon timers, quit apps when time expires, or confirm that a delivered URL actually started counting down.
 
-Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Chrome/Ghostty when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
+Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Zen Browser/Ghostty/Slack when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
 
 The first run compiles a small native helper using Apple Command Line Tools; no apps are installed. Use the existing four macOS desktops and app assignments. The reference/terminal pair is tiled left two-thirds/right third on its assigned desktop; the coding app is maximized on its assigned desktop. Rectangle applies sizes but does not create or assign numbered Spaces. Reimport its snapshot after this update. These focus layouts do not open Slack. Existing layout commands and DockFlow number keys remain layout/profile actions and do not quit apps.
 
@@ -233,7 +240,7 @@ The first run compiles a small native helper using Apple Command Line Tools; no 
 | --- | --- |
 ${appTable}
 
-Each app has exactly one direct Hyper shortcut, stable across Work, Code and Zen. A/S/D/F holds Amp, Slack, Chrome and Finder; H/J/K/L holds Ghostty, ChatGPT/Codex, Cursor and Claude. W/E and I/O/P provide Word/Edge and Teams/Excel/PowerPoint. R is Safari and N is Obsidian notes. Media lives on Z/X/C: Final Cut Pro (edit), Motion (animate), Compressor (export). These three keys work where the apps are installed; this setup does not install them. Hyper+Tab returns to the previous app; Hyper+backtick cycles an app's windows.
+Each app has exactly one direct Hyper shortcut, stable across Work, Code and Zen. A/S/D/F holds Amp, Slack, Zen Browser and Finder; H/J/K/L holds Ghostty, ChatGPT/Codex, Cursor and Claude. W/E and I/O/P provide Word/Edge and Teams/Excel/PowerPoint. R is Safari and N is Obsidian notes. Media lives on Z/X/C: Final Cut Pro (edit), Motion (animate), Compressor (export). These three keys work where the apps are installed; this setup does not install them. Hyper+Tab returns to the previous app; Hyper+backtick cycles an app's windows.
 
 ### Layouts
 

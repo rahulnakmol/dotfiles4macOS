@@ -73,7 +73,9 @@
                       "^com\\.apple\\.Safari$",
                       "^com\\.google\\.Chrome$",
                       "^com\\.microsoft\\.edgemac$",
-                      "^com\\.apple\\.finder$"
+                      "^com\\.apple\\.finder$",
+                      "^app\\.zen-browser\\.zen$",
+                      "^com\\.google\\.Chrome\\.canary$"
                     ]
                   }
                 ]
@@ -114,7 +116,9 @@
                       "^com\\.apple\\.Safari$",
                       "^com\\.google\\.Chrome$",
                       "^com\\.microsoft\\.edgemac$",
-                      "^com\\.apple\\.finder$"
+                      "^com\\.apple\\.finder$",
+                      "^app\\.zen-browser\\.zen$",
+                      "^com\\.google\\.Chrome\\.canary$"
                     ]
                   }
                 ]
@@ -155,7 +159,9 @@
                       "^com\\.apple\\.Safari$",
                       "^com\\.google\\.Chrome$",
                       "^com\\.microsoft\\.edgemac$",
-                      "^com\\.apple\\.finder$"
+                      "^com\\.apple\\.finder$",
+                      "^app\\.zen-browser\\.zen$",
+                      "^com\\.google\\.Chrome\\.canary$"
                     ]
                   }
                 ]
@@ -240,7 +246,7 @@
                   {
                     "software_function": {
                       "open_application": {
-                        "bundle_identifier": "com.google.Chrome"
+                        "bundle_identifier": "app.zen-browser.zen"
                       }
                     },
                     "repeat": false
@@ -649,6 +655,54 @@
                     "software_function": {
                       "open_application": {
                         "bundle_identifier": "com.apple.Compressor"
+                      }
+                    },
+                    "repeat": false
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "t",
+                  "modifiers": {
+                    "mandatory": [
+                      "control",
+                      "option",
+                      "command",
+                      "shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "software_function": {
+                      "open_application": {
+                        "bundle_identifier": "ru.keepcoder.Telegram"
+                      }
+                    },
+                    "repeat": false
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "g",
+                  "modifiers": {
+                    "mandatory": [
+                      "control",
+                      "option",
+                      "command",
+                      "shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "software_function": {
+                      "open_application": {
+                        "bundle_identifier": "com.t3tools.t3code"
                       }
                     },
                     "repeat": false

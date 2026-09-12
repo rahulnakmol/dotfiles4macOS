@@ -22,5 +22,9 @@
   {
     "command": "composer.startDictation",
     "key": "Command+Control+Alt+Shift+M"
+  },
+  {
+    "command": "openAvatarOverlay",
+    "key": "Command+Control+Alt+Shift+B"
   }
 ]

@@ -87,7 +87,7 @@
   },
   {
     "name": "2. Code",
-    "apps": "[\"file:///System/Applications/Apps.app/\",\"file:///Applications/Google%20Chrome.app/\",\"file:///Applications/Claude.app/\",\"dockflow-spacer-0\",\"file:///Applications/Cursor.app/\",\"file:///Applications/ChatGPT.app/\",\"file:///Applications/Ghostty.app/\",\"dockflow-spacer-1\",\"file:///System/Applications/iPhone%20Mirroring.app/\",\"file:///Applications/Windows%20App.app/\",\"dockflow-spacer-2\"]",
+    "apps": "[\"file:///System/Applications/Apps.app/\",\"file:///Applications/Zen.app/\",\"file:///Applications/Claude.app/\",\"dockflow-spacer-0\",\"file:///Applications/Cursor.app/\",\"file:///Applications/T3%20Code%20(Alpha).app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Slack.app/\",\"dockflow-spacer-1\",\"file:///System/Applications/iPhone%20Mirroring.app/\",\"file:///Applications/Windows%20App.app/\",\"dockflow-spacer-2\"]",
     "folderStacks": [],
     "appMetadata": {
       "file:///System/Applications/Apps.app/": {
@@ -95,9 +95,9 @@
         "appName": "Apps",
         "appType": "regular"
       },
-      "file:///Applications/Google%20Chrome.app/": {
-        "bundleIdentifier": "com.google.Chrome",
-        "appName": "Google Chrome",
+      "file:///Applications/Zen.app/": {
+        "bundleIdentifier": "app.zen-browser.zen",
+        "appName": "Zen Browser",
         "appType": "regular"
       },
       "file:///Applications/Claude.app/": {
@@ -108,11 +108,6 @@
       "file:///Applications/Cursor.app/": {
         "bundleIdentifier": "com.todesktop.230313mzl4w4u92",
         "appName": "Cursor",
-        "appType": "regular"
-      },
-      "file:///Applications/ChatGPT.app/": {
-        "bundleIdentifier": "com.openai.codex",
-        "appName": "ChatGPT",
         "appType": "regular"
       },
       "file:///Applications/Ghostty.app/": {
@@ -128,6 +123,16 @@
       "file:///Applications/Windows%20App.app/": {
         "bundleIdentifier": "com.microsoft.rdc.macos",
         "appName": "Windows App",
+        "appType": "regular"
+      },
+      "file:///Applications/T3%20Code%20(Alpha).app/": {
+        "bundleIdentifier": "com.t3tools.t3code",
+        "appName": "T3 Code",
+        "appType": "regular"
+      },
+      "file:///Applications/Slack.app/": {
+        "bundleIdentifier": "com.tinyspeck.slackmacgap",
+        "appName": "Slack",
         "appType": "regular"
       }
     },

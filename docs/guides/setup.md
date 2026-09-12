@@ -1,33 +1,28 @@
 # Fresh Machine Setup
 
-For a new Mac, use the profile-aware [FDE](../profiles/fde.md) or
-[TF (Tech Founder)](../profiles/tf.md) guide. Those installers replace the
-unconditional app list below. Alfred, Karabiner, Rectangle Pro, DockFlow and
-Session management are optional: add `--productivity` to the profile commands
-to install and Stow that setup. Defaults leave those settings untouched. The remainder of this page is a legacy, manual
-module reference for existing personal installations; do not run its AI or
-credential module commands on a TF machine.
+Choose either this **manual core Stow** path or the profile-aware [FDE](../profiles/fde.md) / [TF](../profiles/tf.md) installer. Both recommend Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default.
 
-Step-by-step guide to deploying this dotfiles repo on a new Mac.
+The manual commands below do not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow or Session automation. Those remain an optional setup through the profile guides with --productivity.
 
----
+## 1. Install prerequisites and default apps
 
-## 1. Install prerequisites
+Install Apple Command Line Tools with xcode-select --install and Homebrew from https://brew.sh first.
 
-```bash
+```sh
 # Core tools
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh
+brew install git node stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
 
-# Terminal and fonts
-brew install --cask ghostty 1password 1password-cli
-brew install --cask font-mononoki-nerd-font
+# Terminal and configured font
+brew install --cask ghostty font-jetbrains-mono-nerd-font
 
-# AI coding tools
-brew install claude opencode
-brew install --cask cursor
+# Default desktop apps and everyday browser
+brew install --cask zen claude cursor chatgpt
+
+# Optional end-to-end testing browser
+# brew install --cask google-chrome@canary
 ```
 
-Configure Ghostty (or your terminal) to use Mononoki Nerd Font.
+Open Zen once and choose Zen under Default web browser in macOS System Settings. Complete your own app sign-ins directly. Chrome Canary is for end-to-end testing, and Amp is optional from https://ampcode.com/app (its native app requires macOS 26+). Neither is a prerequisite for this baseline. Existing Chrome and Amp installations are left intact.
 
 ## 2. Set zsh as default shell
 
@@ -46,39 +41,16 @@ cd ~/.dotfiles
 
 ## 4. Deploy modules with stow
 
-Stow creates symlinks from each module directory into `$HOME`. Deploy in this order to satisfy dependencies:
+Stow creates symlinks from each module directory into your home folder. Preview the explicit core list, resolve any conflicts by backing up and comparing existing files, then apply:
 
-```bash
-# Step 1: Shell foundation
-stow zsh
-
-# Step 2: Core tools
-stow git ssh starship bat
-
-# Step 3: Terminal and editor
-stow tmux ghostty nvim
-
-# Step 4: Dev tools
-stow gh
-
-# Step 5: AI coding tools
-stow claude opencode cursor
-
-# Step 6: Credentials (if using 1Password)
-stow 1password
+```sh
+stow -n zsh bash bat starship tmux ghostty nvim
+stow zsh bash bat starship tmux ghostty nvim
 ```
 
-To preview what stow will do before committing:
+These are the same core modules used by the FDE/TF installer. Stow does not install apps. App installation above is independent of stowing Claude/Cursor/Codex settings.
 
-```bash
-stow -n zsh    # dry-run, shows what symlinks would be created
-```
-
-To deploy everything at once:
-
-```bash
-stow zsh git ssh starship bat tmux ghostty nvim gh claude opencode cursor 1password
-```
+Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 
 ## 5. Post-install steps
 
@@ -142,7 +114,7 @@ After pulling changes from the repo:
 ```bash
 cd ~/.dotfiles
 git pull
-stow zsh tmux git   # re-stow any modules that changed
+stow zsh bash bat starship tmux ghostty nvim   # re-stow selected core modules
 ```
 
 Stow is idempotent — re-running it on an already-deployed module is safe.

@@ -40,9 +40,6 @@ export function workstationFiles(id, options={}) {
   if(config.productivity) {
     data('scripts/hyper-config.json',config); // Existing narrow Alfred preference planner consumes this.
     const keyboard=buildKarabiner(json('karabiner/.config/karabiner/karabiner.json'),config);
-    if(config.setupProfile==='TF')for(const profile of keyboard.profiles)for(const rule of profile.complex_modifications.rules)for(const manipulator of rule.manipulators)for(const condition of manipulator.conditions??[]) {
-      if(condition.bundle_identifiers)condition.bundle_identifiers=condition.bundle_identifiers.map(id=>id==='^com\\.google\\.Chrome$'?'^app\\.zen-browser\\.zen$':id);
-    }
     data('karabiner/.config/karabiner/karabiner.json',keyboard);
     data('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json',buildRectangle(json('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json'),config));
     const hyper=buildWorkflow(config,{objects:[]});

@@ -7,10 +7,10 @@ import { test } from 'node:test';
 import { codexArtifacts } from './codex-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-test('Codex inherits ordinary defaults and reserves Hyper only for voice and dictation', () => {
+test('Codex inherits ordinary defaults and reserves Hyper for voice, dictation and the pet', () => {
   const bindings = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
   const active = bindings.filter((b) => b.key !== null);
-  assert.deepEqual(new Set(active.map((b) => b.command)), new Set(['composer.startVoiceMode', 'composer.startDictation']));
+  assert.deepEqual(new Set(active.map((b) => b.command)), new Set(['composer.startVoiceMode', 'composer.startDictation', 'openAvatarOverlay']));
   for (const [command, defaultKey, hyperKey] of [
     ['composer.startVoiceMode', 'Ctrl+Shift+V', 'Command+Control+Alt+Shift+V'],
     ['composer.startDictation', 'Ctrl+Shift+D', 'Command+Control+Alt+Shift+M'],
@@ -19,7 +19,8 @@ test('Codex inherits ordinary defaults and reserves Hyper only for voice and dic
   }
   // Omitting ordinary commands restores defaults; null would disable them.
   assert.ok(bindings.filter((b) => b.key === null).every((b) => ['globalDictationHold', 'globalDictationToggle'].includes(b.command)));
-  assert.equal(active.length, 4);
+  assert.deepEqual(active.filter(b=>b.command==='openAvatarOverlay'),[{command:'openAvatarOverlay',key:'Command+Control+Alt+Shift+B'}], 'OS-global pet command supports exactly one binding');
+  assert.equal(active.length, 5);
 });
 
 test('desktop keybindings have valid entries without conflicting accelerators', () => {

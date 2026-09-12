@@ -202,8 +202,6 @@ async function main() {
   if(!id)throw new Error('Choose --profile fde or --profile tf');
   const options={productivity:args.includes('--productivity')};
   const config=resolveProfile(id,options);id=config.setupProfile.toLowerCase();
-  const major=Number(run('sw_vers',['-productVersion']).trim().split('.')[0]);
-  if(config.install.guided.some(a=>a.name==='Amp')&&major<26)throw new Error('FDE requires macOS 26+ for the native Amp app. No configuration changed.');
   const target=destination(home,id),files=workstationFiles(id,options),plan=linkPlan(files,target,home);
   for(const path of files.keys())assertLocalPath(join(target,path),home);
   assertLocalPath(join(target,'managed-files.json'),home);assertLocalPath(statePath(home),home);
