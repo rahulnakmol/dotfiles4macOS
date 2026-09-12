@@ -1,0 +1,232 @@
+{
+  "name": "workstation",
+  "title": "Workmode",
+  "description": "Unified macOS modes, DockFlow profiles, window layouts and Session timers.",
+  "icon": "icon.png",
+  "author": "rahulnakmol",
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "categories": [
+    "Productivity",
+    "Window Management"
+  ],
+  "commands": [
+    {
+      "name": "workstation",
+      "title": "Workmode",
+      "description": "Browse all modes and actions",
+      "mode": "view"
+    },
+    {
+      "name": "layouts",
+      "title": "Window Layout",
+      "description": "Arrange mode apps and Dock without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "focus",
+      "title": "Focus Session",
+      "description": "Preview and quit unrelated apps, arrange windows, then start Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "dock",
+      "title": "DockFlow Profile",
+      "description": "Switch the Dock without changing windows or timers",
+      "mode": "view"
+    },
+    {
+      "name": "timers",
+      "title": "Session Timer",
+      "description": "20, 25, 30, 45 and 60 minute Session timers",
+      "mode": "view"
+    },
+    {
+      "name": "check",
+      "title": "Check Workmode Setup",
+      "description": "Check apps, DockFlow presets and Raycast window access",
+      "mode": "view"
+    },
+    {
+      "name": "capture",
+      "title": "Capture",
+      "description": "CleanShot X capture actions",
+      "mode": "view"
+    },
+    {
+      "name": "google",
+      "title": "Google Workspace",
+      "description": "Open Workspace links explicitly in Zen",
+      "mode": "view"
+    },
+    {
+      "name": "dock-default",
+      "title": "DockFlow: Default",
+      "description": "Apply only the Default Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-work",
+      "title": "DockFlow: Work",
+      "description": "Apply only the Work Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-code",
+      "title": "DockFlow: Code",
+      "description": "Apply only the Code Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-author",
+      "title": "DockFlow: Author",
+      "description": "Apply only the Author Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-design",
+      "title": "DockFlow: Design",
+      "description": "Apply only the Design Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-innovate",
+      "title": "DockFlow: Innovate",
+      "description": "Apply only the Innovate Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-video",
+      "title": "DockFlow: Video",
+      "description": "Apply only the Video Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "dock-zen",
+      "title": "DockFlow: Zen",
+      "description": "Apply only the Zen Dock profile",
+      "mode": "no-view"
+    },
+    {
+      "name": "layout-default",
+      "title": "Window Layout: Default",
+      "description": "Open Default layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-work",
+      "title": "Window Layout: Work",
+      "description": "Open Work layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-code",
+      "title": "Window Layout: Code",
+      "description": "Open Code layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-author",
+      "title": "Window Layout: Author",
+      "description": "Open Author layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-design",
+      "title": "Window Layout: Design",
+      "description": "Open Design layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-innovate",
+      "title": "Window Layout: Innovate",
+      "description": "Open Innovate layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-video",
+      "title": "Window Layout: Video",
+      "description": "Open Video layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "layout-zen",
+      "title": "Window Layout: Zen",
+      "description": "Open Zen layout; arrange without quitting other apps",
+      "mode": "view"
+    },
+    {
+      "name": "focus-work",
+      "title": "Focus Session: Work",
+      "description": "Open Work focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-code",
+      "title": "Focus Session: Code",
+      "description": "Open Code focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-author",
+      "title": "Focus Session: Author",
+      "description": "Open Author focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-design",
+      "title": "Focus Session: Design",
+      "description": "Open Design focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-innovate",
+      "title": "Focus Session: Innovate",
+      "description": "Open Innovate focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-video",
+      "title": "Focus Session: Video",
+      "description": "Open Video focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    },
+    {
+      "name": "focus-zen",
+      "title": "Focus Session: Zen",
+      "description": "Open Zen focus preview; confirm before quitting apps and starting Session",
+      "mode": "view",
+      "icon": "focus.png"
+    }
+  ],
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@raycast/api": "2.3.1",
+    "proper-lockfile": "^4.1.2",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/react": "19.3.0",
+    "typescript": "^5.9.0"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

@@ -1,0 +1,430 @@
+[
+  {
+    "owner": "Workmode",
+    "commandId": "workstation",
+    "command": "Workmode",
+    "alias": "hk"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layouts",
+    "command": "Window Layout",
+    "alias": "wl"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus",
+    "command": "Focus Session",
+    "alias": "fs"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock",
+    "command": "DockFlow Profile",
+    "alias": "df"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "timers",
+    "command": "Session Timer",
+    "alias": "ss"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "check",
+    "command": "Check Workmode Setup",
+    "alias": "wchk"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "capture",
+    "command": "Capture",
+    "alias": "cs"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "google",
+    "command": "Google Workspace",
+    "alias": "gw"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-default",
+    "command": "DockFlow: Default",
+    "alias": "dff"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-work",
+    "command": "DockFlow: Work",
+    "alias": "dwo"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-code",
+    "command": "DockFlow: Code",
+    "alias": "dco"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-author",
+    "command": "DockFlow: Author",
+    "alias": "dau"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-design",
+    "command": "DockFlow: Design",
+    "alias": "dde"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-innovate",
+    "command": "DockFlow: Innovate",
+    "alias": "din"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-video",
+    "command": "DockFlow: Video",
+    "alias": "dvi"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "dock-zen",
+    "command": "DockFlow: Zen",
+    "alias": "dze"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-default",
+    "command": "Window Layout: Default",
+    "alias": "wff"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-work",
+    "command": "Window Layout: Work",
+    "alias": "wwo"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-code",
+    "command": "Window Layout: Code",
+    "alias": "wco"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-author",
+    "command": "Window Layout: Author",
+    "alias": "wau"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-design",
+    "command": "Window Layout: Design",
+    "alias": "wde"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-innovate",
+    "command": "Window Layout: Innovate",
+    "alias": "win"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-video",
+    "command": "Window Layout: Video",
+    "alias": "wvi"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "layout-zen",
+    "command": "Window Layout: Zen",
+    "alias": "wze"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-work",
+    "command": "Focus Session: Work",
+    "alias": "fwo"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-code",
+    "command": "Focus Session: Code",
+    "alias": "fco"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-author",
+    "command": "Focus Session: Author",
+    "alias": "fau"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-design",
+    "command": "Focus Session: Design",
+    "alias": "fde"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-innovate",
+    "command": "Focus Session: Innovate",
+    "alias": "fin"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-video",
+    "command": "Focus Session: Video",
+    "alias": "fvi"
+  },
+  {
+    "owner": "Workmode",
+    "commandId": "focus-zen",
+    "command": "Focus Session: Zen",
+    "alias": "fze"
+  },
+  {
+    "owner": "Applications",
+    "command": "Zen Browser",
+    "bundleId": "app.zen-browser.zen",
+    "alias": "zen",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Ghostty",
+    "bundleId": "com.mitchellh.ghostty",
+    "alias": "gt",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Finder",
+    "bundleId": "com.apple.finder",
+    "alias": "ff",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "ChatGPT / Codex",
+    "bundleId": "com.openai.codex",
+    "alias": "cx",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Cursor",
+    "bundleId": "com.todesktop.230313mzl4w4u92",
+    "alias": "cu",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Claude",
+    "bundleId": "com.anthropic.claudefordesktop",
+    "alias": "cl",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Amp",
+    "bundleId": "com.ampcode.amp.macos",
+    "alias": "amp",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "Obsidian",
+    "bundleId": "md.obsidian",
+    "alias": "ob",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Microsoft Edge",
+    "bundleId": "com.microsoft.edgemac",
+    "alias": "edge",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Microsoft Teams",
+    "bundleId": "com.microsoft.teams2",
+    "alias": "tm",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Slack",
+    "bundleId": "com.tinyspeck.slackmacgap",
+    "alias": "sl",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Microsoft Word",
+    "bundleId": "com.microsoft.Word",
+    "alias": "wd",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Microsoft Excel",
+    "bundleId": "com.microsoft.Excel",
+    "alias": "xl",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Microsoft PowerPoint",
+    "bundleId": "com.microsoft.Powerpoint",
+    "alias": "ppt",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Final Cut Pro",
+    "bundleId": "com.apple.FinalCut",
+    "alias": "fcp",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "Motion",
+    "bundleId": "com.apple.motionapp",
+    "alias": "mot",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "Compressor",
+    "bundleId": "com.apple.Compressor",
+    "alias": "comp",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "Telegram",
+    "bundleId": "ru.keepcoder.Telegram",
+    "alias": "tg",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "T3 Code",
+    "bundleId": "com.t3tools.t3code",
+    "alias": "t3",
+    "optional": true
+  },
+  {
+    "owner": "Applications",
+    "command": "Figma",
+    "bundleId": "com.figma.Desktop",
+    "alias": "fg",
+    "optional": false
+  },
+  {
+    "owner": "Applications",
+    "command": "Affinity",
+    "bundleId": "com.canva.affinity",
+    "alias": "af",
+    "optional": true
+  },
+  {
+    "owner": "Window Management",
+    "command": "Maximize",
+    "alias": "wmax"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Restore",
+    "alias": "wrst"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Left Half",
+    "alias": "wlh"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Right Half",
+    "alias": "wrh"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Top Half",
+    "alias": "wth"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Bottom Half",
+    "alias": "wbh"
+  },
+  {
+    "owner": "Window Management",
+    "command": "First Third",
+    "alias": "w13l"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Center Third",
+    "alias": "w13c"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Last Third",
+    "alias": "w13r"
+  },
+  {
+    "owner": "Window Management",
+    "command": "First Two Thirds",
+    "alias": "w23l"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Last Two Thirds",
+    "alias": "w23r"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Move to Previous Space",
+    "alias": "wsp"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Move to Next Space",
+    "alias": "wsn"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Make Smaller",
+    "alias": "wsm"
+  },
+  {
+    "owner": "Window Management",
+    "command": "Make Larger",
+    "alias": "wlg"
+  },
+  {
+    "owner": "Raycast",
+    "command": "Clipboard History",
+    "alias": "clip"
+  },
+  {
+    "owner": "Raycast",
+    "command": "Search Snippets",
+    "alias": "snip"
+  },
+  {
+    "owner": "Raycast",
+    "command": "Search Files",
+    "alias": "file"
+  },
+  {
+    "owner": "Raycast",
+    "command": "Search Emoji & Symbols",
+    "alias": "emo"
+  }
+]
