@@ -347,7 +347,7 @@ function main() {
   const google=buildGoogleWorkspace(readPlist(googlePath));
   const workflow = buildWorkflow(config, dockflow);
   const focusSessions = config.focusSessions.map((session) => ({
-    id:session.id,name:session.name,durationMinutes:session.durationMinutes,apps:session.apps.map((id) => {
+    id:session.id,name:session.name,categoryName:session.categoryName,durationMinutes:session.durationMinutes,apps:session.apps.map((id) => {
       const app=config.apps.find((a) => a.id===id);
       if (!app) throw new Error(`Unknown focus app: ${id}`);
       return {id:app.id,name:app.name,bundleId:app.bundleId};

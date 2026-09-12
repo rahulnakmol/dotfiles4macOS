@@ -2,6 +2,7 @@
   {
     "id": "work",
     "name": "Work",
+    "categoryName": "Work",
     "durationMinutes": 30,
     "apps": [
       {
@@ -22,6 +23,7 @@
   {
     "id": "amp",
     "name": "Code + Amp",
+    "categoryName": "Code",
     "durationMinutes": 45,
     "apps": [
       {
@@ -47,6 +49,7 @@
   {
     "id": "claude",
     "name": "Code + Claude",
+    "categoryName": "Code",
     "durationMinutes": 45,
     "apps": [
       {
@@ -72,6 +75,7 @@
   {
     "id": "cursor",
     "name": "Code + Cursor",
+    "categoryName": "Code",
     "durationMinutes": 45,
     "apps": [
       {
@@ -97,6 +101,7 @@
   {
     "id": "codex",
     "name": "Code + Codex",
+    "categoryName": "Code",
     "durationMinutes": 45,
     "apps": [
       {

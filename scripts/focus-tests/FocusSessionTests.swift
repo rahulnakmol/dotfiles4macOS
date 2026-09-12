@@ -95,8 +95,10 @@ struct FocusTests {
         }
         for session in sessions {
             assert(session.durationMinutes == (session.id == "work" ? 30 : 45))
+            assert(session.categoryName == (session.id == "work" ? "Work" : "Code"))
             let url = URLComponents(string: session.timerURL)!
             assert(url.scheme == "session" && url.path == "/start")
+            assert(url.queryItems!.first(where: { $0.name == "categoryName" })!.value == session.categoryName)
             assert(url.queryItems!.first(where: { $0.name == "intent" })!.value == "Focus Session: " + session.name)
             let desktop = FakeDesktop()
             try switchFocus(session.id, sessions: sessions, desktop: desktop)
@@ -121,7 +123,13 @@ struct FocusTests {
             assert(desktop.events.isEmpty)
             let url = URLComponents(string: invalid.timerURL)!
             assert(url.queryItems!.first!.value == "Focus Session: Code + A&B #1")
-            assert(url.queryItems!.count == 2, "Intention text must not inject URL parameters")
+            assert(url.queryItems!.count == 2, "Legacy configuration without categories remains valid")
+            var named = invalid
+            named.categoryName = "R&D + Code #1"
+            let namedURL = URLComponents(string: named.timerURL)!
+            assert(namedURL.queryItems!.count == 3, "Category text must not inject URL parameters")
+            assert(namedURL.queryItems!.last!.value == "R&D + Code #1")
+            assert(!named.timerURL.contains("+"), "Literal plus must be escaped")
         }
         if CommandLine.arguments.count > 2 {
             let tf = try JSONDecoder().decode([FocusSession].self, from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[2])))
@@ -129,7 +137,10 @@ struct FocusTests {
             assert(tf[0].apps.map(\.id) == ["edge", "teams", "claude"])
             assert(tf[1].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "cursor"])
             assert(tf[2].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "codex"])
+            assert(tf.map(\.categoryName) == ["Work", "Code", "Innovate"])
             for target in tf {
+                let timer = URLComponents(string: target.timerURL)!
+                assert(timer.queryItems!.first(where: { $0.name == "categoryName" })!.value == target.categoryName)
                 let desktop = populatedDesktop()
                 try switchFocus(target.id, sessions: tf, desktop: desktop)
                 assert(desktop.events.first == "check-dock:" + target.dockName!)

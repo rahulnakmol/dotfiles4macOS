@@ -67,7 +67,7 @@ Karabiner is deliberately excluded from Homebrew installation. An existing healt
 
 1. Alfred: activate Powerpack; Advanced → Set preferences folder → ~/.config/alfred. Restart Alfred. Rerun apply with --productivity to set this machine's Command+Space launcher and Meh feature keys. Disable Spotlight's Command+Space and any Raycast launcher/Hyper bindings that overlap.
 2. Rectangle Pro: activate, grant Accessibility, enable login, then App Settings → Import Config → ~/.config/rectangle-pro/RectangleProConfig.json. Repeat this import after changing profiles or updating layouts; Stow alone does not apply native Rectangle settings.
-3. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation, enable login and review breathing/break settings. Do not install the Homebrew session cask: it is an unrelated messenger.
+3. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation, enable login and review breathing/break settings. Complete the Session categories checklist below before using focus sessions. Do not install the Homebrew session cask: it is an unrelated messenger.
 4. ${id==='fde'?'Amp: install the native Mac app from https://ampcode.com/app. The CLI alone does not satisfy the Amp window layout. Sign in directly in the app.':'Cursor and Codex: sign in directly in the installed desktop apps. Code launches Cursor; Innovate launches Codex. No Amp app or Amp CLI installation is needed.'}
 5. DockFlow: activate, enable login, and import the preset pack described below. Leave its automatic app quit/launch actions off; Alfred owns focus orchestration and Rectangle owns window geometry.
 6. CleanShot X: an existing Setapp copy is accepted. Otherwise install/activate the standalone app. Enable login, grant capture permission, and configure Command+Shift+3/4/5 in CleanShot. Approve its external-command prompt when you first use the capture menu.
@@ -76,6 +76,21 @@ Karabiner is deliberately excluded from Homebrew installation. An existing healt
 ${table(['Workflow','Install from'],catalog.filter(w=>['atop','Audio Switcher','Timer','Caffeine Dose'].includes(w.name)).map(w=>[w.name,w.galleryUrl]))}
 
 Owned Hyper, DockFlow Profiles and Google Workspace workflows are generated automatically, with author Rahul N Akmol and icons. Third-party workflows keep their own authors and names. Their existing installations are retained in that profile's private preferences bundle.
+
+## Session categories — human setup
+
+This checklist is part of optional productivity setup only. Create these categories in Session once, then verify they are available on each Mac. Reuse existing matching categories instead of creating duplicates.
+
+${table(['Category','Use for'],id==='tf'?[['Work','fs work'],['Code','fs code — Cursor'],['Innovate','fs innovate — Codex']]:[['Work','fs work'],['Code','fs amp, fs claude, fs cursor and fs codex']])}
+
+1. Open Session's main timer screen. In the intention field, type @ to open category selection and use its add-category option for each name above. Choose any colors you prefer.
+2. Reopen category selection and confirm each category is available. On another Mac, check for existing categories first and create only missing ones.
+3. Select the appropriate category before starting a standalone ss timer. Focus sessions select the mapped category automatically. The category groups time by activity; the intention describes the task. Pomodoro is a timer duration/style, so choose Work or Code according to the task rather than creating a required Pomodoro category.
+4. After your first real session, check its category in Session's history. Repeat for each category so you can confirm time is grouped correctly.
+
+Focus workflows (fs) automatically pass categoryName using the mapping above, alongside intention and duration. Standalone timers (ss) keep your selected/default category because they are not tied to a profile activity. Session matches category names case-insensitively, does not create categories, and falls back to the default when no match exists. Create the categories before your first focus session and verify the category on its timer. Category data lives in Session, not in Stow or the dotfiles backup.
+
+Session references: category creation with @ at https://stayinsession.com/changelog and categoryName behavior at https://www.stayinsession.com/learn/session-url-scheme.
 
 ## Four desktops and working Spaces
 
