@@ -56,7 +56,7 @@ export function workstationFiles(id, options={}) {
     put(`${wf}/user.workflow.hyper/guide.html`,manualHTML(config));
     const url=(s)=>s?'rectangle-pro://execute-layout?name='+encodeURIComponent(s):null;
     data(`${wf}/user.workflow.hyper/focus-sessions.json`,config.focusSessions.map(s=>({
-      id:s.id,name:s.name,durationMinutes:s.durationMinutes,apps:s.apps.map(id=>config.apps.find(a=>a.id===id)),
+      id:s.id,name:s.name,categoryName:s.categoryName,durationMinutes:s.durationMinutes,apps:s.apps.map(id=>config.apps.find(a=>a.id===id)),
       dockName:config.dockPresets.find(p=>p.id===s.mode)?.name??null,dockURL:null,pairLayoutURL:url(s.pairLayout),layoutURL:url(s.layout),
     })));
     for (const name of ['FocusSession.swift','focus-session.zsh','icon.png']) put(`${wf}/user.workflow.hyper/${name}`,read(`${wf}/user.workflow.hyper/${name}`));

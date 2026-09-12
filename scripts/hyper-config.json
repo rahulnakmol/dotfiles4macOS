@@ -698,7 +698,8 @@
       ],
       "mode": "work",
       "layout": "Work",
-      "durationMinutes": 30
+      "durationMinutes": 30,
+      "categoryName": "Work"
     },
     {
       "id": "amp",
@@ -711,7 +712,8 @@
       "mode": "code",
       "pairLayout": "Code Browser",
       "layout": "Code Amp",
-      "durationMinutes": 45
+      "durationMinutes": 45,
+      "categoryName": "Code"
     },
     {
       "id": "claude",
@@ -724,7 +726,8 @@
       "mode": "code",
       "pairLayout": "Code Notes",
       "layout": "Code Claude",
-      "durationMinutes": 45
+      "durationMinutes": 45,
+      "categoryName": "Code"
     },
     {
       "id": "cursor",
@@ -737,7 +740,8 @@
       "mode": "code",
       "pairLayout": "Code Browser",
       "layout": "Code Cursor",
-      "durationMinutes": 45
+      "durationMinutes": 45,
+      "categoryName": "Code"
     },
     {
       "id": "codex",
@@ -750,7 +754,8 @@
       "mode": "code",
       "pairLayout": "Code Browser",
       "layout": "Code Codex",
-      "durationMinutes": 45
+      "durationMinutes": 45,
+      "categoryName": "Code"
     }
   ],
   "menuKeywords": [

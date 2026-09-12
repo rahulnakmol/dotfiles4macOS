@@ -15,6 +15,7 @@ struct FocusSession: Codable {
     let pairLayoutURL: String?
     let durationMinutes: Int
     var dockName: String? = nil
+    var categoryName: String? = nil
 
     var timerURL: String {
         var url = URLComponents()
@@ -23,6 +24,9 @@ struct FocusSession: Codable {
         url.path = "/start"
         url.queryItems = [URLQueryItem(name: "intent", value: "Focus Session: \(name)"),
                           URLQueryItem(name: "duration", value: String(durationMinutes))]
+        if let categoryName, !categoryName.isEmpty {
+            url.queryItems?.append(URLQueryItem(name: "categoryName", value: categoryName))
+        }
         // Some URL handlers treat literal plus as a space in query parameters.
         url.percentEncodedQuery = url.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         return url.string!

@@ -81,7 +81,7 @@ export function resolveProfile(value, {productivity=false} = {}) {
     config.focusSessions=config.focusSessions.filter(s=>s.id==='work');
     config.focusSessions[0].apps.push('claude');
     config.focusSessions.push(...[['code','Code + Cursor','cursor','Code'],['innovate','Innovate + Codex','codex','Innovate']].map(([id,name,agent,layout])=>({
-      id,name,mode:id,apps:['zen-browser','ghostty','slack',agent],durationMinutes:45,pairLayout:'Code Reference',layout,
+      id,name,categoryName:layout,mode:id,apps:['zen-browser','ghostty','slack',agent],durationMinutes:45,pairLayout:'Code Reference',layout,
     })));
 
   }

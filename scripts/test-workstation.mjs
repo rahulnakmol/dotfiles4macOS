@@ -19,6 +19,8 @@ test('TF has Work, Code + Cursor and Innovate + Codex; FDE retains every variati
   assert.throws(()=>resolveProfile('../tf'),/Choose/);
   assert.equal(tf.profile,'Hyperland');
   assert.deepEqual(tf.focusSessions.map(s=>s.id),['work','code','innovate']);
+  assert.deepEqual(tf.focusSessions.map(s=>s.categoryName),['Work','Code','Innovate']);
+  assert.deepEqual(fde.focusSessions.map(s=>s.categoryName),['Work','Code','Code','Code','Code']);
   assert.deepEqual(tf.focusSessions[0].apps,['edge','teams','claude']);
   assert.deepEqual(tf.focusSessions[1].apps,['zen-browser','ghostty','slack','cursor']);
   assert.deepEqual(tf.focusSessions[2].apps,['zen-browser','ghostty','slack','codex']);
@@ -61,6 +63,24 @@ test('generated TF hotkeys, menus, native layouts and docs agree and have no ful
   assert.match(renderManual(c),/fs innovate/);assert.match(manualHTML(c),/TF macOS manual/);
   assert.ok(manualHTML(c).includes('href="https://brew.sh"'));
   assert.ok(!manualHTML(c).includes('href="https://brew.sh."'));
+});
+
+test('both profile guides include manual Session categories and explain automatic selection',()=>{
+  for(const id of ['fde','tf']) {
+    const c=resolveProfile(id);
+    for(const guide of [renderManual(c),manualHTML(c)]) {
+      assert.match(guide,/Session categories — human setup/);
+      assert.match(guide,/type @/);
+      assert.match(guide,/automatically pass categoryName/);
+      assert.match(guide,/create only missing ones/);
+      assert.match(guide,/session-url-scheme/);
+    }
+    const section=renderManual(c).split('## Session categories — human setup')[1].split('## Four desktops')[0];
+    assert.match(section,/\| Work \| fs work \|/);
+    assert.match(section,/\| Code \|/);
+    if(id==='tf')assert.match(section,/\| Innovate \| fs innovate — Codex \|/);
+    else {assert.match(section,/fs amp, fs claude, fs cursor and fs codex/);assert.ok(!section.includes('| Innovate |'));}
+  }
 });
 
 test('DockFlow name lookup refuses missing and duplicate names without applying anything',()=>{
