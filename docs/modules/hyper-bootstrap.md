@@ -1,5 +1,11 @@
 # Hyper setup on a new Mac
 
+> Optional setup: FDE/TF defaults do not install or Stow this productivity
+> configuration. Use `setup-workstation.sh plan|apply|check --profile fde|tf
+> --productivity` to opt in. Commands on this page explicitly configure the
+> productivity tools; omitting the flag on profile setup leaves them untouched.
+
+
 The native macOS layer keeps editing and app commands familiar. Caps Lock supplies
 Hyper for the approved app/window map. Right Option supplies Meh for shared actions
 and DockFlow numbers. CleanShot X is the capture tool, including Setapp installations.

@@ -5,7 +5,7 @@ Restore → Import Backup. These are native DockFlow exports, not Stow modules.
 
 FDE preserves the seven presets exported from the source Mac on September 9,
 2026. Missing apps and sparse media presets reflect that export; the media apps
-are not installed automatically. TF provides Default, Work, Code and Zen with
+are not installed automatically. TF provides Default, Work, Code, Innovate and Zen with
 minimal approved app lists. Finder is supplied by the Dock itself.
 
 Imports add presets. Export your existing setup privately first, and rename

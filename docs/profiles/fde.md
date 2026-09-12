@@ -1,6 +1,6 @@
 # FDE — Full developer environment
 
-Your keyboard-first macOS manual. Choose FDE for the full environment or TF for Tech Founder. Both use Hyperland, Alfred, Rectangle Pro, DockFlow and Session. Profile selection belongs to this Mac; the shared repository remains identical on every device.
+Your keyboard-first macOS manual. Choose FDE for the full environment or TF for Tech Founder. Both offer an optional productivity setup with Hyperland, Alfred, Rectangle Pro, DockFlow and Session. It is disabled by default. Profile selection belongs to this Mac; the shared repository remains identical on every device.
 
 ## Start on a new Mac
 
@@ -18,15 +18,33 @@ bash scripts/setup-workstation.sh check --profile fde
 
 Without --profile, an interactive terminal offers FDE / TF on first use. Later runs use the locally selected profile. Apply installs only missing packages and prints a backup path. Repeat apply after updates; it will refuse to overwrite edits made to managed generated files.
 
+## Optional productivity setup
+
+The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
+
+To opt in, add --productivity to each command:
+
+```sh
+bash scripts/setup-workstation.sh plan --profile fde --productivity
+bash scripts/setup-workstation.sh apply --profile fde --productivity
+bash scripts/setup-workstation.sh check --profile fde --productivity
+```
+
+This adds Alfred, Karabiner, Rectangle Pro, DockFlow, Session timers, focus sessions, window layouts, Google Workspace workflows and CleanShot integration. Karabiner and Session still require the guided installation below. Enabling the option does not start a focus session or quit apps.
+
+The flag is required on every run that manages productivity; a previous opt-in does not silently enable it later. Omitting it leaves existing productivity apps, links and preferences untouched, including during a profile switch. It does not uninstall or disable a previously configured setup. Core check deliberately skips productivity dependencies and permissions. Use the backup from the opt-in run to roll back its managed settings.
+
 ## What is installed
 
-General CLI tools are shared: git, node, stow, zsh, tmux, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete, opencode. Shell, prompt, terminal and editor modules are Stow-managed. Homebrew GUI packages: font-jetbrains-mono-nerd-font, alfred, rectangle-pro, dockflow, ghostty, google-chrome, microsoft-edge, microsoft-teams, claude, obsidian, cleanshot, cursor, chatgpt, slack, microsoft-word, microsoft-excel, microsoft-powerpoint, claude-code. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
+General CLI tools are shared: git, node, stow, zsh, tmux, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete, opencode. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: font-jetbrains-mono-nerd-font, ghostty, google-chrome, microsoft-edge, microsoft-teams, claude, obsidian, cursor, chatgpt, slack, microsoft-word, microsoft-excel, microsoft-powerpoint, claude-code. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
 
 FDE keeps all four Code variations and the full app map. Existing Claude/Codex/Cursor/OpenCode configuration modules remain available in the repository; agent trust/auth settings are an explicit personal setup step, not copied to colleagues by this installer.
 
 Git and gh are installed, but personal Git identity, SSH, signing and credential configuration are retained on this Mac and never copied from the repository. Set up your own identity and account separately. No authentication or license information is included in either profile.
 
-## Karabiner: official installer
+## Productivity: Karabiner official installer
+
+Everything from this section through the workflow reference is optional and requires --productivity. Without it, keep your preferred launcher, shortcuts and window manager. Install the native Amp app separately from https://ampcode.com/app.
 
 1. Visit https://karabiner-elements.pqrs.org/ and download the stable DMG suitable for your macOS version. The setup command prints this link when it is missing.
 2. Open the DMG, then Karabiner-Elements.pkg. Complete macOS Installer and enter administrator credentials directly.
@@ -38,7 +56,7 @@ Karabiner is deliberately excluded from Homebrew installation. An existing healt
 
 ## Complete the apps on each Mac
 
-1. Alfred: activate Powerpack; Advanced → Set preferences folder → ~/.config/alfred. Restart Alfred. Rerun apply to set this machine's Command+Space launcher and Meh feature keys. Disable Spotlight's Command+Space and any Raycast launcher/Hyper bindings that overlap.
+1. Alfred: activate Powerpack; Advanced → Set preferences folder → ~/.config/alfred. Restart Alfred. Rerun apply with --productivity to set this machine's Command+Space launcher and Meh feature keys. Disable Spotlight's Command+Space and any Raycast launcher/Hyper bindings that overlap.
 2. Rectangle Pro: activate, grant Accessibility, enable login, then App Settings → Import Config → ~/.config/rectangle-pro/RectangleProConfig.json. Repeat this import after changing profiles or updating layouts; Stow alone does not apply native Rectangle settings.
 3. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation, enable login and review breathing/break settings. Do not install the Homebrew session cask: it is an unrelated messenger.
 4. Amp: install the native Mac app from https://ampcode.com/app. The CLI alone does not satisfy the Amp window layout. Sign in directly in the app.
@@ -55,7 +73,7 @@ Karabiner is deliberately excluded from Homebrew installation. An existing healt
 
 Owned Hyper, DockFlow Profiles and Google Workspace workflows are generated automatically, with author Rahul N Akmol and icons. Third-party workflows keep their own authors and names. Their existing installations are retained in that profile's private preferences bundle.
 
-## Four desktops and two working Spaces
+## Four desktops and working Spaces
 
 Create four desktops in Mission Control. Then run the existing helper:
 
@@ -70,7 +88,7 @@ Log out and back in after changing Mission Control settings. In each app's Dock 
 Code arrangement:
 
 ```text
-Desktop 1: [ Chrome / Obsidian  2/3 ][ Ghostty 1/3 ]
+Desktop 1: [ Chrome / Obsidian          2/3 ][ Ghostty 1/3 ]
 Desktop 2: [ chosen coding app maximized                  ]
 Desktop 3 and 4: available for other tasks
 ```
@@ -143,7 +161,7 @@ Choose ss 20 or ss 25 for a Pomodoro timer. These are single sessions; they do n
 
 ## Hyper and Meh
 
-Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF.
+Hold Caps Lock for Hyper (Control+Option+Command+Shift); tap for Escape. Hold Right Option for Meh (Control+Option+Shift). Left Option remains Option. Shared app keys never change when switching FDE and TF. Hyper+D opens the browser: Chrome in FDE, Zen Browser in TF.
 
 | Hyper + | App |
 | --- | --- |
@@ -244,15 +262,15 @@ Command+Space belongs to Alfred. Capture shortcuts belong to CleanShot. Command+
 5. Test dp work and dp code. Name-based selection discovers the current preset rather than reusing another Mac's IDs. Duplicate/missing names produce an actionable error.
 6. To share later edits, export selected presets without folders to a private temporary location. Use scripts/sanitize-dockflow.mjs to create a sanitized export, review the diff, then commit the pack. Never Stow DockFlow's live database.
 
-FDE has seven presets; TF has Default, Work, Code and Zen only. Switching an existing FDE Mac to TF hides extra presets in Alfred but leaves the saved DockFlow library intact. Rename/archive old presets manually if desired. Export JSON uses DockFlow's native schema, not a made-up format.
+FDE has seven presets; TF has Default, Work, Code, Innovate and Zen. Switching an existing FDE Mac to TF hides extra presets in Alfred but leaves the saved DockFlow library intact. Rename/archive old presets manually if desired. Export JSON uses DockFlow's native schema, not a made-up format.
 
 ## Updates, profile switching and rollback
 
-After pulling reviewed changes, rerun plan, apply and check with the same profile. Profile-generated source lives under ~/.local/share/dotfiles/workstations/fde; ~/.config links are managed by GNU Stow. Source definitions, exports and this documentation are versioned in dotfiles. Histories, local preferences and generated activation journals stay on this Mac.
+After pulling reviewed changes, rerun plan, apply and check with the same profile. Include --productivity only when you want to update the optional automation setup. Profile-generated source lives under ~/.local/share/dotfiles/workstations/fde; ~/.config links are managed by GNU Stow. Source definitions, exports and this documentation are versioned in dotfiles. Histories, local preferences and generated activation journals stay on this Mac.
 
-To switch, run apply --profile tf. Only links owned by this checkout or its managed profile folders may be replaced. Other files cause a conflict. Each profile keeps its own Alfred preferences and third-party workflows; switching back restores access to its previous preferences. On the first migration from the legacy dotfiles Alfred folder, that folder remains intact; select/install the needed utility workflows in the new profile. No private workflow variables or histories are copied automatically.
+To switch core settings, run apply --profile tf. Add --productivity to switch the automation settings as well. Only links owned by this checkout or its managed profile folders may be replaced. Other files cause a conflict. Each profile keeps its own Alfred preferences and third-party workflows; switching back restores access to its previous preferences. On the first migration from the legacy dotfiles Alfred folder, that folder remains intact; select/install the needed utility workflows in the new profile. No private workflow variables or histories are copied automatically.
 
-After switching, reconnect Alfred to ~/.config/alfred and restart it, import the new Rectangle snapshot and chosen DockFlow pack, then run check. Check reports machine-local steps as unverified until physically tested; it never equates file correctness with permissions or a login test.
+After switching productivity profiles, reconnect Alfred to ~/.config/alfred and restart it, import the new Rectangle snapshot and chosen DockFlow pack, then run check with --productivity. Check reports machine-local steps as unverified until physically tested; it never equates file correctness with permissions or a login test.
 
 ```sh
 bash scripts/setup-workstation.sh rollback BACKUP_DIRECTORY
@@ -262,7 +280,9 @@ Rollback restores managed files, links, profile selection and narrowly managed A
 
 ## Verification and troubleshooting
 
-1. check must report no file/link drift, missing packages, required apps or preset names. Complete any remaining guided requirements.
+For the default setup, check validates only core settings and role apps. The following checks apply after opting into productivity.
+
+1. check --productivity must report no file/link drift, missing packages, required apps or preset names. Complete any remaining guided requirements.
 2. Test physical Caps Lock, Right Option, application launch keys, the four desktop shortcuts, and Meh numbers.
 3. Test wl work and wl Code Amp; windows should land on their assigned desktops. If they land elsewhere, repair native Dock assignments and ensure automatic Space rearrangement is disabled.
 4. With work saved, test fs work (30 minutes) and fs amp (45). Resolve prompts; verify the countdown in Session. Check unrelated apps closed and support tools stayed open.

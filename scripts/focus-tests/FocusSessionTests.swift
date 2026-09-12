@@ -125,19 +125,35 @@ struct FocusTests {
         }
         if CommandLine.arguments.count > 2 {
             let tf = try JSONDecoder().decode([FocusSession].self, from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[2])))
-            assert(tf.map(\.id) == ["work", "amp"])
+            assert(tf.map(\.id) == ["work", "code", "innovate"])
             assert(tf[0].apps.map(\.id) == ["edge", "teams", "claude"])
-            assert(tf[1].apps.map(\.id) == ["chrome", "ghostty", "amp"])
+            assert(tf[1].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "cursor"])
+            assert(tf[2].apps.map(\.id) == ["zen-browser", "ghostty", "slack", "codex"])
             for target in tf {
                 let desktop = populatedDesktop()
                 try switchFocus(target.id, sessions: tf, desktop: desktop)
                 assert(desktop.events.first == "check-dock:" + target.dockName!)
                 assert(desktop.events.contains("dock:" + target.dockName!))
                 assert(desktop.events.last == "url:" + target.timerURL)
+                for app in target.apps { assert(!desktop.events.contains("quit:" + app.id)) }
+                assert(Set(desktop.running.map(\.bundleId)).isSubset(of: Set(target.apps.map(\.bundleId)).union(focusSupportBundleIds)))
+                assert(desktop.events.filter { $0.hasPrefix("open:") } == target.apps.map { "open:" + $0.id })
+                if let pair = target.pairLayoutURL {
+                    assert(desktop.events.firstIndex(of: "url:" + pair)! < desktop.events.firstIndex(of: "open:" + target.apps.last!.id)!)
+                }
                 let missing = populatedDesktop(); missing.dockMissing = true
                 do { try switchFocus(target.id, sessions: tf, desktop: missing); assertionFailure("Missing Dock preset should stop") } catch {}
                 assert(missing.events.isEmpty, "Dock preflight happens before quitting")
             }
+            let switching = FakeDesktop()
+            try switchFocus("code", sessions: tf, desktop: switching)
+            switching.events = []
+            try switchFocus("innovate", sessions: tf, desktop: switching)
+            assert(switching.events.filter { $0.hasPrefix("quit:") } == ["quit:cursor"])
+            assert(switching.events.last == "url:" + tf[2].timerURL)
+            switching.events = []
+            try switchFocus("code", sessions: tf, desktop: switching)
+            assert(switching.events.filter { $0.hasPrefix("quit:") } == ["quit:codex"])
         }
         print("Focus session scenarios passed: exact five sets, preflight, cancellation, unrelated-app quits, support-app preservation, reselection, remaining-app barrier, launch failure and invalid input")
     }

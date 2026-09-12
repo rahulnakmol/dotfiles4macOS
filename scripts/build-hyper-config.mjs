@@ -149,7 +149,7 @@ export function buildWorkflow(config, dockflow) {
   connect(list('menu-focus', 'fs', focusItems, 'Switch focus session'), focusDispatch);
   connect(list('menu-timers', 'ss', timerItems, 'Session Timer'), dispatch);
   connect(hotkey('menu-hotkey', 'Space', 49), 'menu');
-  for (const mode of ['work', 'code', 'zen', 'default']) {
+  for (const mode of [...new Set(['work', 'code', 'zen', 'default', ...config.layouts.map(l=>l.mode).filter(Boolean)])]) {
     const selected = config.layouts.filter((l) => l.mode === mode);
     const values = selected.map((l) => items.find((item) => item.arg === `layout:${l.name}`));
     connect(list(`menu-${mode}`, mode, values, `${mode[0].toUpperCase()}${mode.slice(1)} layouts`), dispatch);

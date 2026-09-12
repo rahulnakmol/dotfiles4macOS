@@ -11,7 +11,7 @@ test('native focus switching preserves quit barriers and the five requested app 
   const binary=join(temp,'tests');
   execFileSync('xcrun',['swiftc','-module-cache-path',join(temp,'module-cache'),'-D','FOCUS_TEST','-parse-as-library',workflow+'FocusSession.swift',new URL('./focus-tests/FocusSessionTests.swift',import.meta.url).pathname,'-o',binary]);
   const tf=join(temp,'tf.json');
-  writeFileSync(tf,workstationFiles('tf').get('alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-sessions.json'));
+  writeFileSync(tf,workstationFiles('tf',{productivity:true}).get('alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/focus-sessions.json'));
   const result=execFileSync(binary,[workflow+'focus-sessions.json',tf],{encoding:'utf8'});
   assert.match(result,/Focus session scenarios passed/);
   const executable=join(temp,'focus-session');

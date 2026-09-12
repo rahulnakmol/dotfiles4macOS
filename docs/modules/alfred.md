@@ -1,5 +1,11 @@
 # Alfred migration on macOS
 
+> Optional setup: FDE/TF defaults do not install or Stow this productivity
+> configuration. Use `setup-workstation.sh plan|apply|check --profile fde|tf
+> --productivity` to opt in. Commands on this page explicitly configure the
+> productivity tools; omitting the flag on profile setup leaves them untouched.
+
+
 Status: migration in progress, September 7, 2026. Alfred 5.7.3 is installed through
 Homebrew. Its preferences location is `~/.dotfiles/alfred/.config/alfred`, also
 reachable through the Stow directory link `~/.config/alfred`. Raycast remains

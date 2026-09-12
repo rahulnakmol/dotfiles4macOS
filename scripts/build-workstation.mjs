@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { resolveProfile } from './workstation-profiles.mjs';
+import { resolveProfile, commonModules } from './workstation-profiles.mjs';
 import { buildKarabiner, buildRectangle, buildWorkflow, buildGoogleWorkspace } from './build-hyper-config.mjs';
 import { renderManual, manualHTML } from './workstation-manual.mjs';
 
@@ -31,50 +31,57 @@ export function buildDockWorkflow(config) {
 }
 
 // Only reviewed tracked source is copied; no local settings, licenses or runtime databases.
-export function workstationFiles(id) {
-  const config=resolveProfile(id), files=new Map();
+export function workstationFiles(id, options={}) {
+  const config=resolveProfile(id,options), files=new Map();
   const put=(p,value)=>files.set(p,Buffer.isBuffer(value)?value:Buffer.from(value));
   const data=(p,value)=>put(p,JSON.stringify(value,null,2)+'\n');
-  const tracked=execFileSync('git',['ls-files','-z','--',...config.install.modules],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
+  const tracked=execFileSync('git',['ls-files','-z','--',...commonModules],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
   for (const path of tracked) put(path,read(path));
-  data('scripts/hyper-config.json',config); // Existing narrow Alfred preference planner consumes this.
-  data('karabiner/.config/karabiner/karabiner.json',buildKarabiner(json('karabiner/.config/karabiner/karabiner.json'),config));
-  data('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json',buildRectangle(json('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json'),config));
-  const hyper=buildWorkflow(config,{objects:[]});
-  hyper.plist.readme=renderManual(config);
-  hyper.plist.name='Hyper';
-  hyper.plist.description=config.setupProfile+' — apps, focus sessions and layouts';
-  // Alfred does not inherit a login shell's Homebrew PATH.
-  for (const o of hyper.plist.objects.filter(o=>o.type==='alfred.workflow.action.script')) o.config.script='export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"\n'+o.config.script;
-  put(`${wf}/user.workflow.hyper/info.plist`,xml(hyper.plist));
-  put(`${wf}/user.workflow.hyper/dispatch.zsh`,hyper.script);
-  put(`${wf}/user.workflow.hyper/guide.html`,manualHTML(config));
-  const url=(s)=>s?'rectangle-pro://execute-layout?name='+encodeURIComponent(s):null;
-  data(`${wf}/user.workflow.hyper/focus-sessions.json`,config.focusSessions.map(s=>({
-    id:s.id,name:s.name,durationMinutes:s.durationMinutes,apps:s.apps.map(id=>config.apps.find(a=>a.id===id)),
-    dockName:config.dockPresets.find(p=>p.id===s.mode)?.name??null,dockURL:null,pairLayoutURL:url(s.pairLayout),layoutURL:url(s.layout),
-  })));
-  for (const name of ['FocusSession.swift','focus-session.zsh','icon.png']) put(`${wf}/user.workflow.hyper/${name}`,read(`${wf}/user.workflow.hyper/${name}`));
-  put(`${wf}/user.workflow.dockflow-profiles/info.plist`,xml(buildDockWorkflow(config)));
-  put(`${wf}/user.workflow.google-workspace/info.plist`,xml(buildGoogleWorkspace(plist(`${wf}/user.workflow.google-workspace/info.plist`))));
-  for (const name of ['dockflow-profiles','google-workspace']) put(`${wf}/user.workflow.${name}/icon.png`,read(`${wf}/user.workflow.${name}/icon.png`));
-  for (const name of ['hyper','dockflow-profiles']) {
-    put(`${wf}/user.workflow.${name}/dockflow.mjs`,read('scripts/dockflow.mjs'));
-    data(`${wf}/user.workflow.${name}/dock-presets.json`,config.dockPresets);
+  if(config.productivity) {
+    data('scripts/hyper-config.json',config); // Existing narrow Alfred preference planner consumes this.
+    const keyboard=buildKarabiner(json('karabiner/.config/karabiner/karabiner.json'),config);
+    if(config.setupProfile==='TF')for(const profile of keyboard.profiles)for(const rule of profile.complex_modifications.rules)for(const manipulator of rule.manipulators)for(const condition of manipulator.conditions??[]) {
+      if(condition.bundle_identifiers)condition.bundle_identifiers=condition.bundle_identifiers.map(id=>id==='^com\\.google\\.Chrome$'?'^app\\.zen-browser\\.zen$':id);
+    }
+    data('karabiner/.config/karabiner/karabiner.json',keyboard);
+    data('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json',buildRectangle(json('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json'),config));
+    const hyper=buildWorkflow(config,{objects:[]});
+    hyper.plist.readme=renderManual(config);
+    hyper.plist.name='Hyper';
+    hyper.plist.description=config.setupProfile+' — apps, focus sessions and layouts';
+    // Alfred does not inherit a login shell's Homebrew PATH.
+    for (const o of hyper.plist.objects.filter(o=>o.type==='alfred.workflow.action.script')) o.config.script='export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"\n'+o.config.script;
+    put(`${wf}/user.workflow.hyper/info.plist`,xml(hyper.plist));
+    put(`${wf}/user.workflow.hyper/dispatch.zsh`,hyper.script);
+    put(`${wf}/user.workflow.hyper/guide.html`,manualHTML(config));
+    const url=(s)=>s?'rectangle-pro://execute-layout?name='+encodeURIComponent(s):null;
+    data(`${wf}/user.workflow.hyper/focus-sessions.json`,config.focusSessions.map(s=>({
+      id:s.id,name:s.name,durationMinutes:s.durationMinutes,apps:s.apps.map(id=>config.apps.find(a=>a.id===id)),
+      dockName:config.dockPresets.find(p=>p.id===s.mode)?.name??null,dockURL:null,pairLayoutURL:url(s.pairLayout),layoutURL:url(s.layout),
+    })));
+    for (const name of ['FocusSession.swift','focus-session.zsh','icon.png']) put(`${wf}/user.workflow.hyper/${name}`,read(`${wf}/user.workflow.hyper/${name}`));
+    put(`${wf}/user.workflow.dockflow-profiles/info.plist`,xml(buildDockWorkflow(config)));
+    put(`${wf}/user.workflow.google-workspace/info.plist`,xml(buildGoogleWorkspace(plist(`${wf}/user.workflow.google-workspace/info.plist`))));
+    for (const name of ['dockflow-profiles','google-workspace']) put(`${wf}/user.workflow.${name}/icon.png`,read(`${wf}/user.workflow.${name}/icon.png`));
+    for (const name of ['hyper','dockflow-profiles']) {
+      put(`${wf}/user.workflow.${name}/dockflow.mjs`,read('scripts/dockflow.mjs'));
+      data(`${wf}/user.workflow.${name}/dock-presets.json`,config.dockPresets);
+    }
   }
   put('guide.html',manualHTML(config));
   put('README.md',renderManual(config));
   return files;
 }
 
-export function writeWorkstation(id, destination) {
-  const files=workstationFiles(id);
+export function writeWorkstation(id, destination, options={}) {
+  const files=workstationFiles(id,options);
   for (const [path,content] of files) {mkdirSync(dirname(join(destination,path)),{recursive:true});writeFileSync(join(destination,path),content);}
   return files;
 }
 if (process.argv[1]===fileURLToPath(import.meta.url)) {
-  const [id,destination]=process.argv.slice(2);
-  if (!destination) throw new Error('Usage: node scripts/build-workstation.mjs fde|tf OUTPUT_DIRECTORY');
-  writeWorkstation(id,destination);
+  const [id,destination,...flags]=process.argv.slice(2);
+  if(flags.some(f=>f!=='--productivity'))throw new Error('Only --productivity is supported');
+  if (!destination) throw new Error('Usage: node scripts/build-workstation.mjs fde|tf OUTPUT_DIRECTORY [--productivity]');
+  writeWorkstation(id,destination,{productivity:flags.includes('--productivity')});
   console.log('Built '+resolveProfile(id).setupProfile+' at '+destination);
 }

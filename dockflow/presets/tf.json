@@ -47,12 +47,12 @@
   },
   {
     "name": "2. Code",
-    "apps": "[\"file:///Applications/Google%20Chrome.app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Amp.app/\"]",
+    "apps": "[\"file:///Applications/Zen.app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Slack.app/\",\"file:///Applications/Cursor.app/\"]",
     "folderStacks": [],
     "appMetadata": {
-      "file:///Applications/Google%20Chrome.app/": {
-        "bundleIdentifier": "com.google.Chrome",
-        "appName": "Google Chrome",
+      "file:///Applications/Zen.app/": {
+        "bundleIdentifier": "app.zen-browser.zen",
+        "appName": "Zen",
         "appType": "regular"
       },
       "file:///Applications/Ghostty.app/": {
@@ -60,9 +60,42 @@
         "appName": "Ghostty",
         "appType": "regular"
       },
-      "file:///Applications/Amp.app/": {
-        "bundleIdentifier": "com.ampcode.amp.macos",
-        "appName": "Amp",
+      "file:///Applications/Slack.app/": {
+        "bundleIdentifier": "com.tinyspeck.slackmacgap",
+        "appName": "Slack",
+        "appType": "regular"
+      },
+      "file:///Applications/Cursor.app/": {
+        "bundleIdentifier": "com.todesktop.230313mzl4w4u92",
+        "appName": "Cursor",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  {
+    "name": "3. Innovate",
+    "apps": "[\"file:///Applications/Zen.app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Slack.app/\",\"file:///Applications/ChatGPT.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Zen.app/": {
+        "bundleIdentifier": "app.zen-browser.zen",
+        "appName": "Zen",
+        "appType": "regular"
+      },
+      "file:///Applications/Ghostty.app/": {
+        "bundleIdentifier": "com.mitchellh.ghostty",
+        "appName": "Ghostty",
+        "appType": "regular"
+      },
+      "file:///Applications/Slack.app/": {
+        "bundleIdentifier": "com.tinyspeck.slackmacgap",
+        "appName": "Slack",
+        "appType": "regular"
+      },
+      "file:///Applications/ChatGPT.app/": {
+        "bundleIdentifier": "com.openai.codex",
+        "appName": "ChatGPT",
         "appType": "regular"
       }
     },

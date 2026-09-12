@@ -14,10 +14,21 @@ bash scripts/setup-workstation.sh apply --profile tf
 bash scripts/setup-workstation.sh check --profile tf
 ```
 
-Use `fde` for the full setup; `tf` provides Claude Desktop + Amp and four DockFlow
-presets. Both include the shared CLI toolkit and productivity workflows. Selection
+Use `fde` for the full setup; `tf` provides Claude Desktop, Cursor, Codex and Zen Browser, with five DockFlow
+presets when productivity is enabled. Both include the shared CLI toolkit and role apps. Selection
 is local to each Mac. Karabiner uses its official DMG/PKG installer, not Homebrew.
-Amp's native app and the correct Session focus timer have guided installation.
+FDE's native Amp app has guided installation. TF uses Code + Cursor and Innovate + Codex. Productivity is **opt-in**: default
+setup does not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow,
+CleanShot or Session management. Add `--productivity` to each `plan`, `apply`
+and `check` command to include them. Without that flag, existing productivity
+settings remain untouched, even when changing FDE/TF profiles.
+
+```sh
+bash scripts/setup-workstation.sh plan --profile tf --productivity
+bash scripts/setup-workstation.sh apply --profile tf --productivity
+bash scripts/setup-workstation.sh check --profile tf --productivity
+```
+
 Your existing setup is retained until you explicitly apply a profile. Personal
 Git/SSH/signing, credentials, agent trust settings and licenses are never copied
 to a colleague by this installer.
