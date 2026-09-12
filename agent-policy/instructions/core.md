@@ -2,6 +2,10 @@
 
 Enterprise architecture practice, multi-cloud across Azure and GCP.
 
+## Output style
+
+Be concise. Preserve exact code, commands, paths, errors, security warnings, and necessary reasoning. Omit filler, repetition, narration, and summaries that add no new information.
+
 ## Architecture principles
 - Decompose by bounded context, not by layer. Name modules after the domain, never the tech.
 - Event-driven and asynchronous over point-to-point. A new synchronous dependency needs a reason.

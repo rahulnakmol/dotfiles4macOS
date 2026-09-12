@@ -92,3 +92,21 @@ User-level rules in `~/.claude/rules/` use CSV-string `paths:` instead of YAML a
 ```yaml
 paths: "**/*.py,**/requirements*.txt,**/pyproject.toml"
 ```
+
+## ISO output styles
+
+Two selectable styles live in `.claude/output-styles/`:
+
+- **ISO 24495 Plain Language** (`iso-24495.md`): reader-focused, clear, actionable prose.
+- **ISO 2651x Technical Documentation** (`iso-2651x.md`): task-oriented software documentation, anchored on ISO/IEC/IEEE 26514:2022.
+
+Run `stow claude`, then use `/config` → Output style and start a new session.
+Both preserve coding instructions with `keep-coding-instructions: true`.
+No default is selected by this addition. These are practical adaptations of the
+public ISO summaries, not reproductions of the standards or compliance claims.
+
+See [ISO 24495-1](https://www.iso.org/standard/78907.html),
+[ISO/IEC/IEEE 26514](https://www.iso.org/standard/77451.html), and
+[Claude output styles](https://code.claude.com/docs/en/output-styles).
+The equivalent Codex profile bodies are checked for exact parity by
+`scripts/test-codex-config.py`.

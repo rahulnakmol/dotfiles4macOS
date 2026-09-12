@@ -62,6 +62,10 @@ claude/.claude/*
 !claude/.claude/statusline.sh
 !claude/.claude/CLAUDE.md
 !claude/.claude/rules/
+!claude/.claude/output-styles/
+claude/.claude/output-styles/*
+!claude/.claude/output-styles/iso-24495.md
+!claude/.claude/output-styles/iso-2651x.md
 # skills/ intentionally not un-ignored — installed, not vendored
 
 # Cursor — ship user rules + ignore-anchor files only
@@ -129,6 +133,8 @@ codex/.codex/*
 !codex/.codex/config.toml
 !codex/.codex/hooks.json
 !codex/.codex/keybindings.json
+!codex/.codex/iso-24495.config.toml
+!codex/.codex/iso-2651x.config.toml
 !codex/.codex/rules/
 codex/.codex/rules/*
 !codex/.codex/rules/dotfiles.rules
