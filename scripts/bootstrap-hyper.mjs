@@ -136,7 +136,8 @@ function main() {
     console.log('Restored only this run’s managed preferences and new links. Restart Alfred to reload. Installed software and personal data are retained.');return;
   }
   const plan=makePlan(root,home,localId);
-  const packages=[['Alfred 5','alfred'],['Karabiner-Elements','karabiner-elements'],['Rectangle Pro','rectangle-pro']];
+  const packages=[['Alfred 5','alfred'],['Rectangle Pro','rectangle-pro']];
+  const karabinerReady=appPresent(['Karabiner-Elements']);
   const missingApps=packages.filter(([name])=>!appPresent([name]));
   const stowReady=spawnSync('which',['stow']).status===0;
   const captureReady=appPresent(['CleanShot X']);
@@ -152,6 +153,7 @@ function main() {
   const connected=alfredLocation?.current && exists(alfredLocation.current) && realpathSync(alfredLocation.current)===realpathSync(expectedPrefs);
   const report={mode,alfredConnected:Boolean(connected),missingWorkflows,profile:'Hyperland',localSettingsReady:plan.localReady,missingPackages:[...(stowReady?[]:['stow']),...missingApps.map(([,cask])=>cask)],cleanShotInstalled:captureReady,conflicts:plan.conflicts,preferencesToChange:plan.patches.filter((p)=>p.changes.length).map((p)=>({path:p.path,keys:p.changes})),linksToCreate:plan.links.filter((p)=>!exists(p.path)).map((p)=>p.path)};
   console.log(JSON.stringify(report,null,2));
+  if(!karabinerReady)console.log('Install Karabiner from https://karabiner-elements.pqrs.org/: open the official DMG, run Karabiner-Elements.pkg, and complete the driver/services/input prompts. Homebrew is not used for Karabiner.');
   if (mode==='apply') {
     if (plan.conflicts.length) throw new Error('Resolve reported Stow conflicts before apply; nothing changed');
     if ((!stowReady || missingApps.length) && spawnSync('which',['brew']).status!==0) throw new Error('Install Homebrew from brew.sh, then rerun apply');
@@ -166,7 +168,7 @@ function main() {
   if (mode==='check') {
     run('node',[join(root,'scripts/build-hyper-config.mjs'),'--check']);
     run('node',[join(root,'scripts/render-hyper-guide.mjs'),'--check']);
-    const pending=plan.conflicts.length || !plan.localReady || report.preferencesToChange.length || report.linksToCreate.length || missingApps.length || !stowReady || !captureReady || !connected || missingWorkflows.length;
+    const pending=plan.conflicts.length || !karabinerReady || !plan.localReady || report.preferencesToChange.length || report.linksToCreate.length || missingApps.length || !stowReady || !captureReady || !connected || missingWorkflows.length;
     console.log(pending?'Managed setup has pending items.':'Managed files, feature preferences, links and installed core apps match.');
     if (pending) process.exitCode=1;
   }

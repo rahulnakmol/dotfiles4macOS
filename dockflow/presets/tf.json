@@ -1,0 +1,122 @@
+[
+  {
+    "name": "0. Default",
+    "apps": "[\"file:///Applications/Safari.app/\",\"file:///Applications/Claude.app/\",\"file:///Applications/Obsidian.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Safari.app/": {
+        "bundleIdentifier": "com.apple.Safari",
+        "appName": "Safari",
+        "appType": "regular"
+      },
+      "file:///Applications/Claude.app/": {
+        "bundleIdentifier": "com.anthropic.claudefordesktop",
+        "appName": "Claude",
+        "appType": "regular"
+      },
+      "file:///Applications/Obsidian.app/": {
+        "bundleIdentifier": "md.obsidian",
+        "appName": "Obsidian",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  {
+    "name": "1. Work",
+    "apps": "[\"file:///Applications/Microsoft%20Edge.app/\",\"file:///Applications/Microsoft%20Teams.app/\",\"file:///Applications/Claude.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Microsoft%20Edge.app/": {
+        "bundleIdentifier": "com.microsoft.edgemac",
+        "appName": "Microsoft Edge",
+        "appType": "regular"
+      },
+      "file:///Applications/Microsoft%20Teams.app/": {
+        "bundleIdentifier": "com.microsoft.teams2",
+        "appName": "Microsoft Teams",
+        "appType": "regular"
+      },
+      "file:///Applications/Claude.app/": {
+        "bundleIdentifier": "com.anthropic.claudefordesktop",
+        "appName": "Claude",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  {
+    "name": "2. Code",
+    "apps": "[\"file:///Applications/Zen.app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Slack.app/\",\"file:///Applications/Cursor.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Zen.app/": {
+        "bundleIdentifier": "app.zen-browser.zen",
+        "appName": "Zen",
+        "appType": "regular"
+      },
+      "file:///Applications/Ghostty.app/": {
+        "bundleIdentifier": "com.mitchellh.ghostty",
+        "appName": "Ghostty",
+        "appType": "regular"
+      },
+      "file:///Applications/Slack.app/": {
+        "bundleIdentifier": "com.tinyspeck.slackmacgap",
+        "appName": "Slack",
+        "appType": "regular"
+      },
+      "file:///Applications/Cursor.app/": {
+        "bundleIdentifier": "com.todesktop.230313mzl4w4u92",
+        "appName": "Cursor",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  {
+    "name": "3. Innovate",
+    "apps": "[\"file:///Applications/Zen.app/\",\"file:///Applications/Ghostty.app/\",\"file:///Applications/Slack.app/\",\"file:///Applications/ChatGPT.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Zen.app/": {
+        "bundleIdentifier": "app.zen-browser.zen",
+        "appName": "Zen",
+        "appType": "regular"
+      },
+      "file:///Applications/Ghostty.app/": {
+        "bundleIdentifier": "com.mitchellh.ghostty",
+        "appName": "Ghostty",
+        "appType": "regular"
+      },
+      "file:///Applications/Slack.app/": {
+        "bundleIdentifier": "com.tinyspeck.slackmacgap",
+        "appName": "Slack",
+        "appType": "regular"
+      },
+      "file:///Applications/ChatGPT.app/": {
+        "bundleIdentifier": "com.openai.codex",
+        "appName": "ChatGPT",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  {
+    "name": "9. Zen",
+    "apps": "[\"file:///Applications/Obsidian.app/\",\"file:///Applications/Claude.app/\"]",
+    "folderStacks": [],
+    "appMetadata": {
+      "file:///Applications/Obsidian.app/": {
+        "bundleIdentifier": "md.obsidian",
+        "appName": "Obsidian",
+        "appType": "regular"
+      },
+      "file:///Applications/Claude.app/": {
+        "bundleIdentifier": "com.anthropic.claudefordesktop",
+        "appName": "Claude",
+        "appType": "regular"
+      }
+    },
+    "createdAt": "2026-09-09T00:00:00Z"
+  }
+]

@@ -2,6 +2,37 @@
 
 Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Catppuccin Macchiato theme across all tools. Homebrew as primary package manager.
 
+## Choose your setup: FDE or TF
+
+New machines should start with the [FDE manual](docs/profiles/fde.md) or
+[TF (Tech Founder) manual](docs/profiles/tf.md). Browser guides:
+[FDE](docs/profiles/fde.html) · [TF](docs/profiles/tf.html).
+
+```sh
+bash scripts/setup-workstation.sh plan --profile tf
+bash scripts/setup-workstation.sh apply --profile tf
+bash scripts/setup-workstation.sh check --profile tf
+```
+
+Use `fde` for the full setup; `tf` provides Claude Desktop, Cursor, Codex and Zen Browser, with five DockFlow
+presets when productivity is enabled. Both include the shared CLI toolkit and role apps. Selection
+is local to each Mac. Karabiner uses its official DMG/PKG installer, not Homebrew.
+FDE's native Amp app has guided installation. TF uses Code + Cursor and Innovate + Codex. Productivity is **opt-in**: default
+setup does not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow,
+CleanShot or Session management. Add `--productivity` to each `plan`, `apply`
+and `check` command to include them. Without that flag, existing productivity
+settings remain untouched, even when changing FDE/TF profiles.
+
+```sh
+bash scripts/setup-workstation.sh plan --profile tf --productivity
+bash scripts/setup-workstation.sh apply --profile tf --productivity
+bash scripts/setup-workstation.sh check --profile tf --productivity
+```
+
+Your existing setup is retained until you explicitly apply a profile. Personal
+Git/SSH/signing, credentials, agent trust settings and licenses are never copied
+to a colleague by this installer.
+
 [Hotkeys manual](docs/hotkeys.md) · [Standalone visual guide](docs/hotkeys.html) — Hyper, Meh, focus sessions, layouts and fresh-Mac setup.
 
 ## Modules
@@ -82,7 +113,7 @@ brew install node go rustup dotnet     # Language runtimes
 brew install stylua                    # Lua formatter
 brew install azure-cli                 # Azure CLI
 brew install mas                       # Mac App Store CLI
-brew install --cask alfred rectangle-pro karabiner-elements # Launcher and window shortcuts
+brew install --cask alfred rectangle-pro # Launcher and window shortcuts
 ```
 
 ## Post-Install

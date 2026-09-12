@@ -1,5 +1,13 @@
 # Fresh Machine Setup
 
+For a new Mac, use the profile-aware [FDE](../profiles/fde.md) or
+[TF (Tech Founder)](../profiles/tf.md) guide. Those installers replace the
+unconditional app list below. Alfred, Karabiner, Rectangle Pro, DockFlow and
+Session management are optional: add `--productivity` to the profile commands
+to install and Stow that setup. Defaults leave those settings untouched. The remainder of this page is a legacy, manual
+module reference for existing personal installations; do not run its AI or
+credential module commands on a TF machine.
+
 Step-by-step guide to deploying this dotfiles repo on a new Mac.
 
 ---

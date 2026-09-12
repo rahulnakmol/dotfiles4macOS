@@ -1,5 +1,11 @@
 # Hyper on macOS
 
+> Optional setup: FDE/TF defaults do not install or Stow this productivity
+> configuration. Use `setup-workstation.sh plan|apply|check --profile fde|tf
+> --productivity` to opt in. Commands on this page explicitly configure the
+> productivity tools; omitting the flag on profile setup leaves them untouched.
+
+
 The single Karabiner profile is **Hyperland**. Hold Caps Lock for Hyper
 (Control+Option+Command+Shift); tap it for Escape. Right Option is Meh
 (Control+Option+Shift) for shared tools and DockFlow; Left Option remains normal. This setup borrows Omarchy's
@@ -182,7 +188,7 @@ and the [Rectangle maintainer's explanation](https://github.com/rxhanson/Rectang
 ## Move to another Mac
 
 ```sh
-brew install --cask alfred karabiner-elements rectangle-pro
+brew install --cask alfred rectangle-pro
 cd ~/.dotfiles
 stow -n -v alfred karabiner rectangle-pro
 stow alfred karabiner rectangle-pro

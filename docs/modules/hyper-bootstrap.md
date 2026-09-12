@@ -1,5 +1,11 @@
 # Hyper setup on a new Mac
 
+> Optional setup: FDE/TF defaults do not install or Stow this productivity
+> configuration. Use `setup-workstation.sh plan|apply|check --profile fde|tf
+> --productivity` to opt in. Commands on this page explicitly configure the
+> productivity tools; omitting the flag on profile setup leaves them untouched.
+
+
 The native macOS layer keeps editing and app commands familiar. Caps Lock supplies
 Hyper for the approved app/window map. Right Option supplies Meh for shared actions
 and DockFlow numbers. CleanShot X is the capture tool, including Setapp installations.
@@ -56,8 +62,9 @@ bash scripts/bootstrap-hyper.sh apply
 bash scripts/bootstrap-hyper.sh check
 ```
 
-`apply` installs missing Stow, Alfred, Karabiner Elements and Rectangle Pro through
-Homebrew. Administrator-required Karabiner installation may need your terminal.
+`apply` installs missing Stow, Alfred and Rectangle Pro through Homebrew.
+Install Karabiner separately from https://karabiner-elements.pqrs.org/: open the
+DMG, run Karabiner-Elements.pkg, and complete its services and input permissions.
 It does not install every mapped app, CleanShot, or licensed media apps. Install
 CleanShot through your existing Setapp subscription or your standalone license;
 a Setapp installation already satisfies the check, so there is no duplicate cask.
