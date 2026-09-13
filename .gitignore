@@ -56,6 +56,10 @@ alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/*
 **/*token*
 
 # Claude Code — configuration only (skills install via bootstrap-skills.sh)
+# Claude Code machine state: OAuth tokens, MCP env, project trust. Never stow.
+.claude.json
+claude/.claude.json
+
 claude/.claude/*
 !claude/.claude/settings.json
 !claude/.claude/keybindings.json
