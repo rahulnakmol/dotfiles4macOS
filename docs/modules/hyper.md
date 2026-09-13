@@ -29,7 +29,7 @@ See the [design decision](../adr/0002-hyper-macos-workspaces.md).
 
 ## Focus sessions and complete manual
 
-The [hotkeys manual](../hotkeys.md) and [standalone visual page](../hotkeys.html)
+The [hotkeys manual](alfred-hotkeys.md) and [standalone visual page](alfred-hotkeys.html)
 cover Work plus the four Code variations. Alfred commands are `fs work`,
 `fs amp`, `fs claude`, `fs cursor` and `fs t3code`.
 

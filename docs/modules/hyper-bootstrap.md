@@ -83,7 +83,7 @@ select this clone's `alfred/.config/alfred` preferences folder in Advanced, rest
 Alfred, and rerun `apply`. `--local-id HASH` is an explicit recovery option only
 when you have verified the current machine's ID.
 
-The [complete hotkeys manual](../hotkeys.md) also covers Work and all four Code
+The [complete hotkeys manual](alfred-hotkeys.md) also covers Work and all four Code
 focus variations. Import the updated Rectangle snapshot and make its native Dock
 assignments on each Mac for the two coding desktops. The focus helper compiles
 using Apple Command Line Tools; first-use compilation and live quitting are not
@@ -105,7 +105,7 @@ steps and test the resulting system; a successful file check is not a login test
 | macOS Spaces | Create desktops, run `bash scripts/setup-hyper-macos.sh plan` then `apply` and `check`; log out and back in |
 | Launcher ownership | Alfred owns Cmd+Space. Disable Show Spotlight Search under macOS Keyboard Shortcuts → Spotlight, and clear Raycast's launcher shortcut if present |
 
-The utility catalog is `docs/alfred-workflows.json`. Third-party workflows are
+The utility catalog is `scripts/catalogs/alfred-workflows.json`. Third-party workflows are
 installed through Alfred's Gallery importer; their source and variables stay ignored.
 The bootstrap reports missing bundle IDs and leaves installation as a guided step:
 

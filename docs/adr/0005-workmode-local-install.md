@@ -1,57 +1,44 @@
-# Workmode: compose native tools and install locally
+# Keep Workmode small and install it locally
 
 ## Context
 
-Workmode is an optional macOS extension in dotfiles. Users need a reproducible
-way to build and install it on each Mac. Raycast already supplies app launching,
-Hyper, window commands, clipboard and Quicklinks. Reimplementing these would add
-maintenance without improving the coordinated workspace workflow.
+Users need the same optional macOS work modes on more than one Mac. Raycast
+already supplies app launching, Hyper, window commands, clipboard and Quicklinks.
+Workmode adds value by coordinating these tools, not by replacing them.
 
 ## Decision
 
-Keep one purpose: coordinate named work modes using Raycast window management,
-DockFlow's CLI and Session's URL handler. Keep native app/keyboard actions in
-Raycast. Existing capture and Google menus remain small URL dispatchers because
-users already rely on them. Do not add new wrappers for native features.
+Use one list of eight modes. Keep native app and keyboard actions in Raycast.
+Use DockFlow's CLI for Dock profiles and Session's URL handler for timers. Keep
+the existing capture and Google menus as small URL dispatchers.
 
-Use one shell entry point with separate `build`, `install`, `check` and
-`rollback` actions. `install` builds/tests source, Stows reviewed configuration,
-then runs the official `ray develop` import. Control+C stops the watcher; the
-extension stays installed. The Finder launcher calls that same entry point.
-Keep the previous `apply` action as prepare-only compatibility.
-
-Keep one list of eight modes. Remove unused variant machinery and the unused
-browser-context setting. Preserve direct command entry points because Raycast
-registers each alias/hotkey against a command; each delegates to shared logic.
+Use one installer with separate `build`, `install`, `check` and `rollback`
+actions. The Finder launcher calls the same script. `install` builds and tests,
+Stows reviewed config, then imports through `ray develop`. The user stops the
+watcher with Control+C; the extension remains installed.
 
 ## Alternatives and trade-offs
 
-- Build alone is useful for validation but does not install into Raycast.
-- A custom background installer or private database writer would add brittle
-  lifecycle/settings logic. The supported CLI leaves one explicit Control+C step.
-- Store distribution could remove the source toolchain requirement, but needs
-  a separate publication/review process. No publishing pipeline is needed now.
-- Removing all small alias commands would shrink the manifest but remove the
-  keyboard workflows the user requested. Keep the wrappers, not duplicate logic.
+| Option | Decision | Reason |
+| --- | --- | --- |
+| Build without import | Keep as `build` | Useful for validation; does not install into Raycast. |
+| Supported local CLI import | Use for `install` | Requires one Control+C step but no custom installer service. |
+| Write Raycast's private databases | Avoid | Couples setup to an internal format and private state. |
+| Publish through the Store | Defer | Needs a separate review and distribution process. |
+| Remove all direct command files | Avoid | Their aliases are useful; each file delegates to shared logic. |
+| Add a generic plugin or mode-variant framework | Avoid | The current modes do not need it. |
 
 ## Consequences
 
-No new runtime dependency or daemon. The existing dependencies each have a job:
-`@raycast/api` for UI/window APIs, `zod` for boundary validation and
-`proper-lockfile` for crash-recoverable exclusion. The small Swift helper only
-lists running apps as JSON and requests normal quits; it is compiled per Mac.
+| Benefit or limit | Result |
+| --- | --- |
+| Small runtime | Three dependencies: Raycast API, config validation and a crash-recoverable lock. No new daemon. |
+| Per-Mac helper | A small Swift command lists running apps and requests normal quits; build it on each Mac. |
+| Optional setup | Core Stow stays separate. Conflicts stop installation instead of adopting files. |
+| Clear recovery | Retry a failed import. Rollback unlinks config; remove the extension in Raycast to disable bundled defaults too. |
+| Manual completion | Licenses, permissions, native shortcuts, four Space assignments, Dock presets and Session categories remain per-Mac steps. |
+| Honest validation | Build/tests do not prove every live window or timer transition. Keep known limits in the [setup guide](../guides/raycast.md#fix-a-problem). |
 
-Build does not Stow or import. Install is opt-in and stops on conflicts instead
-of adopting existing files. A failed import can be retried; it may leave the
-successfully Stowed config in place. Rollback unlinks configuration but does not
-uninstall the extension, which can still use bundled defaults. Remove Workmode
-in Raycast Settings to disable it.
-
-Licenses, permissions, aliases, four Space assignments, Session categories and
-DockFlow presets require documented per-Mac setup. Tests do not establish that
-every app window or timer transition works; the existing Zen cold-launch and
-Session reflection limitations remain documented.
-
-Sources: [CLI](https://developers.raycast.com/information/developer-tools/cli),
-[local install and stop behavior](https://developers.raycast.com/basics/create-your-first-extension),
-[prerequisites](https://developers.raycast.com/basics/getting-started).
+[Installer and usage](../guides/raycast.md) ·
+[Official CLI](https://developers.raycast.com/information/developer-tools/cli) ·
+[Local import lifecycle](https://developers.raycast.com/basics/create-your-first-extension)

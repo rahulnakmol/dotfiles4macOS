@@ -6,10 +6,10 @@ const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll
 
 export function renderManual(c) {
   const id=c.setupProfile.toLowerCase();
-  const catalog=JSON.parse(readFileSync(new URL('../docs/alfred-workflows.json',import.meta.url))).workflows;
+  const catalog=JSON.parse(readFileSync(new URL('./catalogs/alfred-workflows.json',import.meta.url))).workflows;
   return `# ${c.setupProfile} — ${c.setupName}
 
-Your keyboard-first macOS manual. Choose FDE for the full environment or TF for Tech Founder. Both offer an optional productivity setup with Hyperland, Alfred, Rectangle Pro, DockFlow and Session. It is disabled by default. Profile selection belongs to this Mac; the shared repository remains identical on every device.
+Install the ${c.setupProfile} core apps and configuration on this Mac. Automation is optional: choose Raycast Workmode or Alfred with Karabiner and Rectangle Pro. The sections below describe core setup and the Alfred option. Raycast has its own shared guide and modes.
 
 ## Quick setup
 
@@ -19,7 +19,15 @@ From a checkout, run one command:
 bash install.sh --profile ${id}
 \`\`\`
 
-For optional productivity, add --productivity. For a fresh Mac without a checkout or for double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
+Choose your automation after installing the core:
+
+| Choice | What to do |
+| --- | --- |
+| Core only | Keep the command above; skip the productivity sections. |
+| Raycast Workmode | Leave --productivity off. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/raycast.md for installation, Spaces, categories and shortcuts. |
+| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/alfred.md and the profile details below. |
+
+For a fresh Mac or double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup-profiles.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
 
 ## Finish setup human checklist
 
@@ -39,7 +47,7 @@ Managed installation and human setup are tracked separately. These steps are unv
 | CleanShot and login | Complete capture permission and external-control prompts; enable utility startup | Capture works; utilities and shortcuts work after login |
 | Codex pet (optional) | In Codex keyboard settings set Show pet to Hyper+B (replaces Option+Space) | While Codex runs, Hyper+B shows the pet; press again to hide it |
 
-Skip all productivity-only rows when using the core setup. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
+For core-only or Raycast setup, skip the Alfred productivity rows below. Raycast users should use its own per-Mac checklist after completing the core rows. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
 
 ## Start on a new Mac
 
@@ -57,7 +65,7 @@ bash scripts/setup-workstation.sh check --profile ${id}
 
 Without --profile, an interactive terminal offers FDE / TF on first use. Later runs use the locally selected profile. Apply installs only missing packages and prints a backup path. Repeat apply after updates; it will refuse to overwrite edits made to managed generated files.
 
-## Optional productivity setup
+## Optional Alfred productivity setup
 
 The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
 

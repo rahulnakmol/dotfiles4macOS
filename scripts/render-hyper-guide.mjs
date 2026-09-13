@@ -28,7 +28,7 @@ const dockRows = dock.objects.filter((o) => o.type.endsWith('.input.keyword')).m
 });
 const googleRows = owned('google-workspace').objects.filter((o) => o.type.endsWith('.input.keyword')).map((o) => [o.config.keyword,o.config.text]);
 const table = (headers, rows) => `<table class="key-table"><thead><tr>${headers.map((h)=>'<th>'+escape(h)+'</th>').join('')}</tr></thead><tbody>${rows.map((r)=>'<tr>'+r.map((c)=>'<td>'+escape(c)+'</td>').join('')+'</tr>').join('')}</tbody></table>`;
-const catalog = JSON.parse(readFileSync(root+'docs/alfred-workflows.json','utf8')).workflows;
+const catalog = JSON.parse(readFileSync(root+'scripts/catalogs/alfred-workflows.json','utf8')).workflows;
 const menuRows=config.menuKeywords.map((m)=>[m.code,m.name,m.alias ?? 'Direct commands unchanged']);
 const mouseRows = [
   ['Back · button4', 'Zen Browser, Safari, Edge and Finder', 'Command+[ · Back'],
@@ -39,11 +39,13 @@ const mouseRows = [
 const mouseNotes = 'These mappings target the MX Master 3S Bluetooth device (vendor 1133, product 45108). The desktop counts as Finder, so Forward there navigates rather than supplying Meh. Back retains its normal behavior in other apps. Left, right and middle clicks are unchanged. Hold the modifier button while pressing a keyboard key; thumb + H opens Ghostty. On another Mac, verify the device identifiers in Karabiner-EventViewer before enabling the rule; a receiver or different mouse may report different IDs. Physical button behavior still needs user testing.';
 const keywordRows = [...menuRows.map(([code,name])=>[code,name+' menu']),['hyper','All apps, focus sessions, layouts and window actions'],['fs work','Work: Edge and Teams'],['fs amp','Code: Amp, Ghostty, Slack and Zen Browser'],['fs claude','Code: Claude, Ghostty, Slack and Zen Browser'],['fs cursor','Code: Cursor, Ghostty, Slack and Zen Browser'],['fs t3code','Code: T3 Code, Ghostty, Slack and Zen Browser'],['work / code / zen / default','Layout menus; do not quit apps'],['layouts','All named Rectangle layouts'],['capture','CleanShot X capture menu'],['tools','Audio, timers, keep-awake, activity and settings'],...googleRows];
 const mdTable = (headers,rows) => [headers,headers.map(()=> '---'),...rows].map((r)=>'| '+r.map((c)=>String(c).replaceAll('|','\\|').replaceAll('\n',' ')).join(' | ')+' |').join('\n');
-const manual = `# macOS Hotkeys
+const manual = `# Alfred shared hotkeys
 
-Your Hyperland manual. Hold **Caps Lock** for Hyper (Control + Option + Command + Shift); tap it for Escape. Hold **Right Option** for Meh (Control + Option + Shift). Left Option stays normal.
+For profile installations, use [TF hotkeys](alfred-tf-hotkeys.md) or [FDE hotkeys](alfred-fde-hotkeys.md). This page covers the original shared configuration.
 
-Open **Hyper+/** for the searchable visual guide, or view [the standalone page](hotkeys.html). This reference is generated from the same configuration as the workflows.
+Hold **Caps Lock** for Hyper (Control + Option + Command + Shift); tap it for Escape. Hold **Right Option** for Meh (Control + Option + Shift). Left Option stays normal.
+
+Open **Hyper+/** for the searchable visual guide, or view [the standalone page](alfred-hotkeys.html). This reference is generated from the same configuration as the workflows.
 
 ## Short workflow menus
 
@@ -152,7 +154,7 @@ Alfred’s configured launcher is Cmd+Space. Disable Spotlight’s Show Spotligh
 
 ## Terminal and editor reference
 
-Ghostty uses its native app shortcuts; this setup adds no global terminal key overrides. Your tmux configuration has its own Ctrl+A prefix and Option+arrow pane navigation. See [tmux source](../tmux/.config/tmux/tmux.conf), [Ghostty source](../ghostty/.config/ghostty/config) and [module documentation](modules/) for their complete local settings. Native app menus remain the source for editor-specific shortcuts.
+Ghostty uses its native app shortcuts; this setup adds no global terminal key overrides. Your tmux configuration has its own Ctrl+A prefix and Option+arrow pane navigation. See [tmux source](../../tmux/.config/tmux/tmux.conf), [Ghostty source](../../ghostty/.config/ghostty/config) and [module documentation](./) for their complete local settings. Native app menus remain the source for editor-specific shortcuts.
 
 ## New Mac, checks and rollback
 
@@ -166,7 +168,7 @@ bash scripts/bootstrap-hyper.sh check
 bash scripts/bootstrap-hyper.sh rollback BACKUP_DIRECTORY
 \`\`\`
 
-Follow [the bootstrap guide](modules/hyper-bootstrap.md) for Homebrew, Stow, permissions, licenses, login, vendor workflows and rollback boundaries. Set the per-Mac Dock desktop assignments above. Source tests cannot prove physical keys, native app assignments, a fresh login or behavior on a second Mac. Focus quit/launch behavior is tested with substitutes; a live session switch still requires acceptance with saved work.
+Follow [the bootstrap guide](hyper-bootstrap.md) for Homebrew, Stow, permissions, licenses, login, vendor workflows and rollback boundaries. Set the per-Mac Dock desktop assignments above. Source tests cannot prove physical keys, native app assignments, a fresh login or behavior on a second Mac. Focus quit/launch behavior is tested with substitutes; a live session switch still requires acceptance with saved work.
 
 ## Maintain the manual
 
@@ -248,12 +250,12 @@ document.querySelector('#key-search').addEventListener('input',e=>{const q=e.tar
 
 const output = root + 'alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html';
 if (process.argv.includes('--check')) {
-  if (readFileSync(root+'docs/hotkeys.html','utf8') !== html || readFileSync(root+'docs/hotkeys.md','utf8') !== manual) throw new Error('Regenerate the hotkeys manual.');
+  if (readFileSync(root+'docs/modules/alfred-hotkeys.html','utf8') !== html || readFileSync(root+'docs/modules/alfred-hotkeys.md','utf8') !== manual) throw new Error('Regenerate the hotkeys manual.');
   if (readFileSync(output, 'utf8') !== html) throw new Error('Regenerate the Hyper guide.');
   console.log('Hyper guide is current.');
 } else {
   writeFileSync(output, html);
-  writeFileSync(root+'docs/hotkeys.html',html);
-  writeFileSync(root+'docs/hotkeys.md',manual);
+  writeFileSync(root+'docs/modules/alfred-hotkeys.html',html);
+  writeFileSync(root+'docs/modules/alfred-hotkeys.md',manual);
   console.log('Hyper guide rendered.');
 }

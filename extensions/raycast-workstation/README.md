@@ -1,29 +1,13 @@
 # Workmode
 
-Created by **Rahul N Akmol**. One optional Raycast Pro productivity setup for macOS.
+A small macOS Raycast extension by **Rahul N Akmol**. It coordinates named modes
+through Raycast window management, DockFlow and Session.
 
-## Commands
+[Setup guide](../../docs/guides/raycast.md) ·
+[Shortcut reference](../../docs/modules/raycast-hotkeys.md) ·
+[Design decision](../../docs/adr/0005-workmode-local-install.md)
 
-| Command | Suggested alias | Effect |
-|---|---|---|
-| Workmode | `hk` | All modes and actions |
-| Window Layout | `wl` | Open and arrange mode apps; apply DockFlow; keep other apps |
-| Focus Session | `fs` | Preflight, preview normal app quits, arrange, request a Session timer |
-| DockFlow Profile | `df` | Change Dock only |
-| Session Timer | `ss` | 20, 25, 30, 45 or 60 minutes; category actions in the action panel |
-| Check Workmode Setup | `wchk` | App/preset checks and explicit local desktop mapping |
-| Capture | `cs` | CleanShot X actions |
-| Google Workspace | `gw` | Public creation links in Zen; includes Excalidraw |
-
-Work uses Edge + Teams + Claude. Code uses Zen + Amp + Ghostty + Slack.
-Innovate swaps Amp for Codex. Author uses Zen + Claude + Obsidian. Design uses
-Zen + Figma + Affinity. Zen uses Zen + Obsidian. Video uses Final Cut Pro + Motion
-+ Finder. Default arranges Zen without a timer. Use `fco` / `wco` for Amp and `fin` / `win` for Codex. T3 Code is not a session or layout option. Single-app hotkeys belong to Raycast Applications; Quicklinks cover
-URLs, folders and specific destinations. Optional app keys stay reserved until
-the app is installed. Optional apps are not automatically installed: a mode requiring a missing
-app fails its preflight before closing anything.
-
-## Install on macOS
+## Install or update
 
 From the dotfiles checkout:
 
@@ -31,90 +15,74 @@ From the dotfiles checkout:
 bash scripts/setup-raycast-workstation.sh install
 ```
 
-Or double-click `setup/Raycast.command`. Both use the same installer. Install
-Node 22.18+, npm and GNU Stow first (`brew install node stow`), plus Xcode Command
-Line Tools (`xcode-select --install`) and Raycast (`brew install --cask raycast`).
-Sign in to Raycast yourself if prompted. Window layouts/focus require Raycast Pro.
-Install DockFlow, Session and only the apps required by the modes you use.
+Or double-click `setup/Raycast.command`. After **Importing Workmode**, wait for
+**ready**, then press **Control+C**. The extension remains installed. Repeat
+after pulling source updates. Complete the [prerequisites and per-Mac steps](../../docs/guides/raycast.md#install)
+before running a layout or focus session.
 
-The command installs locked dependencies, compiles the Swift helper for this Mac,
-runs tests/typechecking/build validation, Stows the curated config, then imports
-with `ray develop`. After “Importing Workmode”, wait for **ready**, then press **Control+C**. The extension stays installed;
-there is no background development process to keep running. Repeat `install`
-after pulling updates. A failed import can be retried; the linked config remains.
+| Task | Command from the repo root |
+| --- | --- |
+| Read the plan | `bash scripts/setup-raycast-workstation.sh plan` |
+| Build and validate without Stow or import | `bash scripts/setup-raycast-workstation.sh build` |
+| Build, Stow and import | `bash scripts/setup-raycast-workstation.sh install` |
+| Check source and the Stow link | `bash scripts/setup-raycast-workstation.sh check` |
+| Unlink configuration only | `bash scripts/setup-raycast-workstation.sh rollback` |
 
-```sh
-bash scripts/setup-raycast-workstation.sh plan      # no changes
-bash scripts/setup-raycast-workstation.sh build     # no Stow or import
-bash scripts/setup-raycast-workstation.sh check     # source + local link checks
-bash scripts/setup-raycast-workstation.sh rollback  # unlink config only
+The old `apply` action still prepares and links only. To disable Workmode, remove
+it in Raycast Settings too; an installed extension can use bundled defaults.
+
+## Change the source
+
+| Change | Edit | Then run |
+| --- | --- | --- |
+| Apps, modes, desktops or durations | `raycast/.config/raycast-workstation/workstation.json` | Regenerate the keymap and run `install`. |
+| Alias names or native key map | `scripts/build-raycast-keymap.mjs` | `node scripts/build-raycast-keymap.mjs`, then configure the native settings in Raycast. |
+| Command behavior | `extensions/raycast-workstation/src/` | Tests and typecheck, then `npm run dev` from this directory. |
+| Running-app helper | `assets/DesktopHelper.swift` | Run `build` or `install` to compile it for this Mac. |
+
+The build copies the canonical configuration into `assets/workstation.json`.
+Do not maintain the copy separately. Raycast reads the Stow-linked configuration
+when present and otherwise uses bundled defaults. Desktop assignments are local
+and override the shared configuration.
+
+## Keep each tool's job small
+
+```mermaid
+flowchart LR
+    U[Raycast command] --> M[Workmode: coordinate one mode]
+    M --> W[Raycast API: arrange windows]
+    M --> H[Swift helper: list apps and request normal quits]
+    M --> D[DockFlow CLI: apply a preset]
+    M --> S[Session URL: finish or start a timer]
 ```
 
-`apply` remains a prepare-only compatibility command. `npm run build` alone does
-not install the extension. For source edits after setup, use `npm run dev` from
-this directory. Regenerate config with `node scripts/build-raycast-keymap.mjs`
-from the repo root when changing aliases/keys, then rerun `install`.
+| Tool | Owns |
+| --- | --- |
+| Native Raycast | App launching, Hyper, individual window commands, clipboard, snippets and Quicklinks |
+| Workmode | Mode requirements, focus preview, app/window order, Dock changes and timer requests |
+| DockFlow | Saved Dock apps, folders and order |
+| Session | Timer UI, categories and history |
+| CleanShot X | Screen capture; Workmode's capture menu only opens its actions |
 
-The source configuration is `raycast/.config/raycast-workstation/workstation.json`;
-the build copies it into bundled assets. Native Raycast settings are separate;
-Stow never links its databases. This setup is opt-in for both FDE and TF and
-rejects non-macOS hosts. No apps, accounts, permissions or login items are
-configured by the source installer.
+Keep the direct command files: Raycast attaches each alias/hotkey to a command.
+They delegate to shared logic. Capture and Google menus are small URL dispatchers.
+Do not add a plugin framework, another timer, or native-feature wrappers without
+a concrete workflow that needs them.
 
-Follow the [per-Mac checklist](../../docs/raycast-workstation.md#install) and
-[aliases](../../docs/raycast-aliases.md). To disable Workmode, remove the extension
-in Raycast Settings as well as running rollback; unlinking alone leaves bundled
-defaults available. Session/DockFlow data and private Raycast settings remain.
+| Runtime dependency | Why it exists |
+| --- | --- |
+| `@raycast/api` | Native UI and window APIs |
+| `zod` | Validate config and external data |
+| `proper-lockfile` | Prevent overlapping switches and recover after crashes |
 
-References: [Raycast prerequisites](https://developers.raycast.com/basics/getting-started),
-[local install](https://developers.raycast.com/basics/create-your-first-extension),
-[contributing](https://developers.raycast.com/basics/contribute-to-an-extension),
-[CLI build versus import](https://developers.raycast.com/information/developer-tools/cli).
+Workmode runs on demand. During a switch it reads app/desktop data together,
+then moves windows and requests normal quits in order. Polling is bounded;
+there is no idle watcher after development stops. The Swift helper emits JSON
+for running apps and requests normal quits. It does not force-kill them.
 
-## Small by design
+## Validate a change
 
-Workmode coordinates layouts, normal quits, Dock profiles and categorized timers.
-Raycast owns app launching, Hyper, window hotkeys, clipboard and Quicklinks.
-Capture and web menus are small URL dispatchers. The direct mode commands are
-thin entry points into one implementation, retained for the requested aliases.
-There is one mode list, no plugin framework, custom scheduler or daemon. Keep
-new integrations out until a concrete workflow needs them. See the
-[decision and trade-offs](../../docs/adr/0005-workmode-local-install.md).
-
-## Per-Mac setup
-
-Create four desktops in Mission Control. On each desktop, run `wchk`, select
-its number and choose **Assign This Space to Desktop N**. Desktop roles are
-**1 · Home** (Finder/support apps), **2 · Connect** (browser/chat), **3 · Create**
-(AI/coding/creative tools), and **4 · Focus** (terminal/notes/work apps). These labels
-do not rename macOS Spaces. Open Raycast with **Option+Space**; keep
-**Command+Space** for Spotlight.
-Repeat on each Mac or after recreating desktops. Local IDs are stored only in
-Raycast's support directory. Focus an app on the intended display before assigning.
-
-Raycast owns native Caps Lock Hyper, launching and window management. No Karabiner,
-Alfred or Rectangle Pro is required. Enable Include Shift and quick-press Escape
-in Raycast Keyboard settings. Meh means the physical Control+Option+Shift chord;
-Right Option is not independently remapped. Keep Session for focus timers and
-DockFlow for saved Dock contents. Native Raycast layouts arrange windows, while
-DockFlow's integration changes which apps and folders appear in the macOS Dock.
-
-## Before first focus session
-
-Create matching Session categories: Work, Code, Innovate, Author, Design, Zen,
-Video. Create/import uniquely named DockFlow presets listed in workstation.json.
-Resolve missing apps and native fullscreen windows. Confirm Zen's intended Space
-manually for now; the extension does not claim to switch browser identities.
-
-Focus honours normal save/quit prompts. Cancelling or timing out stops the switch.
-The extension does not force-kill processes. A timer URL request is not proof that
-Session dismissed a previous-timer prompt; handle any Session prompt yourself.
-
-If a process crashes during switching, the local `switch.lock` can remain. Check
-that no switch is running before removing that file at the path in the error.
-Do not remove the lock while a save prompt is still pending.
-
-## Validation
+From this directory:
 
 ```sh
 npm test
@@ -122,13 +90,31 @@ npm run typecheck
 npm run build
 ```
 
-Tests use a fake desktop; they never quit your applications. Native import, actual
-window bounds, fullscreen restrictions, multiple monitors and physical hotkeys
-need live acceptance. See `docs/raycast-workstation.md` and the research plan in
-the parent dotfiles repository.
+For installer or keymap changes, also run from the repo root:
 
-See the complete [2–4 character alias guide](../../docs/raycast-aliases.md) for apps, windows, utilities, Dock profiles and direct layout/focus modes.
+```sh
+node --test scripts/test-raycast-setup.mjs scripts/test-raycast-keymap.mjs
+node scripts/build-raycast-keymap.mjs --check
+bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command
+```
 
-Direct aliases such as `wco` and `fco` open only Code. Layouts then offer Arrange;
-focus sessions retain their preview and explicit Start Focus confirmation.
-All 17 direct aliases were checked live for correct routing on 13 September 2026.
+Tests use isolated fixtures; they do not quit your apps. CI builds on macOS
+without Stow or import. `npm run build` validates a bundle; `npm run dev` imports
+it into Raycast. Follow the [recorded limits and manual checks](../../docs/guides/raycast.md#what-has-been-verified)
+for real windows, timers and hotkeys.
+
+## Share the source
+
+Commit source, reviewed config, icons and the lockfile. Keep `node_modules`,
+`dist`, generated Raycast types, the compiled helper and private app state out
+of Git. Compile the helper again on each Mac.
+
+This is a local source installation, not a Store release. The visible name is
+**Workmode**; the internal ID is `workstation`. Preserve that ID and command IDs
+to retain aliases and local mappings. Store publication needs a separate review
+of onboarding, helper packaging, icons, screenshots, linting and fresh-Mac tests.
+
+[Raycast prerequisites](https://developers.raycast.com/basics/getting-started) ·
+[Local installation](https://developers.raycast.com/basics/create-your-first-extension) ·
+[Contributing](https://developers.raycast.com/basics/contribute-to-an-extension) ·
+[Build and import](https://developers.raycast.com/information/developer-tools/cli)
