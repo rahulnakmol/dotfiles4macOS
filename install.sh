@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 case "$profile" in fde|tf) ;; *) usage >&2; exit 1 ;; esac
-docs="https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/profiles/$profile.md"
+docs="https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/profiles/$profile.md"
 if [[ "$preview" == 1 ]]; then
   printf 'Profile: %s\nProductivity: %s (0 = core only)\nCheckout: %s\n' "$profile" "$productivity" "$checkout"
   echo '1. Verify Apple Silicon macOS and Command Line Tools; pause for Apple Installer if missing.'

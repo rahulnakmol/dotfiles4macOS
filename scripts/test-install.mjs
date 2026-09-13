@@ -45,7 +45,7 @@ test('core setup runs plan/apply/check, keeps productivity off and never updates
   assert.match(events,/setup plan --profile fde\nsetup apply --profile fde\nsetup check --profile fde/);
   assert.ok(!events.includes('--productivity'));
   assert.ok(!/git (?:clone|pull|reset|checkout|switch)|brew install/.test(events));
-  assert.match(events,/open https:\/\/github.com\/rahulnakmol\/dotfiles4macOS\/blob\/main\/docs\/profiles\/fde.md#finish-setup-human-checklist/);
+  assert.match(events,/open https:\/\/github.com\/rahulnakmol\/dotfiles4macOS\/blob\/main\/docs\/guides\/profiles\/fde.md#finish-setup-human-checklist/);
   const state=readFileSync(join(f.env.DOTFILES_BOOTSTRAP_STATE_DIR,'fde.log'),'utf8');
   assert.match(state,/profile-check\tverified/);assert.match(state,/human-checklist\tunverified/);
 });

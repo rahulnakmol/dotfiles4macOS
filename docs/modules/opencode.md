@@ -1,6 +1,6 @@
 # opencode
 
-OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are installed from [rahulnakmol/skills](https://github.com/rahulnakmol/skills)** — see [`docs/skills.md`](../skills.md).
+OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are installed from [rahulnakmol/skills](https://github.com/rahulnakmol/skills)**.
 
 ## Files (configs only)
 
@@ -34,5 +34,5 @@ Shell aliases in the `zsh` module (`ocwf`, `ocwfl`, `ocwfv`) wrap the skills-ins
 
 ## Further reading
 
-- [Skills bootstrap](../skills.md)
+- [Skills bootstrap script](../../scripts/bootstrap-skills.sh)
 - [rahulnakmol/skills wiki](https://github.com/rahulnakmol/skills/wiki)

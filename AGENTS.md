@@ -13,7 +13,7 @@ Shared Claude/Codex guidance lives in `agent-policy/instructions/`; regenerate
 adapters with `node scripts/apply-agent-policy.mjs --codex-only`.
 
 ## Skills (not in dotfiles)
-Agent behavior lives in [rahulnakmol/skills](https://github.com/rahulnakmol/skills). Bootstrap: `./scripts/bootstrap-skills.sh` (see `skills.manifest.yaml`, `docs/skills.md`).
+Agent behavior lives in [rahulnakmol/skills](https://github.com/rahulnakmol/skills). Bootstrap: `./scripts/bootstrap-skills.sh` (see `skills.manifest.yaml`).
 
 ## Validation
 - `zsh -n zsh/.zshrc` — syntax-check shell

@@ -42,7 +42,7 @@ test('Rectangle Hyper shortcuts reserve desktop numbers and avoid Codex Hyper bi
 });
 
 test('inventory accounts for every installed plugin and retains command identifiers', () => {
-  const inventory = JSON.parse(readFileSync(join(root, 'docs/raycast-extensions.json'), 'utf8'));
+  const inventory = JSON.parse(readFileSync(join(root, 'scripts/catalogs/raycast-extensions.json'), 'utf8'));
   assert.equal(inventory.extensions.length, 23);
   assert.equal(new Set(inventory.extensions.map((entry) => entry.name)).size, 23);
   for (const entry of inventory.extensions) {
@@ -189,7 +189,7 @@ test('Stow creates reload-compatible directory links and unstows without deletin
 });
 
 test('third-party catalog records Gallery sources and keeps runtime folders ignored', () => {
-  const catalog = JSON.parse(readFileSync(join(root, 'docs/alfred-workflows.json'), 'utf8'));
+  const catalog = JSON.parse(readFileSync(join(root, 'scripts/catalogs/alfred-workflows.json'), 'utf8'));
   assert.equal(catalog.workflows.length, 17);
   assert.equal(new Set(catalog.workflows.map((entry) => entry.bundleId)).size, 17);
   for (const entry of catalog.workflows) {

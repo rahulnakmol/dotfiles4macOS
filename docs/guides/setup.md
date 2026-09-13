@@ -1,8 +1,8 @@
 # Fresh Machine Setup
 
-Choose either this **manual core Stow** path or the profile-aware [FDE](../profiles/fde.md) / [TF](../profiles/tf.md) installer. Both recommend Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default.
+Choose either this **manual core Stow** path or the profile-aware [FDE](profiles/fde.md) / [TF](profiles/tf.md) installer. Both recommend Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default.
 
-The manual commands below do not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow or Session automation. Those remain an optional setup through the profile guides with --productivity.
+The manual commands below do not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow or Session automation. For optional automation, choose the [Raycast guide](raycast.md) or [Alfred + Karabiner + Rectangle Pro guide](alfred.md). The --productivity flag selects Alfred; Raycast has its own installer.
 
 ## 1. Install prerequisites and default apps
 

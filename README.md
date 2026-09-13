@@ -4,7 +4,7 @@ Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/softwar
 
 ## Start with one command or a double-click launcher
 
-See [Start here](docs/setup.md) for fresh-Mac setup, the four FDE/TF launchers, resumable installation and the GitHub human checklists. From a checkout: `bash install.sh --profile fde` or `bash install.sh --profile tf`. Add `--productivity` only when wanted.
+See [Start here](docs/README.md) for fresh-Mac setup, FDE/TF profile selection, resumable installation and the GitHub human checklists. From a checkout: `bash install.sh --profile fde` or `bash install.sh --profile tf`. For optional automation, choose the [Raycast guide](docs/guides/raycast.md) or [Alfred guide](docs/guides/alfred.md).
 
 ## Optional Raycast Workmode
 
@@ -15,7 +15,7 @@ bash scripts/setup-raycast-workstation.sh install
 ```
 
 Or double-click `setup/Raycast.command`. After “Importing Workmode”, wait for **ready**, then press **Control+C**; the
-extension stays installed. [Prerequisites and manual steps](docs/raycast-workstation.md#install)
+extension stays installed. [Prerequisites and manual steps](docs/guides/raycast.md#install)
 cover Raycast Pro, DockFlow, Session, four Spaces, categories and shortcuts.
 Use `build` for validation without Stow/import, `check` for source/link checks,
 and `rollback` to unlink. Setup is optional; core dotfiles do not Stow it.
@@ -28,9 +28,9 @@ Alfred/Karabiner/Rectangle setup**. Do not apply that flag when choosing Raycast
 
 Both profiles install **Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex** by default. Set Zen as the macOS default browser during setup. FDE code sessions use three desktops: Zen maximized, Amp/Claude/Cursor/T3 Code maximized, and Ghostty ⅔ + Slack ⅓. FDE installs T3 Code; TF retains Codex for Innovate. Work keeps Edge. **Google Chrome Canary** is optional for end-to-end testing: `brew install --cask google-chrome@canary`. Stable Chrome and Amp are not installation requirements.
 
-New machines should start with the [FDE manual](docs/profiles/fde.md) or
-[TF (Tech Founder) manual](docs/profiles/tf.md). Browser guides:
-[FDE](docs/profiles/fde.html) · [TF](docs/profiles/tf.html).
+New machines should start with the [FDE manual](docs/guides/profiles/fde.md) or
+[TF (Tech Founder) manual](docs/guides/profiles/tf.md). Browser guides:
+[FDE](docs/guides/profiles/fde.html) · [TF](docs/guides/profiles/tf.html).
 
 ```sh
 bash scripts/setup-workstation.sh plan --profile tf
@@ -57,7 +57,7 @@ Your existing setup is retained until you explicitly apply a profile. Personal
 Git/SSH/signing, credentials, agent trust settings and licenses are never copied
 to a colleague by this installer.
 
-[Hotkeys manual](docs/hotkeys.md) · [Standalone visual guide](docs/hotkeys.html) — Hyper, Meh, focus sessions, layouts and fresh-Mac setup.
+[Hotkeys manual](docs/modules/alfred-hotkeys.md) · [Standalone visual guide](docs/modules/alfred-hotkeys.html) — Hyper, Meh, focus sessions, layouts and fresh-Mac setup.
 
 ## Modules
 
@@ -158,7 +158,6 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/dependencies.md` — Full dependency list with install commands
 - `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
-- `docs/guides/opencode-sdlc.md` — OpenCode SDLC agent, command, workflow, and handoff guide
 - `docs/modules/` — Per-module documentation
 - [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
 - [Raycast Workmode installation and native settings](docs/modules/raycast.md)

@@ -217,7 +217,7 @@ async function main() {
     for(const cask of install.casks)run('brew',['install','--cask',cask],{stdio:'inherit'});
     const backup=join(home,'.local/state/dotfiles/backups','workstation-'+Date.now());
     applyWorkstation(id,home,backup,root,options);
-    console.log(`Applied ${config.setupProfile}. Backup: ${backup}\nRollback: bash scripts/setup-workstation.sh rollback '${backup}'\nComplete the guided steps in docs/profiles/${id}.html. Productivity is ${config.productivity?'enabled; repeat --productivity on apply/check':'skipped; existing productivity settings remain untouched'}.`);
+    console.log(`Applied ${config.setupProfile}. Backup: ${backup}\nRollback: bash scripts/setup-workstation.sh rollback '${backup}'\nComplete the guided steps in docs/guides/profiles/${id}.html. Productivity is ${config.productivity?'enabled; repeat --productivity on apply/check':'skipped; existing productivity settings remain untouched'}.`);
   }
   if(mode==='check') {
     const pending=report.conflicts.length||report.linksToChange.length||missingFiles.length||outdated.length||install.formulae.length||install.casks.length||install.guided.length||(config.productivity&&(!machine.alfredConnected||machine.alfredPreferencesPending||machine.missingWorkflows.length||machine.pendingPresets.length));
