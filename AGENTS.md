@@ -3,7 +3,7 @@
 Each top-level folder is a stow module that symlinks into `$HOME`. Deploy: `stow <module>`. Dry-run: `stow -n <module>`.
 
 ## Modules
-`1password` `bash` `bat` `claude` `codex` `cursor` `gh` `ghostty` `git` `nvim` `opencode` `ssh` `starship` `tmux` `zsh`
+`1password` `bash` `bat` `claude` `codex` `cursor` `gh` `ghostty` `git` `herdr` `nvim` `opencode` `ssh` `starship` `tmux` `zsh`
 
 Codex's actual config is `codex/.codex/config.toml`, symlinked into `$HOME` with
 `stow --no-folding codex`. Edit that TOML directly, like Claude's settings.json.

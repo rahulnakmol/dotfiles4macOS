@@ -46,15 +46,40 @@ test('desktop keybindings have valid entries without conflicting accelerators', 
     assert.ok(!keys.includes(null) || keys.length === 1, `Disabled command also has bindings: ${command}`);
   }
 });
+test('reviewed common Codex settings and policy stay in parity across both homes', () => {
+  const subscription = fs.readFileSync(path.join(root, 'codex/.codex/config.toml'), 'utf8');
+  const gateway = fs.readFileSync(path.join(root, 'scripts/templates/codex-aigateway-config.toml'), 'utf8');
+  for (const setting of ['model_reasoning_effort', 'model_reasoning_summary', 'model_verbosity', 'service_tier', 'web_search', 'approval_policy', 'default_permissions']) {
+    const pattern = new RegExp(`^${setting} = (.+)$`, 'm');
+    assert.equal(subscription.match(pattern)?.[1], gateway.match(pattern)?.[1], setting);
+  }
+  const policy = text => text.slice(text.indexOf('# BEGIN GENERATED DOTFILES POLICY'));
+  assert.equal(policy(subscription), policy(gateway));
+  for (const denied of ['~/.codex/auth.json', '~/.codex-aigateway/auth.json', '~/.config/private-ai-gateway/client.key'])
+    assert.match(policy(subscription), new RegExp(denied.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+});
+
+test('gateway keybindings share app-local actions but disable duplicate global pet ownership', () => {
+  const subscription = JSON.parse(fs.readFileSync(path.join(root, 'codex/.codex/keybindings.json'), 'utf8'));
+  const gateway = JSON.parse(fs.readFileSync(path.join(root, 'codex-aigateway/.codex-aigateway/keybindings.json'), 'utf8'));
+  const withoutPet = bindings => bindings.filter(binding => binding.command !== 'openAvatarOverlay');
+  assert.deepEqual(withoutPet(gateway), withoutPet(subscription));
+  assert.deepEqual(subscription.find(binding => binding.command === 'openAvatarOverlay'), {command:'openAvatarOverlay', key:'Command+Control+Alt+Shift+B'});
+  assert.deepEqual(gateway.find(binding => binding.command === 'openAvatarOverlay'), {command:'openAvatarOverlay', key:null});
+});
 test('a guidance change reaches both clients and keeps its scope', () => {
   const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'codex-policy-'));
   try {
     fs.cpSync(path.join(root, 'agent-policy'), path.join(fixture, 'agent-policy'), {recursive: true});
     fs.cpSync(path.join(root, 'codex'), path.join(fixture, 'codex'), {recursive: true});
+    fs.cpSync(path.join(root, 'codex-aigateway'), path.join(fixture, 'codex-aigateway'), {recursive: true});
+    fs.mkdirSync(path.join(fixture, 'scripts/templates'), {recursive: true});
+    fs.copyFileSync(path.join(root, 'scripts/templates/codex-aigateway-config.toml'), path.join(fixture, 'scripts/templates/codex-aigateway-config.toml'));
     fs.appendFileSync(path.join(fixture, 'agent-policy/instructions/python.md'), '\nFixture: verify service boundaries.\n');
     const files = codexArtifacts(fixture);
     assert.match(files['claude/.claude/rules/python.md'], /Fixture: verify service boundaries/);
     assert.match(files['codex/.codex/AGENTS.md'], /Fixture: verify service boundaries/);
+    assert.equal(files['codex/.codex/AGENTS.md'], files['codex-aigateway/.codex-aigateway/AGENTS.md']);
     assert.match(files['codex/.codex/AGENTS.md'], /Applies to: \*\*\/\*\.py/);
     fs.writeFileSync(path.join(fixture, 'agent-policy/instructions/python.md'), 'missing frontmatter');
     assert.throws(() => codexArtifacts(fixture), /Invalid stack guidance/);
@@ -79,6 +104,9 @@ test('policy regeneration preserves current model and runtime settings', () => {
   try {
     fs.cpSync(path.join(root, 'agent-policy'), path.join(fixture, 'agent-policy'), {recursive: true});
     fs.cpSync(path.join(root, 'codex'), path.join(fixture, 'codex'), {recursive: true});
+    fs.cpSync(path.join(root, 'codex-aigateway'), path.join(fixture, 'codex-aigateway'), {recursive: true});
+    fs.mkdirSync(path.join(fixture, 'scripts/templates'), {recursive: true});
+    fs.copyFileSync(path.join(root, 'scripts/templates/codex-aigateway-config.toml'), path.join(fixture, 'scripts/templates/codex-aigateway-config.toml'));
     const file = path.join(fixture, 'codex/.codex/config.toml');
     const settings = fs.readFileSync(file, 'utf8').replace(/model_reasoning_effort = "[^"]*"/, 'model_reasoning_effort = "medium"');
     fs.writeFileSync(file, settings);

@@ -15,6 +15,7 @@ shortcuts for your chosen setup.
 | Find Alfred TF commands and hotkeys | [TF reference](modules/alfred-tf-hotkeys.md) |
 | Find Alfred FDE commands and hotkeys | [FDE reference](modules/alfred-fde-hotkeys.md) |
 | Change one tool's configuration | [Module documentation](modules/) |
+| Configure the private AI gateway, Codex desktop profiles or Herdr | [Codex profiles](guides/codex-profiles.md) and [Herdr](modules/herdr.md) |
 | Understand an implementation decision | [Architecture decisions](adr/) |
 
 ## Set up a new Mac

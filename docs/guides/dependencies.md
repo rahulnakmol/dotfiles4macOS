@@ -14,6 +14,7 @@ These must be installed for core dotfiles functionality.
 | `stow` | Symlink dotfiles into `$HOME` |
 | `zsh` | Shell |
 | `tmux` | Terminal multiplexer |
+| `herdr` | Persistent agent-aware terminal workspaces |
 | `neovim` | Editor (0.10+, LazyVim) |
 | `eza` | Modern `ls` (aliased as `ls`, `ll`, `la`) |
 | `bat` | Syntax-highlighted `cat` |
@@ -28,7 +29,7 @@ These must be installed for core dotfiles functionality.
 ### Install
 
 ```bash
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq
+brew install git stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq
 ```
 
 ---
@@ -63,11 +64,13 @@ The tmux config and shell aliases integrate heavily with these tools.
 |------|---------|---------|
 | `claude` | Claude Code (Anthropic) | `cc*` aliases, tmux `C-a c` key table |
 | `opencode` | OpenCode (Zen provider) | `oc*` aliases, tmux `C-a o` key table |
+| `codex` | Codex CLI bundled with ChatGPT | private gateway wrapper and Herdr integration |
 
 ### Install
 
 ```bash
 brew install claude opencode
+brew install --cask chatgpt
 ```
 
 ---
@@ -145,6 +148,6 @@ brew install go rustup python3 dotnet stylua
 One-liner to install all Tier 1 + Tier 2 + Tier 3 tools:
 
 ```bash
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh claude opencode
+brew install git stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq gh claude opencode
 brew install --cask ghostty 1password 1password-cli font-mononoki-nerd-font
 ```

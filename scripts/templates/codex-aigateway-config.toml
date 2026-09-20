@@ -1,0 +1,109 @@
+# Machine-local gateway values replace the placeholders below during setup.
+# Re-run scripts/setup-private-ai-gateway.sh to refresh provider/model settings.
+model_provider = "private_gateway"
+model = __PRIVATE_AI_GATEWAY_MODEL__
+model_reasoning_effort = "medium"
+model_reasoning_summary = "auto"
+model_verbosity = "low"
+service_tier = "default"
+web_search = "live"
+approval_policy = "on-request"
+default_permissions = "dotfiles"
+
+[desktop]
+followUpQueueMode = "steer"
+external-agent-import-sync-enabled = false
+show-context-window-usage = true
+composerEnterBehavior = "enter"
+git-branch-prefix = "openai/"
+git-pull-request-merge-method = "squash"
+
+[model_providers.private_gateway]
+name = "Private AI gateway"
+base_url = __PRIVATE_AI_GATEWAY_BASE_URL__
+wire_api = "responses"
+supports_websockets = false
+
+[model_providers.private_gateway.auth]
+command = "/bin/cat"
+args = [__PRIVATE_AI_GATEWAY_KEY_FILE__]
+cwd = "/"
+timeout_ms = 5000
+refresh_interval_ms = 300000
+
+# BEGIN GENERATED DOTFILES POLICY
+# Generated from agent-policy/catalog.json; other settings above are editable.
+
+[permissions.dotfiles]
+extends = ":workspace"
+description = "Workspace editing with shared secret-path restrictions on macOS."
+
+[permissions.dotfiles.filesystem]
+"~/.ssh/id_*" = "deny"
+"~/.ssh/*_rsa" = "deny"
+"~/.ssh/*_ed25519" = "deny"
+"~/.ssh/*_ecdsa" = "deny"
+"~/.ssh/*_dsa" = "deny"
+"~/.ssh/authorized_keys" = "deny"
+"~/.gnupg/**" = "deny"
+"~/.aws/credentials" = "deny"
+"~/.aws/config" = "deny"
+"~/.aws/sso/**" = "deny"
+"~/.azure/**" = "deny"
+"~/.config/gcloud/**" = "deny"
+"~/.config/op/**" = "deny"
+"~/.config/1Password/**" = "deny"
+"~/.config/gh/hosts.yml" = "deny"
+"~/.config/git/credentials" = "deny"
+"~/.config/rclone/rclone.conf" = "deny"
+"~/.docker/config.json" = "deny"
+"~/.kube/config" = "deny"
+"~/.netrc" = "deny"
+"~/.npmrc" = "deny"
+"~/.pypirc" = "deny"
+"~/.password-store/**" = "deny"
+"~/.terraform.d/credentials.tfrc.json" = "deny"
+"~/.git-credentials" = "deny"
+"~/.vault-token" = "deny"
+"~/.age/**" = "deny"
+"~/.config/doctl/**" = "deny"
+"~/.config/netlify/**" = "deny"
+"~/.config/fly/**" = "deny"
+"~/.config/heroku/credentials.json" = "deny"
+"/etc/shadow" = "deny"
+"/etc/gshadow" = "deny"
+"/etc/sudoers" = "deny"
+"/etc/sudoers.d/**" = "deny"
+"~/.codex/auth.json" = "deny"
+"~/.codex-aigateway/auth.json" = "deny"
+"~/.config/private-ai-gateway/client.key" = "deny"
+"~/.zshrc.local" = "deny"
+"~/.bashrc.local" = "deny"
+
+[permissions.dotfiles.filesystem.":workspace_roots"]
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+"**/.envrc" = "deny"
+"**/secrets.yaml" = "deny"
+"**/secrets.yml" = "deny"
+"**/secret.yaml" = "deny"
+"**/secret.yml" = "deny"
+"**/credentials.json" = "deny"
+"**/credentials.yaml" = "deny"
+"**/service-account*.json" = "deny"
+"**/*.pem" = "deny"
+"**/*.key" = "deny"
+"**/*.p12" = "deny"
+"**/*.pfx" = "deny"
+"**/*.asc" = "deny"
+"**/*.tfvars" = "deny"
+"**/*.tfstate" = "deny"
+"**/*.tfstate.backup" = "deny"
+"**/.terraform/**" = "deny"
+"**/.npmrc" = "deny"
+"**/.yarnrc.yml" = "deny"
+"**/hosts.yml" = "deny"
+
+[permissions.dotfiles.network]
+enabled = true
+# END GENERATED DOTFILES POLICY

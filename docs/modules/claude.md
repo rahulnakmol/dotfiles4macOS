@@ -2,6 +2,21 @@
 
 Claude Code configuration — settings, keybindings, and custom statusline.
 
+## Private AI gateway (CLI only)
+
+Run `bash scripts/setup-codex-profiles.sh` once per macOS user after profile setup. Gateway or both
+mode creates an isolated `CLAUDE_CONFIG_DIR` under `~/.config/private-ai-gateway/claude`, reads the shared gateway key
+from a mode-0600 file at launch, and sets the Anthropic-compatible gateway origin for the ordinary
+`claude` command. It does not configure Claude Desktop or modify this tracked Claude module.
+
+`scripts/bootstrap-skills.sh` requires the external `rahulnakmol/skills` checkout (default
+`~/Developer/GitHub/skills`, override with `SKILLS_REPO`) and maps its supported `CLAUDE_CONFIG`
+adapter target to this isolated home. Plugin installation invokes `~/.local/bin/claude` explicitly;
+it never exports the gateway key globally.
+
+Use `bash scripts/setup-private-ai-gateway.sh --status` for a value-free status report and
+`--rotate-key` to replace the one shared key used by all three supported gateway CLIs.
+
 ## Files
 
 | File | Target | Purpose |

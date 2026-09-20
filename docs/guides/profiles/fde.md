@@ -29,6 +29,7 @@ Managed installation and human setup are tracked separately. These steps are unv
 | Default browser | Complete Zen onboarding; choose Zen under Default web browser in macOS System Settings | Open an ordinary web link and confirm it opens in Zen |
 | Desktop apps | Complete your own app sign-ins; configure a provider in T3 Code if using it | Start your own small task in each app |
 | Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
+| Private AI gateway and Codex profiles | Run the one-click profile setup for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
 | Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
 | Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
 | Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
@@ -56,6 +57,31 @@ bash scripts/setup-workstation.sh check --profile fde
 
 Without --profile, an interactive terminal offers FDE / TF on first use. Later runs use the locally selected profile. Apply installs only missing packages and prints a backup path. Repeat apply after updates; it will refuse to overwrite edits made to managed generated files.
 
+## Configure the private AI gateway once per user
+
+The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects a credential. After
+the profile apply, configure the CLI tools interactively:
+
+```sh
+bash scripts/setup-codex-profiles.sh
+bash scripts/setup-codex-profiles.sh --status
+herdr integration status
+```
+
+Setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the authenticated
+`/v1/models` catalog, and asks for the Codex/OpenCode default. Endpoint, shared key and model remain
+under `~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex`
+and `opencode` commands use protected wrappers in `~/.local/bin`; terminal `codex` is always
+gateway-backed. The installer also creates explicit launchers for stock subscription ChatGPT at
+`~/.codex` and an isolated gateway desktop at `~/.codex-aigateway`. Re-run setup to refresh
+models and validate the machine-local Fable/Astra/Sol/Grok mapping, or use
+`scripts/setup-private-ai-gateway.sh --rotate-key` for one-place key rotation. Use
+`chatgpt-subscription` and `chatgpt-aigateway` for explicit launch: generic bundle-ID actions
+such as Hyper+J, Raycast `cx` and Workmode cannot distinguish the two signed-app processes.
+
+Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider
+interface. Never reuse the gateway key as `CURSOR_API_KEY`. See the module guides for details.
+
 ## Optional Alfred productivity setup
 
 The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
@@ -74,7 +100,7 @@ The flag is required on every run that manages productivity; a previous opt-in d
 
 ## What is installed
 
-General CLI tools are shared: git, node, stow, zsh, tmux, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete, opencode. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: font-jetbrains-mono-nerd-font, ghostty, zen, microsoft-edge, microsoft-teams, claude, obsidian, cursor, chatgpt, slack, t3-code, microsoft-word, microsoft-excel, microsoft-powerpoint, claude-code. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
+General CLI tools are shared: git, node, stow, zsh, tmux, herdr, neovim, eza, bat, fd, ripgrep, fzf, zoxide, starship, curl, jq, gh, podman, claude, opencode, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete. Shell, prompt, terminal and editor modules are Stow-managed. Default Homebrew GUI packages: font-jetbrains-mono-nerd-font, ghostty, zen, microsoft-edge, microsoft-teams, claude, obsidian, cursor, chatgpt, slack, t3-code, microsoft-word, microsoft-excel, microsoft-powerpoint. Safari and Finder are built into macOS. Licensed media apps are never automatically installed.
 
 FDE keeps Amp, Claude, Cursor and T3 Code variations and the full app map; Amp is optional and only its own workflow requires it. Existing Claude/Codex/Cursor/OpenCode configuration modules remain available in the repository; agent trust/auth settings are an explicit personal setup step, not copied to colleagues by this installer.
 

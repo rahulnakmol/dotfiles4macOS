@@ -23,12 +23,15 @@ export function codexArtifacts(root) {
   }
   if (Buffer.byteLength(instructions) > 24000) throw new Error('Global instructions exceed the 24 KiB budget');
   result[catalog.adapters.codex.instructions] = instructions;
+  result[catalog.adapters.codexGateway.instructions] = instructions;
   const quote = JSON.stringify;
   const blocked = catalog.shell.secretFetchAsk.map(s => s.split(' '));
-  result[catalog.adapters.codex.rules] = '# Generated from agent-policy/catalog.json. Do not edit.\n' +
+  const rules = '# Generated from agent-policy/catalog.json. Do not edit.\n' +
     [...blocked.map(pattern => ({pattern, decision: 'forbidden', justification: 'Do not retrieve secret values. Use vault references.'})),
       ...catalog.codex.promptPrefixes.map(pattern => ({pattern, decision: 'prompt', justification: 'Review destructive, publishing, or infrastructure operations before execution.'}))]
       .map(r => `prefix_rule(pattern=${quote(r.pattern)}, decision=${quote(r.decision)}, justification=${quote(r.justification)}, match=[${quote(r.pattern.join(' '))}])`).join('\n') + '\n';
+  result[catalog.adapters.codex.rules] = rules;
+  result[catalog.adapters.codexGateway.rules] = rules;
   let config = '# BEGIN GENERATED DOTFILES POLICY\n# Generated from agent-policy/catalog.json; other settings above are editable.\n';
   config += '\n[permissions.dotfiles]\nextends = ":workspace"\ndescription = "Workspace editing with shared secret-path restrictions on macOS."\n';
   config += '\n[permissions.dotfiles.filesystem]\n';
@@ -37,9 +40,11 @@ export function codexArtifacts(root) {
   for (const p of catalog.secrets.workspaceGlobs) config += `${quote(p)} = "deny"\n`;
   config += '\n[permissions.dotfiles.network]\nenabled = true\n';
   config += '# END GENERATED DOTFILES POLICY';
-  const current = read(catalog.adapters.codex.config);
   const block = /^# BEGIN GENERATED DOTFILES POLICY\n[\s\S]*?^# END GENERATED DOTFILES POLICY/gm;
-  if ([...current.matchAll(block)].length !== 1) throw new Error('Expected one marked policy block in codex/.codex/config.toml');
-  result[catalog.adapters.codex.config] = current.replace(block, () => config);
+  for (const target of [catalog.adapters.codex.config, catalog.adapters.codexGateway.configTemplate]) {
+    const current = read(target);
+    if ([...current.matchAll(block)].length !== 1) throw new Error(`Expected one marked policy block in ${target}`);
+    result[target] = current.replace(block, () => config);
+  }
   return result;
 }

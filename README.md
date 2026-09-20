@@ -65,6 +65,7 @@ to a colleague by this installer.
 |--------|---------|
 | `zsh` | Shell config with 120+ aliases, modular `.zshrc.d/` structure |
 | `tmux` | Terminal multiplexer with Claude Code & OpenCode key tables |
+| `herdr` | Persistent agent-aware workspaces with gateway-backed CLI integrations |
 | `nvim` | Neovim with LazyVim and Catppuccin colorscheme |
 | `ghostty` | GPU-accelerated terminal emulator |
 | `starship` | Cross-shell prompt with Catppuccin palette |
@@ -75,7 +76,8 @@ to a colleague by this installer.
 | `bat` | Syntax-highlighted `cat` with Catppuccin themes |
 | `bash` | Bash shell config with modular .bashrc.d structure |
 | `claude` | Claude Code settings, keybindings, statusline |
-| `codex` | macOS Codex preferences, shared engineering guidance, and permission policy |
+| `codex` | Subscription/default ChatGPT desktop preferences and policy at `~/.codex` |
+| `codex-aigateway` | Selective policy for the isolated gateway Codex home; runtime remains local |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
 | `raycast` | Optional Workmode config; build/import via `setup-raycast-workstation.sh install` |
@@ -83,13 +85,24 @@ to a colleague by this installer.
 | `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
 | `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
 
+Both profiles install the Claude Code, Codex, and OpenCode CLIs plus Herdr. Run
+`bash scripts/setup-codex-profiles.sh` (or double-click `setup/Codex Profiles.command`) once per user
+to configure subscription/gateway ChatGPT desktop profiles and route ordinary `claude`, `codex` and
+`opencode` through one private OpenAI-compatible gateway key. The endpoint, key, selected model,
+generated providers, runtime state and Herdr integrations stay protected and untracked. Cursor CLI
+and desktop remain on the official Cursor account. See [Codex profiles](docs/guides/codex-profiles.md).
+
+Optional model conveniences `ccf`, `cda`, `cds` and `cdg` resolve from the authenticated
+machine-local catalog mapping in `~/.config/private-ai-gateway/model-aliases.json`; this repository
+does not hardcode Fable, Astra, Sol or Grok provider IDs.
+
 ## Quick Start — manual Stow, core setup
 
 Use this path to choose modules yourself without Alfred, Karabiner, Rectangle Pro or session automation. Both profiles recommend the same default desktop apps for this path.
 
 ```sh
 # Shared CLI tools and terminal
-brew install git node stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
+brew install git node stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman claude opencode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
 brew install --cask ghostty font-jetbrains-mono-nerd-font
 
 # Default desktop apps and browser
@@ -98,8 +111,8 @@ brew install --cask zen claude cursor chatgpt
 # Clone your dotfiles repository, then preview and deploy only core modules
 git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
 cd ~/.dotfiles
-stow -n zsh bash bat starship tmux ghostty nvim
-stow zsh bash bat starship tmux ghostty nvim
+stow -n zsh bash bat starship tmux herdr ghostty nvim
+stow zsh bash bat starship tmux herdr ghostty nvim
 
 # Optional browser for end-to-end testing
 # brew install --cask google-chrome@canary
@@ -107,13 +120,17 @@ stow zsh bash bat starship tmux ghostty nvim
 
 Open Zen and set it as Default web browser in macOS System Settings. Sign in to your own Claude, Cursor and ChatGPT/Codex accounts directly. Installing these apps does not require stowing their configuration modules. Amp is optional; download its native app from https://ampcode.com/app if needed.
 
+For the private gateway and two Codex desktop profiles, run `bash scripts/setup-codex-profiles.sh`,
+then verify with `bash scripts/setup-codex-profiles.sh --status` and `herdr integration status`. Never reuse the
+gateway key as `CURSOR_API_KEY`.
+
 Add other modules individually after reviewing them for your own machine. Personal Git/SSH/signing, credentials and agent trust settings are separate from this baseline. Avoid `stow */`; use the explicit module list above. See the [manual setup guide](docs/guides/setup.md) for conflicts, validation and updates.
 
 ## Dependencies
 
 ### Tier 1 — Required
 ```bash
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq
+brew install git stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq
 ```
 
 ### Tier 2 — Recommended
@@ -124,6 +141,7 @@ brew install --cask ghostty font-jetbrains-mono-nerd-font
 
 ### Tier 3 — AI Coding Tools
 ```bash
+brew install claude opencode
 brew install --cask zen claude cursor chatgpt
 # Optional: brew install --cask google-chrome@canary
 ```
@@ -156,9 +174,11 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 
 - `docs/guides/setup.md` — Fresh machine setup guide
 - `docs/guides/dependencies.md` — Full dependency list with install commands
+- `docs/guides/codex-profiles.md` — Gateway-only Codex CLI plus two isolated ChatGPT desktop profiles
 - `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
 - `docs/modules/` — Per-module documentation
+- [Private AI gateway and Herdr integrations](docs/modules/herdr.md)
 - [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
 - [Raycast Workmode installation and native settings](docs/modules/raycast.md)
 - [Alfred migration and installed-plugin parity](docs/modules/alfred.md)
