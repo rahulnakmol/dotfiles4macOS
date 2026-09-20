@@ -8,6 +8,7 @@ CONFIG_DIR="${PRIVATE_AI_GATEWAY_CONFIG_DIR:-$HOME/.config/private-ai-gateway}"
 ENDPOINT_FILE="$CONFIG_DIR/endpoint"
 KEY_FILE="$CONFIG_DIR/client.key"
 MODEL_FILE="$CONFIG_DIR/default-model"
+MODEL_ALIASES_FILE="$CONFIG_DIR/model-aliases.json"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 CODEX_HOME="${PRIVATE_AI_GATEWAY_CODEX_HOME:-$HOME/.codex-aigateway}"
 CODEX_TEMPLATE="$ROOT/scripts/templates/codex-aigateway-config.toml"
@@ -43,11 +44,12 @@ file_mode() {
 
 status() {
   local failed=0 name file
-  for name in endpoint key model; do
+  for name in endpoint key model aliases; do
     case "$name" in
       endpoint) file="$ENDPOINT_FILE" ;;
       key) file="$KEY_FILE" ;;
       model) file="$MODEL_FILE" ;;
+      aliases) file="$MODEL_ALIASES_FILE" ;;
     esac
     if [[ -s "$file" ]]; then
       printf 'gateway %-8s present (mode %s)\n' "$name:" "$(file_mode "$file")"
@@ -57,7 +59,7 @@ status() {
       failed=1
     fi
   done
-  for name in claude codex opencode; do
+  for name in claude codex opencode gateway-model; do
     if [[ -x "$BIN_DIR/$name" ]]; then printf '%-16s configured\n' "$name"; else printf '%-16s absent\n' "$name"; failed=1; fi
   done
   if [[ -x "$BIN_DIR/chatgpt-aigateway" ]]; then printf '%-20s configured\n' chatgpt-aigateway; else printf '%-20s absent\n' chatgpt-aigateway; failed=1; fi
@@ -155,11 +157,38 @@ gateway_json="$(jq -Rn --arg value "$gateway_url" '$value')"
 model_json="$(jq -Rn --arg value "$default_model" '$value')"
 key_file_json="$(jq -Rn --arg value "$KEY_FILE" '$value')"
 
+if [[ -s "$MODEL_ALIASES_FILE" ]]; then
+  if ! jq -e --argjson catalog "$(jq '[.data[].id] | unique' <<<"$models_json")" '
+      type == "object" and
+      all(to_entries[];
+        (.key | IN("fable", "astra", "sol", "grok")) and
+        (.value | type == "string") and
+        (.value as $value | $catalog | index($value))
+      )
+    ' "$MODEL_ALIASES_FILE" >/dev/null; then
+    echo "Saved model aliases are invalid or no longer advertised; update $MODEL_ALIASES_FILE and rerun." >&2
+    exit 1
+  fi
+  aliases_json="$(jq -c . "$MODEL_ALIASES_FILE")"
+elif [[ -t 0 ]]; then
+  aliases_json='{}'
+  models=()
+  while IFS= read -r model; do models+=("$model"); done < <(jq -r '.data[].id' <<<"$models_json" | sort -u)
+  for alias_name in fable astra sol grok; do
+    echo "Select the authenticated model for '$alias_name' (or Skip if unavailable):"
+    select alias_model in "${models[@]}" Skip; do [[ -n "$alias_model" ]] && break; done
+    [[ "$alias_model" == Skip ]] || aliases_json="$(jq -c --arg name "$alias_name" --arg model "$alias_model" '. + {($name):$model}' <<<"$aliases_json")"
+  done
+else
+  echo "Missing $MODEL_ALIASES_FILE. Run interactively once to map Fable/Astra/Sol/Grok to advertised model IDs." >&2
+  exit 1
+fi
 printf '%s\n' "$gateway_url" >"$ENDPOINT_FILE"
 printf '%s\n' "$key" >"$KEY_FILE"
 printf '%s\n' "$default_model" >"$MODEL_FILE"
-unset key
-chmod 0600 "$ENDPOINT_FILE" "$KEY_FILE" "$MODEL_FILE"
+printf '%s\n' "$aliases_json" >"$MODEL_ALIASES_FILE"
+unset key aliases_json
+chmod 0600 "$ENDPOINT_FILE" "$KEY_FILE" "$MODEL_FILE" "$MODEL_ALIASES_FILE"
 
 [[ -f "$CODEX_TEMPLATE" ]] || { echo 'Missing tracked Codex gateway template.' >&2; exit 1; }
 sed \
@@ -223,6 +252,19 @@ printf -v opencode_body '%s\n%s\n%s' \
   "export OPENCODE_CONFIG_DIR='$OPENCODE_HOME'" \
   "exec '$opencode_bin' \"\$@\""
 write_wrapper "$BIN_DIR/opencode" "$opencode_body"
+
+# Generic non-secret model router used by shell functions and long-lived tmux servers.
+# The single-quoted fragments intentionally expand only when the generated wrapper runs.
+# shellcheck disable=SC2016
+printf -v gateway_model_body '%s\n%s\n%s\n%s\n%s\n%s\n%s' \
+  '[[ $# -ge 2 ]] || { echo "Usage: gateway-model claude|codex fable|astra|sol|grok [args...]" >&2; exit 2; }' \
+  'client="$1"; alias_name="$2"; shift 2' \
+  "mapping='$MODEL_ALIASES_FILE'" \
+  'case "$client" in claude|codex) ;; *) echo "Unsupported gateway client: $client" >&2; exit 2;; esac' \
+  'model="$(jq -er --arg name "$alias_name" '\''.[$name] // empty'\'' "$mapping" 2>/dev/null)" || { echo "Gateway model alias '\''$alias_name'\'' is unavailable; rerun scripts/setup-private-ai-gateway.sh." >&2; exit 1; }' \
+  'export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"' \
+  'exec "$client" --model "$model" "$@"'
+write_wrapper "$BIN_DIR/gateway-model" "$gateway_model_body"
 
 # The generated launcher, not setup, expands its own HOME and PATH.
 # shellcheck disable=SC2016

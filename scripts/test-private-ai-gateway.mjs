@@ -26,6 +26,7 @@ function fixture(t) {
   writeFileSync(join(config, 'endpoint'), 'https://gateway.example.test/base\n', { mode: 0o600 });
   writeFileSync(join(config, 'client.key'), 'fixture-secret\n', { mode: 0o600 });
   writeFileSync(join(config, 'default-model'), 'z-model\n', { mode: 0o600 });
+  writeFileSync(join(config, 'model-aliases.json'), '{"fable":"a-model","astra":"z-model"}\n', { mode: 0o600 });
   const env = { ...process.env, HOME: home, PATH: `${bin}:/usr/bin:/bin`, CALLS: calls };
   return { home, config, managed, calls, env, run: args => spawnSync('/bin/bash', [setup, ...args], { env, encoding: 'utf8' }) };
 }
@@ -38,7 +39,7 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
     assert.ok(!result.stdout.includes('fixture-secret'));
     assert.ok(!result.stderr.includes('fixture-secret'));
   }
-  for (const file of ['endpoint', 'client.key', 'default-model', 'opencode/opencode.json'])
+  for (const file of ['endpoint', 'client.key', 'default-model', 'model-aliases.json', 'opencode/opencode.json'])
     assert.equal(statSync(join(f.config, file)).mode & 0o777, 0o600, file);
   const codexHome = join(f.home, '.codex-aigateway');
   assert.equal(statSync(codexHome).mode & 0o777, 0o700);
@@ -71,6 +72,14 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(gatewayLauncher, /unset CODEX_HOME CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME/);
   assert.match(gatewayLauncher, /codex-profile app aigateway/);
   assert.ok(!gatewayLauncher.includes('fixture-secret'));
+  const modelRouter = readFileSync(join(f.managed, 'gateway-model'), 'utf8');
+  assert.match(modelRouter, /jq -er --arg name "\$alias_name" '\.\[\$name\] \/\/ empty'/);
+  const modelCall = spawnSync(join(f.managed, 'gateway-model'), ['codex', 'astra', '--version'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
+  assert.equal(modelCall.status, 0, modelCall.stderr);
+  assert.match(readFileSync(f.calls, 'utf8'), /codex --model z-model --version/);
+  const unavailable = spawnSync(join(f.managed, 'gateway-model'), ['codex', 'sol'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
+  assert.equal(unavailable.status, 1);
+  assert.match(unavailable.stderr, /alias 'sol' is unavailable/);
   assert.ok(!existsSync(join(f.managed, 'chatgpt-subscription')));
   assert.equal([...codex.matchAll(/client\.key/g)].length, 2, 'Codex config stores only a denied-path entry and one file-backed auth reference');
   assert.equal(readFileSync(join(f.config, 'opencode/plugins/herdr-agent-state.js'), 'utf8'), 'integration');
@@ -79,6 +88,20 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(integrations, /private-ai-gateway\/claude\|\|.*\/home\|integration install claude/);
   assert.match(integrations, /\|.*\.codex-aigateway\|.*\/home\|integration install codex/);
   assert.match(integrations, /\|\|\/.*private-ai-gateway-herdr\.[^|]+\|integration install opencode/);
+});
+
+test('catalog refresh validates aliases without rewriting the key or inventing model IDs', t => {
+  const f = fixture(t);
+  const beforeKey = readFileSync(join(f.config, 'client.key'), 'utf8');
+  const result = f.run([]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'a-model', astra:'z-model'});
+  writeFileSync(join(f.config, 'model-aliases.json'), '{"fable":"retired-model"}\n', {mode:0o600});
+  const rejected = f.run([]);
+  assert.equal(rejected.status, 1);
+  assert.match(rejected.stderr, /invalid or no longer advertised/);
+  assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
 });
 
 test('status is read-only, reports modes, and keeps Cursor excluded', t => {
@@ -98,6 +121,10 @@ test('public files contain no private endpoint, credential, or Cursor gateway wi
   const literalUrls = [...text.matchAll(/["'](https:\/\/[^"']+)["']/g)].map(match => match[1]);
   assert.deepEqual(literalUrls, ['https://opencode.ai/config.json']);
   assert.ok(!/(?:sk-|Bearer )[A-Za-z0-9_-]{12,}/.test(text));
+  for (const file of ['zsh/.zshrc.d/aliases.zsh','bash/.bashrc.d/aliases.sh','tmux/.config/tmux/tmux.conf']) {
+    const tracked = readFileSync(join(root, file), 'utf8');
+    assert.doesNotMatch(tracked, /gpt-[0-9]|claude-[0-9].*(?:fable|astra|sol|grok)|(?:fable|astra|sol|grok)[-_/][0-9]/i, file);
+  }
 });
 
 test('tracked Claude and OpenCode modules remain reusable and gateway-neutral', () => {

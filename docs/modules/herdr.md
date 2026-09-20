@@ -23,19 +23,25 @@ screen history, resumes supported agent sessions after a Herdr restart, and stor
 
 Run the Codex profile installer after the workstation profile. Gateway or both mode configures the
 one shared key and installs Herdr integrations for isolated Claude Code, gateway Codex and OpenCode
-CLI locations. The subscription desktop remains discoverable through its explicit launcher:
+CLI locations. Subscription or both mode also installs the Codex integration under `~/.codex`:
 
 ```bash
 bash scripts/setup-codex-profiles.sh
 herdr integration status
 ```
 
-Claude and Codex integrations provide native session identity/restore. OpenCode's integration also
+Exact generated targets are `~/.config/private-ai-gateway/claude`,
+`~/.config/private-ai-gateway/opencode`, `~/.codex-aigateway`, and optionally `~/.codex`. Claude and
+Codex integrations provide native session identity/restore. OpenCode's integration also
 provides lifecycle state. The integration files are generated locally and are intentionally not
 committed. Herdr currently hardcodes its OpenCode install target, so setup safely stages that
 integration in a temporary home and copies only the generated integration files into the isolated
 gateway OpenCode directory; it does not modify ordinary `~/.config/opencode` state. Re-run gateway
 setup after a Herdr upgrade to refresh release-matched integrations.
+
+Both Codex integrations can coexist on disk because setup invokes Herdr with each `CODEX_HOME`.
+Herdr may display both with the same `codex` label rather than a profile-qualified label; use the
+explicit desktop launchers or terminal `codex` to choose the home. State is never collapsed.
 
 Cursor Agent integration is not installed by the gateway setup. Cursor CLI remains authenticated to
 the official Cursor account and must never receive the gateway key as `CURSOR_API_KEY`. If you use
@@ -60,6 +66,11 @@ Cursor Agent in Herdr, install its independent integration with `herdr integrati
 | `C-a Shift-D` | Codex popup |
 | `C-a Shift-S` | Launch subscription ChatGPT desktop |
 | `C-a Shift-A` | Launch gateway ChatGPT desktop |
+
+Popup commands resolve through `~/.local/bin`, including in a tmux/Herdr process started before the
+wrappers were installed. This prevents an old server PATH or `~/.opencode/bin` from bypassing them.
+The tracked Herdr commands name those wrapper paths directly; desktop commands remain the explicit
+`chatgpt-subscription` and `chatgpt-aigateway` launchers.
 
 Agent names use stable Catppuccin colors while state icons retain their urgency color. Pane history
 is disabled because terminal output can contain secrets; detaching still preserves running panes and

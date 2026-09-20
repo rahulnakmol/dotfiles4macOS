@@ -22,6 +22,10 @@ Re-running setup refreshes the catalog. `--status` does not contact the gateway 
 | `.config/opencode/tui.json` | `~/.config/opencode/tui.json` |
 
 Agents, commands, workflows, skills, and plugins install via `bootstrap-skills.sh` (not vendored in dotfiles).
+Clone the external `rahulnakmol/skills` repository at `~/Developer/GitHub/skills` or set
+`SKILLS_REPO`. Bootstrap maps its supported `OPENCODE_CONFIG` target to
+`~/.config/private-ai-gateway/opencode`; it does not run adapters against ordinary
+`~/.config/opencode` or install a global gateway secret.
 
 ## Configuration
 

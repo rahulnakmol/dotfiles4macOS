@@ -14,6 +14,11 @@ Shell configuration with modular `.zshrc.d/` architecture.
 | `.zshrc.d/catppuccin-fzf-macchiato.sh` | `~/.zshrc.d/` | FZF Catppuccin color theme |
 | `.zshrc.d/README.md` | `~/.zshrc.d/` | Alias reference documentation |
 
+`~/.local/bin` intentionally precedes `~/.opencode/bin`, so private-gateway `claude`, `codex` and
+`opencode` wrappers win. `ccf`, `cda`, `cds` and `cdg` resolve Fable, Astra, Sol and Grok from the
+authenticated machine-local mapping created by `scripts/setup-private-ai-gateway.sh`; no model ID is
+tracked in the alias file. Existing `ccs`, `cco` and other Claude aliases use the same wrapper.
+
 ## Dependencies
 
 `starship`, `zoxide`, `fzf`, `eza`, `bat`, `zsh-syntax-highlighting`, `zsh-autocomplete`, `zsh-autosuggestions`

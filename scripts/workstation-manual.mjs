@@ -83,7 +83,10 @@ under \`~/.config/private-ai-gateway\` with restrictive permissions. Ordinary \`
 and \`opencode\` commands use protected wrappers in \`~/.local/bin\`; terminal \`codex\` is always
 gateway-backed. The installer also creates explicit launchers for stock subscription ChatGPT at
 \`~/.codex\` and an isolated gateway desktop at \`~/.codex-aigateway\`. Re-run setup to refresh
-models, or use \`scripts/setup-private-ai-gateway.sh --rotate-key\` for one-place key rotation.
+models and validate the machine-local Fable/Astra/Sol/Grok mapping, or use
+\`scripts/setup-private-ai-gateway.sh --rotate-key\` for one-place key rotation. Use
+\`chatgpt-subscription\` and \`chatgpt-aigateway\` for explicit launch: generic bundle-ID actions
+such as Hyper+J, Raycast \`cx\` and Workmode cannot distinguish the two signed-app processes.
 
 Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider
 interface. Never reuse the gateway key as \`CURSOR_API_KEY\`. See the module guides for details.

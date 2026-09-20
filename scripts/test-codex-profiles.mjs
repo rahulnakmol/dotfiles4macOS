@@ -108,6 +108,7 @@ test('installer mode selection is idempotent and invokes only the selected journ
     executable(downloaded, `[[ "\${1:-}" == version ]] && echo 'codex-profile 1.2.0'`);
     const checksum = createHash('sha256').update(readFileSync(downloaded)).digest('hex');
     executable(join(bin, 'uname'), 'echo Darwin');
+    executable(join(bin, 'herdr'), 'printf "herdr:%s:%s\\n" "${CODEX_HOME:-}" "$*" >> "$CALLS"');
     executable(join(bin, 'curl'), `cp '${downloaded}' "\${@: -1}"`);
     executable(join(fakeRoot, 'scripts/bootstrap-codex.sh'), 'echo subscription >> "$CALLS"');
     executable(join(fakeRoot, 'scripts/setup-private-ai-gateway.sh'), 'echo gateway >> "$CALLS"');
@@ -117,9 +118,13 @@ test('installer mode selection is idempotent and invokes only the selected journ
       assert.equal(result.status, 0, result.stderr);
     }
     const entries = readFileSync(calls, 'utf8').trim().split('\n');
+    const setupEntries = entries.filter(entry => !entry.startsWith('herdr:'));
     const expected = mode === 'both' ? ['subscription','gateway','gateway','subscription','gateway','gateway']
       : mode === 'gateway' ? Array(4).fill('gateway') : ['subscription','subscription'];
-    assert.deepEqual(entries, expected);
+    assert.deepEqual(setupEntries, expected);
+    const herdrEntries = entries.filter(entry => entry.startsWith('herdr:'));
+    assert.equal(herdrEntries.length, mode === 'gateway' ? 0 : 2);
+    assert.ok(herdrEntries.every(entry => entry.includes(`${home}/.codex:integration install codex`)));
     assert.equal(statSync(join(home, '.local/bin/codex-profile')).mode & 0o777, 0o755);
     assert.equal(statSync(join(home, '.local/bin', mode === 'gateway' ? 'chatgpt-aigateway' : 'chatgpt-subscription')).mode & 0o777, 0o700);
   }

@@ -88,6 +88,9 @@ ln -sfn codex-profile "$BIN_DIR/codex-profiles"
 case "$MODE" in
   subscription|both)
     bash "$ROOT/scripts/bootstrap-codex.sh" apply
+    if command -v herdr >/dev/null 2>&1; then
+      CODEX_HOME="$HOME/.codex" herdr integration install codex >/dev/null
+    fi
     write_launcher "$BIN_DIR/chatgpt-subscription" default
     ;;
 esac

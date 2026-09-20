@@ -21,6 +21,11 @@ This symlinks `~/.bash_profile`, `~/.bashrc`, `~/.bashrc.d/`, and `~/.hushlogin`
 | `.bashrc.d/catppuccin-fzf-macchiato.sh` | `~/.bashrc.d/catppuccin-fzf-macchiato.sh` | Catppuccin Macchiato fzf colors |
 | `.hushlogin` | `~/.hushlogin` | Silence login message |
 
+`~/.local/bin` intentionally precedes `~/.opencode/bin`, so private-gateway `claude`, `codex` and
+`opencode` wrappers win. `ccf`, `cda`, `cds` and `cdg` use the catalog-derived machine-local Fable,
+Astra, Sol and Grok mappings. Existing Claude aliases such as `ccs` and `cco` still invoke the
+gateway `claude` command.
+
 ## Integrations
 
 - **Starship** prompt (`eval "$(starship init bash)"`)

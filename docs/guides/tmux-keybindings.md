@@ -50,6 +50,7 @@ running processes do not.
 | `O` | Split pane — Opus autopilot (`--dangerously-skip-permissions`) |
 | `S` | Split pane — Sonnet autopilot (`--dangerously-skip-permissions`) |
 | `p` | Split pane — Opus plan mode (read-only) |
+| `f` | Split pane — Claude Code with the machine-local Fable mapping |
 | `w` | New window running Claude |
 
 ### OpenCode — `prefix O` enters the `opencode` key table
@@ -61,9 +62,16 @@ running processes do not.
 | `s` | Split pane — default model |
 | `w` | New window running OpenCode |
 | `p` | Popup — Pro agent (`opencode/claude-opus-4-6`) |
-| `c` | Popup — Codex agent (`opencode/gpt-5.3-codex`) |
-| `u` | Popup — UI agent (`opencode/gemini-3.1-pro`) |
-| `q` | Popup — Quick agent (`opencode/minimax-m2.5`) |
+| `c` | Popup — real gateway Codex with the selected default model |
+| `a` | Popup — gateway Codex with the machine-local Astra mapping |
+| `S` | Popup — gateway Codex with the machine-local Sol mapping |
+| `g` | Popup — gateway Codex with the machine-local Grok mapping |
+
+All direct `claude`, `opencode` and `codex` commands prepend
+`~/.local/bin:/opt/homebrew/bin:/usr/local/bin` at execution time. This is deliberate: an existing
+tmux server retains its startup environment, and `~/.opencode/bin` must not outrank the gateway
+wrapper. Fable/Astra/Sol/Grok IDs come only from
+`~/.config/private-ai-gateway/model-aliases.json`; an unmapped or retired alias fails clearly.
 
 > Capital `C` and `O` were chosen so they don't shadow tmux defaults
 > `prefix c` (new window) and `prefix o` (next pane).

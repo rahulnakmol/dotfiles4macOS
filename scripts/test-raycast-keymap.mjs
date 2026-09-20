@@ -59,6 +59,16 @@ test('Workmode branding preserves installed extension and command identities',()
   assert.equal(manifest.commands.find(c=>c.name==='check')?.title,'Check Workmode Setup');
 });
 
+test('generic Codex launch remains explicitly profile-ambiguous',()=>{
+  const codex=config.apps.find(app=>app.id==='codex');
+  assert.equal(codex.bundleId,'com.openai.codex');
+  const guide=readFileSync(new URL('../docs/guides/raycast.md',import.meta.url),'utf8');
+  assert.match(guide,/cx.*bundle ID `com\.openai\.codex`/s);
+  assert.match(guide,/can choose\s+or focus a specific profile/s);
+  assert.match(guide,/chatgpt-subscription/);
+  assert.match(guide,/chatgpt-aigateway/);
+});
+
 test('aliases cover every app, mode, extension command and mapped window action uniquely',()=>{
   const {hotkeys,aliases}=buildKeymap(config);
   assert.equal(new Set(aliases.map(a=>a.alias)).size,aliases.length);

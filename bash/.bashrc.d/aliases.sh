@@ -181,6 +181,16 @@ alias ccpl='claude --model opus --permission-mode plan'
 alias 'cc!'='claude --model sonnet --dangerously-skip-permissions'
 alias 'cco!'='claude --model opus --dangerously-skip-permissions'
 
+# Private gateway model conveniences. IDs are selected from the authenticated
+# catalog during setup; no provider-specific model ID is tracked here.
+gateway_model() {
+  "$HOME/.local/bin/gateway-model" "$@"
+}
+ccf() { gateway_model claude fable "$@"; }
+cda() { gateway_model codex astra "$@"; }
+cds() { gateway_model codex sol "$@"; }
+cdg() { gateway_model codex grok "$@"; }
+
 # Aliases for opencode (via Zen provider)
 alias oc='opencode'
 alias occ='opencode -c'

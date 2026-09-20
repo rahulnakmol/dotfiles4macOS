@@ -1,7 +1,7 @@
 # PATH — build dynamically, deduplicate
 typeset -U PATH
 PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DOTNET_TOOLS:$PATH"
-[[ -d "$HOME/.opencode/bin" ]] && PATH="$HOME/.opencode/bin:$PATH"
+[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
 
 # Homebrew — only eval if .zprofile didn't already set it (non-login shells)
 if [[ -z "$HOMEBREW_PREFIX" && -x /opt/homebrew/bin/brew ]]; then
@@ -52,4 +52,3 @@ unset _fzf_cache
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-

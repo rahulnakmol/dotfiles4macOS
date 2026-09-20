@@ -3,7 +3,7 @@
 
 # PATH — build dynamically
 PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
-[[ -d "$HOME/.opencode/bin" ]] && PATH="$HOME/.opencode/bin:$PATH"
+[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
 
 # Homebrew — only eval if .bash_profile didn't already set it (non-login shells)
 if [[ -z "$HOMEBREW_PREFIX" && -x /opt/homebrew/bin/brew ]]; then

@@ -92,6 +92,10 @@ to configure subscription/gateway ChatGPT desktop profiles and route ordinary `c
 generated providers, runtime state and Herdr integrations stay protected and untracked. Cursor CLI
 and desktop remain on the official Cursor account. See [Codex profiles](docs/guides/codex-profiles.md).
 
+Optional model conveniences `ccf`, `cda`, `cds` and `cdg` resolve from the authenticated
+machine-local catalog mapping in `~/.config/private-ai-gateway/model-aliases.json`; this repository
+does not hardcode Fable, Astra, Sol or Grok provider IDs.
+
 ## Quick Start — manual Stow, core setup
 
 Use this path to choose modules yourself without Alfred, Karabiner, Rectangle Pro or session automation. Both profiles recommend the same default desktop apps for this path.

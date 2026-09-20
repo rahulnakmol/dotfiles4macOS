@@ -19,3 +19,8 @@ bash scripts/setup-raycast-workstation.sh install
 
 You can also double-click `setup/Raycast.command`. After **Importing Workmode**,
 wait for **ready**, then press **Control+C**. Workmode stays installed.
+
+The native ChatGPT/Codex alias (`cx`) and Workmode actions target bundle ID `com.openai.codex`.
+Both subscription and gateway profiles share that ID, so these generic commands cannot distinguish
+their processes. Use `chatgpt-subscription` and `chatgpt-aigateway` for profile launch; do not treat
+Raycast focus as profile isolation.

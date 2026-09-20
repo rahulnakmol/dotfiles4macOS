@@ -23,6 +23,12 @@ prompts are respected; a cancelled or timed-out quit stops the switch. Finder,
 Raycast, DockFlow and Session remain available. Codex stays open only when the
 chosen mode includes it.
 
+Raycast alias `cx` and Workmode identify ChatGPT/Codex by bundle ID `com.openai.codex`. Subscription
+and gateway desktop profiles use that same signed application bundle, so neither action can choose
+or focus a specific profile. Launch profiles explicitly with `chatgpt-subscription` or
+`chatgpt-aigateway`; use layout-only actions while both run unless Focus behavior is verified on
+that Mac.
+
 ## Install
 
 Install these prerequisites first. The Workmode installer does not install or
