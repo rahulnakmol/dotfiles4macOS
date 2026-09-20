@@ -21,11 +21,12 @@ screen history, resumes supported agent sessions after a Herdr restart, and stor
 
 ## Gateway-backed CLI integrations
 
-Run the private gateway setup after the profile installer. When Herdr is installed, the setup also
-installs integrations for the isolated Claude Code, Codex, and OpenCode CLI configuration locations:
+Run the Codex profile installer after the workstation profile. Gateway or both mode configures the
+one shared key and installs Herdr integrations for isolated Claude Code, gateway Codex and OpenCode
+CLI locations. The subscription desktop remains discoverable through its explicit launcher:
 
 ```bash
-bash scripts/setup-private-ai-gateway.sh
+bash scripts/setup-codex-profiles.sh
 herdr integration status
 ```
 
@@ -57,6 +58,8 @@ Cursor Agent in Herdr, install its independent integration with `herdr integrati
 | `C-a Shift-C` | Claude Code popup |
 | `C-a Shift-O` | OpenCode popup |
 | `C-a Shift-D` | Codex popup |
+| `C-a Shift-S` | Launch subscription ChatGPT desktop |
+| `C-a Shift-A` | Launch gateway ChatGPT desktop |
 
 Agent names use stable Catppuccin colors while state icons retain their urgency color. Pane history
 is disabled because terminal output can contain secrets; detaching still preserves running panes and

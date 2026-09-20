@@ -76,7 +76,8 @@ to a colleague by this installer.
 | `bat` | Syntax-highlighted `cat` with Catppuccin themes |
 | `bash` | Bash shell config with modular .bashrc.d structure |
 | `claude` | Claude Code settings, keybindings, statusline |
-| `codex` | macOS Codex preferences, shared engineering guidance, and permission policy |
+| `codex` | Subscription/default ChatGPT desktop preferences and policy at `~/.codex` |
+| `codex-aigateway` | Selective policy for the isolated gateway Codex home; runtime remains local |
 | `opencode` | OpenCode (Zen provider) config with agent profiles |
 | `cursor` | Cursor AI editor with global enterprise architecture rules |
 | `raycast` | Optional Workmode config; build/import via `setup-raycast-workstation.sh install` |
@@ -84,11 +85,12 @@ to a colleague by this installer.
 | `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
 | `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
 
-Both profiles install the Claude Code, Codex, and OpenCode CLIs plus Herdr. To route only those CLI
-commands through a private OpenAI-compatible gateway, run `bash scripts/setup-private-ai-gateway.sh`
-once per macOS user after profile setup. The endpoint, shared key, selected model, generated provider
-configs, and Herdr integrations stay in protected untracked user-local files. Claude Desktop,
-ChatGPT/Codex desktop, and Cursor desktop remain unchanged; Cursor CLI stays on its official account.
+Both profiles install the Claude Code, Codex, and OpenCode CLIs plus Herdr. Run
+`bash scripts/setup-codex-profiles.sh` (or double-click `setup/Codex Profiles.command`) once per user
+to configure subscription/gateway ChatGPT desktop profiles and route ordinary `claude`, `codex` and
+`opencode` through one private OpenAI-compatible gateway key. The endpoint, key, selected model,
+generated providers, runtime state and Herdr integrations stay protected and untracked. Cursor CLI
+and desktop remain on the official Cursor account. See [Codex profiles](docs/guides/codex-profiles.md).
 
 ## Quick Start — manual Stow, core setup
 
@@ -114,8 +116,8 @@ stow zsh bash bat starship tmux herdr ghostty nvim
 
 Open Zen and set it as Default web browser in macOS System Settings. Sign in to your own Claude, Cursor and ChatGPT/Codex accounts directly. Installing these apps does not require stowing their configuration modules. Amp is optional; download its native app from https://ampcode.com/app if needed.
 
-For the private gateway CLI path, run `bash scripts/setup-private-ai-gateway.sh`, then verify with
-`bash scripts/setup-private-ai-gateway.sh --status` and `herdr integration status`. Never reuse the
+For the private gateway and two Codex desktop profiles, run `bash scripts/setup-codex-profiles.sh`,
+then verify with `bash scripts/setup-codex-profiles.sh --status` and `herdr integration status`. Never reuse the
 gateway key as `CURSOR_API_KEY`.
 
 Add other modules individually after reviewing them for your own machine. Personal Git/SSH/signing, credentials and agent trust settings are separate from this baseline. Avoid `stow */`; use the explicit module list above. See the [manual setup guide](docs/guides/setup.md) for conflicts, validation and updates.
@@ -168,6 +170,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 
 - `docs/guides/setup.md` — Fresh machine setup guide
 - `docs/guides/dependencies.md` — Full dependency list with install commands
+- `docs/guides/codex-profiles.md` — Gateway-only Codex CLI plus two isolated ChatGPT desktop profiles
 - `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
 - `docs/modules/` — Per-module documentation

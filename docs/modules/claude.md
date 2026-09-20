@@ -4,8 +4,8 @@ Claude Code configuration — settings, keybindings, and custom statusline.
 
 ## Private AI gateway (CLI only)
 
-Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user after profile setup. It creates an
-isolated `CLAUDE_CONFIG_DIR` under `~/.config/private-ai-gateway/claude`, reads the shared gateway key
+Run `bash scripts/setup-codex-profiles.sh` once per macOS user after profile setup. Gateway or both
+mode creates an isolated `CLAUDE_CONFIG_DIR` under `~/.config/private-ai-gateway/claude`, reads the shared gateway key
 from a mode-0600 file at launch, and sets the Anthropic-compatible gateway origin for the ordinary
 `claude` command. It does not configure Claude Desktop or modify this tracked Claude module.
 

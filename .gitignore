@@ -146,6 +146,16 @@ codex/.codex/*
 !codex/.codex/rules/
 codex/.codex/rules/*
 !codex/.codex/rules/dotfiles.rules
+
+# Gateway Codex module owns only reviewed declarative files. Runtime/provider
+# state is generated directly in ~/.codex-aigateway and never copied here.
+codex-aigateway/.codex-aigateway/*
+!codex-aigateway/.codex-aigateway/AGENTS.md
+!codex-aigateway/.codex-aigateway/hooks.json
+!codex-aigateway/.codex-aigateway/keybindings.json
+!codex-aigateway/.codex-aigateway/rules/
+codex-aigateway/.codex-aigateway/rules/*
+!codex-aigateway/.codex-aigateway/rules/dotfiles.rules
 **/__pycache__/
 **/.venv/
 

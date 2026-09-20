@@ -4,16 +4,18 @@ The actual Codex configuration lives in `codex/.codex/config.toml`. Edit that
 file directly, just like `claude/.claude/settings.json`. GNU Stow links it to
 `~/.codex/config.toml`; there is no separate preferences file or config merge step.
 
-## Private AI gateway (CLI only)
+## Subscription and private-gateway profiles
 
-`bash scripts/setup-private-ai-gateway.sh` creates an isolated Codex CLI home under
-`~/.config/private-ai-gateway/codex`. Its provider uses the OpenAI Responses wire API and file-backed
-authentication through the shared mode-0600 key. The `~/.local/bin/codex` launcher selects that home
-for terminal commands. The tracked `~/.codex` configuration and ChatGPT/Codex desktop application
-remain unchanged.
+The tracked `codex/.codex` module remains the subscription/default ChatGPT desktop profile at
+`~/.codex`. The selective `codex-aigateway` module supplies only reviewed policy, instructions,
+hooks and keybindings for the separate real `~/.codex-aigateway` home. Its machine-local generated
+provider uses the OpenAI Responses wire API and file-backed authentication through the one shared
+mode-0600 key at `~/.config/private-ai-gateway/client.key`. Ordinary terminal `codex` always selects
+the gateway home; explicit launchers open subscription and gateway desktop instances concurrently.
 
-Run `bash scripts/setup-private-ai-gateway.sh --status` to inspect presence and permissions without
-printing values. Use `--rotate-key` to update the single key used by Codex, Claude Code, and OpenCode.
+Use `bash scripts/setup-codex-profiles.sh` for the complete journey. See the
+[ordered profile guide](../guides/codex-profiles.md) for ownership, deployment, launching, status,
+rotation, rollback, uninstall and the same-bundle-ID focus limitation.
 
 ## Files
 
@@ -26,7 +28,7 @@ printing values. Use `--rotate-key` to update the single key used by Codex, Clau
 | `codex/.codex/rules/dotfiles.rules` | `~/.codex/rules/dotfiles.rules` | Generated command policy |
 
 The current settings were imported from this Mac, including `gpt-6-astra`,
-`high` default reasoning, desktop appearance settings, existing plugins and MCP runtimes.
+`medium` default reasoning, desktop appearance settings, existing plugins and MCP runtimes.
 The shared service tier is `default`; use Fast mode for individual tasks when needed.
 The earlier migration had already removed two broken Caveman hook entries; the
 current empty hook configuration is now versioned. No nonexistent hook scripts

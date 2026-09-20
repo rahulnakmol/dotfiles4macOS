@@ -4,7 +4,7 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 
 ## Private AI gateway (CLI only)
 
-Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user. It fetches the authenticated
+Run `bash scripts/setup-codex-profiles.sh` once per macOS user. Gateway or both mode fetches the authenticated
 `/v1/models` catalog, asks for a default, and writes an isolated configuration under
 `~/.config/private-ai-gateway/opencode`. The provider contains every unique advertised model rather
 than a hardcoded subset, and reads the same protected key used by Claude Code and Codex through

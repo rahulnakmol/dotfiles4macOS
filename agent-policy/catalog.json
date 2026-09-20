@@ -138,11 +138,16 @@
       "config": "codex/.codex/config.toml",
       "rules": "codex/.codex/rules/dotfiles.rules",
       "profile": "dotfiles"
+    },
+    "codexGateway": {
+      "instructions": "codex-aigateway/.codex-aigateway/AGENTS.md",
+      "configTemplate": "scripts/templates/codex-aigateway-config.toml",
+      "rules": "codex-aigateway/.codex-aigateway/rules/dotfiles.rules"
     }
   },
   "codex": {
     "minimumVersion": "0.153.1",
-    "additionalDeniedPaths": ["~/.codex/auth.json", "~/.zshrc.local", "~/.bashrc.local"],
+    "additionalDeniedPaths": ["~/.codex/auth.json", "~/.codex-aigateway/auth.json", "~/.config/private-ai-gateway/client.key", "~/.zshrc.local", "~/.bashrc.local"],
     "promptPrefixes": [
       ["rm"],
       ["rmdir"],

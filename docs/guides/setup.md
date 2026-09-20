@@ -50,13 +50,13 @@ stow zsh bash bat starship tmux herdr ghostty nvim
 
 These are the same core modules used by the FDE/TF installer. Stow does not install apps. App installation above is independent of stowing Claude/Cursor/Codex settings.
 
-## 5. Configure the private AI gateway for CLI tools
+## 5. Configure the private AI gateway and Codex desktop profiles
 
 Run this once per macOS user after the CLI tools and Herdr are installed:
 
 ```bash
-bash scripts/setup-private-ai-gateway.sh
-bash scripts/setup-private-ai-gateway.sh --status
+bash scripts/setup-codex-profiles.sh
+bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
@@ -66,10 +66,12 @@ default. It stores the endpoint, key, model, isolated provider configs, and wrap
 user-local paths outside the repository. Re-running refreshes OpenCode's complete catalog;
 `--rotate-key` rotates the one source-of-truth key.
 
-This affects the ordinary `claude`, `codex`, and `opencode` terminal commands only. It does not
-configure Claude Desktop, ChatGPT/Codex desktop, or Cursor. Cursor CLI has no generic
-OpenAI-compatible provider interface: keep it on the official Cursor account and never set the
-gateway key as `CURSOR_API_KEY`.
+Ordinary `claude`, `codex`, and `opencode` terminal commands use the gateway; terminal `codex` always
+uses `~/.codex-aigateway`. The same signed ChatGPT app can also launch a stock subscription profile
+at `~/.codex` and an isolated gateway profile with separate Electron data. Claude Desktop is not
+changed. Cursor CLI has no generic OpenAI-compatible provider interface: keep it on the official
+Cursor account and never set the gateway key as `CURSOR_API_KEY`. Follow the
+[Codex profiles guide](codex-profiles.md) for ownership, launch, rotation, rollback and uninstall.
 
 Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 

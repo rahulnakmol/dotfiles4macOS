@@ -32,11 +32,11 @@ jobs:
         run: brew install stow
       - name: Validate FDE and TF generation, activation and rollback
         run: |
-          bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/setup-private-ai-gateway.sh scripts/bootstrap-hyper.sh
+          bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/setup-private-ai-gateway.sh scripts/setup-codex-profiles.sh scripts/bootstrap-hyper.sh
           node scripts/build-hyper-config.mjs --check
           node scripts/render-hyper-guide.mjs --check
           node scripts/render-workstation-docs.mjs --check
-          node --test scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
+          node --test scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
 
   lint-and-validate:
     runs-on: macos-latest
@@ -101,6 +101,6 @@ jobs:
         run: |
           node scripts/validate-agent-policy.mjs
           node --test scripts/test-codex-policy.mjs
-          bash -n scripts/bootstrap-codex.sh scripts/bootstrap-skills.sh
+          bash -n scripts/bootstrap-codex.sh scripts/bootstrap-skills.sh scripts/setup-codex-profiles.sh
           python scripts/test-codex-config.py
           python scripts/test-codex-sandbox.py

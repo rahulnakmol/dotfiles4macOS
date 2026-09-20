@@ -29,7 +29,7 @@ Managed installation and human setup are tracked separately. These steps are unv
 | Default browser | Complete Zen onboarding; choose Zen under Default web browser in macOS System Settings | Open an ordinary web link and confirm it opens in Zen |
 | Desktop apps | Complete your own app sign-ins; open Cursor and ChatGPT/Codex | Start your own small task in each app |
 | Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
-| Private AI gateway (CLI only) | Run the gateway setup once for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
+| Private AI gateway and Codex profiles | Run the one-click profile setup for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
 | Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
 | Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
 | Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
@@ -63,16 +63,18 @@ The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects 
 the profile apply, configure the CLI tools interactively:
 
 ```sh
-bash scripts/setup-private-ai-gateway.sh
-bash scripts/setup-private-ai-gateway.sh --status
+bash scripts/setup-codex-profiles.sh
+bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
 Setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the authenticated
 `/v1/models` catalog, and asks for the Codex/OpenCode default. Endpoint, shared key and model remain
 under `~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex`
-and `opencode` commands use protected wrappers in `~/.local/bin`; desktop applications remain
-unchanged. Re-run setup to refresh models, or use `--rotate-key` for one-place key rotation.
+and `opencode` commands use protected wrappers in `~/.local/bin`; terminal `codex` is always
+gateway-backed. The installer also creates explicit launchers for stock subscription ChatGPT at
+`~/.codex` and an isolated gateway desktop at `~/.codex-aigateway`. Re-run setup to refresh
+models, or use `scripts/setup-private-ai-gateway.sh --rotate-key` for one-place key rotation.
 
 Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider
 interface. Never reuse the gateway key as `CURSOR_API_KEY`. See the module guides for details.

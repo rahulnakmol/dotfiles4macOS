@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
@@ -38,13 +38,21 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
     assert.ok(!result.stdout.includes('fixture-secret'));
     assert.ok(!result.stderr.includes('fixture-secret'));
   }
-  for (const file of ['endpoint', 'client.key', 'default-model', 'codex/config.toml', 'opencode/opencode.json'])
+  for (const file of ['endpoint', 'client.key', 'default-model', 'opencode/opencode.json'])
     assert.equal(statSync(join(f.config, file)).mode & 0o777, 0o600, file);
-  const codex = readFileSync(join(f.config, 'codex/config.toml'), 'utf8');
+  const codexHome = join(f.home, '.codex-aigateway');
+  assert.equal(statSync(codexHome).mode & 0o777, 0o700);
+  assert.equal(statSync(join(codexHome, 'config.toml')).mode & 0o777, 0o600);
+  const codex = readFileSync(join(codexHome, 'config.toml'), 'utf8');
   assert.match(codex, /wire_api = "responses"/);
   assert.match(codex, /command = "\/bin\/cat"/);
+  assert.match(codex, new RegExp(`args = \\["${f.config.replaceAll('/', '\\/')}\\/client\\.key"\\]`));
   assert.match(codex, /gateway\.example\.test\/base\/v1/);
   assert.ok(!codex.includes('fixture-secret'));
+  for (const file of ['AGENTS.md', 'hooks.json', 'keybindings.json', 'rules/dotfiles.rules'])
+    assert.ok(lstatSync(join(codexHome, file)).isSymbolicLink(), file);
+  const gatewayBindings = JSON.parse(readFileSync(join(codexHome, 'keybindings.json')));
+  assert.deepEqual(gatewayBindings.find(binding => binding.command === 'openAvatarOverlay'), { command: 'openAvatarOverlay', key: null });
   const opencode = JSON.parse(readFileSync(join(f.config, 'opencode/opencode.json')));
   assert.deepEqual(Object.keys(opencode.provider.private_gateway.models), ['a-model', 'z-model']);
   assert.equal(opencode.model, 'private_gateway/z-model');
@@ -55,11 +63,21 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(claude, /ANTHROPIC_AUTH_TOKEN=\$\(<'.*client\.key'\)/);
   assert.ok(!claude.includes('fixture-secret'));
   assert.match(readFileSync(join(f.managed, 'opencode'), 'utf8'), /OPENCODE_CONFIG_DIR=.*private-ai-gateway\/opencode/);
+  const codexWrapper = readFileSync(join(f.managed, 'codex'), 'utf8');
+  assert.match(codexWrapper, /CODEX_HOME='.*\/\.codex-aigateway'/);
+  assert.match(codexWrapper, /unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME/);
+  assert.doesNotMatch(codexWrapper, /\.codex['"]/);
+  const gatewayLauncher = readFileSync(join(f.managed, 'chatgpt-aigateway'), 'utf8');
+  assert.match(gatewayLauncher, /unset CODEX_HOME CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME/);
+  assert.match(gatewayLauncher, /codex-profile app aigateway/);
+  assert.ok(!gatewayLauncher.includes('fixture-secret'));
+  assert.ok(!existsSync(join(f.managed, 'chatgpt-subscription')));
+  assert.equal([...codex.matchAll(/client\.key/g)].length, 2, 'Codex config stores only a denied-path entry and one file-backed auth reference');
   assert.equal(readFileSync(join(f.config, 'opencode/plugins/herdr-agent-state.js'), 'utf8'), 'integration');
   assert.ok(!existsSync(join(f.managed, 'cursor-agent')));
   const integrations = readFileSync(f.calls, 'utf8');
   assert.match(integrations, /private-ai-gateway\/claude\|\|.*\/home\|integration install claude/);
-  assert.match(integrations, /\|.*private-ai-gateway\/codex\|.*\/home\|integration install codex/);
+  assert.match(integrations, /\|.*\.codex-aigateway\|.*\/home\|integration install codex/);
   assert.match(integrations, /\|\|\/.*private-ai-gateway-herdr\.[^|]+\|integration install opencode/);
 });
 
@@ -80,4 +98,14 @@ test('public files contain no private endpoint, credential, or Cursor gateway wi
   const literalUrls = [...text.matchAll(/["'](https:\/\/[^"']+)["']/g)].map(match => match[1]);
   assert.deepEqual(literalUrls, ['https://opencode.ai/config.json']);
   assert.ok(!/(?:sk-|Bearer )[A-Za-z0-9_-]{12,}/.test(text));
+});
+
+test('tracked Claude and OpenCode modules remain reusable and gateway-neutral', () => {
+  for (const module of ['claude', 'opencode']) {
+    const files = execFileSync('git', ['ls-files', `${module}/`], {cwd: root, encoding:'utf8'}).trim().split('\n').filter(Boolean);
+    for (const file of files) {
+      const text = readFileSync(join(root, file), 'utf8');
+      assert.doesNotMatch(text, /gateway\.example|fixture-secret|private-ai-gateway\/client\.key/, file);
+    }
+  }
 });

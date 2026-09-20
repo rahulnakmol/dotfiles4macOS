@@ -8,7 +8,10 @@ CONFIG_DIR="${PRIVATE_AI_GATEWAY_CONFIG_DIR:-$HOME/.config/private-ai-gateway}"
 ENDPOINT_FILE="$CONFIG_DIR/endpoint"
 KEY_FILE="$CONFIG_DIR/client.key"
 MODEL_FILE="$CONFIG_DIR/default-model"
-CODEX_HOME="$CONFIG_DIR/codex"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+CODEX_HOME="${PRIVATE_AI_GATEWAY_CODEX_HOME:-$HOME/.codex-aigateway}"
+CODEX_TEMPLATE="$ROOT/scripts/templates/codex-aigateway-config.toml"
+CODEX_MODULE="$ROOT/codex-aigateway/.codex-aigateway"
 CLAUDE_HOME="$CONFIG_DIR/claude"
 OPENCODE_HOME="$CONFIG_DIR/opencode"
 OPENCODE_CONFIG="$OPENCODE_HOME/opencode.json"
@@ -57,6 +60,14 @@ status() {
   for name in claude codex opencode; do
     if [[ -x "$BIN_DIR/$name" ]]; then printf '%-16s configured\n' "$name"; else printf '%-16s absent\n' "$name"; failed=1; fi
   done
+  if [[ -x "$BIN_DIR/chatgpt-aigateway" ]]; then printf '%-20s configured\n' chatgpt-aigateway; else printf '%-20s absent\n' chatgpt-aigateway; failed=1; fi
+  if [[ -d "$CODEX_HOME" ]]; then
+    printf 'codex gateway home   present (mode %s)\n' "$(file_mode "$CODEX_HOME")"
+    [[ "$(file_mode "$CODEX_HOME")" == 700 ]] || failed=1
+  else
+    echo 'codex gateway home   absent'
+    failed=1
+  fi
   if [[ -e "$BIN_DIR/cursor-agent" ]]; then
     echo 'cursor-agent     unmanaged (official Cursor account retained)'
   else
@@ -88,7 +99,7 @@ claude_bin="$(find_vendor_binary claude)" || { echo 'Claude Code CLI not found. 
 codex_bin="$(find_vendor_binary codex)" || { echo 'Codex CLI not found. Install ChatGPT or Codex CLI first.' >&2; exit 1; }
 opencode_bin="$(find_vendor_binary opencode)" || { echo 'OpenCode CLI not found. Install it with Homebrew first.' >&2; exit 1; }
 
-install -d -m 0700 "$CONFIG_DIR" "$CODEX_HOME" "$CLAUDE_HOME" "$OPENCODE_HOME" "$BIN_DIR"
+install -d -m 0700 "$CONFIG_DIR" "$CODEX_HOME" "$CODEX_HOME/rules" "$CLAUDE_HOME" "$OPENCODE_HOME" "$BIN_DIR"
 umask 077
 
 if [[ -s "$ENDPOINT_FILE" ]]; then
@@ -150,23 +161,26 @@ printf '%s\n' "$default_model" >"$MODEL_FILE"
 unset key
 chmod 0600 "$ENDPOINT_FILE" "$KEY_FILE" "$MODEL_FILE"
 
-cat >"$CODEX_HOME/config.toml" <<EOF
-model_provider = "private_gateway"
-model = $model_json
+[[ -f "$CODEX_TEMPLATE" ]] || { echo 'Missing tracked Codex gateway template.' >&2; exit 1; }
+sed \
+  -e "s|__PRIVATE_AI_GATEWAY_MODEL__|$model_json|" \
+  -e "s|__PRIVATE_AI_GATEWAY_BASE_URL__|${gateway_json%\"}/v1\"|" \
+  -e "s|__PRIVATE_AI_GATEWAY_KEY_FILE__|$key_file_json|" \
+  "$CODEX_TEMPLATE" >"$CODEX_HOME/config.toml"
 
-[model_providers.private_gateway]
-name = "Private AI gateway"
-base_url = ${gateway_json%\"}/v1\"
-wire_api = "responses"
-supports_websockets = false
-
-[model_providers.private_gateway.auth]
-command = "/bin/cat"
-args = [$key_file_json]
-cwd = "/"
-timeout_ms = 5000
-refresh_interval_ms = 300000
-EOF
+link_codex_policy() {
+  local relative="$1" source destination
+  source="$CODEX_MODULE/$relative"
+  destination="$CODEX_HOME/$relative"
+  [[ -f "$source" ]] || { echo "Missing tracked Codex gateway file: $relative" >&2; exit 1; }
+  if [[ -L "$destination" && "$(readlink "$destination")" == "$source" ]]; then return; fi
+  if [[ -e "$destination" || -L "$destination" ]]; then
+    echo "Refusing to replace existing gateway Codex file: $destination" >&2
+    exit 1
+  fi
+  ln -s "$source" "$destination"
+}
+for managed in AGENTS.md hooks.json keybindings.json rules/dotfiles.rules; do link_codex_policy "$managed"; done
 
 jq -n \
   --arg base "$gateway_url/v1" \
@@ -197,13 +211,28 @@ printf -v claude_body '%s\n%s\n%s\n%s' \
   "export ANTHROPIC_AUTH_TOKEN=\$(<'$KEY_FILE')" \
   "exec '$claude_bin' \"\$@\""
 write_wrapper "$BIN_DIR/claude" "$claude_body"
-printf -v codex_body '%s\n%s' "export CODEX_HOME='$CODEX_HOME'" "exec '$codex_bin' \"\$@\""
+printf -v codex_body '%s\n%s\n%s\n%s\n%s' \
+  'unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME' \
+  "export CODEX_HOME='$CODEX_HOME'" \
+  'export CODEX_PROFILE_NAME=aigateway' \
+  'export CODEX_PROFILE_NO_UPDATE_CHECK=1' \
+  "exec '$codex_bin' \"\$@\""
 write_wrapper "$BIN_DIR/codex" "$codex_body"
 printf -v opencode_body '%s\n%s\n%s' \
   "export OPENCODE_CONFIG='$OPENCODE_CONFIG'" \
   "export OPENCODE_CONFIG_DIR='$OPENCODE_HOME'" \
   "exec '$opencode_bin' \"\$@\""
 write_wrapper "$BIN_DIR/opencode" "$opencode_body"
+
+# The generated launcher, not setup, expands its own HOME and PATH.
+# shellcheck disable=SC2016
+printf -v gateway_desktop_body '%s\n%s\n%s\n%s\n%s' \
+  'unset CODEX_HOME CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME' \
+  'export CODEX_PROFILE_NO_UPDATE_CHECK=1' \
+  'export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"' \
+  'command -v codex-profile >/dev/null || { echo "codex-profile is not installed; run scripts/setup-codex-profiles.sh" >&2; exit 1; }' \
+  'exec codex-profile app aigateway "$@"'
+write_wrapper "$BIN_DIR/chatgpt-aigateway" "$gateway_desktop_body"
 
 rm -f "$BIN_DIR/claude-direct" "$BIN_DIR/codex-direct" "$BIN_DIR/opencode-direct"
 

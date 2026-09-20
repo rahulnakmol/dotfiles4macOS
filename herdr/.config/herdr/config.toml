@@ -118,6 +118,18 @@ height = "80%"
 key = "prefix+shift+d"
 type = "popup"
 command = "codex"
-description = "Open Codex"
+description = "Open gateway Codex CLI"
 width = "80%"
 height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+s"
+type = "run"
+command = "chatgpt-subscription"
+description = "Launch subscription ChatGPT desktop"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "run"
+command = "chatgpt-aigateway"
+description = "Launch gateway ChatGPT desktop"
