@@ -65,6 +65,7 @@ to a colleague by this installer.
 |--------|---------|
 | `zsh` | Shell config with 120+ aliases, modular `.zshrc.d/` structure |
 | `tmux` | Terminal multiplexer with Claude Code & OpenCode key tables |
+| `herdr` | Persistent agent-aware workspaces with gateway-backed CLI integrations |
 | `nvim` | Neovim with LazyVim and Catppuccin colorscheme |
 | `ghostty` | GPU-accelerated terminal emulator |
 | `starship` | Cross-shell prompt with Catppuccin palette |
@@ -83,13 +84,19 @@ to a colleague by this installer.
 | `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
 | `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
 
+Both profiles install the Claude Code, Codex, and OpenCode CLIs plus Herdr. To route only those CLI
+commands through a private OpenAI-compatible gateway, run `bash scripts/setup-private-ai-gateway.sh`
+once per macOS user after profile setup. The endpoint, shared key, selected model, generated provider
+configs, and Herdr integrations stay in protected untracked user-local files. Claude Desktop,
+ChatGPT/Codex desktop, and Cursor desktop remain unchanged; Cursor CLI stays on its official account.
+
 ## Quick Start — manual Stow, core setup
 
 Use this path to choose modules yourself without Alfred, Karabiner, Rectangle Pro or session automation. Both profiles recommend the same default desktop apps for this path.
 
 ```sh
 # Shared CLI tools and terminal
-brew install git node stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
+brew install git node stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman claude opencode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
 brew install --cask ghostty font-jetbrains-mono-nerd-font
 
 # Default desktop apps and browser
@@ -98,8 +105,8 @@ brew install --cask zen claude cursor chatgpt
 # Clone your dotfiles repository, then preview and deploy only core modules
 git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
 cd ~/.dotfiles
-stow -n zsh bash bat starship tmux ghostty nvim
-stow zsh bash bat starship tmux ghostty nvim
+stow -n zsh bash bat starship tmux herdr ghostty nvim
+stow zsh bash bat starship tmux herdr ghostty nvim
 
 # Optional browser for end-to-end testing
 # brew install --cask google-chrome@canary
@@ -107,13 +114,17 @@ stow zsh bash bat starship tmux ghostty nvim
 
 Open Zen and set it as Default web browser in macOS System Settings. Sign in to your own Claude, Cursor and ChatGPT/Codex accounts directly. Installing these apps does not require stowing their configuration modules. Amp is optional; download its native app from https://ampcode.com/app if needed.
 
+For the private gateway CLI path, run `bash scripts/setup-private-ai-gateway.sh`, then verify with
+`bash scripts/setup-private-ai-gateway.sh --status` and `herdr integration status`. Never reuse the
+gateway key as `CURSOR_API_KEY`.
+
 Add other modules individually after reviewing them for your own machine. Personal Git/SSH/signing, credentials and agent trust settings are separate from this baseline. Avoid `stow */`; use the explicit module list above. See the [manual setup guide](docs/guides/setup.md) for conflicts, validation and updates.
 
 ## Dependencies
 
 ### Tier 1 — Required
 ```bash
-brew install git stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq
+brew install git stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq
 ```
 
 ### Tier 2 — Recommended
@@ -124,6 +135,7 @@ brew install --cask ghostty font-jetbrains-mono-nerd-font
 
 ### Tier 3 — AI Coding Tools
 ```bash
+brew install claude opencode
 brew install --cask zen claude cursor chatgpt
 # Optional: brew install --cask google-chrome@canary
 ```
@@ -159,6 +171,7 @@ Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not com
 - `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
 - `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
 - `docs/modules/` — Per-module documentation
+- [Private AI gateway and Herdr integrations](docs/modules/herdr.md)
 - [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
 - [Raycast Workmode installation and native settings](docs/modules/raycast.md)
 - [Alfred migration and installed-plugin parity](docs/modules/alfred.md)

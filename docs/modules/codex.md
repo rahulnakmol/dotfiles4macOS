@@ -4,6 +4,17 @@ The actual Codex configuration lives in `codex/.codex/config.toml`. Edit that
 file directly, just like `claude/.claude/settings.json`. GNU Stow links it to
 `~/.codex/config.toml`; there is no separate preferences file or config merge step.
 
+## Private AI gateway (CLI only)
+
+`bash scripts/setup-private-ai-gateway.sh` creates an isolated Codex CLI home under
+`~/.config/private-ai-gateway/codex`. Its provider uses the OpenAI Responses wire API and file-backed
+authentication through the shared mode-0600 key. The `~/.local/bin/codex` launcher selects that home
+for terminal commands. The tracked `~/.codex` configuration and ChatGPT/Codex desktop application
+remain unchanged.
+
+Run `bash scripts/setup-private-ai-gateway.sh --status` to inspect presence and permissions without
+printing values. Use `--rotate-key` to update the single key used by Codex, Claude Code, and OpenCode.
+
 ## Files
 
 | Repository file | Active path | Purpose |

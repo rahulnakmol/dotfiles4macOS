@@ -1,0 +1,123 @@
+onboarding = false
+
+[server]
+headless_cols = 160
+headless_rows = 50
+
+[terminal]
+default_shell = "/bin/zsh"
+shell_mode = "login"
+new_cwd = "follow"
+kitty_graphics = true
+
+[worktrees]
+directory = "~/Developer/Worktrees"
+
+[session]
+resume_agents_on_restore = true
+
+[theme]
+name = "catppuccin"
+
+[ui]
+status_indicators = "symbols"
+window_title = "{hostname}: {workspace}"
+tab_bar_position = "bottom"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
+tab_bar_right_separator = " · "
+copy_on_select = true
+confirm_close = true
+pane_borders = "auto"
+pane_outer_borders = false
+pane_gaps = false
+agent_panel_sort = "priority"
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", "agent", "state_text"],
+  ["workspace", "tab"],
+]
+
+[ui.sidebar.agents.rows_by_agent]
+claude = [
+  ["state_icon", { token = "agent", fg = "#f5a97f", bold = true }, "state_text"],
+  ["workspace", "tab"],
+]
+codex = [
+  ["state_icon", { token = "agent", fg = "#a6da95", bold = true }, "state_text"],
+  ["workspace", "tab"],
+]
+opencode = [
+  ["state_icon", { token = "agent", fg = "#8aadf4", bold = true }, "state_text"],
+  ["workspace", "tab"],
+]
+
+[ui.sidebar.spaces]
+rows = [
+  ["state_icon", "workspace"],
+  ["branch", "git_status"],
+]
+
+[ui.toast]
+delivery = "terminal"
+delay_seconds = 1
+
+[update]
+manifest_check = true
+
+[advanced]
+scrollback_limit_bytes = 20000000
+
+[experimental]
+pane_history = false
+
+[keys]
+prefix = "ctrl+a"
+new_tab = "prefix+c"
+previous_tab = "alt+shift+h"
+next_tab = "alt+shift+l"
+focus_pane_left = "alt+left"
+focus_pane_down = "alt+down"
+focus_pane_up = "alt+up"
+focus_pane_right = "alt+right"
+split_horizontal = "prefix+'"
+split_vertical = "prefix+\\"
+close_pane = "prefix+x"
+reload_config = "prefix+r"
+zoom = "prefix+z"
+copy_mode = "prefix+["
+detach = "prefix+q"
+toggle_sidebar = "prefix+b"
+focus_agent = "prefix+alt+1..9"
+switch_workspace = "prefix+shift+1..9"
+previous_agent = "alt+shift+up"
+next_agent = "alt+shift+down"
+new_worktree = "prefix+shift+g"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "popup"
+command = "claude"
+description = "Open Claude Code"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+o"
+type = "popup"
+command = "opencode"
+description = "Open OpenCode"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+d"
+type = "popup"
+command = "codex"
+description = "Open Codex"
+width = "80%"
+height = "80%"

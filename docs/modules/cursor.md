@@ -2,6 +2,14 @@
 
 AI editor with global enterprise architecture rules for multi-cloud development.
 
+## Private gateway exclusion
+
+Cursor Agent CLI remains on the official Cursor account. Its `CURSOR_API_KEY` and endpoint settings
+authenticate to Cursor's proprietary service; they do not configure a generic OpenAI-compatible
+provider. Do not reuse `~/.config/private-ai-gateway/client.key` as `CURSOR_API_KEY` or point Cursor
+at the gateway. The supported gateway CLIs are Claude Code, Codex, and OpenCode only. Cursor desktop
+is also outside the gateway setup.
+
 ## Deploy
 
 ```bash

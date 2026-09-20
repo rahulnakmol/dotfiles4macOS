@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 
 const base = JSON.parse(readFileSync(new URL('./hyper-config.json', import.meta.url)));
 export const profileIds = ['fde', 'tf'];
-export const commonModules = ['zsh', 'bash', 'bat', 'starship', 'tmux', 'ghostty', 'nvim'];
-export const commonFormulae = ['git', 'node', 'stow', 'zsh', 'tmux', 'neovim', 'eza', 'bat', 'fd', 'ripgrep', 'fzf', 'zoxide', 'starship', 'curl', 'jq', 'gh', 'podman', 'zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-autocomplete'];
+export const commonModules = ['zsh', 'bash', 'bat', 'starship', 'tmux', 'herdr', 'ghostty', 'nvim'];
+export const commonFormulae = ['git', 'node', 'stow', 'zsh', 'tmux', 'herdr', 'neovim', 'eza', 'bat', 'fd', 'ripgrep', 'fzf', 'zoxide', 'starship', 'curl', 'jq', 'gh', 'podman', 'claude', 'opencode', 'zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-autocomplete'];
 const apps = [
   ['font-jetbrains-mono-nerd-font', null, null],
   ['alfred', 'com.runningwithcrayons.Alfred', 'Alfred 5'],
@@ -44,7 +44,7 @@ export function resolveProfile(value, {productivity=false} = {}) {
   config.install = {
     modules: [...commonModules, ...(productivity ? ['alfred','karabiner','rectangle-pro'] : [])],
     guided: guidedApps.filter(a=>a.name!=='Amp' && productivity),
-    formulae: [...commonFormulae, ...(id==='fde' ? ['opencode'] : [])],
+    formulae: [...commonFormulae],
     casks: [...apps,
       ['cursor','com.todesktop.230313mzl4w4u92','Cursor'],
       ['chatgpt','com.openai.codex','ChatGPT'],
@@ -54,7 +54,6 @@ export function resolveProfile(value, {productivity=false} = {}) {
       ['microsoft-word','com.microsoft.Word','Microsoft Word'],
       ['microsoft-excel','com.microsoft.Excel','Microsoft Excel'],
       ['microsoft-powerpoint','com.microsoft.Powerpoint','Microsoft PowerPoint'],
-      ['claude-code',null,null],
     ] : [])].filter(([cask])=>productivity || !['alfred','rectangle-pro','dockflow','cleanshot'].includes(cask)).map(([cask,bundleId,name])=>({cask,bundleId,name,...(cask==='claude-code'?{command:'claude'}:{})})),
     // Personal Git/SSH/signing/auth and agent trust settings are never copied to colleagues.
     optionalAgentModules: id==='fde' ? ['claude','codex','cursor','opencode'] : [],

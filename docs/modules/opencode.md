@@ -2,6 +2,18 @@
 
 OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are installed from [rahulnakmol/skills](https://github.com/rahulnakmol/skills)**.
 
+## Private AI gateway (CLI only)
+
+Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user. It fetches the authenticated
+`/v1/models` catalog, asks for a default, and writes an isolated configuration under
+`~/.config/private-ai-gateway/opencode`. The provider contains every unique advertised model rather
+than a hardcoded subset, and reads the same protected key used by Claude Code and Codex through
+OpenCode's `{file:...}` substitution. The ordinary `opencode` command selects both that config file
+and directory, so Herdr's generated plugin is loaded from the same isolated location.
+
+Re-running setup refreshes the catalog. `--status` does not contact the gateway or print values;
+`--rotate-key` updates the single shared key.
+
 ## Files (configs only)
 
 | File | Target |

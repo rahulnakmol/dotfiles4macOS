@@ -74,8 +74,8 @@ test('manual setup recommends core apps and explicitly stows only core modules',
   for(const file of ['../README.md','../docs/guides/setup.md']) {
     const guide=readFileSync(new URL(file,import.meta.url),'utf8');
     assert.match(guide,/brew install --cask zen claude cursor chatgpt/);
-    assert.match(guide,/stow -n zsh bash bat starship tmux ghostty nvim/);
-    assert.match(guide,/stow zsh bash bat starship tmux ghostty nvim/);
+    assert.match(guide,/stow -n zsh bash bat starship tmux herdr ghostty nvim/);
+    assert.match(guide,/stow zsh bash bat starship tmux herdr ghostty nvim/);
     assert.match(guide,/# brew install --cask google-chrome@canary/);
     assert.match(guide,/Amp is optional/);
   }

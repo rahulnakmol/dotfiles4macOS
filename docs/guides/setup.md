@@ -10,7 +10,7 @@ Install Apple Command Line Tools with xcode-select --install and Homebrew from h
 
 ```sh
 # Core tools
-brew install git node stow zsh tmux neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
+brew install git node stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman claude opencode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
 
 # Terminal and configured font
 brew install --cask ghostty font-jetbrains-mono-nerd-font
@@ -44,15 +44,36 @@ cd ~/.dotfiles
 Stow creates symlinks from each module directory into your home folder. Preview the explicit core list, resolve any conflicts by backing up and comparing existing files, then apply:
 
 ```sh
-stow -n zsh bash bat starship tmux ghostty nvim
-stow zsh bash bat starship tmux ghostty nvim
+stow -n zsh bash bat starship tmux herdr ghostty nvim
+stow zsh bash bat starship tmux herdr ghostty nvim
 ```
 
 These are the same core modules used by the FDE/TF installer. Stow does not install apps. App installation above is independent of stowing Claude/Cursor/Codex settings.
 
+## 5. Configure the private AI gateway for CLI tools
+
+Run this once per macOS user after the CLI tools and Herdr are installed:
+
+```bash
+bash scripts/setup-private-ai-gateway.sh
+bash scripts/setup-private-ai-gateway.sh --status
+herdr integration status
+```
+
+The script prompts for an HTTPS OpenAI-compatible endpoint, silently prompts for one shared key,
+fetches the authenticated `/v1/models` catalog, and asks which model Codex and OpenCode should use by
+default. It stores the endpoint, key, model, isolated provider configs, and wrappers under protected
+user-local paths outside the repository. Re-running refreshes OpenCode's complete catalog;
+`--rotate-key` rotates the one source-of-truth key.
+
+This affects the ordinary `claude`, `codex`, and `opencode` terminal commands only. It does not
+configure Claude Desktop, ChatGPT/Codex desktop, or Cursor. Cursor CLI has no generic
+OpenAI-compatible provider interface: keep it on the official Cursor account and never set the
+gateway key as `CURSOR_API_KEY`.
+
 Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 
-## 5. Post-install steps
+## 6. Post-install steps
 
 ### Tmux plugins
 
@@ -99,7 +120,7 @@ gh auth login
 
 Starship initializes automatically from `.zshrc`. No extra setup needed after `stow starship`.
 
-## 6. Local overrides
+## 7. Local overrides
 
 For machine-specific config that should not be committed:
 
@@ -107,14 +128,14 @@ For machine-specific config that should not be committed:
 - **Git**: use `~/.gitconfig.local` with `includeIf` directives
 - **Secrets**: set `GITHUB_PAT`, `CONTEXT7_API_KEY`, etc. in `~/.zshrc.local`
 
-## 7. Keeping things updated
+## 8. Keeping things updated
 
 After pulling changes from the repo:
 
 ```bash
 cd ~/.dotfiles
 git pull
-stow zsh bash bat starship tmux ghostty nvim   # re-stow selected core modules
+stow zsh bash bat starship tmux herdr ghostty nvim   # re-stow selected core modules
 ```
 
 Stow is idempotent — re-running it on an already-deployed module is safe.

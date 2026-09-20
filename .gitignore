@@ -113,6 +113,10 @@ opencode/.config/opencode/package-lock.json
 opencode/.config/opencode/bun.lock
 opencode/.config/opencode/*.bak
 
+# Herdr — configuration only; server/runtime state and histories stay local.
+herdr/.config/herdr/*
+!herdr/.config/herdr/config.toml
+
 # Module-specific ephemeral data
 nvim/.config/nvim/lazy-lock.json
 **/zsh/*.local
