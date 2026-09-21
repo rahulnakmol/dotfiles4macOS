@@ -28,6 +28,68 @@ usage() {
   echo 'Endpoint and key values are intentionally never accepted as arguments.'
 }
 
+print_journey() {
+  cat <<EOF
+Private AI gateway setup
+
+This command will:
+  1. Check the tracked Claude and OpenCode Stow modules.
+  2. Validate the gateway endpoint, key, and authenticated model catalog.
+  3. Automatically choose and test working Anthropic Messages, Chat Completions,
+     and Responses models. There is no model-number prompt.
+  4. Deploy the reviewed Claude/OpenCode dotfiles modules, then generate isolated
+     gateway state and wrappers. Existing conflicting files are never overwritten.
+  5. Print every generated, linked, skipped, and follow-up path.
+
+Claude and OpenCode tracked modules are deployed automatically when needed.
+Setup previews Stow first and stops rather than overwriting a conflicting path.
+
+Do not manually Stow codex for desktop profiles. The separate Codex profile
+installer owns subscription Stow migration and gateway-home placement safely:
+  bash scripts/setup-codex-profiles.sh --mode subscription|gateway|both
+EOF
+}
+
+report_stow_module() {
+  local module="$1" target="$2" expected
+  expected="$ROOT/$module/$target"
+  if [[ -e "$HOME/$target" && "$HOME/$target" -ef "$expected" ]]; then
+    printf '  %-10s linked: %s -> %s\n' "$module" "$HOME/$target" "$expected"
+  elif [[ -e "$HOME/$target" || -L "$HOME/$target" ]]; then
+    printf '  %-10s not Stow-linked (existing path retained): %s\n' "$module" "$HOME/$target"
+  else
+    printf '  %-10s not deployed: %s\n' "$module" "$HOME/$target"
+  fi
+}
+
+ensure_stow_module() {
+  local module="$1" target="$2" expected already_managed=0
+  expected="$ROOT/$module/$target"
+  if [[ -e "$HOME/$target" && "$HOME/$target" -ef "$expected" ]]; then
+    already_managed=1
+  fi
+  command -v stow >/dev/null 2>&1 || {
+    echo "GNU Stow is required to deploy the tracked $module module: brew install stow" >&2
+    exit 1
+  }
+  echo "Previewing tracked $module module before deployment..."
+  if ! stow -n --no-folding -d "$ROOT" -t "$HOME" "$module"; then
+    echo "Cannot deploy the tracked $module module because existing files conflict." >&2
+    echo "Review $ROOT/$module and the reported paths under $HOME, back up personal files, then rerun." >&2
+    exit 1
+  fi
+  stow --no-folding -d "$ROOT" -t "$HOME" "$module"
+  [[ -e "$HOME/$target" && "$HOME/$target" -ef "$expected" ]] || {
+    echo "Stow completed but the expected $module link was not created: $HOME/$target" >&2
+    exit 1
+  }
+  if [[ "$already_managed" == 1 ]]; then
+    echo "Verified and refreshed tracked $module Stow links."
+  else
+    echo "Deployed tracked $module module into $HOME."
+  fi
+}
+
 case "${1:-}" in
   '') ;;
   --status) MODE=status ;;
@@ -83,6 +145,17 @@ status() {
 
 if [[ "$MODE" == status ]]; then status; exit; fi
 [[ "$(uname -s)" == Darwin ]] || { echo 'Private gateway setup supports macOS only.' >&2; exit 1; }
+
+print_journey
+echo
+echo 'Tracked module status:'
+report_stow_module claude .claude/settings.json
+report_stow_module opencode .config/opencode/opencode.json
+echo '  codex      managed later by setup-codex-profiles.sh; do not race Stow against it'
+echo
+ensure_stow_module claude .claude/settings.json
+ensure_stow_module opencode .config/opencode/opencode.json
+echo
 
 find_vendor_binary() {
   local name="$1" candidate path_without_local
@@ -165,55 +238,30 @@ fi
 rm -f "$models_error"
 models_error=''
 
-if [[ -s "$MODEL_FILE" ]]; then
-  default_model="$(<"$MODEL_FILE")"
-else
-  [[ -t 0 ]] || { echo 'Run interactively to select the default model.' >&2; exit 1; }
-  models=()
-  while IFS= read -r model; do models+=("$model"); done < <(jq -r '.data[].id' <<<"$models_json" | sort -u)
-  echo 'Available models:'
-  select default_model in "${models[@]}"; do [[ -n "$default_model" ]] && break; done
-fi
-if ! jq -e --arg model "$default_model" 'any(.data[]; .id == $model)' >/dev/null <<<"$models_json"; then
-  echo "The saved default model is no longer advertised by the gateway; remove $MODEL_FILE and rerun." >&2
-  exit 1
-fi
+catalog_models="$(jq -r '.data[].id' <<<"$models_json" | sort -u)"
 
-if [[ -s "$PROTOCOL_MODELS_FILE" ]]; then
-  if ! jq -e --argjson catalog "$(jq '[.data[].id] | unique' <<<"$models_json")" '
-      type == "object" and
-      (. as $document | ["anthropic", "chat", "responses"] | all(. as $key |
-        ($document[$key] | type == "string") and
-        ($document[$key] as $value | $catalog | index($value) != null)
-      ))
-    ' "$PROTOCOL_MODELS_FILE" >/dev/null; then
-    echo "Saved protocol model selections are invalid or retired; remove $PROTOCOL_MODELS_FILE and rerun interactively." >&2
-    exit 1
-  fi
-  protocol_models_json="$(jq -c . "$PROTOCOL_MODELS_FILE")"
-elif [[ -t 0 ]]; then
-  protocol_models_json='{}'
-  models=()
-  while IFS= read -r model; do models+=("$model"); done < <(jq -r '.data[].id' <<<"$models_json" | sort -u)
-  for protocol in anthropic chat responses; do
-    echo "Select a model that your gateway supports on the '$protocol' API surface:"
-    select protocol_model in "${models[@]}"; do [[ -n "$protocol_model" ]] && break; done
-    protocol_models_json="$(jq -c --arg name "$protocol" --arg model "$protocol_model" '. + {($name):$model}' <<<"$protocol_models_json")"
-  done
-else
-  echo "Missing $PROTOCOL_MODELS_FILE. Run interactively once to select models for Anthropic Messages, Chat Completions, and Responses." >&2
-  exit 1
+saved_protocol_models='{}'
+if [[ -s "$PROTOCOL_MODELS_FILE" ]] && jq -e --argjson catalog "$(jq '[.data[].id] | unique' <<<"$models_json")" '
+    type == "object" and
+    (. as $document | ["anthropic", "chat", "responses"] | all(. as $key |
+      ($document[$key] | type == "string") and
+      ($document[$key] as $value | $catalog | index($value) != null)
+    ))
+  ' "$PROTOCOL_MODELS_FILE" >/dev/null; then
+  saved_protocol_models="$(jq -c . "$PROTOCOL_MODELS_FILE")"
+elif [[ -s "$PROTOCOL_MODELS_FILE" ]]; then
+  echo 'Saved protocol models are no longer valid; discovering replacements automatically.'
 fi
 
 gateway_post_check() {
-  local label="$1" path="$2" payload="$3" validation="$4" http_code curl_result reason
+  local label="$1" path="$2" payload="$3" validation="$4" quiet="${5:-0}" max_time="${6:-45}" http_code curl_result reason
   response_body="$(mktemp "${TMPDIR:-/tmp}/private-ai-gateway-response.XXXXXX")"
   response_error="$(mktemp "${TMPDIR:-/tmp}/private-ai-gateway-error.XXXXXX")"
   set +e
   http_code="$({
     printf 'header = "Authorization: Bearer %s"\n' "$key"
     printf 'header = "anthropic-version: 2023-06-01"\n'
-    printf 'silent\nshow-error\nmax-time = 45\nconnect-timeout = 10\n'
+    printf 'silent\nshow-error\nmax-time = %s\nconnect-timeout = 10\n' "$max_time"
   } | curl --config - --request POST --header 'Content-Type: application/json' \
       --data "$payload" --output "$response_body" --write-out '%{http_code}' \
       "$gateway_url$path" 2>"$response_error")"
@@ -240,30 +288,76 @@ gateway_post_check() {
   elif ! jq -e "$validation" "$response_body" >/dev/null 2>&1; then
     echo "$label check failed: HTTP $http_code did not contain the expected successful response shape." >&2
   else
-    echo "$label check passed ($path, HTTP $http_code)."
+    [[ "$quiet" == 1 ]] || echo "$label check passed ($path, HTTP $http_code)."
     rm -f "$response_body" "$response_error"
     response_body='' response_error=''
     return 0
   fi
-  echo "Checked: $gateway_url$path" >&2
-  echo 'The response body was not printed because it may contain provider diagnostics. No gateway credential or client configuration was changed.' >&2
+  if [[ "$quiet" != 1 ]]; then
+    echo "Checked: $gateway_url$path" >&2
+    echo 'The response body was not printed because it may contain provider diagnostics. No gateway credential or client configuration was changed.' >&2
+  fi
   rm -f "$response_body" "$response_error"
   response_body='' response_error=''
   return 1
 }
 
-anthropic_model="$(jq -r .anthropic <<<"$protocol_models_json")"
-chat_model="$(jq -r .chat <<<"$protocol_models_json")"
-responses_model="$(jq -r .responses <<<"$protocol_models_json")"
-gateway_post_check 'Anthropic Messages API' '/v1/messages' \
-  "$(jq -nc --arg model "$anthropic_model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" \
-  '.content | type == "array"'
-gateway_post_check 'OpenAI Chat Completions API' '/v1/chat/completions' \
-  "$(jq -nc --arg model "$chat_model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" \
-  '.choices | type == "array" and length > 0'
-gateway_post_check 'OpenAI Responses API' '/v1/responses' \
-  "$(jq -nc --arg model "$responses_model" '{model:$model,max_output_tokens:16,input:"Reply OK"}')" \
-  '.id | type == "string" and length > 0'
+protocol_candidates() {
+  local protocol="$1" saved pattern
+  saved="$(jq -r --arg protocol "$protocol" '.[$protocol] // empty' <<<"$saved_protocol_models")"
+  [[ -n "$saved" ]] && printf '%s\n' "$saved"
+  case "$protocol" in
+    anthropic) pattern='claude|anthropic|opus|sonnet|haiku|fable' ;;
+    responses) pattern='gpt|openai|codex|astra|sol' ;;
+    chat) pattern='gpt|openai|claude|gemini|grok|deepseek|qwen|mistral' ;;
+  esac
+  grep -Ei "$pattern" <<<"$catalog_models" || true
+  printf '%s\n' "$catalog_models"
+}
+
+discover_protocol_model() {
+  local protocol="$1" label path validation model payload first_model='' attempt=0
+  case "$protocol" in
+    anthropic) label='Anthropic Messages API'; path='/v1/messages'; validation='.content | type == "array"' ;;
+    chat) label='OpenAI Chat Completions API'; path='/v1/chat/completions'; validation='.choices | type == "array" and length > 0' ;;
+    responses) label='OpenAI Responses API'; path='/v1/responses'; validation='.id | type == "string" and length > 0' ;;
+  esac
+  echo "Auto-selecting a working model for $label..." >&2
+  while IFS= read -r model; do
+    [[ -n "$model" ]] || continue
+    attempt=$((attempt + 1))
+    echo "  trying $model ($attempt/10)..." >&2
+    [[ -n "$first_model" ]] || first_model="$model"
+    case "$protocol" in
+      anthropic) payload="$(jq -nc --arg model "$model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
+      chat) payload="$(jq -nc --arg model "$model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
+      responses) payload="$(jq -nc --arg model "$model" '{model:$model,max_output_tokens:16,input:"Reply OK"}')" ;;
+    esac
+    if gateway_post_check "$label" "$path" "$payload" "$validation" 1 20 >/dev/null 2>&1; then
+      echo "  selected $model" >&2
+      printf '%s\n' "$model"
+      return 0
+    fi
+  done < <(protocol_candidates "$protocol" | awk '!seen[$0]++' | head -10)
+  if [[ -n "$first_model" ]]; then
+    case "$protocol" in
+      anthropic) payload="$(jq -nc --arg model "$first_model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
+      chat) payload="$(jq -nc --arg model "$first_model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
+      responses) payload="$(jq -nc --arg model "$first_model" '{model:$model,max_output_tokens:16,input:"Reply OK"}')" ;;
+    esac
+    gateway_post_check "$label" "$path" "$payload" "$validation" 0 20 || true
+  fi
+  echo "$label check failed: none of the authenticated catalog models produced a compatible successful response." >&2
+  echo "Checked: $gateway_url$path" >&2
+  echo 'No gateway credential or client configuration was changed.' >&2
+  return 1
+}
+
+anthropic_model="$(discover_protocol_model anthropic)"
+chat_model="$(discover_protocol_model chat)"
+responses_model="$(discover_protocol_model responses)"
+protocol_models_json="$(jq -nc --arg anthropic "$anthropic_model" --arg chat "$chat_model" --arg responses "$responses_model" '{anthropic:$anthropic,chat:$chat,responses:$responses}')"
+default_model="$chat_model"
 
 provider_models="$(jq -c '.data | map(.id) | unique | sort | map({key:., value:{}}) | from_entries' <<<"$models_json")"
 model_count="$(jq '[.data[].id] | unique | length' <<<"$models_json")"
@@ -280,23 +374,31 @@ if [[ -s "$MODEL_ALIASES_FILE" ]]; then
         (.value as $value | $catalog | index($value))
       )
     ' "$MODEL_ALIASES_FILE" >/dev/null; then
-    echo "Saved model aliases are invalid or no longer advertised; update $MODEL_ALIASES_FILE and rerun." >&2
-    exit 1
+    echo 'Saved model aliases are invalid or retired; deriving replacements from the authenticated catalog.'
+    aliases_json='{}'
+  else
+    aliases_json="$(jq -c . "$MODEL_ALIASES_FILE")"
   fi
-  aliases_json="$(jq -c . "$MODEL_ALIASES_FILE")"
-elif [[ -t 0 ]]; then
-  aliases_json='{}'
-  models=()
-  while IFS= read -r model; do models+=("$model"); done < <(jq -r '.data[].id' <<<"$models_json" | sort -u)
-  for alias_name in fable opus-fast astra sol grok; do
-    echo "Select the authenticated model for '$alias_name' (or Skip if unavailable):"
-    select alias_model in "${models[@]}" Skip; do [[ -n "$alias_model" ]] && break; done
-    [[ "$alias_model" == Skip ]] || aliases_json="$(jq -c --arg name "$alias_name" --arg model "$alias_model" '. + {($name):$model}' <<<"$aliases_json")"
-  done
 else
-  echo "Missing $MODEL_ALIASES_FILE. Run interactively once to map Fable/Opus Fast/Astra/Sol/Grok to advertised model IDs." >&2
-  exit 1
+  aliases_json='{}'
 fi
+for alias_name in fable opus-fast astra sol grok; do
+  jq -e --arg name "$alias_name" 'has($name)' >/dev/null <<<"$aliases_json" && continue
+  case "$alias_name" in
+    fable) alias_pattern='fable' ;;
+    opus-fast) alias_pattern='opus.*fast|fast.*opus' ;;
+    astra) alias_pattern='astra' ;;
+    sol) alias_pattern='(^|[/_.-])sol([/_.-]|$)' ;;
+    grok) alias_pattern='grok' ;;
+  esac
+  alias_model="$(grep -Ei "$alias_pattern" <<<"$catalog_models" | head -1 || true)"
+  if [[ -n "$alias_model" ]]; then
+    aliases_json="$(jq -c --arg name "$alias_name" --arg model "$alias_model" '. + {($name):$model}' <<<"$aliases_json")"
+    echo "Mapped gateway alias '$alias_name' to '$alias_model'."
+  else
+    echo "Gateway alias '$alias_name' is unavailable in this catalog; skipped."
+  fi
+done
 printf '%s\n' "$gateway_url" >"$ENDPOINT_FILE"
 printf '%s\n' "$key" >"$KEY_FILE"
 printf '%s\n' "$default_model" >"$MODEL_FILE"
@@ -410,4 +512,28 @@ fi
 echo "Configured gateway-backed Claude Code, Codex, and OpenCode CLIs for $USER_NAME."
 echo "OpenCode catalog: $model_count authenticated gateway models."
 echo 'Gateway credentials are prepared. Run scripts/setup-codex-profiles.sh to choose Codex desktop homes.'
+cat <<EOF
+
+Created or refreshed (all outside Git):
+  $ENDPOINT_FILE                         mode 0600
+  $KEY_FILE                              mode 0600; shared by this user's three CLI wrappers
+  $MODEL_FILE                            mode 0600
+  $PROTOCOL_MODELS_FILE                  mode 0600
+  $MODEL_ALIASES_FILE                    mode 0600
+  $CODEX_HOME/config.toml                mode 0600
+  $OPENCODE_CONFIG                       mode 0600
+  $CODEX_HOME_FILE                       mode 0600
+  $BIN_DIR/gateway-model                 mode 0700
+
+Tracked policy links prepared under:
+  $CODEX_HOME
+
+Client wrappers are created only when their vendor CLI is installed:
+  $BIN_DIR/claude
+  $BIN_DIR/codex
+  $BIN_DIR/opencode
+
+Next step for Codex desktop profiles:
+  bash scripts/setup-codex-profiles.sh --mode subscription|gateway|both
+EOF
 status

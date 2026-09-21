@@ -146,10 +146,13 @@ bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
-Gateway authentication and Codex desktop profile selection are separate. A
-single mode uses only `~/.codex`; `both` adds `~/.codex-aigateway`. Terminal
-`codex` uses the gateway whenever gateway or both mode is selected. Cursor stays
-on the official Cursor account. See the [Codex module](docs/modules/codex.md),
+Gateway setup automatically Stow-deploys the reviewed Claude and OpenCode modules,
+discovers working models without a numbered prompt, and prints every generated
+path. Codex desktop profile selection is separate and owns the Codex Stow
+migration. A single mode uses only `~/.codex`; `both` adds
+`~/.codex-aigateway`. Terminal `codex` always uses the gateway; a per-user lock
+prevents profile-home transitions from racing. Cursor stays on the official
+Cursor account. See the [Codex module](docs/modules/codex.md),
 [OpenCode module](docs/modules/opencode.md), [Claude module](docs/modules/claude.md)
 and [Cursor module](docs/modules/cursor.md).
 

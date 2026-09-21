@@ -26,7 +26,7 @@ installs Claude Code and OpenCode integrations when those clients exist. Codex p
 Codex integration(s) only after it assigns the active home or homes:
 
 ```bash
-bash scripts/setup-private-ai-gateway.sh         # gateway or both mode only
+bash scripts/setup-private-ai-gateway.sh         # required: terminal CLIs use the gateway
 bash scripts/setup-codex-profiles.sh --mode both # or gateway / subscription
 herdr integration status
 ```

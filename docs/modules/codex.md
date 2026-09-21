@@ -15,11 +15,14 @@ mode-0600 key at `~/.config/private-ai-gateway/client.key`. After gateway setup,
 subscription and gateway desktop instances concurrently when `both` is selected.
 
 Gateway authentication and Codex desktop-profile selection are deliberately
-separate. First prepare and validate the gateway when it is needed; then choose
-the Codex home layout:
+separate. Terminal Codex is always gateway-backed, so prepare and validate the
+gateway first for every desktop mode; then choose the Codex home layout. Gateway
+setup automatically deploys the reviewed Claude and OpenCode Stow modules. Do
+not run `stow codex` separately: the profile installer owns that migration and
+waits for it to finish before creating subscription launchers.
 
 ```bash
-# Gateway or both mode only: prompts for endpoint/key and validates all APIs
+# Required for terminal Codex: prompts for endpoint/key and validates all APIs
 bash scripts/setup-private-ai-gateway.sh
 
 # Select desktop/home layout; this never asks for or rotates the gateway key
@@ -28,9 +31,12 @@ bash scripts/setup-codex-profiles.sh --mode gateway       # one ~/.codex home
 bash scripts/setup-codex-profiles.sh --mode both          # ~/.codex + ~/.codex-aigateway
 ```
 
-If gateway configuration is absent when `gateway` or `both` is selected, an
-interactive run offers to start the separate gateway setup and resumes only after
-it succeeds. A non-interactive run stops with the exact command to run first.
+If gateway configuration is absent in any mode, an interactive run offers to
+start the separate gateway setup and resumes only after it succeeds. A
+non-interactive run stops with the exact command to run first. Profile setup holds
+a per-user lock while moving homes, so a second run fails clearly rather than
+racing `~/.codex`. Subscription and both modes run the reviewed Codex Stow
+migration synchronously and verify every managed link before creating launchers.
 
 ### Choose the desktop profiles
 
@@ -132,13 +138,14 @@ preference and is intentionally not stored in the public dotfiles repository.
 
 These shortcuts launch desktop profiles only. After private gateway setup,
 terminal `codex` remains gateway-backed regardless of which desktop shortcut or
-desktop mode is used. If gateway setup has never been run, subscription-only mode
-leaves the vendor Codex command unchanged.
+desktop mode is used. Profile setup now requires that validated gateway state in
+subscription mode too, so terminal Codex never silently falls back to a direct
+provider route.
 
 ### One-click profile and gateway setup
 
 ```bash
-bash scripts/setup-private-ai-gateway.sh # only when gateway access is wanted
+bash scripts/setup-private-ai-gateway.sh # required: terminal Codex uses the gateway
 bash scripts/setup-codex-profiles.sh
 # or double-click setup/Codex Profiles.command
 
@@ -149,10 +156,15 @@ bash scripts/setup-codex-profiles.sh --mode both
 ```
 
 The gateway script asks for a vendor-neutral HTTPS endpoint, silently reads one
-key, and fetches authenticated `/v1/models`. Before storing active configuration,
-it makes minimal successful requests against Anthropic Messages
+key, and fetches authenticated `/v1/models`. It automatically orders candidates
+by protocol-relevant model names, then tries them until each API accepts one; it
+does not leave the user at a Bash `#?` model-selection prompt. Before storing
+active configuration, it prints each attempt and tests at most ten candidates per
+API with a bounded timeout. It makes minimal successful requests against Anthropic Messages
 (`/v1/messages`), OpenAI Chat Completions (`/v1/chat/completions`), and OpenAI
 Responses (`/v1/responses`). Each surface can use a different advertised model.
+Optional Fable/Opus Fast/Astra/Sol/Grok aliases are derived only when matching
+catalog IDs exist; unavailable aliases are reported and skipped.
 Transport, TLS, authentication, missing endpoint, quota, and invalid-response
 failures are reported without printing the key or provider response body.
 
@@ -160,8 +172,11 @@ Only after these checks pass does it store the endpoint, key and generated clien
 state outside Git under protected user-local paths. Missing Claude Code, Codex,
 or OpenCode binaries do not invalidate the gateway: the corresponding wrapper is
 skipped with an installation reminder. Rerun gateway setup after installing that
-client. Existing `~/.claude`, `~/.codex`, and `~/.config/opencode` state is not
-silently imported or overwritten by gateway preparation.
+client. Claude and OpenCode tracked modules are Stow-deployed automatically after
+a conflict-free preview; existing conflicting files stop setup and are never
+overwritten. Codex remains profile-aware and is migrated only by
+`setup-codex-profiles.sh`. Both scripts print the exact files they create, link,
+move, park, retain, or skip.
 
 The profile script does not contact the gateway, ask for a key, or rotate one. It
 only deploys the already-prepared gateway Codex configuration to the selected

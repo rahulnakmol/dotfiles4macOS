@@ -52,7 +52,9 @@ Without --profile, an interactive terminal offers FDE / TF on first use. Later r
 ## Configure the private AI gateway once per user
 
 The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects a credential. After
-the profile apply, configure the CLI tools interactively:
+the profile apply, configure the CLI tools interactively. Gateway setup previews and Stow-deploys
+the tracked Claude and OpenCode modules when needed; Codex profile setup owns the subscription
+Stow migration and waits for it before creating launchers:
 
 ```sh
 bash scripts/setup-private-ai-gateway.sh
@@ -62,9 +64,10 @@ herdr integration status
 ```
 
 Gateway setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the
-authenticated `/v1/models` catalog, and verifies Anthropic Messages, Chat Completions and Responses
-before saving configuration. Codex profile setup is separate: it chooses subscription, gateway, or
-both without handling the key. Endpoint, shared key and model remain under
+authenticated `/v1/models` catalog, automatically selects working models, and verifies Anthropic
+Messages, Chat Completions and Responses before saving configuration. Codex profile setup is
+separate: it chooses subscription, gateway, or both without handling the key and serializes home
+transitions with a per-user lock. Endpoint, shared key and model remain under
 `~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex` and
 `opencode` commands use protected wrappers in `~/.local/bin`. Both mode creates explicit
 launchers for stock subscription ChatGPT at `~/.codex` and an isolated gateway desktop at

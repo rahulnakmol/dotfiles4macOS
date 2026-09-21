@@ -5,6 +5,8 @@ Claude Code configuration — settings, keybindings, and custom statusline.
 ## Private AI gateway (CLI only)
 
 Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
+The script previews and Stow-deploys this tracked `claude` module automatically when it is not
+already linked. A conflicting existing `~/.claude` file stops setup instead of being overwritten.
 After validating the model catalog and all three compatibility APIs, it creates an isolated
 `CLAUDE_CONFIG_DIR` under `~/.config/private-ai-gateway/claude`, reads the shared gateway key
 from a mode-0600 file at launch, and sets the Anthropic-compatible gateway origin for the ordinary

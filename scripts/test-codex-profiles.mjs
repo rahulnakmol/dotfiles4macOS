@@ -14,6 +14,28 @@ function executable(path, body) {
   chmodSync(path, 0o755);
 }
 
+function prepareGateway(home) {
+  const prepared = join(home, '.config/private-ai-gateway/codex');
+  mkdirSync(join(prepared, 'rules'), {recursive:true});
+  writeFileSync(join(home, '.config/private-ai-gateway/client.key'), 'fixture-key\n');
+  for (const file of ['config.toml','AGENTS.md','hooks.json','keybindings.json']) writeFileSync(join(prepared,file), `${file}\n`);
+  writeFileSync(join(prepared,'rules/dotfiles.rules'), 'rules\n');
+  return prepared;
+}
+
+function subscriptionBootstrap(root, calls) {
+  executable(join(root, 'scripts/bootstrap-codex.sh'), `
+mkdir -p "$HOME/.codex/rules"
+for relative in config.toml AGENTS.md hooks.json keybindings.json rules/dotfiles.rules; do
+  source="${root}/codex/.codex/$relative"; target="$HOME/.codex/$relative"
+  mkdir -p "$(dirname "$source")" "$(dirname "$target")"
+  [[ -e "$source" ]] || printf '%s\\n' "$relative" > "$source"
+  rm -f "$target"; ln -s "$source" "$target"
+done
+printf subscription > "$HOME/.codex/subscription-state"
+echo subscription >> '${calls}'`);
+}
+
 function fixture(t) {
   const dir = mkdtempSync(join(tmpdir(), 'codex-profiles-'));
   t.after(() => rmSync(dir, {recursive: true, force: true}));
@@ -110,15 +132,9 @@ test('installer mode selection is idempotent and invokes only the selected journ
     executable(join(bin, 'uname'), 'echo Darwin');
     executable(join(bin, 'herdr'), 'printf "herdr:%s:%s\\n" "${CODEX_HOME:-}" "$*" >> "$CALLS"');
     executable(join(bin, 'curl'), `cp '${downloaded}' "\${@: -1}"`);
-    executable(join(fakeRoot, 'scripts/bootstrap-codex.sh'), 'mkdir -p "$HOME/.codex"; echo subscription > "$HOME/.codex/config.toml"; echo subscription >> "$CALLS"');
+    subscriptionBootstrap(fakeRoot, calls);
     executable(join(fakeRoot, 'scripts/setup-private-ai-gateway.sh'), 'echo SHOULD-NOT-RUN >> "$CALLS"; exit 1');
-    if (mode !== 'subscription') {
-      const prepared = join(home, '.config/private-ai-gateway/codex');
-      mkdirSync(join(prepared, 'rules'), {recursive:true});
-      writeFileSync(join(home, '.config/private-ai-gateway/client.key'), 'fixture-key\n');
-      for (const file of ['config.toml','AGENTS.md','hooks.json','keybindings.json']) writeFileSync(join(prepared,file), `${file}\n`);
-      writeFileSync(join(prepared,'rules/dotfiles.rules'), 'rules\n');
-    }
+    prepareGateway(home);
     const env = {...process.env, HOME: home, PATH: `${bin}:/usr/bin:/bin`, CALLS: calls, DOTFILES_ROOT: fakeRoot, CODEX_PROFILE_SHA256: checksum};
     for (let run = 0; run < 2; run++) {
       const result = spawnSync('/bin/bash', [installer, '--mode', mode], {env, encoding:'utf8'});
@@ -126,8 +142,8 @@ test('installer mode selection is idempotent and invokes only the selected journ
     }
     const entries = readFileSync(calls, 'utf8').trim().split('\n');
     const setupEntries = entries.filter(entry => !entry.startsWith('herdr:'));
-    const expected = mode === 'both' ? ['subscription','subscription']
-      : mode === 'gateway' ? [] : ['subscription','subscription'];
+    const expected = mode === 'both' ? ['subscription']
+      : mode === 'gateway' ? [] : ['subscription'];
     assert.deepEqual(setupEntries, expected);
     const herdrEntries = entries.filter(entry => entry.startsWith('herdr:'));
     assert.equal(herdrEntries.length, mode === 'both' ? 4 : 2);
@@ -150,13 +166,9 @@ test('mode transitions preserve isolated homes and expose two homes only in both
   executable(join(bin,'uname'),'echo Darwin');
   executable(join(bin,'curl'),`cp '${downloaded}' "\${@: -1}"`);
   executable(join(bin,'herdr'),'printf "herdr:%s:%s\\n" "${CODEX_HOME:-}" "$*" >> "$CALLS"');
-  executable(join(fakeRoot,'scripts/bootstrap-codex.sh'),'mkdir -p "$HOME/.codex"; printf subscription > "$HOME/.codex/subscription-state"; echo subscription >> "$CALLS"');
+  subscriptionBootstrap(fakeRoot, calls);
   executable(join(fakeRoot,'scripts/setup-private-ai-gateway.sh'),'echo SHOULD-NOT-RUN >> "$CALLS"; exit 1');
-  const prepared=join(home,'.config/private-ai-gateway/codex');
-  mkdirSync(join(prepared,'rules'),{recursive:true});
-  writeFileSync(join(home,'.config/private-ai-gateway/client.key'),'fixture-key\n');
-  for(const file of ['config.toml','AGENTS.md','hooks.json','keybindings.json']) writeFileSync(join(prepared,file),`${file}\n`);
-  writeFileSync(join(prepared,'rules/dotfiles.rules'),'rules\n');
+  const prepared=prepareGateway(home);
   mkdirSync(join(home,'.local/bin'),{recursive:true});
   executable(join(home,'.local/bin/codex'),'exit 0');
   const env={...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,CALLS:calls,DOTFILES_ROOT:fakeRoot,CODEX_PROFILE_SHA256:checksum};
@@ -204,4 +216,39 @@ test('gateway profile mode fails safely when gateway setup has not been prepared
   assert.match(result.stderr,/Run scripts\/setup-private-ai-gateway\.sh/);
   assert.ok(!existsSync(join(home,'.codex')));
   assert.ok(!existsSync(join(home,'.codex-aigateway')));
+});
+
+test('all desktop modes require the separately validated gateway before changing homes', t => {
+  for (const mode of ['subscription', 'gateway', 'both']) {
+    const dir=mkdtempSync(join(tmpdir(),`codex-requires-gateway-${mode}-`));
+    t.after(()=>rmSync(dir,{recursive:true,force:true}));
+    const home=join(dir,'home'), bin=join(dir,'bin'), fakeRoot=join(dir,'root');
+    mkdirSync(home); mkdirSync(bin); mkdirSync(join(fakeRoot,'scripts'),{recursive:true});
+    executable(join(bin,'uname'),'echo Darwin');
+    const result=spawnSync('/bin/bash',[installer,'--mode',mode],{
+      env:{...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,DOTFILES_ROOT:fakeRoot},encoding:'utf8'
+    });
+    assert.equal(result.status,1);
+    assert.match(result.stderr,/Gateway configuration is not prepared/);
+    assert.ok(!existsSync(join(home,'.codex')));
+    assert.ok(!existsSync(join(home,'.codex-aigateway')));
+  }
+});
+
+test('active setup lock prevents concurrent Codex home transitions', t => {
+  const dir=mkdtempSync(join(tmpdir(),'codex-profile-lock-'));
+  t.after(()=>rmSync(dir,{recursive:true,force:true}));
+  const home=join(dir,'home'), bin=join(dir,'bin'), fakeRoot=join(dir,'root');
+  mkdirSync(home); mkdirSync(bin); mkdirSync(join(fakeRoot,'scripts'),{recursive:true});
+  executable(join(bin,'uname'),'echo Darwin');
+  prepareGateway(home);
+  const lock=join(home,'.local/state/dotfiles/codex-profiles/setup.lock');
+  mkdirSync(lock,{recursive:true});
+  writeFileSync(join(lock,'pid'),`${process.pid}\n`);
+  const result=spawnSync('/bin/bash',[installer,'--mode','gateway'],{
+    env:{...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,DOTFILES_ROOT:fakeRoot},encoding:'utf8'
+  });
+  assert.equal(result.status,1);
+  assert.match(result.stderr,/Another Codex profile setup is already running/);
+  assert.ok(!existsSync(join(home,'.codex')));
 });

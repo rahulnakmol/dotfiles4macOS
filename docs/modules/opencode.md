@@ -5,6 +5,8 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 ## Private AI gateway (CLI only)
 
 Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
+The script previews and Stow-deploys this tracked `opencode` module automatically when needed;
+conflicting existing files stop setup rather than being adopted or overwritten.
 It fetches the authenticated `/v1/models` catalog, validates Chat Completions with the selected
 OpenCode model, and writes an isolated configuration under
 `~/.config/private-ai-gateway/opencode`. The provider contains every unique advertised model rather
