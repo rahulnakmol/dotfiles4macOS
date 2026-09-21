@@ -55,12 +55,12 @@ test('desktop shell routes follow the selected mode without local-bin launchers'
     ['gateway','chatgpt-aigateway.sh',0],
     ['both','use cxs (subscription) or cxg (gateway)',2],
   ]) {
-    for(const [shell,rc] of [['bash','.bashrc'],['zsh','.zshrc']]) {
+    for(const [shell,aliases] of [['bash','.bashrc.d/aliases.sh'],['zsh','.zshrc.d/aliases.zsh']]) {
       const available=spawnSync('/usr/bin/env',[shell,'--version'],{encoding:'utf8'});
       if(available.error?.code==='ENOENT'||available.status===127)continue;
       const f=fixture(t);
       writeFileSync(join(f.home,'.local/state/dotfiles/codex-profiles/mode'),`${mode}\n`);
-      const result=spawnSync(shell,['-c',`export XDG_STATE_HOME="$HOME/.local/state"; PS1=test; source "$HOME/${rc}"; cx`],{env:f.env,encoding:'utf8'});
+      const result=spawnSync(shell,['-c',`export XDG_STATE_HOME="$HOME/.local/state"; source "$HOME/${aliases}"; cx`],{env:f.env,encoding:'utf8'});
       assert.equal(result.status,status,`${shell}/${mode}: ${result.stderr}`);
       assert.match(result.stdout+result.stderr,new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
     }
