@@ -30,13 +30,17 @@ jobs:
           node-version: 22
       - name: Install Stow
         run: brew install stow tmux
-      - name: Validate FDE and TF generation, activation and rollback
+      - name: Validate shell syntax and generated files
         run: |
           bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/setup-private-ai-gateway.sh scripts/setup-codex-profiles.sh scripts/bootstrap-hyper.sh scripts/bootstrap-skills.sh
           node scripts/build-hyper-config.mjs --check
           node scripts/render-hyper-guide.mjs --check
           node scripts/render-workstation-docs.mjs --check
+      - name: Validate FDE and TF activation and rollback
+        run: |
           node --test scripts/test-documentation.mjs scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-agent-command-routing.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
+      - name: Smoke-test tmux configuration
+        run: |
           tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d
           tmux -L audit kill-server
 
