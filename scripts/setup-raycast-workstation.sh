@@ -30,6 +30,81 @@ build() {
   (cd "$extension" && npm run build)
 }
 
+import_once() {
+  local ray="$extension/node_modules/.bin/ray"
+  local timeout="${RAYCAST_IMPORT_TIMEOUT_SECONDS:-120}"
+  local settle="${RAYCAST_IMPORT_SETTLE_SECONDS:-2}"
+  local log pid deadline status=0
+  [[ -x "$ray" ]] || fail 'Pinned Raycast CLI is missing after npm install.'
+  [[ "$timeout" =~ ^[1-9][0-9]*$ ]] || fail 'RAYCAST_IMPORT_TIMEOUT_SECONDS must be a positive integer.'
+  [[ "$settle" =~ ^[0-9]+$ ]] || fail 'RAYCAST_IMPORT_SETTLE_SECONDS must be a non-negative integer.'
+
+  log="$(mktemp "${TMPDIR:-/tmp}/workmode-ray-develop.XXXXXX")"
+  pid=''
+  stop_import() {
+    local signal="$1" attempt
+    [[ -n "$pid" ]] || return 0
+    kill -"$signal" -- "-$pid" 2>/dev/null || true
+    for ((attempt = 0; attempt < 50; attempt++)); do
+      kill -0 -- "-$pid" 2>/dev/null || return 0
+      sleep 0.1
+    done
+    kill -KILL -- "-$pid" 2>/dev/null || true
+  }
+  cleanup_import() {
+    if [[ -n "$pid" ]]; then
+      stop_import TERM
+      wait "$pid" 2>/dev/null || true
+    fi
+    rm -f "$log"
+  }
+  trap cleanup_import EXIT
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+
+  echo "Importing Workmode into Raycast (timeout: ${timeout}s)."
+  # A separate process group lets cleanup stop only this ray process and any
+  # watcher children it owns. It never searches for or signals another session.
+  set -m
+  "$ray" develop --non-interactive --exit-on-error >"$log" 2>&1 &
+  pid=$!
+  set +m
+  deadline=$((SECONDS + timeout))
+  while kill -0 "$pid" 2>/dev/null; do
+    if grep -Eiq 'ready.*built extension successfully' "$log"; then
+      sleep "$settle"
+      stop_import INT
+      set +e
+      wait "$pid"
+      status=$?
+      set -e
+      pid=''
+      case "$status" in 0|130) ;; *)
+        cat "$log" >&2
+        fail "Raycast imported Workmode, but the development process stopped with status $status."
+      esac
+      rm -f "$log"
+      trap - EXIT INT TERM
+      echo 'Workmode imported successfully; the temporary development watcher has stopped.'
+      echo 'The extension remains installed in Raycast. Run install again after source updates.'
+      return 0
+    fi
+    if (( SECONDS >= deadline )); then
+      cat "$log" >&2
+      fail "Timed out after ${timeout}s waiting for Raycast to import Workmode."
+    fi
+    sleep 1
+  done
+
+  set +e
+  wait "$pid"
+  status=$?
+  set -e
+  pid=''
+  cat "$log" >&2
+  fail "Raycast development exited before Workmode was ready (status $status)."
+}
+
 case "$action" in
   plan)
     cat <<'PLAN'
@@ -37,8 +112,8 @@ Workmode — optional macOS productivity extension for both FDE and TF.
 Prerequisites: Node 22.18+, npm, GNU Stow, Xcode Command Line Tools and Raycast.
 Layouts/focus need Raycast Pro, DockFlow and the selected mode's apps; timers need Session.
   build    Compile and validate only. Does not Stow or import into Raycast.
-  install  Build, Stow curated configuration, then import with Raycast's CLI.
-           At "ready", press Control+C. The extension remains installed.
+  install  Build, Stow curated configuration, import with Raycast's CLI, then exit.
+           The temporary development watcher stops after the first successful import.
   check    Verify local source, helper and Stow link. Use wchk for live prerequisites.
   rollback Unstow configuration only; remove the extension in Raycast Settings if wanted.
   apply    Legacy prepare-only command; use install for a complete local installation.
@@ -97,6 +172,5 @@ if [[ "$action" == apply ]]; then
   exit 0
 fi
 cd "$extension"
-echo 'Importing Workmode. At "ready", press Control+C; Raycast keeps it installed.'
 echo "Then follow $root/docs/modules/raycast.md and run Check Workmode Setup in Raycast."
-exec npm run dev
+import_once

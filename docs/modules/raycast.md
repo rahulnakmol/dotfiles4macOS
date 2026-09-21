@@ -56,17 +56,26 @@ From the dotfiles checkout, run:
 bash scripts/setup-raycast-workstation.sh install
 ```
 
-Or double-click `setup/Raycast.command`. After **Importing Workmode**, wait for
-**ready**, then press **Control+C**. Workmode stays installed; you do not need a
-terminal or development watcher running at login.
+Or double-click `setup/Raycast.command`. Setup starts Raycast's development mode
+only long enough to import the extension, waits for the first successful build,
+then sends the documented interrupt and exits. Workmode stays installed; you do
+not need to press Control+C or keep a terminal or watcher running.
+
+Raycast does not provide a one-shot local-import command. The installer uses the
+repository-pinned CLI, watches its output for the first successful development
+build, allows a short settle period, and stops only that CLI process group. It
+does not quit Raycast or search for unrelated development processes. If readiness
+is not reported within 120 seconds, setup prints the captured CLI output and
+fails instead of leaving a background watcher behind.
 
 ```mermaid
 flowchart LR
     A[Run install] --> B[Build and run checks]
     B --> C[Link Workmode config with Stow]
     C --> D[Import into Raycast]
-    D --> E[At ready, press Control+C]
-    E --> F[Complete per-Mac setup]
+    D --> E[Wait for first successful build]
+    E --> F[Stop watcher and exit]
+    F --> G[Complete per-Mac setup]
 ```
 
 A Stow conflict stops installation instead of replacing your files. Resolve the
@@ -206,7 +215,7 @@ mode works in every window state.
 
 | Check | Result and limit |
 | --- | --- |
-| macOS build and install | Passed locally and in CI; commands remain after stopping the watcher. |
+| macOS build and import lifecycle | Earlier manual installation confirmed commands remain after stopping the watcher. Current isolated tests cover readiness, ANSI output, premature failure and timeout cleanup; CI cannot prove a signed-in GUI import. |
 | Layout menus and aliases | Eight layouts and seven focus sessions load; Code uses Amp and Innovate uses Codex. |
 | Default, Work, Author, Design and Zen layouts | Passed recorded window/Dock tests. Later Zen cold launches still showed intermittent errors. |
 | Zen + Slack sizing | Passed an isolated test with Slack's minimum-width adjustment. |

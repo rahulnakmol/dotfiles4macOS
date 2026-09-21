@@ -15,9 +15,10 @@ From the dotfiles checkout:
 bash scripts/setup-raycast-workstation.sh install
 ```
 
-Or double-click `setup/Raycast.command`. After **Importing Workmode**, wait for
-**ready**, then press **Control+C**. The extension remains installed. Repeat
-after pulling source updates. Complete the [prerequisites and per-Mac steps](../../docs/modules/raycast.md#install)
+Or double-click `setup/Raycast.command`. The installer waits for Raycast's first
+successful development build, stops that temporary watcher, and exits; the
+extension remains installed. Repeat after pulling source updates. Complete the
+[prerequisites and per-Mac steps](../../docs/modules/raycast.md#install)
 before running a layout or focus session.
 
 | Task | Command from the repo root |
@@ -30,6 +31,9 @@ before running a layout or focus session.
 
 The old `apply` action still prepares and links only. To disable Workmode, remove
 it in Raycast Settings too; an installed extension can use bundled defaults.
+Raycast has no one-shot local-import command, so `install` supervises the pinned
+CLI's development watcher through its first successful build and then interrupts
+only that process group. A timeout fails rather than leaving the watcher running.
 
 ## Change the source
 
@@ -99,8 +103,9 @@ bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command
 ```
 
 Tests use isolated fixtures; they do not quit your apps. CI builds on macOS
-without Stow or import. `npm run build` validates a bundle; `npm run dev` imports
-it into Raycast. Follow the [recorded limits and manual checks](../../docs/modules/raycast.md#what-has-been-verified)
+without Stow or import. `npm run build` validates a bundle; `npm run dev` is the
+explicit long-running development watcher. The repository installer supervises
+that watcher only through its first successful import and then stops it. Follow the [recorded limits and manual checks](../../docs/modules/raycast.md#what-has-been-verified)
 for real windows, timers and hotkeys.
 
 ## Share the source

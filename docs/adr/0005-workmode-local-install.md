@@ -14,15 +14,16 @@ the existing capture and Google menus as small URL dispatchers.
 
 Use one installer with separate `build`, `install`, `check` and `rollback`
 actions. The Finder launcher calls the same script. `install` builds and tests,
-Stows reviewed config, then imports through `ray develop`. The user stops the
-watcher with Control+C; the extension remains installed.
+Stows reviewed config, then supervises `ray develop` through its first successful
+build and stops that watcher automatically; the extension remains installed.
 
 ## Alternatives and trade-offs
 
 | Option | Decision | Reason |
 | --- | --- | --- |
 | Build without import | Keep as `build` | Useful for validation; does not install into Raycast. |
-| Supported local CLI import | Use for `install` | Requires one Control+C step but no custom installer service. |
+| Supported local CLI import | Use for `install` | The installer supervises the temporary watcher through first readiness, interrupts only that process group, then exits. |
+| Treat first successful build output as import readiness | Accept pinned-CLI coupling | Raycast exposes no machine-readable or one-shot local-import acknowledgement. A timeout fails closed if its output changes. |
 | Write Raycast's private databases | Avoid | Couples setup to an internal format and private state. |
 | Publish through the Store | Defer | Needs a separate review and distribution process. |
 | Remove all direct command files | Avoid | Their aliases are useful; each file delegates to shared logic. |
