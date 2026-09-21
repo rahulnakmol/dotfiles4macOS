@@ -60,7 +60,7 @@ test('desktop shell routes follow the selected mode without local-bin launchers'
       if(available.error?.code==='ENOENT'||available.status===127)continue;
       const f=fixture(t);
       writeFileSync(join(f.home,'.local/state/dotfiles/codex-profiles/mode'),`${mode}\n`);
-      const result=spawnSync(shell,['-c',`PS1=test; source "$HOME/${rc}"; cx`],{env:f.env,encoding:'utf8'});
+      const result=spawnSync(shell,['-c',`export XDG_STATE_HOME="$HOME/.local/state"; PS1=test; source "$HOME/${rc}"; cx`],{env:f.env,encoding:'utf8'});
       assert.equal(result.status,status,`${shell}/${mode}: ${result.stderr}`);
       assert.match(result.stdout+result.stderr,new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
     }
