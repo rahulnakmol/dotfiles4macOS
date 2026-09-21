@@ -39,7 +39,8 @@ only that process group. A timeout fails rather than leaving the watcher running
 
 | Change | Edit | Then run |
 | --- | --- | --- |
-| Apps, modes, desktops or durations | `raycast/.config/raycast-workstation/workstation.json` | Regenerate the keymap and run `install`. |
+| Apps, modes, desktops or durations | `raycast/.config/raycast/workstation/workstation.json` | Regenerate the keymap and run `install`. |
+| Codex desktop Script Commands | `raycast/.config/raycast/scripts/codex/` and `raycast/.config/raycast/lib/codex-profile.sh` | Stow-managed; register `~/.config/raycast/scripts` once in Raycast. |
 | Alias names or native key map | `scripts/build-raycast-keymap.mjs` | `node scripts/build-raycast-keymap.mjs`, then configure the native settings in Raycast. |
 | Command behavior | `extensions/raycast-workstation/src/` | Tests and typecheck, then `npm run dev` from this directory. |
 | Running-app helper | `assets/DesktopHelper.swift` | Run `build` or `install` to compile it for this Mac. |

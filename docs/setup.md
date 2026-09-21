@@ -70,28 +70,38 @@ gh auth login
 ## 5. Configure the private AI gateway and Codex desktop profiles
 
 Gateway authentication and Codex profile selection are separate. After installing
-the desired CLI tools and Herdr, prepare the gateway only if it will be used, then
-choose the desktop/home layout:
+the desired CLI tools and Herdr, run gateway setup first. It previews and deploys
+the reviewed Claude and OpenCode Stow modules when they are not already linked,
+then prepares the gateway. Codex Stow migration remains owned by the profile
+installer so home transitions cannot race a separate `stow codex` command:
 
 ```bash
-bash scripts/setup-private-ai-gateway.sh        # gateway or both mode only
+bash scripts/setup-private-ai-gateway.sh        # required: terminal CLIs use the gateway
 bash scripts/setup-codex-profiles.sh --mode both # or subscription / gateway
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
 The gateway script prompts for an HTTPS endpoint and one hidden shared key. It
-fetches authenticated `/v1/models`, then requires successful minimal requests to
-Anthropic Messages, OpenAI Chat Completions, and OpenAI Responses before writing
-active configuration. Failures identify connectivity, TLS, authentication,
+fetches authenticated `/v1/models`, automatically tries catalog models until it
+finds one that works for Anthropic Messages, OpenAI Chat Completions, and OpenAI
+Responses, and writes no active credential until all three checks pass. There is
+no numbered model prompt; setup prints each bounded model attempt so a slow or
+incompatible endpoint does not look frozen. Failures identify connectivity, TLS, authentication,
 missing endpoint, quota, or invalid response shape without printing the key or
 provider response body. Missing client binaries are skipped with an installation
-reminder; rerun gateway setup after installing them.
+reminder; rerun gateway setup after installing them. At completion it prints the
+generated credential, model, client-home, wrapper, and follow-up paths without
+printing their values.
 
 The profile script never collects or rotates the key. Subscription-only and
 gateway-only modes each expose one `~/.codex` home. Both mode uses subscription
 at `~/.codex` and gateway at `~/.codex-aigateway`. Rerunning with another mode
 parks the inactive home under local state instead of merging or deleting it.
+Every mode requires the validated gateway first because terminal `codex` is
+always gateway-backed. A per-user lock prevents simultaneous profile transitions;
+subscription/both waits for the Codex Stow migration to finish before creating
+desktop launchers. The final summary lists active, parked, and generated paths.
 Claude Desktop is unchanged. Cursor CLI remains on the official Cursor account;
 never set the gateway key as `CURSOR_API_KEY`. Follow the [Codex module](modules/codex.md)
 for ownership, launch shortcuts, transitions, rotation, rollback, and uninstall.

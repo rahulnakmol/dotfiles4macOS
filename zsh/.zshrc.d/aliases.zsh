@@ -191,6 +191,20 @@ cda() { gateway_model codex astra "$@"; }
 cds() { gateway_model codex sol "$@"; }
 cdg() { gateway_model codex grok "$@"; }
 
+# Codex desktop profiles. Terminal `codex` remains the gateway-backed CLI.
+cxs() { "$HOME/.config/raycast/scripts/codex/chatgpt-subscription.sh" "$@"; }
+cxg() { "$HOME/.config/raycast/scripts/codex/chatgpt-aigateway.sh" "$@"; }
+cx() {
+  local mode
+  mode="$(command cat "${CODEX_PROFILE_MODE_FILE:-${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/codex-profiles/mode}" 2>/dev/null)"
+  case "$mode" in
+    subscription) cxs "$@" ;;
+    gateway) cxg "$@" ;;
+    both) echo 'Both Codex desktop profiles are enabled; use cxs (subscription) or cxg (gateway).' >&2; return 2 ;;
+    *) echo 'Codex desktop profiles are not configured; run scripts/setup-codex-profiles.sh.' >&2; return 1 ;;
+  esac
+}
+
 # Aliases for opencode (via Zen provider)
 alias oc='opencode'                                                                                                      # Launch TUI
 alias occ='opencode -c'                                                                                                  # Continue last session

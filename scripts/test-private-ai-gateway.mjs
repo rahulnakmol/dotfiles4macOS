@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
@@ -19,6 +19,11 @@ function fixture(t) {
   executable('uname', 'echo Darwin');
   executable('id', 'echo fixture-user');
   executable('claude'); executable('codex'); executable('opencode');
+  executable('stow', 'printf "stow %s\\n" "$*" >> "$CALLS"');
+  mkdirSync(join(home, '.claude'), {recursive:true});
+  mkdirSync(join(home, '.config/opencode'), {recursive:true});
+  symlinkSync(join(root, 'claude/.claude/settings.json'), join(home, '.claude/settings.json'));
+  symlinkSync(join(root, 'opencode/.config/opencode/opencode.json'), join(home, '.config/opencode/opencode.json'));
   executable('curl', `
 input="$(cat)"; [[ "$input" == *"Authorization: Bearer fixture-secret"* ]]
 url="\${@: -1}"
@@ -110,6 +115,58 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(integrations, /\|\|\/.*private-ai-gateway-herdr\.[^|]+\|integration install opencode/);
 });
 
+test('gateway setup automatically deploys missing Claude and OpenCode Stow modules', t => {
+  const f = fixture(t);
+  rmSync(join(f.home, '.claude'), {recursive:true, force:true});
+  rmSync(join(f.home, '.config/opencode'), {recursive:true, force:true});
+  f.executable('stow', `
+module="\${@: -1}"
+printf 'stow %s\\n' "$*" >> "$CALLS"
+[[ " $* " == *" -n "* ]] && exit 0
+case "$module" in
+  claude) mkdir -p "$HOME/.claude"; ln -s '${join(root, 'claude/.claude/settings.json')}' "$HOME/.claude/settings.json" ;;
+  opencode) mkdir -p "$HOME/.config/opencode"; ln -s '${join(root, 'opencode/.config/opencode/opencode.json')}' "$HOME/.config/opencode/opencode.json" ;;
+esac`);
+  const result = f.run([]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(lstatSync(join(f.home, '.claude/settings.json')).isSymbolicLink());
+  assert.ok(lstatSync(join(f.home, '.config/opencode/opencode.json')).isSymbolicLink());
+  assert.match(result.stdout, /Deployed tracked claude module/);
+  assert.match(result.stdout, /Deployed tracked opencode module/);
+  const calls = readFileSync(f.calls, 'utf8');
+  assert.match(calls, /stow -n --no-folding.*claude/);
+  assert.match(calls, /stow --no-folding.*opencode/);
+});
+
+test('first model setup is automatic without a numbered prompt or saved model files', t => {
+  const f = fixture(t);
+  for (const file of ['default-model', 'model-aliases.json', 'protocol-models.json'])
+    rmSync(join(f.config, file));
+  const result = f.run([]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.doesNotMatch(result.stdout + result.stderr, /#\?|Select a model|Available models/);
+  assert.match(result.stderr, /Auto-selecting a working model/);
+  assert.match(result.stderr, /trying a-model \(1\/10\)/);
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'protocol-models.json'))), {
+    anthropic: 'a-model', chat: 'a-model', responses: 'a-model',
+  });
+  assert.equal(readFileSync(join(f.config, 'default-model'), 'utf8'), 'a-model\n');
+});
+
+test('gateway setup stops before API changes when a tracked module has a Stow conflict', t => {
+  const f = fixture(t);
+  f.executable('stow', `
+printf 'stow %s\\n' "$*" >> "$CALLS"
+[[ "$*" == *" claude" ]] && exit 1
+exit 0`);
+  const beforeKey = readFileSync(join(f.config, 'client.key'), 'utf8');
+  const result = f.run([]);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Cannot deploy the tracked claude module/);
+  assert.doesNotMatch(readFileSync(f.calls, 'utf8'), /curl/);
+  assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
+});
+
 test('gateway setup diagnoses a failed compatibility API without replacing saved configuration', t => {
   const f = fixture(t);
   const beforeKey = readFileSync(join(f.config, 'client.key'), 'utf8');
@@ -162,7 +219,7 @@ test('gateway validation succeeds without installed client binaries and reports 
   assert.ok(existsSync(join(f.managed,'gateway-model')));
 });
 
-test('catalog refresh validates aliases without rewriting the key or inventing model IDs', t => {
+test('catalog refresh repairs retired aliases without rewriting the key or inventing model IDs', t => {
   const f = fixture(t);
   const beforeKey = readFileSync(join(f.config, 'client.key'), 'utf8');
   const result = f.run([]);
@@ -170,9 +227,10 @@ test('catalog refresh validates aliases without rewriting the key or inventing m
   assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
   assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'a-model', 'opus-fast':'a-model', astra:'z-model'});
   writeFileSync(join(f.config, 'model-aliases.json'), '{"fable":"retired-model"}\n', {mode:0o600});
-  const rejected = f.run([]);
-  assert.equal(rejected.status, 1);
-  assert.match(rejected.stderr, /invalid or no longer advertised/);
+  const repaired = f.run([]);
+  assert.equal(repaired.status, 0, repaired.stderr);
+  assert.match(repaired.stdout, /invalid or retired; deriving replacements/);
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {});
   assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
 });
 

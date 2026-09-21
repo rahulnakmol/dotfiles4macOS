@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
-const folder=root+'raycast/.config/raycast-workstation/';
+const folder=root+'raycast/.config/raycast/workstation/';
 // Describes native Raycast hotkeys. Does not configure another keyboard utility.
 // Meh means the physical Control+Option+Shift chord, not a remapped Right Option.
 export function buildKeymap(config) {

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { chmodSync, copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -10,9 +10,9 @@ import { spawnSync } from 'node:child_process';
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'workmode setup '));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  for (const dir of ['scripts', 'bin', 'home/Applications/Raycast.app', 'extensions/raycast-workstation/assets', 'extensions/raycast-workstation/node_modules/.bin', 'raycast/.config/raycast-workstation']) mkdirSync(join(root, dir), { recursive: true });
+  for (const dir of ['scripts', 'bin', 'home/Applications/Raycast.app', 'extensions/raycast-workstation/assets', 'extensions/raycast-workstation/node_modules/.bin', 'raycast/.config/raycast/workstation']) mkdirSync(join(root, dir), { recursive: true });
   copyFileSync(new URL('./setup-raycast-workstation.sh', import.meta.url), join(root, 'scripts/setup-raycast-workstation.sh'));
-  writeFileSync(join(root, 'raycast/.config/raycast-workstation/workstation.json'), '{}\n');
+  writeFileSync(join(root, 'raycast/.config/raycast/workstation/workstation.json'), '{}\n');
   const tool = `#!/bin/bash
 name="$(basename "$0")"
 printf '%s %s\\n' "$name" "$*" >> "$CALL_LOG"
@@ -44,6 +44,7 @@ while :; do sleep 1; done
   chmodSync(ray, 0o755);
   const log = join(root, 'calls'); writeFileSync(log, '');
   return {
+    root,
     run(action, extra = {}) {
       const result = spawnSync('/bin/bash', [join(root, 'scripts/setup-raycast-workstation.sh'), action], {
         env: { ...process.env, HOME: join(root, 'home'), PATH: `${join(root, 'bin')}:/usr/bin:/bin`, CALL_LOG: log, RAYCAST_IMPORT_SETTLE_SECONDS: '0', ...extra }, encoding: 'utf8',
@@ -130,4 +131,29 @@ test('apply stays compatible as prepare-only and rollback only unstows', t => {
   assert.equal(rollback.status, 0, rollback.stderr);
   assert.equal(rollback.calls.length, 3);
   assert.ok(rollback.calls.slice(1).every(c => c.startsWith('stow ') && c.includes('-D')));
+});
+
+test('install safely migrates only legacy repository-owned configuration links',t=>{
+  const owned=fixture(t);
+  const legacy=join(owned.root,'home/.config/raycast-workstation');
+  mkdirSync(legacy,{recursive:true});
+  for(const name of ['workstation.json','aliases.json','hotkeys.json']) {
+    const oldSource=join(owned.root,'raycast/.config/raycast-workstation',name);
+    mkdirSync(join(owned.root,'raycast/.config/raycast-workstation'),{recursive:true});
+    writeFileSync(oldSource,'{}\n');
+    symlinkSync(oldSource,join(legacy,name));
+  }
+  const migrated=owned.run('apply');
+  assert.equal(migrated.status,0,migrated.stderr);
+  assert.equal(existsSync(legacy),false);
+
+  const personal=fixture(t);
+  const personalLegacy=join(personal.root,'home/.config/raycast-workstation');
+  mkdirSync(personalLegacy,{recursive:true});
+  writeFileSync(join(personalLegacy,'notes.txt'),'mine\n');
+  const refused=personal.run('apply');
+  assert.equal(refused.status,1);
+  assert.match(refused.stderr,/contains files not owned by this repository/);
+  assert.equal(readFileSync(join(personalLegacy,'notes.txt'),'utf8'),'mine\n');
+  assert.ok(!refused.calls.some(call=>call.startsWith('stow -n ')));
 });
