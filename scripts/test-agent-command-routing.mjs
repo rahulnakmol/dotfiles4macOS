@@ -69,6 +69,7 @@ test('desktop shell routes follow the selected mode without local-bin launchers'
   }
   const aliases=readFileSync(join(root,'zsh/.zshrc.d/aliases.zsh'),'utf8')+readFileSync(join(root,'bash/.bashrc.d/aliases.sh'),'utf8');
   assert.doesNotMatch(aliases,/\.local\/bin\/chatgpt-/);
+  assert.match(aliases,/command cat .*CODEX_PROFILE_MODE_FILE/);
 });
 
 test('tmux AI commands pin wrapper PATH and model shortcuts have unique keys', () => {

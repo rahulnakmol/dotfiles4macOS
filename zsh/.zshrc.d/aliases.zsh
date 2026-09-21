@@ -196,7 +196,7 @@ cxs() { "$HOME/.config/raycast/scripts/codex/chatgpt-subscription.sh" "$@"; }
 cxg() { "$HOME/.config/raycast/scripts/codex/chatgpt-aigateway.sh" "$@"; }
 cx() {
   local mode
-  mode="$(cat "${CODEX_PROFILE_MODE_FILE:-${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/codex-profiles/mode}" 2>/dev/null)"
+  mode="$(command cat "${CODEX_PROFILE_MODE_FILE:-${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/codex-profiles/mode}" 2>/dev/null)"
   case "$mode" in
     subscription) cxs "$@" ;;
     gateway) cxg "$@" ;;
