@@ -10,7 +10,7 @@ import { spawnSync } from 'node:child_process';
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'workmode setup '));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  for (const dir of ['scripts', 'bin', 'home/Applications/Raycast.app', 'extensions/raycast-workstation/assets', 'raycast/.config/raycast-workstation']) mkdirSync(join(root, dir), { recursive: true });
+  for (const dir of ['scripts', 'bin', 'home/Applications/Raycast.app', 'extensions/raycast-workstation/assets', 'extensions/raycast-workstation/node_modules/.bin', 'raycast/.config/raycast-workstation']) mkdirSync(join(root, dir), { recursive: true });
   copyFileSync(new URL('./setup-raycast-workstation.sh', import.meta.url), join(root, 'scripts/setup-raycast-workstation.sh'));
   writeFileSync(join(root, 'raycast/.config/raycast-workstation/workstation.json'), '{}\n');
   const tool = `#!/bin/bash
@@ -27,11 +27,26 @@ esac
   for (const name of ['uname', 'node', 'npm', 'stow', 'xcrun']) {
     const path = join(root, 'bin', name); writeFileSync(path, tool); chmodSync(path, 0o755);
   }
+  const ray = join(root, 'extensions/raycast-workstation/node_modules/.bin/ray');
+  writeFileSync(ray, `#!/bin/bash
+printf 'ray %s\\n' "$*" >> "$CALL_LOG"
+if [[ "\${RAY_EXIT_EARLY:-0}" == 1 ]]; then echo 'development failed' >&2; exit 7; fi
+if [[ "\${RAY_NEVER_READY:-0}" != 1 ]]; then
+  if [[ "\${RAY_ANSI_READY:-0}" == 1 ]]; then
+    printf '\\033[32mready\\033[0m - \\033[1mbuilt extension successfully\\033[0m\\n'
+  else
+    echo 'ready - built extension successfully'
+  fi
+fi
+trap 'exit 130' INT
+while :; do sleep 1; done
+`);
+  chmodSync(ray, 0o755);
   const log = join(root, 'calls'); writeFileSync(log, '');
   return {
     run(action, extra = {}) {
       const result = spawnSync('/bin/bash', [join(root, 'scripts/setup-raycast-workstation.sh'), action], {
-        env: { ...process.env, HOME: join(root, 'home'), PATH: `${join(root, 'bin')}:/usr/bin:/bin`, CALL_LOG: log, ...extra }, encoding: 'utf8',
+        env: { ...process.env, HOME: join(root, 'home'), PATH: `${join(root, 'bin')}:/usr/bin:/bin`, CALL_LOG: log, RAYCAST_IMPORT_SETTLE_SECONDS: '0', ...extra }, encoding: 'utf8',
       });
       return { ...result, calls: readFileSync(log, 'utf8').split('\n').filter(Boolean) };
     },
@@ -41,7 +56,7 @@ esac
 test('plan explains local installation without running tools', t => {
   const r = fixture(t).run('plan');
   assert.equal(r.status, 0); assert.deepEqual(r.calls, []);
-  assert.match(r.stdout, /install/); assert.match(r.stdout, /Control\+C/);
+  assert.match(r.stdout, /install/); assert.match(r.stdout, /then exit/);
 });
 test('all operational commands reject non-macOS before changing anything', t => {
   for (const action of ['build', 'install', 'apply', 'check', 'rollback']) {
@@ -58,20 +73,47 @@ test('build validates a locked install without Stow or Raycast import', t => {
   assert.ok(r.calls.includes('npm run build'));
   assert.ok(!r.calls.some(c => c.startsWith('stow ') || c === 'npm run dev'));
 });
-test('install previews Stow, builds, links, then imports with the official CLI', t => {
+test('install previews Stow, builds, links, imports once, and exits cleanly', t => {
   const r = fixture(t).run('install');
   assert.equal(r.status, 0, r.stderr);
   const preview = r.calls.findIndex(c => c.startsWith('stow -n '));
   const build = r.calls.indexOf('npm run build');
   const link = r.calls.findIndex(c => c.startsWith('stow --no-folding '));
   assert.ok(preview >= 0 && preview < build && build < link);
-  assert.equal(r.calls.at(-1), 'npm run dev');
+  assert.equal(r.calls.at(-1), 'ray develop --non-interactive --exit-on-error');
+  assert.match(r.stdout, /watcher has stopped/);
+});
+test('install recognizes ANSI-colored Raycast readiness output', t => {
+  const r = fixture(t).run('install', { RAY_ANSI_READY: '1' });
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /watcher has stopped/);
 });
 test('Stow conflicts and failed builds never link or import', t => {
   for (const extra of [{ CONFLICT: '1' }, { FAIL_NPM: 'run build' }]) {
     const r = fixture(t).run('install', extra);
     assert.notEqual(r.status, 0);
-    assert.ok(!r.calls.some(c => c.startsWith('stow --no-folding ') || c === 'npm run dev'));
+    assert.ok(!r.calls.some(c => c.startsWith('stow --no-folding ') || c.startsWith('ray develop')));
+  }
+});
+test('install fails safely when Raycast exits before ready or import times out', t => {
+  const early = fixture(t).run('install', { RAY_EXIT_EARLY: '1' });
+  assert.equal(early.status, 1);
+  assert.match(early.stderr, /exited before Workmode was ready \(status 7\)/);
+
+  const timeout = fixture(t).run('install', { RAY_NEVER_READY: '1', RAYCAST_IMPORT_TIMEOUT_SECONDS: '1' });
+  assert.equal(timeout.status, 1);
+  assert.match(timeout.stderr, /Timed out after 1s/);
+});
+test('install rejects invalid import timing before starting Raycast', t => {
+  for (const extra of [
+    { RAYCAST_IMPORT_TIMEOUT_SECONDS: '0' },
+    { RAYCAST_IMPORT_TIMEOUT_SECONDS: 'soon' },
+    { RAYCAST_IMPORT_SETTLE_SECONDS: '-1' },
+  ]) {
+    const r = fixture(t).run('install', extra);
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /must be a (positive|non-negative) integer/);
+    assert.ok(!r.calls.some(c => c.startsWith('ray develop')));
   }
 });
 test('outdated Node fails with an actionable message before npm or Stow', t => {
@@ -83,7 +125,7 @@ test('apply stays compatible as prepare-only and rollback only unstows', t => {
   const apply = fixture(t).run('apply');
   assert.equal(apply.status, 0, apply.stderr);
   assert.ok(apply.calls.some(c => c.startsWith('stow --no-folding ')));
-  assert.ok(!apply.calls.includes('npm run dev'));
+  assert.ok(!apply.calls.some(c => c.startsWith('ray develop')));
   const rollback = fixture(t).run('rollback');
   assert.equal(rollback.status, 0, rollback.stderr);
   assert.equal(rollback.calls.length, 3);
