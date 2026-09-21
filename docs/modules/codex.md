@@ -10,12 +10,202 @@ The tracked `codex/.codex` module remains the subscription/default ChatGPT deskt
 `~/.codex`. The selective `codex-aigateway` module supplies only reviewed policy, instructions,
 hooks and keybindings for the separate real `~/.codex-aigateway` home. Its machine-local generated
 provider uses the OpenAI Responses wire API and file-backed authentication through the one shared
-mode-0600 key at `~/.config/private-ai-gateway/client.key`. Ordinary terminal `codex` always selects
-the gateway home; explicit launchers open subscription and gateway desktop instances concurrently.
+mode-0600 key at `~/.config/private-ai-gateway/client.key`. After gateway setup, ordinary terminal
+`codex` remains gateway-backed independently of the selected desktop mode. Explicit launchers open
+subscription and gateway desktop instances concurrently when `both` is selected.
 
-Use `bash scripts/setup-codex-profiles.sh` for the complete journey. See the
-[ordered profile guide](../guides/codex-profiles.md) for ownership, deployment, launching, status,
-rotation, rollback, uninstall and the same-bundle-ID focus limitation.
+Gateway authentication and Codex desktop-profile selection are deliberately
+separate. First prepare and validate the gateway when it is needed; then choose
+the Codex home layout:
+
+```bash
+# Gateway or both mode only: prompts for endpoint/key and validates all APIs
+bash scripts/setup-private-ai-gateway.sh
+
+# Select desktop/home layout; this never asks for or rotates the gateway key
+bash scripts/setup-codex-profiles.sh --mode subscription  # one ~/.codex home
+bash scripts/setup-codex-profiles.sh --mode gateway       # one ~/.codex home
+bash scripts/setup-codex-profiles.sh --mode both          # ~/.codex + ~/.codex-aigateway
+```
+
+If gateway configuration is absent when `gateway` or `both` is selected, an
+interactive run offers to start the separate gateway setup and resumes only after
+it succeeds. A non-interactive run stops with the exact command to run first.
+
+### Choose the desktop profiles
+
+| Route | Command | Codex home | Authentication |
+| --- | --- | --- | --- |
+| Subscription desktop | `chatgpt-subscription` | `~/.codex` | Normal ChatGPT subscription sign-in |
+| Gateway desktop — gateway-only mode | `chatgpt-aigateway` | `~/.codex` | File-backed gateway key |
+| Gateway desktop — both mode | `chatgpt-aigateway` | `~/.codex-aigateway` | File-backed gateway key |
+| Gateway CLI | `codex` | Active gateway home for the selected mode | File-backed gateway key |
+
+The two signed desktop processes can run concurrently with separate Codex and
+Electron state. They retain the same `com.openai.codex` bundle ID, app name and
+icon, so generic Dock, app-switcher, Hyper+J and Raycast actions cannot select a
+profile reliably. Use the explicit launcher commands.
+
+### Assign separate launch shortcuts
+
+First confirm both generated commands work in a terminal:
+
+```bash
+chatgpt-subscription &
+chatgpt-aigateway &
+```
+
+Then expose those **commands**, rather than the ChatGPT application, through one
+launcher. Choose only the section matching your productivity setup; do not assign
+the same global chords in Raycast, Alfred and macOS Shortcuts.
+
+#### Raycast
+
+Create two [Script Commands](https://developers.raycast.com/information/lifecycle/scripts):
+
+```bash
+#!/bin/bash
+# @raycast.schemaVersion 1
+# @raycast.title ChatGPT — Subscription
+# @raycast.mode silent
+"$HOME/.local/bin/chatgpt-subscription" >/dev/null 2>&1 &
+```
+
+```bash
+#!/bin/bash
+# @raycast.schemaVersion 1
+# @raycast.title ChatGPT — AI Gateway
+# @raycast.mode silent
+"$HOME/.local/bin/chatgpt-aigateway" >/dev/null 2>&1 &
+```
+
+Save them as executable files in a directory registered under **Raycast Settings
+→ Extensions → Script Commands**. Search for each title, then assign an alias and
+an unused hotkey in Raycast Settings. Suggested aliases are `cxs` for subscription
+and `cxg` for gateway. Do not use Raycast's ordinary **Open Application** action;
+it sees only the shared bundle ID.
+
+#### Alfred
+
+Create one private workflow with two paths:
+
+```text
+Keyword or Hotkey → Run Script: ~/.local/bin/chatgpt-subscription >/dev/null 2>&1 &
+Keyword or Hotkey → Run Script: ~/.local/bin/chatgpt-aigateway >/dev/null 2>&1 &
+```
+
+Use `/bin/zsh` or `/bin/bash` for each **Run Script** action. Suggested keywords
+are `cxs` and `cxg`; assign unused hotkeys only after checking the
+[Alfred map](alfred.md#hotkeys-and-commands). Keep this workflow private because
+Alfred exports can contain machine-local metadata. Do not use an Alfred **Launch
+Apps / Files** object for these routes—the application identity is ambiguous.
+
+#### macOS Shortcuts
+
+For a launcher-independent option, create two shortcuts. Add a **Run Shell
+Script** action to each and use:
+
+```bash
+"$HOME/.local/bin/chatgpt-subscription" >/dev/null 2>&1 &
+```
+
+and:
+
+```bash
+"$HOME/.local/bin/chatgpt-aigateway" >/dev/null 2>&1 &
+```
+
+Name them **ChatGPT — Subscription** and **ChatGPT — AI Gateway**, then assign
+unused keyboard shortcuts in each shortcut's details. This remains a local macOS
+preference and is intentionally not stored in the public dotfiles repository.
+
+#### Verify the routes
+
+1. Run the subscription route and confirm it opens the profile signed into the
+   ChatGPT subscription.
+2. Run the gateway route and confirm its model/provider state belongs to the
+   isolated gateway profile.
+3. Launch them in the opposite order and repeat the checks.
+4. With both running, invoke each shortcut again and confirm the intended window
+   is opened or focused. If the launcher cannot distinguish them, use the terminal
+   commands and rerun `bash scripts/setup-codex-profiles.sh --status`.
+
+These shortcuts launch desktop profiles only. After private gateway setup,
+terminal `codex` remains gateway-backed regardless of which desktop shortcut or
+desktop mode is used. If gateway setup has never been run, subscription-only mode
+leaves the vendor Codex command unchanged.
+
+### One-click profile and gateway setup
+
+```bash
+bash scripts/setup-private-ai-gateway.sh # only when gateway access is wanted
+bash scripts/setup-codex-profiles.sh
+# or double-click setup/Codex Profiles.command
+
+# Optional narrower choices
+bash scripts/setup-codex-profiles.sh --mode subscription
+bash scripts/setup-codex-profiles.sh --mode gateway
+bash scripts/setup-codex-profiles.sh --mode both
+```
+
+The gateway script asks for a vendor-neutral HTTPS endpoint, silently reads one
+key, and fetches authenticated `/v1/models`. Before storing active configuration,
+it makes minimal successful requests against Anthropic Messages
+(`/v1/messages`), OpenAI Chat Completions (`/v1/chat/completions`), and OpenAI
+Responses (`/v1/responses`). Each surface can use a different advertised model.
+Transport, TLS, authentication, missing endpoint, quota, and invalid-response
+failures are reported without printing the key or provider response body.
+
+Only after these checks pass does it store the endpoint, key and generated client
+state outside Git under protected user-local paths. Missing Claude Code, Codex,
+or OpenCode binaries do not invalidate the gateway: the corresponding wrapper is
+skipped with an installation reminder. Rerun gateway setup after installing that
+client. Existing `~/.claude`, `~/.codex`, and `~/.config/opencode` state is not
+silently imported or overwritten by gateway preparation.
+
+The profile script does not contact the gateway, ask for a key, or rotate one. It
+only deploys the already-prepared gateway Codex configuration to the selected
+home and creates desktop launchers. The same protected key can serve Claude Code,
+Codex CLI and OpenCode without being copied into tracked configurations.
+
+### Changing modes later
+
+Rerun `setup-codex-profiles.sh` with the new mode. The script records the selected
+mode locally and moves the inactive home under
+`~/.local/state/dotfiles/codex-profiles/`; it does not merge subscription and
+gateway state or delete the inactive home.
+
+| Transition | Result |
+| --- | --- |
+| Subscription → gateway | Subscription home is parked; gateway becomes `~/.codex` |
+| Gateway → subscription | Gateway home is parked; subscription returns to `~/.codex` |
+| Subscription or gateway → both | Subscription uses `~/.codex`; gateway uses `~/.codex-aigateway` |
+| Both → one mode | The inactive home is parked; only `~/.codex` remains active |
+
+Thus `~/.codex-aigateway` exists as an active home only in `both` mode.
+
+The endpoint can be any compatible gateway, including a self-hosted proxy or a
+service such as Vercel AI Gateway. Compatibility depends on the models and APIs
+that gateway advertises. OpenCode Zen itself remains an OpenCode provider/account;
+use its OpenAI-compatible endpoint only when your account exposes one.
+
+### Launch, status and rotation
+
+```bash
+chatgpt-subscription &
+chatgpt-aigateway &
+bash scripts/setup-codex-profiles.sh --status
+bash scripts/setup-private-ai-gateway.sh --status
+herdr integration status
+
+# Replace the one shared key and regenerate all gateway clients
+bash scripts/setup-private-ai-gateway.sh --rotate-key
+```
+
+Runtime credentials, auth files, sessions, SQLite databases, logs, histories,
+plugins and Electron data are never tracked or shared. Remove only the generated
+desktop launchers with `bash scripts/setup-codex-profiles.sh --uninstall`; revoke
+the gateway key before intentionally deleting `~/.config/private-ai-gateway`.
 
 ## Files
 

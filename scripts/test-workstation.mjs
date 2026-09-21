@@ -71,7 +71,7 @@ test('both profiles default to Zen and core desktop tools; Canary and Amp stay o
 });
 
 test('manual setup recommends core apps and explicitly stows only core modules',()=>{
-  for(const file of ['../README.md','../docs/guides/setup.md']) {
+  for(const file of ['../README.md','../docs/setup.md']) {
     const guide=readFileSync(new URL(file,import.meta.url),'utf8');
     assert.match(guide,/brew install --cask zen claude cursor chatgpt/);
     assert.match(guide,/stow -n zsh bash bat starship tmux herdr ghostty nvim/);

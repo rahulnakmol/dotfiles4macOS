@@ -41,7 +41,7 @@ const keywordRows = [...menuRows.map(([code,name])=>[code,name+' menu']),['hyper
 const mdTable = (headers,rows) => [headers,headers.map(()=> '---'),...rows].map((r)=>'| '+r.map((c)=>String(c).replaceAll('|','\\|').replaceAll('\n',' ')).join(' | ')+' |').join('\n');
 const manual = `# Alfred shared hotkeys
 
-For profile installations, use [TF hotkeys](alfred-tf-hotkeys.md) or [FDE hotkeys](alfred-fde-hotkeys.md). This page covers the original shared configuration.
+This generated text backs the standalone visual guide for the legacy direct-Stow Alfred stack. The maintained Alfred reference is [docs/modules/alfred.md](alfred.md#hotkeys-and-commands).
 
 Hold **Caps Lock** for Hyper (Control + Option + Command + Shift); tap it for Escape. Hold **Right Option** for Meh (Control + Option + Shift). Left Option stays normal.
 
@@ -250,12 +250,11 @@ document.querySelector('#key-search').addEventListener('input',e=>{const q=e.tar
 
 const output = root + 'alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/guide.html';
 if (process.argv.includes('--check')) {
-  if (readFileSync(root+'docs/modules/alfred-hotkeys.html','utf8') !== html || readFileSync(root+'docs/modules/alfred-hotkeys.md','utf8') !== manual) throw new Error('Regenerate the hotkeys manual.');
+  if (readFileSync(root+'docs/modules/alfred-hotkeys.html','utf8') !== html) throw new Error('Regenerate the visual hotkeys guide.');
   if (readFileSync(output, 'utf8') !== html) throw new Error('Regenerate the Hyper guide.');
   console.log('Hyper guide is current.');
 } else {
   writeFileSync(output, html);
   writeFileSync(root+'docs/modules/alfred-hotkeys.html',html);
-  writeFileSync(root+'docs/modules/alfred-hotkeys.md',manual);
   console.log('Hyper guide rendered.');
 }

@@ -1,189 +1,178 @@
-# dotfiles for macOS
+# Opinionated dotfiles for macOS
 
-Personal macOS configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Catppuccin Macchiato theme across all tools. Homebrew as primary package manager.
+A practical starting point for a new or existing Mac. The repository keeps
+reusable configuration for Zsh, Bash, Git, GitHub CLI, tmux, Herdr, Neovim,
+Ghostty, Starship, Bat and optional AI coding clients under version control.
 
-## Start with one command or a double-click launcher
+Configuration is deployed with [GNU Stow](https://www.gnu.org/software/stow/),
+uses Homebrew for packages and applies Catppuccin Macchiato where supported.
+It is intentionally opinionated, but each module can be reviewed and installed
+independently.
 
-See [Start here](docs/README.md) for fresh-Mac setup, FDE/TF profile selection, resumable installation and the GitHub human checklists. From a checkout: `bash install.sh --profile fde` or `bash install.sh --profile tf`. For optional automation, choose the [Raycast guide](docs/guides/raycast.md) or [Alfred guide](docs/guides/alfred.md).
+## 1. Install the core dotfiles
 
-## Optional Raycast Workmode
+This is the foundation. It does not require Alfred, Karabiner, Rectangle Pro or
+Raycast.
 
-For the current shared FDE/TF productivity setup, use **Workmode** on macOS:
+### Prerequisites
 
-```sh
-bash scripts/setup-raycast-workstation.sh install
-```
+Install Apple Command Line Tools and [Homebrew](https://brew.sh), then install the
+core tools:
 
-Or double-click `setup/Raycast.command`. After “Importing Workmode”, wait for **ready**, then press **Control+C**; the
-extension stays installed. [Prerequisites and manual steps](docs/guides/raycast.md#install)
-cover Raycast Pro, DockFlow, Session, four Spaces, categories and shortcuts.
-Use `build` for validation without Stow/import, `check` for source/link checks,
-and `rollback` to unlink. Setup is optional; core dotfiles do not Stow it.
-
-Workmode uses Amp for Code and Codex for Innovate, each with Zen, Ghostty and Slack.
-The FDE/TF `--productivity` instructions below describe the **legacy
-Alfred/Karabiner/Rectangle setup**. Do not apply that flag when choosing Raycast.
-
-## Choose your setup: FDE or TF
-
-Both profiles install **Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex** by default. Set Zen as the macOS default browser during setup. FDE code sessions use three desktops: Zen maximized, Amp/Claude/Cursor/T3 Code maximized, and Ghostty ⅔ + Slack ⅓. FDE installs T3 Code; TF retains Codex for Innovate. Work keeps Edge. **Google Chrome Canary** is optional for end-to-end testing: `brew install --cask google-chrome@canary`. Stable Chrome and Amp are not installation requirements.
-
-New machines should start with the [FDE manual](docs/guides/profiles/fde.md) or
-[TF (Tech Founder) manual](docs/guides/profiles/tf.md). Browser guides:
-[FDE](docs/guides/profiles/fde.html) · [TF](docs/guides/profiles/tf.html).
-
-```sh
-bash scripts/setup-workstation.sh plan --profile tf
-bash scripts/setup-workstation.sh apply --profile tf
-bash scripts/setup-workstation.sh check --profile tf
-```
-
-Use `fde` for the full setup; `tf` provides Claude Desktop, Cursor, Codex and Zen Browser, with five DockFlow
-presets when productivity is enabled. Both include the shared CLI toolkit and role apps. Selection
-is local to each Mac. Karabiner uses its official DMG/PKG installer, not Homebrew.
-Amp is optional; FDE retains its workflow for users who install it. FDE Hyper+G opens T3 Code and Hyper+T opens optional Telegram (shortcut only). TF uses Code + Cursor and Innovate + Codex. Productivity is **opt-in**: default
-setup does not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow,
-CleanShot or Session management. Add `--productivity` to each `plan`, `apply`
-and `check` command to include them. Without that flag, existing productivity
-settings remain untouched, even when changing FDE/TF profiles.
-
-```sh
-bash scripts/setup-workstation.sh plan --profile tf --productivity
-bash scripts/setup-workstation.sh apply --profile tf --productivity
-bash scripts/setup-workstation.sh check --profile tf --productivity
-```
-
-Your existing setup is retained until you explicitly apply a profile. Personal
-Git/SSH/signing, credentials, agent trust settings and licenses are never copied
-to a colleague by this installer.
-
-[Hotkeys manual](docs/modules/alfred-hotkeys.md) · [Standalone visual guide](docs/modules/alfred-hotkeys.html) — Hyper, Meh, focus sessions, layouts and fresh-Mac setup.
-
-## Modules
-
-| Module | Purpose |
-|--------|---------|
-| `zsh` | Shell config with 120+ aliases, modular `.zshrc.d/` structure |
-| `tmux` | Terminal multiplexer with Claude Code & OpenCode key tables |
-| `herdr` | Persistent agent-aware workspaces with gateway-backed CLI integrations |
-| `nvim` | Neovim with LazyVim and Catppuccin colorscheme |
-| `ghostty` | GPU-accelerated terminal emulator |
-| `starship` | Cross-shell prompt with Catppuccin palette |
-| `git` | Version control with SSH commit signing via 1Password |
-| `gh` | GitHub CLI with 25+ workflow aliases |
-| `ssh` | SSH config with 1Password agent integration |
-| `1password` | SSH agent vault configuration |
-| `bat` | Syntax-highlighted `cat` with Catppuccin themes |
-| `bash` | Bash shell config with modular .bashrc.d structure |
-| `claude` | Claude Code settings, keybindings, statusline |
-| `codex` | Subscription/default ChatGPT desktop preferences and policy at `~/.codex` |
-| `codex-aigateway` | Selective policy for the isolated gateway Codex home; runtime remains local |
-| `opencode` | OpenCode (Zen provider) config with agent profiles |
-| `cursor` | Cursor AI editor with global enterprise architecture rules |
-| `raycast` | Optional Workmode config; build/import via `setup-raycast-workstation.sh install` |
-| `alfred` | Google Workspace and DockFlow workflows; broader migration in progress |
-| `karabiner` | Hyperland profile for keyboard-first apps, desktops and windows |
-| `rectangle-pro` | Importable thirds/two-thirds shortcuts and login settings |
-
-Both profiles install the Claude Code, Codex, and OpenCode CLIs plus Herdr. Run
-`bash scripts/setup-codex-profiles.sh` (or double-click `setup/Codex Profiles.command`) once per user
-to configure subscription/gateway ChatGPT desktop profiles and route ordinary `claude`, `codex` and
-`opencode` through one private OpenAI-compatible gateway key. The endpoint, key, selected model,
-generated providers, runtime state and Herdr integrations stay protected and untracked. Cursor CLI
-and desktop remain on the official Cursor account. See [Codex profiles](docs/guides/codex-profiles.md).
-
-Optional model conveniences `ccf`, `cda`, `cds` and `cdg` resolve from the authenticated
-machine-local catalog mapping in `~/.config/private-ai-gateway/model-aliases.json`; this repository
-does not hardcode Fable, Astra, Sol or Grok provider IDs.
-
-## Quick Start — manual Stow, core setup
-
-Use this path to choose modules yourself without Alfred, Karabiner, Rectangle Pro or session automation. Both profiles recommend the same default desktop apps for this path.
-
-```sh
-# Shared CLI tools and terminal
-brew install git node stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq gh podman claude opencode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
+```bash
+xcode-select --install
+brew install git gh stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq
 brew install --cask ghostty font-jetbrains-mono-nerd-font
 
-# Default desktop apps and browser
+# Optional AI desktop clients and browser used by the managed workflows
 brew install --cask zen claude cursor chatgpt
-
-# Clone your dotfiles repository, then preview and deploy only core modules
-git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
-cd ~/.dotfiles
-stow -n zsh bash bat starship tmux herdr ghostty nvim
-stow zsh bash bat starship tmux herdr ghostty nvim
 
 # Optional browser for end-to-end testing
 # brew install --cask google-chrome@canary
 ```
 
-Open Zen and set it as Default web browser in macOS System Settings. Sign in to your own Claude, Cursor and ChatGPT/Codex accounts directly. Installing these apps does not require stowing their configuration modules. Amp is optional; download its native app from https://ampcode.com/app if needed.
+Amp is optional and is not required for the core dotfiles.
 
-For the private gateway and two Codex desktop profiles, run `bash scripts/setup-codex-profiles.sh`,
-then verify with `bash scripts/setup-codex-profiles.sh --status` and `herdr integration status`. Never reuse the
-gateway key as `CURSOR_API_KEY`.
+### Clone and deploy
 
-Add other modules individually after reviewing them for your own machine. Personal Git/SSH/signing, credentials and agent trust settings are separate from this baseline. Avoid `stow */`; use the explicit module list above. See the [manual setup guide](docs/guides/setup.md) for conflicts, validation and updates.
+Clone your fork or this repository into a stable location:
 
-## Dependencies
-
-### Tier 1 — Required
 ```bash
-brew install git stow zsh tmux herdr neovim eza bat fd ripgrep fzf zoxide starship curl jq
+git clone https://github.com/rahulnakmol/dotfiles4macOS.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Preview first
+stow -n zsh bash bat starship tmux herdr ghostty nvim
+
+# Deploy the selected core modules
+stow zsh bash bat starship tmux herdr ghostty nvim
 ```
 
-### Tier 2 — Recommended
+Do not run `stow */` and do not use `stow --adopt` blindly. Existing files may
+contain personal settings; back them up, compare them and choose modules
+deliberately. See the complete [macOS setup guide](docs/setup.md) for shell setup,
+post-install checks, local overrides and updates.
+
+Git and GitHub CLI configuration are available but identity-sensitive. Review
+the configured name, signing key and 1Password assumptions before running:
+
 ```bash
-brew install gh
-brew install --cask ghostty font-jetbrains-mono-nerd-font
+stow git gh
+gh auth login
 ```
 
-### Tier 3 — AI Coding Tools
+## 2. Choose whether to add focus modes and Hyper shortcuts
+
+Core setup is complete without productivity automation. If you want managed app
+launching, window layouts, focus timers and a Hyper-key map, choose **one** path:
+
+| Productivity path | Profiles | Main tools | Documentation |
+| --- | --- | --- | --- |
+| **Raycast Focus & Layouts** | One shared productivity configuration | Raycast Pro, DockFlow, Session | [Raycast module](docs/modules/raycast.md) |
+| **Alfred + Karabiner + Rectangle Pro** | **TF — Tech Founder** or **FDE — Full developer environment** | Alfred Powerpack, Karabiner-Elements, Rectangle Pro, DockFlow, Session | [Alfred stack](docs/modules/alfred.md) |
+
+Do not enable both global shortcut maps unchanged. They overlap on launcher,
+Hyper, window and focus keys.
+
+### Raycast Focus & Layouts
+
+Raycast has one shared set of modes for every user. Install it after the core:
+
 ```bash
-brew install claude opencode
-brew install --cask zen claude cursor chatgpt
-# Optional: brew install --cask google-chrome@canary
+bash scripts/setup-raycast-workstation.sh install
 ```
 
-### Tier 4 — Optional
+The extension keeps the internal name `Workmode` for compatibility, but the
+user-facing setup is called **Raycast Focus & Layouts**. Its module documents the
+required software, eight layouts, seven focus modes, aliases, window commands,
+shortcuts, desktop assignments and troubleshooting.
+
+### Alfred + Karabiner + Rectangle Pro
+
+This path offers two productivity profiles:
+
+| Profile | Best fit |
+| --- | --- |
+| **TF — Tech Founder** | A smaller setup centred on Cursor, Codex and rapid product work. |
+| **FDE — Full developer environment** | A wider coding-tool and workflow selection, including T3 Code. |
+
+Choose a profile and install its optional productivity configuration:
+
 ```bash
-brew install podman podman-compose     # Podman (Docker-compatible engine)
-brew install node go rustup dotnet     # Language runtimes
-brew install stylua                    # Lua formatter
-brew install azure-cli                 # Azure CLI
-brew install mas                       # Mac App Store CLI
-brew install --cask raycast             # Optional launcher; see Workmode setup above
+# Replace tf with fde for the full developer environment
+bash scripts/setup-workstation.sh plan --profile tf --productivity
+bash scripts/setup-workstation.sh apply --profile tf --productivity
+bash scripts/setup-workstation.sh check --profile tf --productivity
 ```
 
-## Post-Install
+See [profile selection](docs/setup-profiles.md) and the
+[Alfred stack module](docs/modules/alfred.md) for prerequisites, permissions,
+layouts, focus sessions and rollback.
 
-### Tmux plugins
-TPM bootstraps automatically. If plugins are missing: start tmux, press `C-a I`, then `C-a r`.
+## Modules
 
-### Neovim plugins
-LazyVim auto-installs on first launch. Run `:checkhealth` to verify.
+Each top-level Stow module owns one tool's reusable configuration. Module
+documentation contains that tool's setup, behavior, keybindings and maintenance
+notes instead of splitting those concerns across several guides.
 
-### 1Password SSH agent
-Enable the SSH agent in 1Password settings. The SSH and git configs reference the agent socket automatically.
+| Module | Purpose |
+| --- | --- |
+| [`zsh`](docs/modules/zsh.md), [`bash`](docs/modules/bash.md) | Shell startup, aliases and local overrides |
+| [`git`](docs/modules/git.md), [`gh`](docs/modules/gh.md) | Git and GitHub CLI configuration |
+| [`tmux`](docs/modules/tmux.md) | Prefix, panes, persistence, plugins and AI key tables |
+| [`herdr`](docs/modules/herdr.md) | Persistent agent-aware workspaces and integrations |
+| [`nvim`](docs/modules/nvim.md) | Neovim/LazyVim configuration |
+| [`ghostty`](docs/modules/ghostty.md), [`starship`](docs/modules/starship.md), [`bat`](docs/modules/bat.md) | Terminal, prompt and output presentation |
+| [`claude`](docs/modules/claude.md) | Claude Code configuration and gateway route |
+| [`codex`](docs/modules/codex.md) | Codex CLI, subscription desktop and gateway desktop profiles |
+| [`opencode`](docs/modules/opencode.md) | OpenCode configuration and complete gateway model catalog |
+| [`cursor`](docs/modules/cursor.md) | Cursor rules and official-account authentication boundary |
+| [`raycast`](docs/modules/raycast.md) | Shared Raycast Focus & Layouts configuration |
+| [`alfred`](docs/modules/alfred.md) | Alfred, Karabiner and Rectangle Pro productivity stack |
 
-### Local overrides
-Machine-specific config goes in `~/.zshrc.local` (sourced automatically, not committed).
+Personal credentials, SSH private keys, login state, histories and licenses are
+not included. Review [`1password`](docs/modules/1password.md) and
+[`ssh`](docs/modules/ssh.md) before applying identity-related configuration.
+
+## Optional private AI gateway
+
+Claude Code, Codex CLI and OpenCode can share one per-user gateway key while
+keeping the endpoint and credential outside Git:
+
+```bash
+bash scripts/setup-private-ai-gateway.sh         # validates endpoint/key/APIs
+bash scripts/setup-codex-profiles.sh --mode both # or gateway / subscription
+bash scripts/setup-codex-profiles.sh --status
+herdr integration status
+```
+
+Gateway authentication and Codex desktop profile selection are separate. A
+single mode uses only `~/.codex`; `both` adds `~/.codex-aigateway`. Terminal
+`codex` uses the gateway whenever gateway or both mode is selected. Cursor stays
+on the official Cursor account. See the [Codex module](docs/modules/codex.md),
+[OpenCode module](docs/modules/opencode.md), [Claude module](docs/modules/claude.md)
+and [Cursor module](docs/modules/cursor.md).
 
 ## Documentation
 
-- `docs/guides/setup.md` — Fresh machine setup guide
-- `docs/guides/dependencies.md` — Full dependency list with install commands
-- `docs/guides/codex-profiles.md` — Gateway-only Codex CLI plus two isolated ChatGPT desktop profiles
-- `docs/guides/aliases.md` — Complete alias reference (120+ aliases)
-- `docs/guides/tmux-keybindings.md` — Tmux key table reference including AI tools
-- `docs/modules/` — Per-module documentation
-- [Private AI gateway and Herdr integrations](docs/modules/herdr.md)
-- [Codex setup, updates, parity, and rollback](docs/modules/codex.md)
-- [Raycast Workmode installation and native settings](docs/modules/raycast.md)
-- [Alfred migration and installed-plugin parity](docs/modules/alfred.md)
-- [Hyper keyboard navigation and Work/Code/Zen layouts](docs/modules/hyper.md)
-- [Fresh-Mac Hyper/Meh bootstrap, CleanShot capture, checks and rollback](docs/modules/hyper-bootstrap.md)
+- [Set up the repository](docs/setup.md)
+- [Choose TF or FDE for the Alfred stack](docs/setup-profiles.md)
+- [Raycast Focus & Layouts](docs/modules/raycast.md)
+- [Alfred + Karabiner + Rectangle Pro](docs/modules/alfred.md)
+- [Hotkeys](docs/hotkeys.md) — Raycast-first global map plus tmux and Herdr entry points
+- [Module documentation](docs/modules/)
+- [Architecture decisions](docs/adr/)
+
+## Validation
+
+```bash
+zsh -n zsh/.zshrc
+node scripts/validate-agent-policy.mjs
+node --test scripts/test-documentation.mjs
+tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d
+```
+
+Additional module-specific checks run in CI.
 
 ## License
 

@@ -1,6 +1,6 @@
 # FDE — Full developer environment
 
-Install the FDE core apps and configuration on this Mac. Automation is optional: choose Raycast Workmode or Alfred with Karabiner and Rectangle Pro. The sections below describe core setup and the Alfred option. Raycast has its own shared guide and modes.
+Install the FDE Alfred productivity profile on this Mac. Core dotfiles are documented separately; TF/FDE choose the Alfred, Karabiner and Rectangle Pro workflows. Raycast Focus & Layouts has one shared configuration and does not use this profile.
 
 ## Quick setup
 
@@ -10,13 +10,13 @@ From a checkout, run one command:
 bash install.sh --profile fde
 ```
 
-Choose your automation after installing the core:
+Choose whether this profile should manage productivity automation:
 
 | Choice | What to do |
 | --- | --- |
-| Core only | Keep the command above; skip the productivity sections. |
-| Raycast Workmode | Leave --productivity off. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/raycast.md for installation, Spaces, categories and shortcuts. |
-| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/alfred.md and the profile details below. |
+| Core only / my own tools | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md instead of a TF/FDE productivity profile. |
+| Raycast Focus & Layouts | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md; Raycast has one shared configuration. |
+| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md and the profile details below. |
 
 For a fresh Mac or double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup-profiles.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
 
@@ -30,16 +30,8 @@ Managed installation and human setup are tracked separately. These steps are unv
 | Desktop apps | Complete your own app sign-ins; configure a provider in T3 Code if using it | Start your own small task in each app |
 | Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
 | Private AI gateway and Codex profiles | Run the one-click profile setup for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
-| Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
-| Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
-| Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
-| DockFlow | Import this profile's preset pack; resolve duplicate names | dp selects the expected Dock profile |
-| Session | Install the correct app, enable Pro URL automation and create Work and Code categories | A real session shows the right category and countdown |
-| Desktops | Assign apps to the numbered desktops as documented below | Zen, coding app and terminal/chat appear on Desktops 1, 2 and 3 |
-| CleanShot and login | Complete capture permission and external-control prompts; enable utility startup | Capture works; utilities and shortcuts work after login |
-| Codex pet (optional) | In Codex keyboard settings set Show pet to Hyper+B (replaces Option+Space) | While Codex runs, Hyper+B shows the pet; press again to hide it |
 
-For core-only or Raycast setup, skip the Alfred productivity rows below. Raycast users should use its own per-Mac checklist after completing the core rows. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
+This checklist covers the selected profile. Raycast has a separate shared journey at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md. Do not complete both global maps unless you intentionally resolve every overlapping launcher and hotkey. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback.
 
 ## Start on a new Mac
 
@@ -63,18 +55,21 @@ The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects 
 the profile apply, configure the CLI tools interactively:
 
 ```sh
-bash scripts/setup-codex-profiles.sh
+bash scripts/setup-private-ai-gateway.sh
+bash scripts/setup-codex-profiles.sh --mode both
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
-Setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the authenticated
-`/v1/models` catalog, and asks for the Codex/OpenCode default. Endpoint, shared key and model remain
-under `~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex`
-and `opencode` commands use protected wrappers in `~/.local/bin`; terminal `codex` is always
-gateway-backed. The installer also creates explicit launchers for stock subscription ChatGPT at
-`~/.codex` and an isolated gateway desktop at `~/.codex-aigateway`. Re-run setup to refresh
-models and validate the machine-local Fable/Astra/Sol/Grok mapping, or use
+Gateway setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the
+authenticated `/v1/models` catalog, and verifies Anthropic Messages, Chat Completions and Responses
+before saving configuration. Codex profile setup is separate: it chooses subscription, gateway, or
+both without handling the key. Endpoint, shared key and model remain under
+`~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex` and
+`opencode` commands use protected wrappers in `~/.local/bin`. Both mode creates explicit
+launchers for stock subscription ChatGPT at `~/.codex` and an isolated gateway desktop at
+`~/.codex-aigateway`; either single mode uses only `~/.codex`. Re-run gateway setup to refresh
+models and validate the machine-local Fable/Opus Fast/Astra/Sol/Grok mapping, or use
 `scripts/setup-private-ai-gateway.sh --rotate-key` for one-place key rotation. Use
 `chatgpt-subscription` and `chatgpt-aigateway` for explicit launch: generic bundle-ID actions
 such as Hyper+J, Raycast `cx` and Workmode cannot distinguish the two signed-app processes.
@@ -83,6 +78,8 @@ Cursor CLI stays on the official Cursor account because it has no generic OpenAI
 interface. Never reuse the gateway key as `CURSOR_API_KEY`. See the module guides for details.
 
 ## Optional Alfred productivity setup
+
+This section applies only when you deliberately choose the Alfred stack. Raycast and core-only users should skip to Updates, profile switching and rollback. Alfred shortcuts are documented at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md#hotkeys-and-commands.
 
 The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
 
@@ -200,7 +197,7 @@ On small displays Teams may refuse a narrow third. Choose Work Balanced or use H
 
 ## Commands and hotkeys
 
-See the [Alfred FDE hotkey reference](../../modules/alfred-fde-hotkeys.md) for app keys, window actions, layouts, focus sessions and timers.
+Use the [Alfred stack module](../../modules/alfred.md#hotkeys-and-commands) for the Alfred, Karabiner and Rectangle Pro map. Raycast has a separate shared configuration and hotkey reference.
 
 ## Import and export DockFlow
 

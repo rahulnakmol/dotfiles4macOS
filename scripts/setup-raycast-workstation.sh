@@ -44,7 +44,7 @@ Layouts/focus need Raycast Pro, DockFlow and the selected mode's apps; timers ne
   apply    Legacy prepare-only command; use install for a complete local installation.
 Run from this checkout: bash scripts/setup-raycast-workstation.sh install
 Or double-click setup/Raycast.command. Repeat install after pulling updates.
-Manual setup: docs/guides/raycast.md — four Spaces, DockFlow presets, Session categories,
+Manual setup: docs/modules/raycast.md — four Spaces, DockFlow presets, Session categories,
 permissions, licenses, aliases and hotkeys. Raycast Option+Space; Spotlight Command+Space.
 This script does not install apps, change login items or edit Raycast's private settings.
 PLAN
@@ -98,5 +98,5 @@ if [[ "$action" == apply ]]; then
 fi
 cd "$extension"
 echo 'Importing Workmode. At "ready", press Control+C; Raycast keeps it installed.'
-echo "Then follow $root/docs/guides/raycast.md and run Check Workmode Setup in Raycast."
+echo "Then follow $root/docs/modules/raycast.md and run Check Workmode Setup in Raycast."
 exec npm run dev

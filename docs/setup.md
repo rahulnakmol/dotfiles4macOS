@@ -1,8 +1,15 @@
-# Fresh Machine Setup
+# Set up the dotfiles on macOS
 
-Choose either this **manual core Stow** path or the profile-aware [FDE](profiles/fde.md) / [TF](profiles/tf.md) installer. Both recommend Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default.
+Start with the core dotfiles. They provide an opinionated but reusable baseline
+for Zsh, Bash, Git, GitHub CLI, tmux, Herdr, Neovim, Ghostty, Starship and Bat.
+The core does not require a launcher, keyboard remapper or window manager.
 
-The manual commands below do not install or Stow Alfred, Karabiner, Rectangle Pro, DockFlow or Session automation. For optional automation, choose the [Raycast guide](raycast.md) or [Alfred + Karabiner + Rectangle Pro guide](alfred.md). The --productivity flag selects Alfred; Raycast has its own installer.
+After core setup, either stop or choose one productivity path:
+
+| Path | Profiles | Documentation |
+| --- | --- | --- |
+| Raycast Focus & Layouts | One shared configuration | [Raycast module](modules/raycast.md) |
+| Alfred + Karabiner + Rectangle Pro | TF or FDE | [Alfred stack](modules/alfred.md) and [profile selection](setup-profiles.md) |
 
 ## 1. Install prerequisites and default apps
 
@@ -50,28 +57,44 @@ stow zsh bash bat starship tmux herdr ghostty nvim
 
 These are the same core modules used by the FDE/TF installer. Stow does not install apps. App installation above is independent of stowing Claude/Cursor/Codex settings.
 
-## 5. Configure the private AI gateway and Codex desktop profiles
-
-Run this once per macOS user after the CLI tools and Herdr are installed:
+Git and GitHub CLI are intentionally reviewed separately because the tracked Git
+module contains a user identity and 1Password signing assumptions:
 
 ```bash
-bash scripts/setup-codex-profiles.sh
+# Review docs/modules/git.md and git/.config/git/config first
+stow -n git gh
+stow git gh
+gh auth login
+```
+
+## 5. Configure the private AI gateway and Codex desktop profiles
+
+Gateway authentication and Codex profile selection are separate. After installing
+the desired CLI tools and Herdr, prepare the gateway only if it will be used, then
+choose the desktop/home layout:
+
+```bash
+bash scripts/setup-private-ai-gateway.sh        # gateway or both mode only
+bash scripts/setup-codex-profiles.sh --mode both # or subscription / gateway
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
-The script prompts for an HTTPS OpenAI-compatible endpoint, silently prompts for one shared key,
-fetches the authenticated `/v1/models` catalog, and asks which model Codex and OpenCode should use by
-default. It stores the endpoint, key, model, isolated provider configs, and wrappers under protected
-user-local paths outside the repository. Re-running refreshes OpenCode's complete catalog;
-`--rotate-key` rotates the one source-of-truth key.
+The gateway script prompts for an HTTPS endpoint and one hidden shared key. It
+fetches authenticated `/v1/models`, then requires successful minimal requests to
+Anthropic Messages, OpenAI Chat Completions, and OpenAI Responses before writing
+active configuration. Failures identify connectivity, TLS, authentication,
+missing endpoint, quota, or invalid response shape without printing the key or
+provider response body. Missing client binaries are skipped with an installation
+reminder; rerun gateway setup after installing them.
 
-Ordinary `claude`, `codex`, and `opencode` terminal commands use the gateway; terminal `codex` always
-uses `~/.codex-aigateway`. The same signed ChatGPT app can also launch a stock subscription profile
-at `~/.codex` and an isolated gateway profile with separate Electron data. Claude Desktop is not
-changed. Cursor CLI has no generic OpenAI-compatible provider interface: keep it on the official
-Cursor account and never set the gateway key as `CURSOR_API_KEY`. Follow the
-[Codex profiles guide](codex-profiles.md) for ownership, launch, rotation, rollback and uninstall.
+The profile script never collects or rotates the key. Subscription-only and
+gateway-only modes each expose one `~/.codex` home. Both mode uses subscription
+at `~/.codex` and gateway at `~/.codex-aigateway`. Rerunning with another mode
+parks the inactive home under local state instead of merging or deleting it.
+Claude Desktop is unchanged. Cursor CLI remains on the official Cursor account;
+never set the gateway key as `CURSOR_API_KEY`. Follow the [Codex module](modules/codex.md)
+for ownership, launch shortcuts, transitions, rotation, rollback, and uninstall.
 
 Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 

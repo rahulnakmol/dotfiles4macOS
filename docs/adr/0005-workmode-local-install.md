@@ -37,8 +37,8 @@ watcher with Control+C; the extension remains installed.
 | Optional setup | Core Stow stays separate. Conflicts stop installation instead of adopting files. |
 | Clear recovery | Retry a failed import. Rollback unlinks config; remove the extension in Raycast to disable bundled defaults too. |
 | Manual completion | Licenses, permissions, native shortcuts, four Space assignments, Dock presets and Session categories remain per-Mac steps. |
-| Honest validation | Build/tests do not prove every live window or timer transition. Keep known limits in the [setup guide](../guides/raycast.md#fix-a-problem). |
+| Honest validation | Build/tests do not prove every live window or timer transition. Keep known limits in the [Raycast module](../modules/raycast.md#fix-a-problem). |
 
-[Installer and usage](../guides/raycast.md) ·
+[Installer and usage](../modules/raycast.md) ·
 [Official CLI](https://developers.raycast.com/information/developer-tools/cli) ·
 [Local import lifecycle](https://developers.raycast.com/basics/create-your-first-extension)

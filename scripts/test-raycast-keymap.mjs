@@ -62,7 +62,7 @@ test('Workmode branding preserves installed extension and command identities',()
 test('generic Codex launch remains explicitly profile-ambiguous',()=>{
   const codex=config.apps.find(app=>app.id==='codex');
   assert.equal(codex.bundleId,'com.openai.codex');
-  const guide=readFileSync(new URL('../docs/guides/raycast.md',import.meta.url),'utf8');
+  const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
   assert.match(guide,/cx.*bundle ID `com\.openai\.codex`/s);
   assert.match(guide,/can choose\s+or focus a specific profile/s);
   assert.match(guide,/chatgpt-subscription/);

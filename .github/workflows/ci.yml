@@ -36,7 +36,7 @@ jobs:
           node scripts/build-hyper-config.mjs --check
           node scripts/render-hyper-guide.mjs --check
           node scripts/render-workstation-docs.mjs --check
-          node --test scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-agent-command-routing.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
+          node --test scripts/test-documentation.mjs scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-agent-command-routing.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
           tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d
           tmux -L audit kill-server
 

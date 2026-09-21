@@ -9,7 +9,7 @@ export function renderManual(c) {
   const catalog=JSON.parse(readFileSync(new URL('./catalogs/alfred-workflows.json',import.meta.url))).workflows;
   return `# ${c.setupProfile} — ${c.setupName}
 
-Install the ${c.setupProfile} core apps and configuration on this Mac. Automation is optional: choose Raycast Workmode or Alfred with Karabiner and Rectangle Pro. The sections below describe core setup and the Alfred option. Raycast has its own shared guide and modes.
+Install the ${c.setupProfile} Alfred productivity profile on this Mac. Core dotfiles are documented separately; TF/FDE choose the Alfred, Karabiner and Rectangle Pro workflows. Raycast Focus & Layouts has one shared configuration and does not use this profile.
 
 ## Quick setup
 
@@ -19,13 +19,13 @@ From a checkout, run one command:
 bash install.sh --profile ${id}
 \`\`\`
 
-Choose your automation after installing the core:
+Choose whether this profile should manage productivity automation:
 
 | Choice | What to do |
 | --- | --- |
-| Core only | Keep the command above; skip the productivity sections. |
-| Raycast Workmode | Leave --productivity off. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/raycast.md for installation, Spaces, categories and shortcuts. |
-| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/guides/alfred.md and the profile details below. |
+| Core only / my own tools | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md instead of a TF/FDE productivity profile. |
+| Raycast Focus & Layouts | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md; Raycast has one shared configuration. |
+| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md and the profile details below. |
 
 For a fresh Mac or double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup-profiles.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
 
@@ -39,16 +39,8 @@ Managed installation and human setup are tracked separately. These steps are unv
 | Desktop apps | Complete your own app sign-ins; ${id==='fde'?'configure a provider in T3 Code if using it':'open Cursor and ChatGPT/Codex'} | Start your own small task in each app |
 | Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
 | Private AI gateway and Codex profiles | Run the one-click profile setup for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
-| Optional productivity only | Follow Complete the apps on each Mac below | Re-run check with --productivity; then perform the native checks below |
-| Karabiner | Download official DMG, install PKG, complete macOS services/driver/input prompts | Caps Lock+F opens Finder; a tap sends Escape |
-| Alfred and Rectangle | Activate licenses, set Alfred preferences folder, grant requested Accessibility, import Rectangle snapshot | Command+Space opens Alfred; wl applies the expected layout |
-| DockFlow | Import this profile's preset pack; resolve duplicate names | dp selects the expected Dock profile |
-| Session | Install the correct app, enable Pro URL automation and create ${id==='tf'?'Work, Code and Innovate':'Work and Code'} categories | A real session shows the right category and countdown |
-| Desktops | Assign apps to the numbered desktops as documented below | Zen, coding app and terminal/chat appear on Desktops 1, 2 and 3 |
-| CleanShot and login | Complete capture permission and external-control prompts; enable utility startup | Capture works; utilities and shortcuts work after login |
-| Codex pet (optional) | In Codex keyboard settings set Show pet to Hyper+B (replaces Option+Space) | While Codex runs, Hyper+B shows the pet; press again to hide it |
 
-For core-only or Raycast setup, skip the Alfred productivity rows below. Raycast users should use its own per-Mac checklist after completing the core rows. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback. Detailed instructions follow; the final Verification and troubleshooting section has the acceptance checks.
+This checklist covers the selected profile. Raycast has a separate shared journey at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md. Do not complete both global maps unless you intentionally resolve every overlapping launcher and hotkey. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback.
 
 ## Start on a new Mac
 
@@ -72,18 +64,21 @@ The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects 
 the profile apply, configure the CLI tools interactively:
 
 \`\`\`sh
-bash scripts/setup-codex-profiles.sh
+bash scripts/setup-private-ai-gateway.sh
+bash scripts/setup-codex-profiles.sh --mode both
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 \`\`\`
 
-Setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the authenticated
-\`/v1/models\` catalog, and asks for the Codex/OpenCode default. Endpoint, shared key and model remain
-under \`~/.config/private-ai-gateway\` with restrictive permissions. Ordinary \`claude\`, \`codex\`
-and \`opencode\` commands use protected wrappers in \`~/.local/bin\`; terminal \`codex\` is always
-gateway-backed. The installer also creates explicit launchers for stock subscription ChatGPT at
-\`~/.codex\` and an isolated gateway desktop at \`~/.codex-aigateway\`. Re-run setup to refresh
-models and validate the machine-local Fable/Astra/Sol/Grok mapping, or use
+Gateway setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the
+authenticated \`/v1/models\` catalog, and verifies Anthropic Messages, Chat Completions and Responses
+before saving configuration. Codex profile setup is separate: it chooses subscription, gateway, or
+both without handling the key. Endpoint, shared key and model remain under
+\`~/.config/private-ai-gateway\` with restrictive permissions. Ordinary \`claude\`, \`codex\` and
+\`opencode\` commands use protected wrappers in \`~/.local/bin\`. Both mode creates explicit
+launchers for stock subscription ChatGPT at \`~/.codex\` and an isolated gateway desktop at
+\`~/.codex-aigateway\`; either single mode uses only \`~/.codex\`. Re-run gateway setup to refresh
+models and validate the machine-local Fable/Opus Fast/Astra/Sol/Grok mapping, or use
 \`scripts/setup-private-ai-gateway.sh --rotate-key\` for one-place key rotation. Use
 \`chatgpt-subscription\` and \`chatgpt-aigateway\` for explicit launch: generic bundle-ID actions
 such as Hyper+J, Raycast \`cx\` and Workmode cannot distinguish the two signed-app processes.
@@ -92,6 +87,8 @@ Cursor CLI stays on the official Cursor account because it has no generic OpenAI
 interface. Never reuse the gateway key as \`CURSOR_API_KEY\`. See the module guides for details.
 
 ## Optional Alfred productivity setup
+
+This section applies only when you deliberately choose the Alfred stack. Raycast and core-only users should skip to Updates, profile switching and rollback. Alfred shortcuts are documented at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md#hotkeys-and-commands.
 
 The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
 
@@ -292,8 +289,19 @@ Missing Alfred menus: select the right preferences folder and restart. Missing u
 `;
 }
 
-export function manualHTML(c) {
-  const md=renderManual(c), lines=md.split('\n');
+export function manualHTML(c, {compact=false} = {}) {
+  let md=renderManual(c);
+  if (compact) {
+    const start=md.indexOf('## Choose the right command');
+    const end=md.indexOf('## Import and export DockFlow');
+    if(start<0 || end<=start) throw new Error('Missing shortcut reference boundaries');
+    md=md.slice(0,start)+`## Commands and hotkeys
+
+Use the Alfred stack hotkey map at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md#hotkeys-and-commands. Raycast has a separate global map at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/hotkeys.md.
+
+`+md.slice(end);
+  }
+  const lines=md.split('\n');
   let code=false, inTable=false, body='';
   const inline=s=>esc(s).replace(/https:\/\/[^\s<]+/g,url=>{
     const clean=url.replace(/[.,;:)]+$/,'');
@@ -327,5 +335,5 @@ export function manualHTML(c) {
   body=body.replace('</h1>','</h1>'+diagrams);
   return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${c.setupProfile} macOS manual</title><style>
 :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#24273a;color:#cad3f5;font:17px/1.7 system-ui}main{max-width:1080px;margin:auto;padding:40px 28px 100px}nav{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #494d64;padding-bottom:18px}a{color:#8aadf4;overflow-wrap:anywhere}h1{font-size:42px;color:#b7bdf8;line-height:1.2}h2{margin-top:58px;color:#a6da95;font-size:25px}p{max-width:85ch}pre{padding:22px;background:#181926;border-radius:12px;overflow:auto;color:#eed49f}table{width:100%;border-collapse:collapse;margin:15px 0}td,th{padding:12px 16px;border-bottom:1px solid #494d64;text-align:left}th{color:#f5bde6;background:#1e2030}tr:hover{background:#363a4f}.scroll{overflow:auto}input{width:100%;padding:13px 18px;border:1px solid #6e738d;border-radius:8px;background:#1e2030;color:#cad3f5;margin-top:25px;font:inherit}.note{color:#a5adcb}footer{margin-top:60px;color:#a5adcb}
-.sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:30px 0}.sessions article{padding:18px;border:1px solid #494d64;border-radius:14px;background:#1e2030}.sessions h3{margin:0;color:#b7bdf8}.sessions small{float:right;color:#a6da95}.sessions p{font-size:13px;color:#a5adcb;margin:10px 0}.desktop{border:5px solid #494d64;border-radius:8px;overflow:hidden;min-height:95px;color:#24273a;text-align:center}.desktop b{display:grid;place-content:center;padding:14px;font-size:15px}.pair{display:grid;grid-template-columns:2fr 1fr}.pair b:first-child{background:#8aadf4}.pair b:last-child{background:#f5bde6;border-left:4px solid #494d64}.agent{background:#a6da95}</style><main><nav><a href="#start-on-a-new-mac">Install</a><a href="#choose-the-right-command">Commands</a><a href="#focus-sessions">Focus</a><a href="#hyper-and-meh">Hotkeys</a><a href="#import-and-export-dockflow">DockFlow</a><a href="#updates-profile-switching-and-rollback">Rollback</a></nav><input type="search" placeholder="Filter shortcut and command tables…" aria-label="Filter tables"><p class="note">${c.setupProfile} · Hyperland · macOS · Generated from the same profile as your workflows</p>${body}<footer>Created by Rahul N Akmol. Source: scripts/workstation-profiles.mjs and scripts/workstation-manual.mjs.</footer></main><script>document.querySelector('input').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('tbody tr').forEach(r=>r.hidden=!r.textContent.toLowerCase().includes(q));});</script></html>\n`;
+.sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:30px 0}.sessions article{padding:18px;border:1px solid #494d64;border-radius:14px;background:#1e2030}.sessions h3{margin:0;color:#b7bdf8}.sessions small{float:right;color:#a6da95}.sessions p{font-size:13px;color:#a5adcb;margin:10px 0}.desktop{border:5px solid #494d64;border-radius:8px;overflow:hidden;min-height:95px;color:#24273a;text-align:center}.desktop b{display:grid;place-content:center;padding:14px;font-size:15px}.pair{display:grid;grid-template-columns:2fr 1fr}.pair b:first-child{background:#8aadf4}.pair b:last-child{background:#f5bde6;border-left:4px solid #494d64}.agent{background:#a6da95}</style><main><nav><a href="#start-on-a-new-mac">Install</a>${compact?'':'<a href="#choose-the-right-command">Commands</a><a href="#focus-sessions">Focus</a><a href="#hyper-and-meh">Hotkeys</a>'}<a href="#import-and-export-dockflow">DockFlow</a><a href="#updates-profile-switching-and-rollback">Rollback</a></nav><input type="search" placeholder="Filter setup tables…" aria-label="Filter tables"><p class="note">${c.setupProfile} · macOS · Core first; automation optional</p>${body}<footer>Created by Rahul N Akmol. Source: scripts/workstation-profiles.mjs and scripts/workstation-manual.mjs.</footer></main><script>document.querySelector('input').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('tbody tr').forEach(r=>r.hidden=!r.textContent.toLowerCase().includes(q));});</script></html>\n`;
 }

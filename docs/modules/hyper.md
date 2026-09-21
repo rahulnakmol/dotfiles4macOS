@@ -29,8 +29,8 @@ See the [design decision](../adr/0002-hyper-macos-workspaces.md).
 
 ## Focus sessions and complete manual
 
-The [hotkeys manual](alfred-hotkeys.md) and [standalone visual page](alfred-hotkeys.html)
-cover Work plus the four Code variations. Alfred commands are `fs work`,
+The [Alfred stack hotkey map](alfred.md#hotkeys-and-commands) and [standalone visual page](alfred-hotkeys.html)
+cover Work plus the Code variations. Alfred commands are `fs work`,
 `fs amp`, `fs claude`, `fs cursor` and `fs t3code`.
 
 Focus sessions keep the selected app set and quit all other running regular apps, including unrelated apps such as Slack, Mail and Office. Target apps stay open, including shared Zen Browser/Ghostty/Slack when switching variants. Finder, Alfred, Rectangle Pro, DockFlow, Session and background/menu-bar agents remain available. Save and terminal prompts are respected; a refusal, timeout or app that remains open stops the switch before target launches, layout changes or a timer request. This applies on first use and when reselecting a session.
@@ -93,26 +93,10 @@ tests and Karabiner lint validate the source; physical button testing is pending
 
 ## Daily keys
 
-| Hyper + | App | Position / purpose |
-| --- | --- | --- |
-| A | Amp | Left home: Zen coding |
-| S | Slack | Left home: communication |
-| D | Zen Browser | Left home: development browser |
-| F | Finder | Left home: files |
-| H | Ghostty | Right home: terminal |
-| J | ChatGPT / Codex | Right home: agent |
-| K | Cursor | Right home: editor |
-| L | Claude | Right home: coding and work assistant |
-| W | Word | Nearby work documents |
-| E | Microsoft Edge | Nearby work browser |
-| I | Microsoft Teams | Nearby work communication |
-| O | Excel | Nearby spreadsheets |
-| P | PowerPoint | Presentations |
-| R | Safari | Secondary browser |
-| N | Obsidian | Notes |
-| Z | Final Cut Pro | Media: edit |
-| X | Motion | Media: animate |
-| C | Compressor | Media: export |
+The maintained app, window, navigation, Codex and Meh map now lives in the
+[Alfred stack reference](alfred.md#hotkeys-and-commands).
+This module page documents implementation and maintenance rather than repeating
+the map.
 
 Final Cut Pro, Motion and Compressor are mapped but not installed on this MacBook
 Air. Their shortcuts work on Macs where the apps are installed; this configuration
@@ -121,32 +105,9 @@ does not install or download them. Bundle identifiers were verified against
 on September 8, 2026: `com.apple.FinalCut`, `com.apple.motionapp`,
 and `com.apple.Compressor`. Safari uses `com.apple.Safari`.
 
-Each app has exactly one direct Hyper shortcut. Ghostty uses H; Return maximizes
-the current window. B, G, Q, T, U and Y are unassigned. The right home cluster
-keeps terminal, agent, editor and assistant together while Caps Lock is held by
-the other hand; media does not occupy a home-row key.
-
-| Hyper + | Action |
-| --- | --- |
-| V / M | Voice chat / dictation, inside Codex only |
-| Return / Backspace | Maximize / restore geometry |
-| Tab / backtick | Previous app / next window of this app |
-| 1…9 / 0 | Switch to existing Desktop 1…9 / 10 |
-| Up / Down | Mission Control / app windows |
-| , / . | Left / right half |
-| [ / ] / backslash | Left / centre / right third |
-| ; / ' | Left / right two-thirds |
-| − / = | Move current window to previous / next desktop |
-| Left / Right | Move current window to previous / next display |
-| Space / slash | Alfred command menu / this guide |
-
-The bracket/backslash keys follow physical left-to-right order for thirds.
-Control+Left/Right switches adjacent desktops; the Hyper bracket aliases are removed.
-
-Meh+0/1/2/3/4/5/9 select the DockFlow Default/Work/Code/Author/Create/Video/Zen
-profiles. Codex uses Hyper+V for voice chat and Hyper+M for dictation; all other
-Codex actions inherit their defaults. Focus Codex with Hyper+J before using them.
-Apps keep the same key in every mode. There is no hidden mode-dependent keymap.
+Each app has one direct shortcut. The bracket/backslash keys follow physical
+left-to-right order for thirds. Control+Left/Right switches adjacent desktops.
+Apps keep the same key in every mode; there is no hidden mode-dependent keymap.
 
 The installed ChatGPT app currently has bundle identifier `com.openai.codex` and
 hosts Codex too. Hyper+J targets that bundle independent of the app's filename.
@@ -160,9 +121,9 @@ Amp has a real desktop bundle and Hyper+A focuses it; nothing is typed into a sh
 | Work Balanced | Edge / Teams halves | Yes |
 | Office | Word / Excel halves | Yes |
 | Present | PowerPoint maximized | Yes |
-| Code | Chrome left ⅔, Slack right ⅓ | Yes |
-| Code Balanced | Chrome / Slack halves | Yes |
-| Terminal | Ghostty maximized | Yes |
+| Code | Zen maximized; Ghostty left ⅔ + Slack right ⅓ on assigned desktops | Yes |
+| Code Balanced | Zen maximized; Ghostty / Slack halves on assigned desktops | Yes |
+| Terminal | Ghostty left ⅔ + Slack right ⅓ on their assigned desktop | Yes |
 | Agents | Open Codex, Claude, Cursor, Amp windows maximized | No |
 | Zen | Open Amp, Cursor, Ghostty, Obsidian windows maximized | No |
 | Default | Current app window maximized | No |
