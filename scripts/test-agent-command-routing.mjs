@@ -30,7 +30,7 @@ function fixture(t) {
   cpSync(join(root, 'bash/.bashrc.d/aliases.sh'), join(home, '.bashrc.d/aliases.sh'));
   const support = join(dir, 'support'); mkdirSync(support);
   for (const name of ['starship','zoxide','fzf']) executable(join(support,name), 'exit 0');
-  return {home, env:{...process.env, HOME:home, PATH:`${support}:/usr/bin:/bin`, PS1:'test'}};
+  return {home, env:{...process.env, HOME:home, XDG_STATE_HOME:join(home,'.local/state'), PATH:`${support}:/usr/bin:/bin`, PS1:'test'}};
 }
 
 test('initialized Bash and Zsh prefer gateway wrappers and preserve aliases', t => {
