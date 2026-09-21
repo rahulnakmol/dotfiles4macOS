@@ -3,8 +3,8 @@
 A small macOS Raycast extension by **Rahul N Akmol**. It coordinates named modes
 through Raycast window management, DockFlow and Session.
 
-[Setup guide](../../docs/guides/raycast.md) ·
-[Shortcut reference](../../docs/modules/raycast-hotkeys.md) ·
+[Setup guide](../../docs/modules/raycast.md) ·
+[Shortcut reference](../../docs/hotkeys.md#raycast-focus--layouts) ·
 [Design decision](../../docs/adr/0005-workmode-local-install.md)
 
 ## Install or update
@@ -17,7 +17,7 @@ bash scripts/setup-raycast-workstation.sh install
 
 Or double-click `setup/Raycast.command`. After **Importing Workmode**, wait for
 **ready**, then press **Control+C**. The extension remains installed. Repeat
-after pulling source updates. Complete the [prerequisites and per-Mac steps](../../docs/guides/raycast.md#install)
+after pulling source updates. Complete the [prerequisites and per-Mac steps](../../docs/modules/raycast.md#install)
 before running a layout or focus session.
 
 | Task | Command from the repo root |
@@ -100,7 +100,7 @@ bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command
 
 Tests use isolated fixtures; they do not quit your apps. CI builds on macOS
 without Stow or import. `npm run build` validates a bundle; `npm run dev` imports
-it into Raycast. Follow the [recorded limits and manual checks](../../docs/guides/raycast.md#what-has-been-verified)
+it into Raycast. Follow the [recorded limits and manual checks](../../docs/modules/raycast.md#what-has-been-verified)
 for real windows, timers and hotkeys.
 
 ## Share the source

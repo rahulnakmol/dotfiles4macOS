@@ -1,59 +1,42 @@
-# Start here
+# Documentation
 
-Set up your Mac, add productivity tools when you need them, and find the right
-shortcuts for your chosen setup.
+Follow the repository in this order:
+
+1. Install the core dotfiles with [setup.md](setup.md).
+2. Stop there, or choose one productivity path:
+   - [Raycast Focus & Layouts](modules/raycast.md): one shared configuration.
+   - [Alfred + Karabiner + Rectangle Pro](modules/alfred.md): choose TF or FDE.
+3. Use the owning module page for each tool's setup, behavior and maintenance.
 
 ## Find what you need
 
-| I want to… | Open |
+| Goal | Documentation |
 | --- | --- |
-| Choose and install TF or FDE | [Choose your macOS profile](setup-profiles.md) |
-| Install individual apps and Stow modules myself | [Manual setup](guides/setup.md) |
-| Set up Raycast Workmode | [Raycast guide](guides/raycast.md) |
-| Set up Alfred, Karabiner and Rectangle Pro | [Alfred guide](guides/alfred.md) |
-| Find Raycast aliases and hotkeys | [Raycast reference](modules/raycast-hotkeys.md) |
-| Find Alfred TF commands and hotkeys | [TF reference](modules/alfred-tf-hotkeys.md) |
-| Find Alfred FDE commands and hotkeys | [FDE reference](modules/alfred-fde-hotkeys.md) |
-| Change one tool's configuration | [Module documentation](modules/) |
-| Configure the private AI gateway, Codex desktop profiles or Herdr | [Codex profiles](guides/codex-profiles.md) and [Herdr](modules/herdr.md) |
-| Understand an implementation decision | [Architecture decisions](adr/) |
+| Install Zsh, tmux, Herdr, Neovim, Git and the other core modules | [Set up the dotfiles](setup.md) |
+| Use Raycast for one shared productivity configuration | [Raycast Focus & Layouts](modules/raycast.md) |
+| Use Alfred, Karabiner and Rectangle Pro | [Alfred stack](modules/alfred.md) |
+| Choose TF or FDE for the Alfred stack | [Profile selection](setup-profiles.md) |
+| Find Raycast, tmux and Herdr shortcuts | [Hotkeys](hotkeys.md) |
+| Configure Codex CLI and two desktop profiles | [Codex](modules/codex.md) |
+| Configure one tool | [Module documentation](modules/) |
 
-## Set up a new Mac
+Core setup is complete before choosing productivity automation. Raycast uses one
+shared configuration. TF and FDE apply only to the Alfred/Karabiner/Rectangle Pro
+path.
 
-```mermaid
-flowchart TD
-    A[Choose TF or FDE] --> B[Install core and complete its checklist]
-    B --> C{Want productivity automation?}
-    C -->|Keep my tools| D[Use core settings]
-    C -->|Raycast| E[Follow the Raycast guide]
-    C -->|Alfred| F[Follow the Alfred guide]
-    E --> G[Test permissions, shortcuts and layouts]
-    F --> G
-```
+## Documentation ownership
 
-Core installation does not enable productivity automation. **`--productivity`
-selects Alfred + Karabiner + Rectangle Pro.** Raycast has a separate installer
-and shared modes for both profiles.
-
-## Finish setup or fix a problem
-
-| Setup | Manual checklist | Troubleshooting |
-| --- | --- | --- |
-| TF core | [TF checklist](guides/profiles/tf.md#finish-setup-human-checklist) | [TF checks](guides/profiles/tf.md#verification-and-troubleshooting) |
-| FDE core | [FDE checklist](guides/profiles/fde.md#finish-setup-human-checklist) | [FDE checks](guides/profiles/fde.md#verification-and-troubleshooting) |
-| Raycast | [Set up each Mac](guides/raycast.md#set-up-each-mac) | [Fix a problem](guides/raycast.md#fix-a-problem) |
-| Alfred | [Complete setup](guides/alfred.md#complete-setup-on-each-mac) | [Check your setup](guides/alfred.md#check-your-setup) |
-
-## Where documentation lives
-
-| Location | Contents |
+| Location | Owns |
 | --- | --- |
-| [Setup profiles](setup-profiles.md) | Profile choices and installation entry point. |
-| [Guides](guides/) | Instructions for installing and using a setup. |
-| [Profile guides](guides/profiles/) | FDE and TF installation details and checklists. |
-| [Modules](modules/) | Configuration details and hotkey references. |
-| [Architecture decisions](adr/) | Decisions and their trade-offs. |
-| [Catalogs](../scripts/catalogs/) | JSON data used by generators and checks. |
+| [`setup.md`](setup.md) | Core prerequisites, clone, Stow and post-install journey |
+| [`setup-profiles.md`](setup-profiles.md) | TF/FDE selection for the Alfred productivity path |
+| [`hotkeys.md`](hotkeys.md) | Raycast-first global map plus tmux and Herdr entry points |
+| [`modules/`](modules/) | Complete setup, behavior and maintenance for each tool |
+| [`guides/profiles/`](guides/profiles/) | Generated TF/FDE profile details and checklists |
+| [`adr/`](adr/) | Architecture decisions and trade-offs |
 
-For building or installing the extension from source, see the
-[Workmode developer guide](../extensions/raycast-workstation/README.md).
+Keep module-specific instructions in the owning module page. Do not create a
+second guide for the same tool. Generated FDE/TF files must be changed through
+`scripts/workstation-manual.mjs` and `scripts/render-workstation-docs.mjs`.
+
+Run `node --test scripts/test-documentation.mjs` after moving or renaming docs.

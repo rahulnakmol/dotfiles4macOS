@@ -4,15 +4,22 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 
 ## Private AI gateway (CLI only)
 
-Run `bash scripts/setup-codex-profiles.sh` once per macOS user. Gateway or both mode fetches the authenticated
-`/v1/models` catalog, asks for a default, and writes an isolated configuration under
+Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
+It fetches the authenticated `/v1/models` catalog, validates Chat Completions with the selected
+OpenCode model, and writes an isolated configuration under
 `~/.config/private-ai-gateway/opencode`. The provider contains every unique advertised model rather
 than a hardcoded subset, and reads the same protected key used by Claude Code and Codex through
 OpenCode's `{file:...}` substitution. The ordinary `opencode` command selects both that config file
 and directory, so Herdr's generated plugin is loaded from the same isolated location.
 
-Re-running setup refreshes the catalog. `--status` does not contact the gateway or print values;
+Re-running gateway setup refreshes the catalog. `--status` does not contact the gateway or print values;
 `--rotate-key` updates the single shared key.
+
+During interactive setup, map **Opus Fast** to the newest accelerated Opus model actually advertised
+by your gateway. tmux `C-a O`, then `p`, resolves that local mapping and opens OpenCode through the
+private gateway. It deliberately does not hardcode OpenCode Zen's hosted-provider model ID. OpenCode's
+interactive CLI has no `--variant fast` flag; current accelerated Claude serving modes are exposed as
+separate catalog models, so the authenticated model selection is the durable source of truth.
 
 ## Files (configs only)
 
@@ -42,7 +49,10 @@ After `stow opencode`:
 ./scripts/bootstrap-skills.sh
 ```
 
-This deploys SDLC agents, commands, workflows, and method docs to `~/.config/opencode/`.
+With the private gateway configured, this deploys supported agents, commands,
+workflows and method docs into the isolated
+`~/.config/private-ai-gateway/opencode` location selected by the wrapper. It does
+not copy the gateway key into the tracked `opencode` module.
 
 ## Workflow aliases
 

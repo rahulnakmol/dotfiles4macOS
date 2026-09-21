@@ -1,10 +1,11 @@
-# Choose your macOS profile
+# Choose an Alfred productivity profile
 
 [Start here](README.md)
 
+TF and FDE belong to the optional **Alfred + Karabiner + Rectangle Pro** path.
 Choose **TF** for the smaller app selection or **FDE** for the wider developer
-setup. Both support Apple Silicon Macs and install the shared command-line tools,
-Zen Browser, Ghostty, Claude Desktop, Cursor and ChatGPT/Codex.
+setup. Raycast Focus & Layouts has one shared configuration and does not use
+these profiles.
 
 ## Choose a profile
 
@@ -58,17 +59,8 @@ The installer returns `0` when managed checks pass, `2` when a human step or che
 remains, and `1` for an error. Keep the backup path and rollback command printed
 during setup. Passing file checks does not verify personal sign-ins or permissions.
 
-## Optional next steps
+## Other productivity path
 
-Core installation leaves your launcher and window manager unchanged. Add one
-productivity setup if you want keyboard automation, layouts and focus sessions.
-
-| Preference | Follow this guide |
-| --- | --- |
-| Raycast for launching apps and managing windows; shared modes for FDE and TF. Requires Raycast Pro, DockFlow and Session. | [Raycast Workmode](guides/raycast.md) |
-| Alfred workflows with Karabiner key remapping and Rectangle Pro layouts; workflows differ by profile. | [Alfred + Karabiner + Rectangle Pro](guides/alfred.md) |
-
-**`--productivity` means the Alfred setup.** Leave it off when choosing Raycast.
-The linked guides cover installation, licenses, permissions, shortcuts and
-per-Mac checks. If you prefer to select individual Stow modules instead of a
-profile, use the separate [manual setup guide](guides/setup.md).
+If you want one shared configuration instead of TF/FDE, use
+[Raycast Focus & Layouts](modules/raycast.md). Do not enable both global maps
+unchanged. For the core-only journey, return to [setup.md](setup.md).

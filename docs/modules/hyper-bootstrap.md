@@ -83,7 +83,7 @@ select this clone's `alfred/.config/alfred` preferences folder in Advanced, rest
 Alfred, and rerun `apply`. `--local-id HASH` is an explicit recovery option only
 when you have verified the current machine's ID.
 
-The [complete hotkeys manual](alfred-hotkeys.md) also covers Work and all four Code
+The [Alfred stack hotkey map](alfred.md#hotkeys-and-commands) also covers Work and the Code
 focus variations. Import the updated Rectangle snapshot and make its native Dock
 assignments on each Mac for the two coding desktops. The focus helper compiles
 using Apple Command Line Tools; first-use compilation and live quitting are not

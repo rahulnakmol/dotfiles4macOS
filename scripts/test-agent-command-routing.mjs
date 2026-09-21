@@ -33,6 +33,8 @@ function fixture(t) {
 test('initialized Bash and Zsh prefer gateway wrappers and preserve aliases', t => {
   const f = fixture(t);
   for (const [shell, rc, lookup] of [['bash','.bashrc','type -P'], ['zsh','.zshrc','whence -p']]) {
+    const available = spawnSync('/usr/bin/env', [shell, '--version'], {encoding:'utf8'});
+    if (available.error?.code === 'ENOENT' || available.status === 127) continue;
     const command = `PS1=test; ${shell === 'bash' ? 'shopt -s expand_aliases;' : ''} source "$HOME/${rc}"; printf '%s\\n' "$(${lookup} claude)" "$(${lookup} codex)" "$(${lookup} opencode)"; eval 'ccs marker'; eval 'cco marker'; ccf marker; cda marker; cds marker; cdg marker`;
     const result = spawnSync(shell, ['-c', command], {env:f.env, encoding:'utf8'});
     assert.equal(result.status, 0, `${shell}: ${result.stderr}`);
@@ -46,13 +48,17 @@ test('initialized Bash and Zsh prefer gateway wrappers and preserve aliases', t 
 
 test('tmux AI commands pin wrapper PATH and model shortcuts have unique keys', () => {
   const tmux = readFileSync(join(root, 'tmux/.config/tmux/tmux.conf'), 'utf8');
-  const commands = tmux.match(/bind -T (?:claude|opencode)[\s\S]*?(?=\nbind -T |\n# ── Theme)/g) ?? [];
+  const commands = tmux.match(/bind -T (?:claude|opencode|codex)[\s\S]*?(?=\nbind -T |\n# ── Theme)/g) ?? [];
   assert.ok(commands.length > 10);
   for (const command of commands) assert.match(command, /\.local\/bin|PATH=.*\.local\/bin/, command);
   assert.doesNotMatch(tmux, /opencode\/gpt-[^"\s]*codex/);
-  const bindings = [...tmux.matchAll(/^bind -T (claude|opencode) (\S+)/gm)].map(match => `${match[1]}:${match[2]}`);
+  assert.doesNotMatch(tmux, /opencode\/claude-opus/);
+  assert.match(tmux, /^bind D switch-client -T codex$/m);
+  assert.match(tmux, /bind -T opencode p[\s\S]*gateway-model opencode opus-fast/);
+  const bindings = [...tmux.matchAll(/^bind -T (claude|opencode|codex) (\S+)/gm)].map(match => `${match[1]}:${match[2]}`);
   assert.equal(new Set(bindings).size, bindings.length, 'AI key tables must not reuse a key');
-  for (const alias of ['fable','astra','sol','grok']) assert.match(tmux, new RegExp(`gateway-model (?:claude|codex) ${alias}`));
+  for (const route of ['claude fable','opencode opus-fast','codex astra','codex sol','codex grok'])
+    assert.match(tmux, new RegExp(`gateway-model ${route}`));
 });
 
 test('bootstrap targets external adapters at isolated gateway homes', () => {
@@ -63,10 +69,10 @@ test('bootstrap targets external adapters at isolated gateway homes', () => {
   assert.doesNotMatch(script, /^\s*claude plugins install/m);
 });
 
-test('Herdr uses gateway wrappers while preserving Catppuccin agent colors and explicit desktops', () => {
+test('Herdr uses gateway wrappers and Codex key while preserving Catppuccin agent colors', () => {
   const config = readFileSync(join(root, 'herdr/.config/herdr/config.toml'), 'utf8');
   for (const client of ['claude','codex','opencode']) assert.match(config, new RegExp(`command = "~/.local/bin/${client}"`));
-  assert.match(config, /command = "chatgpt-subscription"/);
-  assert.match(config, /command = "chatgpt-aigateway"/);
+  assert.match(config, /key = "prefix\+d"[\s\S]*command = "~\/\.local\/bin\/codex"/);
+  assert.doesNotMatch(config, /chatgpt-(?:subscription|aigateway)/);
   for (const color of ['#f5a97f','#a6da95','#8aadf4']) assert.match(config, new RegExp(color));
 });

@@ -1,66 +1,213 @@
 # tmux
 
-Terminal multiplexer with Catppuccin Macchiato theme and AI tool integration.
+Terminal multiplexer with a `C-a` prefix, Catppuccin Macchiato, persistent
+layouts, Vim-aware pane navigation and gateway-backed AI client entry points.
 
-## Files
-
-| File | Target |
-|------|--------|
-| `.config/tmux/tmux.conf` | `~/.config/tmux/tmux.conf` |
-
-## Key Features
-
-- **Prefix**: `C-a` (Ctrl+a)
-- **Theme**: Catppuccin Macchiato with rounded window status
-- **AI Integration**: Claude Code (`C-a C`) and OpenCode (`C-a O`) key tables
-- **Session persistence**: layout, working directories and scrollback survive a reboot
-- **Smart kill**: `C-a x` confirms before killing panes with running processes
-- **Vim navigation**: Seamless pane switching with vim-tmux-navigator
-
-## Plugins
-
-Managed by TPM (auto-installed on first launch):
-
-| Plugin | Purpose |
-|--------|---------|
-| `tpm` | Plugin manager |
-| `tmux-sensible` | Sensible defaults |
-| `vim-tmux-navigator` | C-h/j/k/l pane navigation |
-| `catppuccin/tmux` | Theme |
-| `tmux-yank` | System clipboard |
-| `tmux-cpu` | CPU/RAM status modules |
-| `tmux-battery` | Battery status module |
-| `tmux-pomodoro-plus` | Pomodoro status module |
-| `tmux-resurrect` | Saves session layout to disk |
-| `tmux-continuum` | Autosaves every 5 min, restores on server start |
-
-## Deploy
+## Install
 
 ```bash
 stow tmux
-tmux    # TPM auto-installs on first launch
+tmux
 ```
 
-TPM and plugins live under `~/.config/tmux/plugins/`, beside `tmux.conf`, not in
-the legacy `~/.tmux/`. Both halves must agree: tpm's installer is XDG-aware, so a
-tpm cloned to `~/.tmux/plugins/tpm` sources an empty directory and silently loads
-nothing — the config parses, options are set, and the theme is simply absent.
+TPM installs declared plugins on first launch. If needed, press `C-a I` to
+install plugins and `C-a r` to reload the configuration. Plugins live under
+`~/.config/tmux/plugins/`; running AI processes are deliberately not restarted
+automatically after a reboot.
 
-## Session persistence
+## Keybindings
 
-`tmux-resurrect` writes a snapshot to `~/.local/share/tmux/resurrect/`;
-`tmux-continuum` autosaves every 5 minutes and restores when the tmux **server**
-starts. `tmux new-session -A -s main` is what triggers that: `-A` attaches if the
-session exists and creates it otherwise, and creating it starts the server.
+**Prefix:** `C-a` (Ctrl+a) — replaces the default `C-b`.
 
-Restored: session/window names, pane layout, per-pane working directory, active
-pane, scrollback (`@resurrect-capture-pane-contents on`), and Neovim sessions.
+Notation: `prefix <key>` means press `C-a`, release, then press `<key>`.
 
-**Not restored: running processes.** An in-flight `claude` or `opencode` task is
-gone. `@resurrect-processes` is deliberately left at its default allowlist —
-auto-relaunching AI CLIs at boot would start unattended sessions that spend
-tokens with nobody watching.
+---
 
-`C-a C-s` forces an immediate save; the 5-minute interval is the most you can lose.
+## Custom bindings
 
-See [tmux-keybindings.md](../guides/tmux-keybindings.md) for full key reference.
+### Navigation (no prefix)
+
+| Key | Action |
+|-----|--------|
+| `M-←` / `M-→` / `M-↑` / `M-↓` | Select pane in direction |
+| `M-H` | Previous window |
+| `M-L` | Next window |
+| `C-h` / `C-j` / `C-k` / `C-l` | Pane nav across vim splits (vim-tmux-navigator) |
+
+### Splits & pane management (with prefix)
+
+| Key | Action |
+|-----|--------|
+| `'` | Split horizontal (pane below) — `'` looks like `─` |
+| `\` | Split vertical (pane right) — `\` looks like `│` |
+| `x` | Smart kill — instant for shell, confirm prompt for running processes |
+| `r` | Reload `~/.config/tmux/tmux.conf` |
+
+### Session persistence (with prefix)
+
+| Key | Action |
+|-----|--------|
+| `C-s` | Save session snapshot now (tmux-resurrect) |
+| `C-r` | Restore the last snapshot |
+
+Continuum autosaves every 5 minutes and restores automatically when the tmux
+server starts, so `C-r` is rarely needed. `C-s` is worth pressing before walking
+away from a layout you would not want to rebuild — it bounds your loss to less
+than the autosave interval. Layout, working directories and scrollback come back;
+running processes do not.
+
+### Claude Code — `prefix C` enters the `claude` key table
+
+| Key | Action |
+|-----|--------|
+| `c` / `Enter` | Popup session (80×80%) — default model |
+| `/` | One-shot Haiku prompt (asks for query, runs in popup) |
+| `s` | Split pane — Sonnet with `--permission-mode auto` |
+| `o` | Split pane — Opus with `--permission-mode auto` |
+| `O` | Split pane — Opus autopilot (`--dangerously-skip-permissions`) |
+| `S` | Split pane — Sonnet autopilot (`--dangerously-skip-permissions`) |
+| `p` | Split pane — Opus plan mode (read-only) |
+| `f` | Split pane — Claude Code with the machine-local Fable mapping |
+| `w` | New window running Claude |
+
+### OpenCode — `prefix O` enters the `opencode` key table
+
+| Key | Action |
+|-----|--------|
+| `o` / `Enter` | Popup session — default model |
+| `/` | One-shot run (asks for query, runs in popup) |
+| `s` | Split pane — default model |
+| `w` | New window running OpenCode |
+| `p` | Popup — latest Opus Fast model selected from the authenticated gateway catalog |
+
+### Codex — `prefix D` enters the `codex` key table
+
+| Key | Action |
+|-----|--------|
+| `c` / `Enter` | Popup — gateway Codex with the selected default model |
+| `a` | Popup — gateway Codex with the machine-local Astra mapping |
+| `S` | Popup — gateway Codex with the machine-local Sol mapping |
+| `g` | Popup — gateway Codex with the machine-local Grok mapping |
+
+All direct `claude`, `opencode` and `codex` commands prepend
+`~/.local/bin:/opt/homebrew/bin:/usr/local/bin` at execution time. This is deliberate: an existing
+tmux server retains its startup environment, and `~/.opencode/bin` must not outrank the gateway
+wrapper. Fable/Opus Fast/Astra/Sol/Grok IDs come only from
+`~/.config/private-ai-gateway/model-aliases.json`; an unmapped or retired alias fails clearly.
+
+> Capital `C`, `O` and `D` avoid shadowing tmux defaults such as `prefix c`
+> (new window), `prefix o` (next pane) and `prefix d` (detach).
+
+---
+
+## Default tmux bindings still in use
+
+These ship with tmux and are not overridden in this config.
+
+### Windows
+
+| Key | Action |
+|-----|--------|
+| `prefix c` | Create new window |
+| `prefix ,` | Rename current window |
+| `prefix &` | Kill current window (with confirm) |
+| `prefix n` | Next window |
+| `prefix p` | Previous window |
+| `prefix 0`–`9` | Jump to window by index |
+| `prefix l` | Last (most recent) window |
+| `prefix w` | Choose window/pane from tree |
+| `prefix f` | Find window by name |
+| `prefix .` | Move window to a different index |
+
+### Panes
+
+| Key | Action |
+|-----|--------|
+| `prefix o` | Cycle to next pane |
+| `prefix ;` | Last (previously active) pane |
+| `prefix q` | Show pane numbers (press number to jump) |
+| `prefix z` | Toggle pane zoom |
+| `prefix !` | Break pane out into a new window |
+| `prefix x` | (overridden — see *smart kill* above) |
+| `prefix {` / `prefix }` | Swap pane with previous / next |
+| `prefix space` | Cycle through preset layouts |
+| `prefix M-1`–`M-5` | Apply preset layout (even/main-h/main-v/tiled) |
+| `prefix C-↑/↓/←/→` | Resize pane by 1 cell |
+| `prefix M-↑/↓/←/→` | Resize pane by 5 cells |
+
+### Sessions
+
+| Key | Action |
+|-----|--------|
+| `prefix d` | Detach from session |
+| `prefix s` | Choose session |
+| `prefix $` | Rename session |
+| `prefix (` / `prefix )` | Switch to previous / next session |
+| `prefix L` | Switch to last (most recent) client |
+
+### Copy mode & buffers
+
+| Key | Action |
+|-----|--------|
+| `prefix [` | Enter copy mode (vi keys; `q` to exit) |
+| `prefix ]` | Paste most recent buffer |
+| `prefix =` | Choose buffer to paste |
+| `prefix #` | List paste buffers |
+
+### Misc
+
+| Key | Action |
+|-----|--------|
+| `prefix ?` | Show all key bindings |
+| `prefix :` | Command prompt |
+| `prefix t` | Clock display (any key exits) |
+| `prefix ~` | Show recent messages |
+| `prefix C-a` | Send literal `C-a` to the running program |
+
+---
+
+## Plugin bindings
+
+### TPM (plugin manager)
+
+| Key | Action |
+|-----|--------|
+| `prefix I` | Install declared plugins |
+| `prefix U` | Update plugins |
+| `prefix M-u` | Remove plugins not in the config |
+
+### tmux-yank (system clipboard)
+
+| Key | Action |
+|-----|--------|
+| `prefix y` | Copy current command line to clipboard |
+| `prefix Y` | Copy current pane's working directory |
+| In copy mode: `y` | Copy selection to clipboard |
+| In copy mode: `Y` | Copy selection and paste it |
+
+### vim-tmux-navigator
+
+`C-h` / `C-j` / `C-k` / `C-l` — see *Navigation* above. Works seamlessly between tmux panes and Vim/Neovim splits.
+
+---
+
+## Plugins loaded
+
+| Plugin | Purpose |
+|--------|---------|
+| `tmux-plugins/tpm` | Plugin manager |
+| `tmux-plugins/tmux-sensible` | Sensible default settings |
+| `christoomey/vim-tmux-navigator` | Vim/tmux unified pane nav |
+| `catppuccin/tmux` | Catppuccin Macchiato theme (v2.3.0 syntax) |
+| `tmux-plugins/tmux-yank` | System clipboard integration |
+
+---
+
+## macOS terminal notes
+
+The `M-` (Meta) bindings use the **Option (⌥)** key:
+
+- **Ghostty** — Works out of the box (Option sends Meta).
+- **Terminal.app** — Limited Meta support; not recommended.
+
+`C-a`-prefixed bindings work everywhere.
