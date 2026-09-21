@@ -59,8 +59,9 @@ test('desktop shell routes follow the selected mode without local-bin launchers'
       const available=spawnSync('/usr/bin/env',[shell,'--version'],{encoding:'utf8'});
       if(available.error?.code==='ENOENT'||available.status===127)continue;
       const f=fixture(t);
-      writeFileSync(join(f.home,'.local/state/dotfiles/codex-profiles/mode'),`${mode}\n`);
-      const result=spawnSync(shell,['-c',`export XDG_STATE_HOME="$HOME/.local/state"; source "$HOME/${aliases}"; cx`],{env:f.env,encoding:'utf8'});
+      const stateHome=join(f.home,'.local/state');
+      writeFileSync(join(stateHome,'dotfiles/codex-profiles/mode'),`${mode}\n`);
+      const result=spawnSync(shell,['-c',`export XDG_STATE_HOME=${JSON.stringify(stateHome)}; source "$HOME/${aliases}"; cx`],{env:f.env,encoding:'utf8'});
       assert.equal(result.status,status,`${shell}/${mode}: ${result.stderr}`);
       assert.match(result.stdout+result.stderr,new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
     }
