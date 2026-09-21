@@ -21,16 +21,17 @@ launcher, Hyper, window and focus keys.
 | Command+Tab / Command+` | Switch apps / windows in an app |
 | Control+Left / Control+Right | View previous / next desktop |
 | Control+Command+F | Native fullscreen, where supported |
-| `chatgpt-subscription` | Launch the subscription ChatGPT/Codex desktop profile |
-| `chatgpt-aigateway` | Launch the isolated gateway ChatGPT/Codex desktop profile |
+| `cxs` / **ChatGPT — Subscription** | Launch the subscription ChatGPT/Codex desktop profile |
+| `cxg` / **ChatGPT — AI Gateway** | Launch the isolated gateway ChatGPT/Codex desktop profile |
+| `cx` | Launch the selected single desktop profile; refuses to guess when both are enabled |
 | `ccf` | Claude Code with the machine-local Fable mapping |
 | `cda` / `cds` / `cdg` | Codex with Astra / Sol / Grok mappings |
 | Hyper+B | Codex pet in the subscription profile; disabled in the gateway profile |
 | Hyper+V / Hyper+M | Codex voice / dictation while Codex is focused |
 
 The two ChatGPT/Codex desktop processes share bundle ID `com.openai.codex`.
-Generic app shortcuts such as Raycast `cx` cannot choose a profile. Use the
-explicit launcher commands. To assign separate Raycast, Alfred, or macOS
+Generic app shortcuts using the shared bundle ID cannot choose a profile. Use the
+explicit Script Commands or `cxs`/`cxg`. To assign separate Raycast, Alfred, or macOS
 Shortcuts keys, follow [Assign separate Codex desktop launch shortcuts](modules/codex.md#assign-separate-launch-shortcuts).
 
 ## Raycast Focus & Layouts

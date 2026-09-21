@@ -14,7 +14,7 @@ const exec=promisify(execFile);
 const helper=():string=>join(environment.assetsPath,"desktop-helper");
 const mapPath=():string=>join(environment.supportPath,"desktop-map.json");
 export function loadConfig():Config {
-  const path=join(homedir(),".config/raycast-workstation/workstation.json");
+  const path=join(homedir(),".config/raycast/workstation/workstation.json");
   const config=configSchema.parse(JSON.parse(readFileSync(existsSync(path)?path:join(environment.assetsPath,"workstation.json"),"utf8")));
   if(existsSync(mapPath()))config.desktopIds=z.record(z.string(),z.string()).parse(JSON.parse(readFileSync(mapPath(),"utf8")));
   return config;

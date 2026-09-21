@@ -16,7 +16,7 @@ jobs:
           node-version: 22
       - name: Validate Workmode installer and keymap
         run: |
-          bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command
+          bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command raycast/.config/raycast/lib/codex-profile.sh raycast/.config/raycast/scripts/codex/*.sh
           node --test scripts/test-raycast-setup.mjs scripts/test-raycast-keymap.mjs
       - name: Build Workmode without Stow or Raycast import
         run: bash scripts/setup-raycast-workstation.sh build

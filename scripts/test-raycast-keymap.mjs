@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {buildKeymap} from './build-raycast-keymap.mjs';
-const config=JSON.parse(readFileSync(new URL('../raycast/.config/raycast-workstation/workstation.json',import.meta.url)));
+const config=JSON.parse(readFileSync(new URL('../raycast/.config/raycast/workstation/workstation.json',import.meta.url)));
 test('native Raycast manifest needs no legacy keyboard configuration',()=>{
   const original=structuredClone(config);
   const result=buildKeymap(config);
@@ -63,10 +63,20 @@ test('generic Codex launch remains explicitly profile-ambiguous',()=>{
   const codex=config.apps.find(app=>app.id==='codex');
   assert.equal(codex.bundleId,'com.openai.codex');
   const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
-  assert.match(guide,/cx.*bundle ID `com\.openai\.codex`/s);
+  assert.match(guide,/alias `cx`.*bundle ID\s+`com\.openai\.codex`/s);
   assert.match(guide,/can choose\s+or focus a specific profile/s);
-  assert.match(guide,/chatgpt-subscription/);
-  assert.match(guide,/chatgpt-aigateway/);
+  assert.match(guide,/ChatGPT — Subscription/);
+  assert.match(guide,/ChatGPT — AI Gateway/);
+  assert.match(guide,/`cxs` and `cxg`/);
+});
+
+test('Workmode loads only the Stow-managed workstation JSON at runtime',()=>{
+  const runtime=readFileSync(new URL('../extensions/raycast-workstation/src/runtime.ts',import.meta.url),'utf8');
+  assert.match(runtime,/\.config\/raycast\/workstation\/workstation\.json/);
+  assert.doesNotMatch(runtime,/aliases\.json|hotkeys\.json|raycast-workstation/);
+  const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
+  assert.match(guide,/loads only `~\/\.config\/raycast\/workstation\/workstation\.json` at runtime/);
+  assert.match(guide,/`aliases\.json` and\s+`hotkeys\.json` are generated review\/reference files/s);
 });
 
 test('aliases cover every app, mode, extension command and mapped window action uniquely',()=>{

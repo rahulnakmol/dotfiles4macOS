@@ -79,11 +79,11 @@ separate: it chooses subscription, gateway, or both without handling the key and
 transitions with a per-user lock. Endpoint, shared key and model remain under
 \`~/.config/private-ai-gateway\` with restrictive permissions. Ordinary \`claude\`, \`codex\` and
 \`opencode\` commands use protected wrappers in \`~/.local/bin\`. Both mode creates explicit
-launchers for stock subscription ChatGPT at \`~/.codex\` and an isolated gateway desktop at
+Stow-managed Raycast commands and shell functions for stock subscription ChatGPT at \`~/.codex\` and an isolated gateway desktop at
 \`~/.codex-aigateway\`; either single mode uses only \`~/.codex\`. Re-run gateway setup to refresh
 models and validate the machine-local Fable/Opus Fast/Astra/Sol/Grok mapping, or use
 \`scripts/setup-private-ai-gateway.sh --rotate-key\` for one-place key rotation. Use
-\`chatgpt-subscription\` and \`chatgpt-aigateway\` for explicit launch: generic bundle-ID actions
+the Stow-managed Raycast commands or \`cxs\` and \`cxg\` for explicit launch: generic bundle-ID actions
 such as Hyper+J, Raycast \`cx\` and Workmode cannot distinguish the two signed-app processes.
 
 Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider

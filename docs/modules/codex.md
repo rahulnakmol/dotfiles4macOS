@@ -40,25 +40,29 @@ migration synchronously and verify every managed link before creating launchers.
 
 ### Choose the desktop profiles
 
-| Route | Command | Codex home | Authentication |
-| --- | --- | --- | --- |
-| Subscription desktop | `chatgpt-subscription` | `~/.codex` | Normal ChatGPT subscription sign-in |
-| Gateway desktop — gateway-only mode | `chatgpt-aigateway` | `~/.codex` | File-backed gateway key |
-| Gateway desktop — both mode | `chatgpt-aigateway` | `~/.codex-aigateway` | File-backed gateway key |
-| Gateway CLI | `codex` | Active gateway home for the selected mode | File-backed gateway key |
+| Route | Shell command | Raycast command | Codex home | Authentication |
+| --- | --- | --- | --- | --- |
+| Subscription desktop | `cxs` | **ChatGPT — Subscription** | `~/.codex` | Normal ChatGPT subscription sign-in |
+| Gateway desktop — gateway-only mode | `cxg` | **ChatGPT — AI Gateway** | `~/.codex` | File-backed gateway key |
+| Gateway desktop — both mode | `cxg` | **ChatGPT — AI Gateway** | `~/.codex-aigateway` | File-backed gateway key |
+| Selected single desktop route | `cx` | — | `~/.codex` | Selected mode; refuses to guess in `both` mode |
+| Gateway CLI | `codex` | — | Active gateway home for the selected mode | File-backed gateway key |
 
 The two signed desktop processes can run concurrently with separate Codex and
 Electron state. They retain the same `com.openai.codex` bundle ID, app name and
 icon, so generic Dock, app-switcher, Hyper+J and Raycast actions cannot select a
-profile reliably. Use the explicit launcher commands.
+profile reliably. Use the explicit Script Commands or `cxs` and `cxg`.
 
 ### Assign separate launch shortcuts
 
-First confirm both generated commands work in a terminal:
+Profile setup Stows both Script Commands, even when the selected mode enables only
+one route. Add `~/.config/raycast/scripts` once under **Raycast Settings →
+Extensions → Script Commands**. Then confirm the enabled shell routes:
 
 ```bash
-chatgpt-subscription &
-chatgpt-aigateway &
+cxs # subscription; enabled in subscription or both mode
+cxg # gateway; enabled in gateway or both mode
+cx  # selected single route; deliberately refuses in both mode
 ```
 
 Then expose those **commands**, rather than the ChatGPT application, through one
@@ -67,37 +71,20 @@ the same global chords in Raycast, Alfred and macOS Shortcuts.
 
 #### Raycast
 
-Create two [Script Commands](https://developers.raycast.com/information/lifecycle/scripts):
-
-```bash
-#!/bin/bash
-# @raycast.schemaVersion 1
-# @raycast.title ChatGPT — Subscription
-# @raycast.mode silent
-"$HOME/.local/bin/chatgpt-subscription" >/dev/null 2>&1 &
-```
-
-```bash
-#!/bin/bash
-# @raycast.schemaVersion 1
-# @raycast.title ChatGPT — AI Gateway
-# @raycast.mode silent
-"$HOME/.local/bin/chatgpt-aigateway" >/dev/null 2>&1 &
-```
-
-Save them as executable files in a directory registered under **Raycast Settings
-→ Extensions → Script Commands**. Search for each title, then assign an alias and
-an unused hotkey in Raycast Settings. Suggested aliases are `cxs` for subscription
-and `cxg` for gateway. Do not use Raycast's ordinary **Open Application** action;
-it sees only the shared bundle ID.
+The repository already provides official-format [Script Commands](https://developers.raycast.com/information/lifecycle/scripts)
+at `~/.config/raycast/scripts/codex/`. Search for **ChatGPT — Subscription** and
+**ChatGPT — AI Gateway**, then assign unused hotkeys in Raycast Settings. Do not
+use Raycast's ordinary **Open Application** action; it sees only the shared bundle
+ID. Repeated hotkey presses are suppressed briefly, and stale launch locks recover
+automatically.
 
 #### Alfred
 
 Create one private workflow with two paths:
 
 ```text
-Keyword or Hotkey → Run Script: ~/.local/bin/chatgpt-subscription >/dev/null 2>&1 &
-Keyword or Hotkey → Run Script: ~/.local/bin/chatgpt-aigateway >/dev/null 2>&1 &
+Keyword or Hotkey → Run Script: source ~/.zshrc; cxs
+Keyword or Hotkey → Run Script: source ~/.zshrc; cxg
 ```
 
 Use `/bin/zsh` or `/bin/bash` for each **Run Script** action. Suggested keywords
@@ -112,13 +99,15 @@ For a launcher-independent option, create two shortcuts. Add a **Run Shell
 Script** action to each and use:
 
 ```bash
-"$HOME/.local/bin/chatgpt-subscription" >/dev/null 2>&1 &
+source "$HOME/.zshrc"
+cxs
 ```
 
 and:
 
 ```bash
-"$HOME/.local/bin/chatgpt-aigateway" >/dev/null 2>&1 &
+source "$HOME/.zshrc"
+cxg
 ```
 
 Name them **ChatGPT — Subscription** and **ChatGPT — AI Gateway**, then assign
@@ -180,7 +169,7 @@ move, park, retain, or skip.
 
 The profile script does not contact the gateway, ask for a key, or rotate one. It
 only deploys the already-prepared gateway Codex configuration to the selected
-home and creates desktop launchers. The same protected key can serve Claude Code,
+home and installs the pinned profile tool plus Stow-managed launch commands. The same protected key can serve Claude Code,
 Codex CLI and OpenCode without being copied into tracked configurations.
 
 ### Changing modes later
@@ -207,8 +196,8 @@ use its OpenAI-compatible endpoint only when your account exposes one.
 ### Launch, status and rotation
 
 ```bash
-chatgpt-subscription &
-chatgpt-aigateway &
+cxs
+cxg
 bash scripts/setup-codex-profiles.sh --status
 bash scripts/setup-private-ai-gateway.sh --status
 herdr integration status
@@ -218,8 +207,8 @@ bash scripts/setup-private-ai-gateway.sh --rotate-key
 ```
 
 Runtime credentials, auth files, sessions, SQLite databases, logs, histories,
-plugins and Electron data are never tracked or shared. Remove only the generated
-desktop launchers with `bash scripts/setup-codex-profiles.sh --uninstall`; revoke
+plugins and Electron data are never tracked or shared. Remove only the downloaded
+`codex-profile` executable with `bash scripts/setup-codex-profiles.sh --uninstall`; revoke
 the gateway key before intentionally deleting `~/.config/private-ai-gateway`.
 
 ## Files

@@ -19,7 +19,10 @@ function fixture(t) {
   mkdirSync(join(home, '.local/bin'), {recursive:true});
   mkdirSync(join(home, '.opencode/bin'), {recursive:true});
   mkdirSync(join(home, '.zshrc.d')); mkdirSync(join(home, '.bashrc.d'));
+  mkdirSync(join(home,'.config/raycast/scripts/codex'),{recursive:true});
+  mkdirSync(join(home,'.local/state/dotfiles/codex-profiles'),{recursive:true});
   for (const name of ['claude','codex','opencode','gateway-model']) executable(join(home, '.local/bin', name));
+  for(const name of ['chatgpt-subscription.sh','chatgpt-aigateway.sh']) executable(join(home,'.config/raycast/scripts/codex',name));
   executable(join(home, '.opencode/bin/opencode'), 'echo WRONG-OPENCODE');
   cpSync(join(root, 'zsh/.zshrc'), join(home, '.zshrc'));
   cpSync(join(root, 'zsh/.zshrc.d/aliases.zsh'), join(home, '.zshrc.d/aliases.zsh'));
@@ -44,6 +47,26 @@ test('initialized Bash and Zsh prefer gateway wrappers and preserve aliases', t 
     assert.match(result.stdout, /claude --model opus --permission-mode auto marker/);
     for (const pair of ['claude fable','codex astra','codex sol','codex grok']) assert.match(result.stdout, new RegExp(`gateway-model ${pair} marker`));
   }
+});
+
+test('desktop shell routes follow the selected mode without local-bin launchers',t=>{
+  for(const [mode,expected,status] of [
+    ['subscription','chatgpt-subscription.sh',0],
+    ['gateway','chatgpt-aigateway.sh',0],
+    ['both','use cxs (subscription) or cxg (gateway)',2],
+  ]) {
+    for(const [shell,rc] of [['bash','.bashrc'],['zsh','.zshrc']]) {
+      const available=spawnSync('/usr/bin/env',[shell,'--version'],{encoding:'utf8'});
+      if(available.error?.code==='ENOENT'||available.status===127)continue;
+      const f=fixture(t);
+      writeFileSync(join(f.home,'.local/state/dotfiles/codex-profiles/mode'),`${mode}\n`);
+      const result=spawnSync(shell,['-c',`PS1=test; source "$HOME/${rc}"; cx`],{env:f.env,encoding:'utf8'});
+      assert.equal(result.status,status,`${shell}/${mode}: ${result.stderr}`);
+      assert.match(result.stdout+result.stderr,new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+    }
+  }
+  const aliases=readFileSync(join(root,'zsh/.zshrc.d/aliases.zsh'),'utf8')+readFileSync(join(root,'bash/.bashrc.d/aliases.sh'),'utf8');
+  assert.doesNotMatch(aliases,/\.local\/bin\/chatgpt-/);
 });
 
 test('tmux AI commands pin wrapper PATH and model shortcuts have unique keys', () => {

@@ -12,8 +12,25 @@ node_ready() {
   node -e 'const [major,minor]=process.versions.node.split(".").map(Number); process.exit(major>22 || (major===22 && minor>=18) ? 0 : 1)' \
     || fail 'Node 22.18+ required for TypeScript tests. Update Node with Homebrew or your version manager.'
 }
+migrate_owned_legacy_config() {
+  local legacy="$HOME/.config/raycast-workstation" item target name
+  [[ -d "$legacy" && ! -L "$legacy" ]] || return 0
+  for name in workstation.json aliases.json hotkeys.json; do
+    item="$legacy/$name"
+    [[ -L "$item" ]] || continue
+    target="$(readlink "$item")"
+    case "$target" in
+      "$root/raycast/.config/raycast-workstation/$name"|*"/raycast/.config/raycast-workstation/$name")
+        rm -f "$item"
+        echo "Removed obsolete repository-owned link: $item"
+        ;;
+    esac
+  done
+  rmdir "$legacy" 2>/dev/null || true
+  [[ ! -e "$legacy" && ! -L "$legacy" ]] || fail "$legacy contains files not owned by this repository. Back them up or move them, then rerun."
+}
 validate() {
-  cmp "$root/raycast/.config/raycast-workstation/workstation.json" "$extension/assets/workstation.json"
+  cmp "$root/raycast/.config/raycast/workstation/workstation.json" "$extension/assets/workstation.json"
   node "$root/scripts/build-raycast-keymap.mjs" --check
   node --test "$root/scripts/test-raycast-keymap.mjs"
   (cd "$extension" && npm test && npm run typecheck)
@@ -23,7 +40,7 @@ build() {
   (
     cd "$extension"
     npm ci --ignore-scripts
-    cp "$root/raycast/.config/raycast-workstation/workstation.json" assets/workstation.json
+    cp "$root/raycast/.config/raycast/workstation/workstation.json" assets/workstation.json
     xcrun swiftc assets/DesktopHelper.swift -o assets/desktop-helper
   )
   validate
@@ -146,13 +163,14 @@ if [[ "$action" == install || "$action" == apply ]]; then
     [[ -d /Applications/Raycast.app || -d "$HOME/Applications/Raycast.app" ]] \
       || fail 'Install Raycast first: brew install --cask raycast'
   fi
+  migrate_owned_legacy_config
   # Refuse conflicts before downloading dependencies or replacing any configuration.
   stow -n --no-folding -d "$root" -t "$HOME" raycast
 fi
 if [[ "$action" == check ]]; then
-  config="$HOME/.config/raycast-workstation/workstation.json"
+  config="$HOME/.config/raycast/workstation/workstation.json"
   [[ -L "$config" ]] || fail 'Configuration is not Stow-linked. Run install.'
-  [[ "$(node -e 'console.log(require("fs").realpathSync(process.argv[1]))' "$config")" == "$root/raycast/.config/raycast-workstation/workstation.json" ]] \
+  [[ "$(node -e 'console.log(require("fs").realpathSync(process.argv[1]))' "$config")" == "$root/raycast/.config/raycast/workstation/workstation.json" ]] \
     || fail 'Configuration points to a different checkout.'
   [[ -x "$extension/assets/desktop-helper" ]] || fail 'Native helper is not built. Run install.'
   validate

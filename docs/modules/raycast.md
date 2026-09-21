@@ -27,11 +27,11 @@ prompts are respected; a cancelled or timed-out quit stops the switch. Finder,
 Raycast, DockFlow and Session remain available. Codex stays open only when the
 chosen mode includes it.
 
-Raycast alias `cx` and Workmode identify ChatGPT/Codex by bundle ID `com.openai.codex`. Subscription
-and gateway desktop profiles use that same signed application bundle, so neither action can choose
-or focus a specific profile. Launch profiles explicitly with `chatgpt-subscription` or
-`chatgpt-aigateway`; use layout-only actions while both run unless Focus behavior is verified on
-that Mac.
+Raycast's native application alias `cx` and Workmode identify ChatGPT/Codex by bundle ID
+`com.openai.codex`. Subscription and gateway desktop profiles use that same signed application
+bundle, so neither action can choose or focus a specific profile. Use the Stow-managed
+**ChatGPT — Subscription** and **ChatGPT — AI Gateway** Script Commands, or shell functions
+`cxs` and `cxg`. Use layout-only actions while both run unless Focus behavior is verified on that Mac.
 
 ## Install
 
@@ -91,7 +91,7 @@ rerunning `install` is safe. See [Raycast's local installation guide](https://de
 | 3. Prepare DockFlow | Create or import one preset for each mode you use, with the exact name in the table below. Turn off preset actions that also open or quit apps. | The setup checker finds exactly one matching preset. |
 | 4. Add Session categories | Create the category names in the mode table. In Session, type `@` in the intention field to find category controls. Reuse existing names. | Check the category on your first timer and in Session history. |
 | 5. Choose timer handoff | For automatic switching, turn off **Settings → General → Ask for Reflection when Session has ended** in Session. If you keep it on, submit reflection before starting the next timer with `ss`. | Start requests sent during reflection can be ignored; the installer does not change this preference. |
-| 6. Configure shortcuts | Set Raycast to **Option+Space**, keep Spotlight on **Command+Space**, and follow the [shortcut reference](../hotkeys.md#raycast-focus--layouts). | Test the actual keys; Stow does not register native aliases or hotkeys. |
+| 6. Configure shortcuts | Set Raycast to **Option+Space**, keep Spotlight on **Command+Space**, add `~/.config/raycast/scripts` as a Script Commands directory, and follow the [shortcut reference](../hotkeys.md#raycast-focus--layouts). | Test the actual keys; Stow supplies scripts and reference JSON but does not register native aliases or hotkeys. |
 | 7. Set startup and permissions | Enable Raycast and the support apps you need at login. Complete macOS access prompts directly. Use CleanShot X for capture shortcuts. | Test again after logging in. |
 | 8. Choose browser context | Select the intended Zen workspace or profile yourself. Work uses Edge. | Workmode does not switch browser identities or Zen workspaces. |
 
@@ -203,7 +203,12 @@ use `install` when you also need import.
 | Saved in dotfiles | Kept on each Mac or in the app |
 | --- | --- |
 | Mode definitions, shortcut reference, extension source and icons | Desktop IDs, app credentials, licenses, browser profiles, Session categories and DockFlow data |
-| Reviewed `~/.config/raycast-workstation` files, linked by Stow | Raycast databases, native settings and private `.rayconfig` exports |
+| Reviewed `~/.config/raycast/workstation` runtime config and reference JSON, plus `~/.config/raycast/scripts` commands, linked by Stow | Raycast databases, native settings and private `.rayconfig` exports |
+
+Workmode loads only `~/.config/raycast/workstation/workstation.json` at runtime,
+falling back to the bundled copy if it is absent. `aliases.json` and
+`hotkeys.json` are generated review/reference files; Raycast does not import them
+or write its private settings from them.
 
 Use Raycast's supported sync or private backup flow for native settings. Keep
 exports outside Git. Import Workmode source separately on each Mac.
