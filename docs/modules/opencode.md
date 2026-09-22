@@ -7,12 +7,18 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
 The script previews and Stow-deploys this tracked `opencode` module automatically when needed;
 conflicting existing files stop setup rather than being adopted or overwritten.
-It fetches the authenticated `/v1/models` catalog, validates Chat Completions with the selected
-OpenCode model, and writes an isolated configuration under
+It fetches the authenticated `/v1/models` catalog, excludes Claude-family IDs from automatic
+Chat Completions selection, validates a recognized chat-family model against
+`/v1/chat/completions`, and writes an isolated configuration under
 `~/.config/private-ai-gateway/opencode`. The provider contains every unique advertised model rather
 than a hardcoded subset, and reads the same protected key used by Claude Code and Codex through
 OpenCode's `{file:...}` substitution. The ordinary `opencode` command selects both that config file
 and directory, so Herdr's generated plugin is loaded from the same isolated location.
+
+All catalog models remain available for explicit selection in OpenCode. The family restriction
+applies only to choosing and proving the safe default; setup does not assume that an Anthropic
+model works through an OpenAI Chat Completions compatibility endpoint merely because both appear
+in `/v1/models`.
 
 Re-running gateway setup refreshes the catalog. `--status` does not contact the gateway or print values;
 `--rotate-key` updates the single shared key.

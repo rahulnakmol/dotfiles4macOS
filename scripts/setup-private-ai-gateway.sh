@@ -303,30 +303,64 @@ gateway_post_check() {
 }
 
 protocol_candidates() {
-  local protocol="$1" saved pattern
+  local protocol="$1" saved
   saved="$(jq -r --arg protocol "$protocol" '.[$protocol] // empty' <<<"$saved_protocol_models")"
-  [[ -n "$saved" ]] && printf '%s\n' "$saved"
   case "$protocol" in
-    anthropic) pattern='claude|anthropic|opus|sonnet|haiku|fable' ;;
-    responses) pattern='gpt|openai|codex|astra|sol' ;;
-    chat) pattern='gpt|openai|claude|gemini|grok|deepseek|qwen|mistral' ;;
-  esac
-  grep -Ei "$pattern" <<<"$catalog_models" || true
-  printf '%s\n' "$catalog_models"
+    anthropic)
+      # Anthropic's Messages API requires an Anthropic/Claude-family model.
+      grep -Ei '(^|[/_.-])(claude|anthropic|opus|sonnet|haiku|fable)([/_.-]|$)' <<<"$catalog_models" || true
+      ;;
+    chat)
+      # Prefer model families commonly served through Chat Completions. Claude is
+      # intentionally absent: a catalog entry is not proof that the gateway
+      # translates Anthropic models through OpenAI's Chat Completions surface.
+      grep -Ei '(^|[/_.-])(gemini|grok|deepseek|qwen|mistral|llama|command-r|cohere|kimi|minimax|glm)([/_.-]|$)' <<<"$catalog_models" || true
+      grep -Ei '(^|[/_.-])(chatgpt|gpt)([/_.-]|$)' <<<"$catalog_models" |
+        grep -Eiv '(^|[/_.-])(codex|astra|sol)([/_.-]|$)' || true
+      ;;
+    responses)
+      # Codex and the gateway's Astra/Sol OpenAI routes are the strongest
+      # Responses signals. Try modern OpenAI reasoning families next, then
+      # other GPT models only after the strongly classified candidates.
+      grep -Ei '(^|[/_.-])(codex|astra|sol)([/_.-]|$)' <<<"$catalog_models" || true
+      grep -Ei '(^|[/_.-])(gpt[-_.]?[5-9]|o[1-9])([/_.-]|$)' <<<"$catalog_models" || true
+      grep -Ei '(^|[/_.-])(gpt|openai)([/_.-]|$)' <<<"$catalog_models" || true
+      ;;
+  esac | awk '!seen[$0]++' | {
+    # Reuse a saved choice only when it still belongs to this protocol family.
+    # Responses keeps Codex/Astra/Sol candidates ahead of a previously saved
+    # generic GPT fallback, even when that older model happened to respond.
+    # This repairs protocol-unsafe choices written by older setup versions.
+    if [[ -n "$saved" && ( "$protocol" != responses || "$saved" =~ (^|[/_.-])(codex|astra|sol)([/_.-]|$) ) ]]; then
+      awk -v saved="$saved" 'BEGIN { found=0 } $0 == saved { found=1 } { lines[NR]=$0 } END { if (found) print saved; for (i=1; i<=NR; i++) if (lines[i] != saved) print lines[i] }'
+    else
+      cat
+    fi
+  }
 }
 
 discover_protocol_model() {
-  local protocol="$1" label path validation model payload first_model='' attempt=0
+  local protocol="$1" label family path validation model payload first_model='' attempt=0 candidates candidate_count max_candidates=30
   case "$protocol" in
-    anthropic) label='Anthropic Messages API'; path='/v1/messages'; validation='.content | type == "array"' ;;
-    chat) label='OpenAI Chat Completions API'; path='/v1/chat/completions'; validation='.choices | type == "array" and length > 0' ;;
-    responses) label='OpenAI Responses API'; path='/v1/responses'; validation='.id | type == "string" and length > 0' ;;
+    anthropic) label='Anthropic Messages API'; family='Claude/Anthropic'; path='/v1/messages'; validation='.content | type == "array"' ;;
+    chat) label='OpenAI Chat Completions API'; family='Chat Completions'; path='/v1/chat/completions'; validation='.choices | type == "array" and length > 0' ;;
+    responses) label='OpenAI Responses API'; family='Codex/Responses'; path='/v1/responses'; validation='.id | type == "string" and length > 0' ;;
   esac
+  candidates="$(protocol_candidates "$protocol" | head -"$max_candidates")"
+  candidate_count="$(awk 'NF { count++ } END { print count+0 }' <<<"$candidates")"
+  if [[ "$candidate_count" == 0 ]]; then
+    echo "$label check failed: the authenticated catalog advertises no recognized $family model family." >&2
+    echo 'The setup will not guess that an unrelated catalog model supports this protocol.' >&2
+    echo "Checked catalog: $gateway_url/v1/models" >&2
+    echo 'No gateway credential or client configuration was changed.' >&2
+    return 1
+  fi
   echo "Auto-selecting a working model for $label..." >&2
+  echo "  classified $candidate_count $family candidate(s) from the authenticated catalog" >&2
   while IFS= read -r model; do
     [[ -n "$model" ]] || continue
     attempt=$((attempt + 1))
-    echo "  trying $model ($attempt/10)..." >&2
+    echo "  trying $model ($attempt/$candidate_count)..." >&2
     [[ -n "$first_model" ]] || first_model="$model"
     case "$protocol" in
       anthropic) payload="$(jq -nc --arg model "$model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
@@ -338,7 +372,7 @@ discover_protocol_model() {
       printf '%s\n' "$model"
       return 0
     fi
-  done < <(protocol_candidates "$protocol" | awk '!seen[$0]++' | head -10)
+  done <<<"$candidates"
   if [[ -n "$first_model" ]]; then
     case "$protocol" in
       anthropic) payload="$(jq -nc --arg model "$first_model" '{model:$model,max_tokens:1,messages:[{role:"user",content:"Reply OK"}]}')" ;;
@@ -347,7 +381,7 @@ discover_protocol_model() {
     esac
     gateway_post_check "$label" "$path" "$payload" "$validation" 0 20 || true
   fi
-  echo "$label check failed: none of the authenticated catalog models produced a compatible successful response." >&2
+  echo "$label check failed: all $candidate_count classified $family candidates were rejected or returned an incompatible response." >&2
   echo "Checked: $gateway_url$path" >&2
   echo 'No gateway credential or client configuration was changed.' >&2
   return 1

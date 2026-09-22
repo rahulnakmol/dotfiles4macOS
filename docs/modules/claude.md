@@ -7,10 +7,12 @@ Claude Code configuration — settings, keybindings, and custom statusline.
 Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
 The script previews and Stow-deploys this tracked `claude` module automatically when it is not
 already linked. A conflicting existing `~/.claude` file stops setup instead of being overwritten.
-After validating the model catalog and all three compatibility APIs, it creates an isolated
+After classifying the authenticated catalog and validating a Claude/Anthropic-family model on
+Messages plus separate compatible models for the other two APIs, it creates an isolated
 `CLAUDE_CONFIG_DIR` under `~/.config/private-ai-gateway/claude`, reads the shared gateway key
 from a mode-0600 file at launch, and sets the Anthropic-compatible gateway origin for the ordinary
 `claude` command. It does not configure Claude Desktop or modify this tracked Claude module.
+It will not test an unrelated GPT, Gemini, or other catalog model as the Claude Code default.
 
 `scripts/bootstrap-skills.sh` requires the external `rahulnakmol/skills` checkout (default
 `~/Developer/GitHub/skills`, override with `SKILLS_REPO`) and maps its supported `CLAUDE_CONFIG`

@@ -83,10 +83,13 @@ herdr integration status
 ```
 
 The gateway script prompts for an HTTPS endpoint and one hidden shared key. It
-fetches authenticated `/v1/models`, automatically tries catalog models until it
-finds one that works for Anthropic Messages, OpenAI Chat Completions, and OpenAI
-Responses, and writes no active credential until all three checks pass. There is
-no numbered model prompt; setup prints each bounded model attempt so a slow or
+fetches authenticated `/v1/models`, classifies models into protocol-appropriate
+families, and automatically tries those candidates until it finds separate models
+that work for Anthropic Messages, OpenAI Chat Completions, and OpenAI Responses.
+It does not reuse Claude for Chat Completions or let legacy generic GPT entries
+hide a later Codex/Responses candidate. It writes no active credential until all
+three checks pass. There is no numbered model prompt; setup prints each classified
+model attempt so a slow or
 incompatible endpoint does not look frozen. Failures identify connectivity, TLS, authentication,
 missing endpoint, quota, or invalid response shape without printing the key or
 provider response body. Missing client binaries are skipped with an installation
