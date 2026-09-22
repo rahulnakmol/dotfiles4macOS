@@ -145,13 +145,19 @@ bash scripts/setup-codex-profiles.sh --mode both
 ```
 
 The gateway script asks for a vendor-neutral HTTPS endpoint, silently reads one
-key, and fetches authenticated `/v1/models`. It automatically orders candidates
-by protocol-relevant model names, then tries them until each API accepts one; it
-does not leave the user at a Bash `#?` model-selection prompt. Before storing
-active configuration, it prints each attempt and tests at most ten candidates per
-API with a bounded timeout. It makes minimal successful requests against Anthropic Messages
+key, and fetches authenticated `/v1/models`. It classifies advertised model IDs by
+protocol family before testing them: Claude/Anthropic models for Messages,
+non-Claude chat families for Chat Completions, and Codex/Responses models first
+for Responses. A catalog entry is never treated as proof that the same model works
+through every compatibility API. It does not leave the user at a Bash `#?`
+model-selection prompt. Before storing active configuration, it prints the
+classification and each bounded attempt. It makes minimal successful requests against Anthropic Messages
 (`/v1/messages`), OpenAI Chat Completions (`/v1/chat/completions`), and OpenAI
 Responses (`/v1/responses`). Each surface can use a different advertised model.
+Saved choices are reused only while they remain members of the correct family, so
+rerunning setup repairs protocol-unsafe choices written by an older version. If a
+required family is absent, or every classified candidate fails, setup explains
+which condition occurred and leaves the active credential and configuration unchanged.
 Optional Fable/Opus Fast/Astra/Sol/Grok aliases are derived only when matching
 catalog IDs exist; unavailable aliases are reported and skipped.
 Transport, TLS, authentication, missing endpoint, quota, and invalid-response

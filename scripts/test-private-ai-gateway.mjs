@@ -28,17 +28,20 @@ function fixture(t) {
 input="$(cat)"; [[ "$input" == *"Authorization: Bearer fixture-secret"* ]]
 url="\${@: -1}"
 if [[ "$url" == */v1/models ]]; then
-  printf '%s\\n' '{"data":[{"id":"z-model"},{"id":"a-model"},{"id":"z-model"}]}'
+  printf '%s\\n' '{"data":[{"id":"gpt-3.5-turbo"},{"id":"gpt-3.5-turbo-0613"},{"id":"gpt-4"},{"id":"gpt-4-0125-preview"},{"id":"gpt-4-0613"},{"id":"gpt-4-o-preview"},{"id":"gpt-4.1"},{"id":"gpt-4.1-2025-04-14"},{"id":"gpt-4o"},{"id":"gpt-4o-2024-05-13"},{"id":"gpt-4o-mini"},{"id":"claude-fable-5"},{"id":"gemini-2.5-pro"},{"id":"openai/gpt-5.1-codex"},{"id":"gemini-2.5-pro"}]}'
   exit 0
 fi
-output=''
+output=''; payload=''
 for ((i=1; i<=$#; i++)); do
   if [[ "\${!i}" == --output ]]; then j=$((i+1)); output="\${!j}"; fi
+  if [[ "\${!i}" == --data ]]; then j=$((i+1)); payload="\${!j}"; fi
 done
+model="$(jq -r .model <<<"$payload")"
+printf 'curl %s %s\\n' "$url" "$model" >> "$CALLS"
 case "$url" in
-  */v1/messages) printf '%s\\n' '{"content":[{"type":"text","text":"OK"}]}' > "$output" ;;
-  */v1/chat/completions) printf '%s\\n' '{"choices":[{"message":{"content":"OK"}}]}' > "$output" ;;
-  */v1/responses) printf '%s\\n' '{"id":"resp_fixture","output":[]}' > "$output" ;;
+  */v1/messages) [[ "$model" == claude-fable-5 ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"content":[{"type":"text","text":"OK"}]}' > "$output" ;;
+  */v1/chat/completions) [[ "$model" == gemini-2.5-pro ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"choices":[{"message":{"content":"OK"}}]}' > "$output" ;;
+  */v1/responses) [[ "$model" == openai/gpt-5.1-codex ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"id":"resp_fixture","output":[]}' > "$output" ;;
   *) exit 22 ;;
 esac
 printf 200`);
@@ -47,9 +50,9 @@ printf 200`);
   mkdirSync(config, { recursive: true, mode: 0o700 });
   writeFileSync(join(config, 'endpoint'), 'https://gateway.example.test/base\n', { mode: 0o600 });
   writeFileSync(join(config, 'client.key'), 'fixture-secret\n', { mode: 0o600 });
-  writeFileSync(join(config, 'default-model'), 'z-model\n', { mode: 0o600 });
-  writeFileSync(join(config, 'model-aliases.json'), '{"fable":"a-model","opus-fast":"a-model","astra":"z-model"}\n', { mode: 0o600 });
-  writeFileSync(join(config, 'protocol-models.json'), '{"anthropic":"a-model","chat":"z-model","responses":"z-model"}\n', { mode: 0o600 });
+  writeFileSync(join(config, 'default-model'), 'gemini-2.5-pro\n', { mode: 0o600 });
+  writeFileSync(join(config, 'model-aliases.json'), '{"fable":"claude-fable-5"}\n', { mode: 0o600 });
+  writeFileSync(join(config, 'protocol-models.json'), '{"anthropic":"claude-fable-5","chat":"gemini-2.5-pro","responses":"openai/gpt-5.1-codex"}\n', { mode: 0o600 });
   const env = { ...process.env, HOME: home, PATH: `${bin}:/usr/bin:/bin`, CALLS: calls };
   return { home, config, managed, calls, env, executable, run: args => spawnSync('/bin/bash', [setup, ...args], { env, encoding: 'utf8' }) };
 }
@@ -72,15 +75,20 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(codex, /command = "\/bin\/cat"/);
   assert.match(codex, new RegExp(`args = \\["${f.config.replaceAll('/', '\\/')}\\/client\\.key"\\]`));
   assert.match(codex, /gateway\.example\.test\/base\/v1/);
-  assert.match(codex, /model = "z-model"/);
+  assert.match(codex, /model = "openai\/gpt-5\.1-codex"/);
   assert.ok(!codex.includes('fixture-secret'));
   for (const file of ['AGENTS.md', 'hooks.json', 'keybindings.json', 'rules/dotfiles.rules'])
     assert.ok(lstatSync(join(codexHome, file)).isSymbolicLink(), file);
   const gatewayBindings = JSON.parse(readFileSync(join(codexHome, 'keybindings.json')));
   assert.deepEqual(gatewayBindings.find(binding => binding.command === 'openAvatarOverlay'), { command: 'openAvatarOverlay', key: null });
   const opencode = JSON.parse(readFileSync(join(f.config, 'opencode/opencode.json')));
-  assert.deepEqual(Object.keys(opencode.provider.private_gateway.models), ['a-model', 'z-model']);
-  assert.equal(opencode.model, 'private_gateway/z-model');
+  assert.deepEqual(Object.keys(opencode.provider.private_gateway.models), [
+    'claude-fable-5', 'gemini-2.5-pro', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0613',
+    'gpt-4', 'gpt-4-0125-preview', 'gpt-4-0613', 'gpt-4-o-preview', 'gpt-4.1',
+    'gpt-4.1-2025-04-14', 'gpt-4o', 'gpt-4o-2024-05-13', 'gpt-4o-mini',
+    'openai/gpt-5.1-codex',
+  ]);
+  assert.equal(opencode.model, 'private_gateway/gemini-2.5-pro');
   assert.equal(opencode.provider.private_gateway.options.apiKey, `{file:${f.config}/client.key}`);
   assert.ok(!JSON.stringify(opencode).includes('fixture-secret'));
   const claude = readFileSync(join(f.managed, 'claude'), 'utf8');
@@ -96,12 +104,12 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.ok(!existsSync(join(f.managed, 'chatgpt-aigateway')));
   const modelRouter = readFileSync(join(f.managed, 'gateway-model'), 'utf8');
   assert.match(modelRouter, /jq -er --arg name "\$alias_name" '\.\[\$name\] \/\/ empty'/);
-  const modelCall = spawnSync(join(f.managed, 'gateway-model'), ['codex', 'astra', '--version'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
+  const modelCall = spawnSync(join(f.managed, 'gateway-model'), ['codex', 'fable', '--version'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
   assert.equal(modelCall.status, 0, modelCall.stderr);
-  assert.match(readFileSync(f.calls, 'utf8'), /codex --model z-model --version/);
-  const opencodeModelCall = spawnSync(join(f.managed, 'gateway-model'), ['opencode', 'opus-fast'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
+  assert.match(readFileSync(f.calls, 'utf8'), /codex --model claude-fable-5 --version/);
+  const opencodeModelCall = spawnSync(join(f.managed, 'gateway-model'), ['opencode', 'fable'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
   assert.equal(opencodeModelCall.status, 0, opencodeModelCall.stderr);
-  assert.match(readFileSync(f.calls, 'utf8'), /opencode --model private_gateway\/a-model/);
+  assert.match(readFileSync(f.calls, 'utf8'), /opencode --model private_gateway\/claude-fable-5/);
   const unavailable = spawnSync(join(f.managed, 'gateway-model'), ['codex', 'sol'], {env: {...f.env, PATH: `${f.managed}:${f.env.PATH}`}, encoding:'utf8'});
   assert.equal(unavailable.status, 1);
   assert.match(unavailable.stderr, /alias 'sol' is unavailable/);
@@ -146,11 +154,32 @@ test('first model setup is automatic without a numbered prompt or saved model fi
   assert.equal(result.status, 0, result.stderr);
   assert.doesNotMatch(result.stdout + result.stderr, /#\?|Select a model|Available models/);
   assert.match(result.stderr, /Auto-selecting a working model/);
-  assert.match(result.stderr, /trying a-model \(1\/10\)/);
+  assert.match(result.stderr, /classified 1 Claude\/Anthropic candidate/);
+  assert.match(result.stderr, /trying claude-fable-5 \(1\/1\)/);
+  assert.doesNotMatch(result.stderr, /Chat Completions API[\s\S]*trying claude-fable-5/);
   assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'protocol-models.json'))), {
-    anthropic: 'a-model', chat: 'a-model', responses: 'a-model',
+    anthropic: 'claude-fable-5', chat: 'gemini-2.5-pro', responses: 'openai/gpt-5.1-codex',
   });
-  assert.equal(readFileSync(join(f.config, 'default-model'), 'utf8'), 'a-model\n');
+  assert.equal(readFileSync(join(f.config, 'default-model'), 'utf8'), 'gemini-2.5-pro\n');
+  const calls = readFileSync(f.calls, 'utf8');
+  assert.match(calls, /\/v1\/chat\/completions gemini-2\.5-pro/);
+  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-/);
+  assert.match(calls, /\/v1\/responses openai\/gpt-5\.1-codex/);
+  assert.doesNotMatch(calls, /\/v1\/responses gpt-(?:3|4)/);
+});
+
+test('protocol discovery does not reuse an older cross-protocol saved choice', t => {
+  const f = fixture(t);
+  writeFileSync(join(f.config, 'protocol-models.json'), '{"anthropic":"claude-fable-5","chat":"claude-fable-5","responses":"gpt-4"}\n', {mode:0o600});
+  const result = f.run([]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'protocol-models.json'))), {
+    anthropic: 'claude-fable-5', chat: 'gemini-2.5-pro', responses: 'openai/gpt-5.1-codex',
+  });
+  const calls = readFileSync(f.calls, 'utf8');
+  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-fable-5/);
+  assert.match(calls, /\/v1\/responses openai\/gpt-5\.1-codex/);
+  assert.doesNotMatch(calls, /\/v1\/responses gpt-4/);
 });
 
 test('gateway setup stops before API changes when a tracked module has a Stow conflict', t => {
@@ -173,7 +202,7 @@ test('gateway setup diagnoses a failed compatibility API without replacing saved
   const beforeEndpoint = readFileSync(join(f.config, 'endpoint'), 'utf8');
   f.executable('curl', `
 input="$(cat)"; url="\${@: -1}"
-if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"z-model"},{"id":"a-model"}]}'; exit 0; fi
+if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"claude-fable-5"},{"id":"gemini-2.5-pro"},{"id":"openai/gpt-5.1-codex"}]}'; exit 0; fi
 output=''; for ((i=1; i<=$#; i++)); do if [[ "\${!i}" == --output ]]; then j=$((i+1)); output="\${!j}"; fi; done
 if [[ "$url" == */v1/chat/completions ]]; then printf '%s\\n' '{"error":{"message":"not enabled"}}' > "$output"; printf 404; exit 0; fi
 case "$url" in */v1/messages) printf '%s\\n' '{"content":[]}' > "$output";; */v1/responses) printf '%s\\n' '{"id":"resp_fixture"}' > "$output";; esac
@@ -192,7 +221,7 @@ test('gateway setup distinguishes rejected authentication and malformed success 
     const f=fixture(t);
     f.executable('curl', `
 input="$(cat)"; url="\${@: -1}"
-if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"z-model"},{"id":"a-model"}]}'; exit 0; fi
+if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"claude-fable-5"},{"id":"gemini-2.5-pro"},{"id":"openai/gpt-5.1-codex"}]}'; exit 0; fi
 output=''; for ((i=1; i<=$#; i++)); do if [[ "\${!i}" == --output ]]; then j=$((i+1)); output="\${!j}"; fi; done
 if [[ '${failure}' == auth && "$url" == */v1/messages ]]; then printf '%s\\n' '{"error":{}}' > "$output"; printf 401; exit 0; fi
 if [[ '${failure}' == shape && "$url" == */v1/responses ]]; then printf '%s\\n' '{"output":[]}' > "$output"; printf 200; exit 0; fi
@@ -225,13 +254,29 @@ test('catalog refresh repairs retired aliases without rewriting the key or inven
   const result = f.run([]);
   assert.equal(result.status, 0, result.stderr);
   assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
-  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'a-model', 'opus-fast':'a-model', astra:'z-model'});
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'claude-fable-5'});
   writeFileSync(join(f.config, 'model-aliases.json'), '{"fable":"retired-model"}\n', {mode:0o600});
   const repaired = f.run([]);
   assert.equal(repaired.status, 0, repaired.stderr);
   assert.match(repaired.stdout, /invalid or retired; deriving replacements/);
-  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {});
+  assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'claude-fable-5'});
   assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
+});
+
+test('gateway setup rejects a catalog with no recognized protocol family without mutating configuration', t => {
+  const f = fixture(t);
+  const beforeKey = readFileSync(join(f.config, 'client.key'), 'utf8');
+  const beforeProtocols = readFileSync(join(f.config, 'protocol-models.json'), 'utf8');
+  f.executable('curl', `
+input="$(cat)"; url="\${@: -1}"
+if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"vendor/embedding-large"},{"id":"vendor/reranker-v2"}]}'; exit 0; fi
+exit 22`);
+  const result = f.run([]);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /advertises no recognized Claude\/Anthropic model family/);
+  assert.match(result.stderr, /will not guess that an unrelated catalog model supports this protocol/);
+  assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
+  assert.equal(readFileSync(join(f.config, 'protocol-models.json'), 'utf8'), beforeProtocols);
 });
 
 test('status is read-only, reports modes, and keeps Cursor excluded', t => {
