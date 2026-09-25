@@ -46,6 +46,7 @@ case "$url" in
 esac
 printf 200`);
   executable('herdr', 'printf "%s|%s|%s|%s\\n" "${CLAUDE_CONFIG_DIR:-}" "${CODEX_HOME:-}" "$HOME" "$*" >> "$CALLS"; if [[ "$*" == "integration install opencode" ]]; then mkdir -p "$HOME/.config/opencode/plugins"; printf integration > "$HOME/.config/opencode/plugins/herdr-agent-state.js"; fi');
+  executable('launchctl', 'printf "launchctl %s\\n" "$*" >> "$CALLS"');
   const config = join(home, '.config/private-ai-gateway');
   mkdirSync(config, { recursive: true, mode: 0o700 });
   writeFileSync(join(config, 'endpoint'), 'https://gateway.example.test/base\n', { mode: 0o600 });
@@ -261,6 +262,55 @@ test('catalog refresh repairs retired aliases without rewriting the key or inven
   assert.match(repaired.stdout, /invalid or retired; deriving replacements/);
   assert.deepEqual(JSON.parse(readFileSync(join(f.config, 'model-aliases.json'))), {fable:'claude-fable-5'});
   assert.equal(readFileSync(join(f.config, 'client.key'), 'utf8'), beforeKey);
+});
+
+test('non-interactive refresh reuses the key and updates newly advertised aliases',t=>{
+  const f=fixture(t);
+  const beforeKey=readFileSync(join(f.config,'client.key'),'utf8');
+  const first=f.run([]);
+  assert.equal(first.status,0,first.stderr);
+  assert.equal(JSON.parse(readFileSync(join(f.config,'model-aliases.json'))).grok,undefined);
+  const curl=join(f.env.PATH.split(':')[0],'curl');
+  const oldCurl=readFileSync(curl,'utf8');
+  writeFileSync(curl,oldCurl.replace('"id":"gemini-2.5-pro"','"id":"grok-4.7"},{"id":"claude-opus-5.5-fast"},{"id":"gemini-2.5-pro"'),{mode:0o755});
+  const callsBefore=readFileSync(f.calls,'utf8').length;
+  const refreshed=f.run(['--refresh']);
+  assert.equal(refreshed.status,0,refreshed.stderr);
+  const mapping=JSON.parse(readFileSync(join(f.config,'model-aliases.json')));
+  assert.equal(mapping.grok,'grok-4.7');
+  assert.equal(mapping['opus-fast'],'claude-opus-5.5-fast');
+  assert.equal(readFileSync(join(f.config,'client.key'),'utf8'),beforeKey);
+  assert.doesNotMatch(readFileSync(f.calls,'utf8').slice(callsBefore),/stow .*claude/);
+  assert.ok(!refreshed.stdout.includes('fixture-secret'));
+});
+
+test('daily refresh agent is opt-in, idempotent, removable, and never embeds a credential',t=>{
+  const f=fixture(t);
+  for(let n=0;n<2;n++){
+    const result=f.run(['--install-refresh']);
+    assert.equal(result.status,0,result.stderr);
+  }
+  const plist=join(f.home,'Library/LaunchAgents/com.rahulnakmol.private-ai-gateway-refresh.plist');
+  const content=readFileSync(plist,'utf8');
+  assert.match(content,/--refresh/);
+  assert.match(content,/<integer>86400<\/integer>/);
+  assert.ok(!content.includes('fixture-secret'));
+  assert.equal(statSync(plist).mode&0o777,0o600);
+  const removed=f.run(['--remove-refresh']);
+  assert.equal(removed.status,0,removed.stderr);
+  assert.ok(!existsSync(plist));
+});
+
+test('refresh failure leaves model, key, and alias files unchanged',t=>{
+  const f=fixture(t);
+  assert.equal(f.run([]).status,0);
+  const before=Object.fromEntries(['client.key','protocol-models.json','model-aliases.json','opencode/opencode.json','codex/config.toml'].map(file=>[file,readFileSync(join(f.config,file),'utf8')]));
+  f.executable('curl', `input="$(cat)"; url="\${@: -1}"; if [[ "$url" == */v1/models ]]; then printf '%s\\n' '{"data":[{"id":"claude-fable-5"},{"id":"grok-4.7"},{"id":"openai/gpt-5.1-codex"}]}'; exit 0; fi
+output=''; for ((i=1; i<=$#; i++)); do if [[ "\${!i}" == --output ]]; then j=$((i+1)); output="\${!j}"; fi; done
+printf '{"error":{}}' >"$output"; printf 503`);
+  const failed=f.run(['--refresh']);
+  assert.equal(failed.status,1);
+  for(const [file,value] of Object.entries(before))assert.equal(readFileSync(join(f.config,file),'utf8'),value,file);
 });
 
 test('gateway setup rejects a catalog with no recognized protocol family without mutating configuration', t => {

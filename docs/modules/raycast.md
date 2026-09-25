@@ -28,10 +28,10 @@ Raycast, DockFlow and Session remain available. Codex stays open only when the
 chosen mode includes it.
 
 Raycast's native application alias `cx` and Workmode identify ChatGPT/Codex by bundle ID
-`com.openai.codex`. Subscription and gateway desktop profiles use that same signed application
-bundle, so neither action can choose or focus a specific profile. Use the Stow-managed
-**ChatGPT — Subscription** and **ChatGPT — AI Gateway** Script Commands, or shell functions
-`cxs` and `cxg`. Use layout-only actions while both run unless Focus behavior is verified on that Mac.
+`com.openai.codex` and launch the single normal subscription desktop at `~/.codex`.
+The retired gateway desktop Script Commands and `cxs`/`cxg` routes are no longer used;
+terminal `codex` uses the isolated private gateway home instead. Run Codex cleanup
+before relying on app focus if a legacy gateway desktop is still open.
 
 ## Install
 

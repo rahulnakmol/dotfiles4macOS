@@ -1,178 +1,130 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import {createHash} from 'node:crypto';
-import {chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync} from 'node:fs';
+import {chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 
 const root=new URL('../',import.meta.url).pathname;
 const installer=join(root,'scripts/setup-codex-profiles.sh');
-const launchLibrary=join(root,'raycast/.config/raycast/lib/codex-profile.sh');
-
-function executable(path,body) {
-  writeFileSync(path,`#!/bin/bash\nset -euo pipefail\n${body}\n`);
-  chmodSync(path,0o755);
-}
-
-function prepareGateway(home) {
-  const prepared=join(home,'.config/private-ai-gateway/codex');
-  mkdirSync(join(prepared,'rules'),{recursive:true});
-  writeFileSync(join(home,'.config/private-ai-gateway/client.key'),'fixture-key\n');
-  for(const file of ['config.toml','AGENTS.md','hooks.json','keybindings.json'])writeFileSync(join(prepared,file),`${file}\n`);
-  writeFileSync(join(prepared,'rules/dotfiles.rules'),'rules\n');
-  return prepared;
-}
-
-function subscriptionBootstrap(fakeRoot,calls) {
-  executable(join(fakeRoot,'scripts/bootstrap-codex.sh'),`
-mkdir -p "$HOME/.codex/rules"
-for relative in config.toml AGENTS.md hooks.json keybindings.json rules/dotfiles.rules; do
-  source="${fakeRoot}/codex/.codex/$relative"; target="$HOME/.codex/$relative"
-  mkdir -p "$(dirname "$source")" "$(dirname "$target")"
-  [[ -e "$source" ]] || printf '%s\\n' "$relative" >"$source"
-  rm -f "$target"; ln -s "$source" "$target"
-done
-printf subscription >"$HOME/.codex/subscription-state"
-echo subscription >>'${calls}'`);
-}
-
-function installStowFixture(bin,fakeRoot) {
-  executable(join(bin,'stow'),`
-[[ " $* " == *" -n "* ]] && exit 0
-mkdir -p "$HOME/.config/raycast/scripts/codex" "$HOME/.config/raycast/lib" "$HOME/.config/raycast/workstation"
-for relative in scripts/codex/chatgpt-subscription.sh scripts/codex/chatgpt-aigateway.sh lib/codex-profile.sh workstation/workstation.json workstation/aliases.json workstation/hotkeys.json; do
-  source="${fakeRoot}/raycast/.config/raycast/$relative"; target="$HOME/.config/raycast/$relative"
-  rm -f "$target"; ln -s "$source" "$target"
-done`);
-}
+const cleanup=join(root,'scripts/cleanup-codex-profiles.sh');
 
 function fixture(t) {
-  const dir=mkdtempSync(join(tmpdir(),'codex-profiles-'));
+  const dir=mkdtempSync(join(tmpdir(),'codex-cleanup-'));
   t.after(()=>rmSync(dir,{recursive:true,force:true}));
-  const home=join(dir,'home'),bin=join(dir,'bin'),fakeRoot=join(dir,'root'),calls=join(dir,'calls');
-  mkdirSync(home);mkdirSync(bin);mkdirSync(join(fakeRoot,'scripts'),{recursive:true});
-  cpSync(join(root,'raycast'),join(fakeRoot,'raycast'),{recursive:true});
-  const downloaded=join(dir,'codex-profile-fixture');
-  executable(downloaded,`case "\${1:-}" in version) echo 'codex-profile 1.2.0';; app) printf 'app:%s\\n' "\${2:-}" >>"$CALLS";; *) exit 2;; esac`);
-  const checksum=createHash('sha256').update(readFileSync(downloaded)).digest('hex');
-  executable(join(bin,'uname'),'echo Darwin');
-  executable(join(bin,'curl'),`cp '${downloaded}' "\${@: -1}"`);
-  executable(join(bin,'herdr'),'printf "herdr:%s:%s\\n" "${CODEX_HOME:-}" "$*" >>"$CALLS"');
-  installStowFixture(bin,fakeRoot);
-  subscriptionBootstrap(fakeRoot,calls);
-  executable(join(fakeRoot,'scripts/setup-private-ai-gateway.sh'),'echo SHOULD-NOT-RUN >>"$CALLS"; exit 1');
-  prepareGateway(home);
-  const env={...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,CALLS:calls,DOTFILES_ROOT:fakeRoot,CODEX_PROFILE_SHA256:checksum};
-  return {dir,home,bin,fakeRoot,calls,env,run:mode=>spawnSync('/bin/bash',[installer,'--mode',mode],{env,encoding:'utf8'})};
+  const home=join(dir,'home'),bin=join(dir,'bin'),state=join(home,'.local/state/dotfiles/codex-profiles');
+  const prepared=join(home,'.config/private-ai-gateway/codex');
+  mkdirSync(home);mkdirSync(bin);mkdirSync(state,{recursive:true});mkdirSync(prepared,{recursive:true});
+  writeFileSync(join(prepared,'config.toml'),'model_provider = "private_gateway"\n');
+  writeFileSync(join(home,'.config/private-ai-gateway/client.key'),'fixture-only\n');
+  writeFileSync(join(home,'.config/private-ai-gateway/codex-home'),join(home,'.codex-aigateway')+'\n');
+  const executable=(name,body)=>{const path=join(bin,name);writeFileSync(path,`#!/bin/bash\nset -eu\n${body}\n`);chmodSync(path,0o755);};
+  executable('uname','echo Darwin');
+  executable('herdr','printf "%s\\n" "${CODEX_HOME:-}" >> "$CALLS"');
+  const fakeRoot=join(dir,'root');mkdirSync(join(fakeRoot,'scripts'),{recursive:true});
+  symlinkSync(cleanup,join(fakeRoot,'scripts/cleanup-codex-profiles.sh'));
+  executable('open','echo "$*" >> "$CALLS"');
+  const bootstrap=join(fakeRoot,'scripts/bootstrap-codex.sh');
+  writeFileSync(bootstrap,`#!/bin/bash\nmkdir -p "$HOME/.codex"\nprintf 'subscription-config\\n' > "$HOME/.codex/config.toml"\n`,{mode:0o755});
+  const calls=join(dir,'calls');
+  const env={...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,DOTFILES_ROOT:fakeRoot,CALLS:calls};
+  const run=(script,args=[])=>spawnSync('/bin/bash',[script,...args],{env,encoding:'utf8'});
+  return {home,state,prepared,calls,env,run};
 }
 
-test('installer exposes three desktop modes and keeps gateway credentials separate',()=>{
-  const text=readFileSync(installer,'utf8');
-  assert.match(text,/--mode subscription\|gateway\|both/);
-  assert.match(text,/setup-private-ai-gateway\.sh/);
-  assert.match(text,/PROFILE_ROOT=.*\.config\/codex-profiles/);
-  assert.match(text,/PROFILE_BIN="\$PROFILE_ROOT\/bin\/codex-profile"/);
-  assert.doesNotMatch(text,/CURSOR_API_KEY|\.cursor|write_launcher/);
-});
-
-test('every mode Stows both official-template Raycast commands and uses no desktop launcher in local bin',t=>{
-  for(const mode of ['subscription','gateway','both']) {
-    const f=fixture(t);
-    const result=f.run(mode);
+test('fresh setup keeps desktop subscription and terminal gateway isolated; rerun is idempotent',t=>{
+  const f=fixture(t);
+  for(let n=0;n<2;n++){
+    const result=f.run(installer);
     assert.equal(result.status,0,result.stderr);
-    for(const name of ['chatgpt-subscription.sh','chatgpt-aigateway.sh']) {
-      const path=join(f.home,'.config/raycast/scripts/codex',name);
-      assert.ok(existsSync(path));
-      const text=readFileSync(path,'utf8');
-      for(const field of ['schemaVersion','title','mode','packageName'])assert.match(text,new RegExp(`@raycast\\.${field}`));
-    }
-    assert.equal(statSync(join(f.home,'.config/codex-profiles/bin/codex-profile')).mode&0o777,0o755);
-    assert.ok(!existsSync(join(f.home,'.local/bin/chatgpt-subscription')));
-    assert.ok(!existsSync(join(f.home,'.local/bin/chatgpt-aigateway')));
-    assert.equal(existsSync(join(f.home,'.codex-aigateway')),mode==='both');
   }
+  assert.equal(readFileSync(join(f.home,'.codex/config.toml'),'utf8'),'subscription-config\n');
+  assert.equal(readFileSync(join(f.home,'.config/private-ai-gateway/codex-home'),'utf8'),f.prepared+'\n');
+  assert.equal(readFileSync(f.calls,'utf8'),f.prepared+'\n'+f.prepared+'\n');
+  assert.ok(!existsSync(join(f.home,'.codex-aigateway')));
+  assert.ok(!existsSync(join(f.state,'mode')));
+  assert.ok(!existsSync(join(f.home,'.local/share/dotfiles/codex-profile-archives')));
 });
 
-test('mode transitions are repeatable and expose a second active home only in both mode',t=>{
-  const f=fixture(t);
-  for(const mode of ['subscription','subscription','both','gateway','both','subscription']) {
-    const result=f.run(mode);
-    assert.equal(result.status,0,`${mode}: ${result.stderr}`);
-    assert.equal(existsSync(join(f.home,'.codex-aigateway')),mode==='both');
-    assert.equal(readFileSync(join(f.home,'.local/state/dotfiles/codex-profiles/mode'),'utf8'),`${mode}\n`);
-  }
-  assert.ok(existsSync(join(f.home,'.codex/subscription-state')));
-  assert.ok(existsSync(join(f.home,'.local/state/dotfiles/codex-profiles/gateway-home/config.toml')));
-  assert.doesNotMatch(readFileSync(f.calls,'utf8'),/SHOULD-NOT-RUN/);
+test('both-mode cleanup archives gateway state and retains subscription history',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),gateway=join(f.home,'.codex-aigateway');
+  mkdirSync(desktop);mkdirSync(gateway);writeFileSync(join(desktop,'subscription-history'),'keep');
+  writeFileSync(join(gateway,'gateway-history'),'archive');writeFileSync(join(f.state,'mode'),'both\n');
+  const result=f.run(cleanup);
+  assert.equal(result.status,0,result.stderr);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'keep');
+  assert.equal(readFileSync(join(desktop,'config.toml'),'utf8'),'subscription-config\n');
+  assert.ok(!existsSync(gateway));
+  const archive=join(f.home,'.local/share/dotfiles/codex-profile-archives');
+  assert.equal(readFileSync(join(archive,readdirSync(archive)[0],'gateway-desktop-home/gateway-history'),'utf8'),'archive');
+  assert.equal(readFileSync(join(f.home,'.config/private-ai-gateway/codex-home'),'utf8'),f.prepared+'\n');
+  assert.equal(f.run(cleanup).status,0);
+  assert.equal(readdirSync(archive).length,1);
 });
 
-test('missing gateway state fails before changing Codex homes',t=>{
-  const f=fixture(t);
-  rmSync(join(f.home,'.config/private-ai-gateway'),{recursive:true,force:true});
-  const result=f.run('gateway');
+test('gateway-only cleanup restores the parked subscription home and archives both gateway homes',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),parked=join(f.state,'subscription-home');
+  mkdirSync(desktop);mkdirSync(parked);mkdirSync(join(f.state,'gateway-home'));
+  writeFileSync(join(desktop,'gateway-session'),'gateway');
+  symlinkSync(join(f.prepared,'config.toml'),join(desktop,'config.toml'));
+  writeFileSync(join(parked,'subscription-session'),'subscription');
+  writeFileSync(join(f.state,'gateway-home/other-session'),'old-gateway');
+  writeFileSync(join(f.state,'mode'),'gateway\n');
+  const result=f.run(cleanup);
+  assert.equal(result.status,0,result.stderr);
+  assert.equal(readFileSync(join(desktop,'subscription-session'),'utf8'),'subscription');
+  const archive=join(f.home,'.local/share/dotfiles/codex-profile-archives');
+  const saved=join(archive,readdirSync(archive)[0]);
+  assert.equal(readFileSync(join(saved,'gateway-default-home/gateway-session'),'utf8'),'gateway');
+  assert.equal(readFileSync(join(saved,'parked-gateway-home/other-session'),'utf8'),'old-gateway');
+  assert.ok(!existsSync(join(f.state,'mode')));
+});
+
+test('gateway cleanup refuses an unrelated active config without moving subscription history',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),parked=join(f.state,'subscription-home');
+  mkdirSync(desktop);mkdirSync(parked);
+  writeFileSync(join(desktop,'config.toml'),'personal config');
+  writeFileSync(join(parked,'subscription-session'),'keep');
+  writeFileSync(join(f.state,'mode'),'gateway\n');
+  const result=f.run(cleanup);
   assert.equal(result.status,1);
-  assert.match(result.stderr,/Gateway configuration is not prepared/);
+  assert.match(result.stderr,/not the prepared gateway link/);
+  assert.equal(readFileSync(join(parked,'subscription-session'),'utf8'),'keep');
+  assert.ok(!existsSync(join(f.home,'.local/share/dotfiles/codex-profile-archives')));
+});
+
+test('cleanup rejects a foreign launcher before moving homes',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex');
+  mkdirSync(desktop);writeFileSync(join(desktop,'history'),'keep');
+  writeFileSync(join(f.state,'mode'),'gateway\n');
+  const launcher=join(f.home,'.config/codex-profiles/bin/codex-profile');
+  mkdirSync(join(f.home,'.config/codex-profiles/bin'),{recursive:true});
+  writeFileSync(launcher,'user owned');
+  const result=f.run(cleanup);
+  assert.equal(result.status,1);
+  assert.match(result.stderr,/unrecognized profile launcher/);
+  assert.equal(readFileSync(join(desktop,'history'),'utf8'),'keep');
+});
+
+test('cleanup removes only exact old Raycast links and retains unrelated scripts',t=>{
+  const f=fixture(t),scripts=join(f.home,'.config/raycast/scripts/codex');
+  mkdirSync(scripts,{recursive:true});
+  for(const name of ['chatgpt-subscription.sh','chatgpt-aigateway.sh'])
+    symlinkSync(join(f.env.DOTFILES_ROOT,'raycast/.config/raycast/scripts/codex',name),join(scripts,name));
+  writeFileSync(join(scripts,'personal.sh'),'keep');
+  const result=f.run(cleanup);
+  assert.equal(result.status,0,result.stderr);
+  assert.equal(readFileSync(join(scripts,'personal.sh'),'utf8'),'keep');
+  assert.ok(!existsSync(join(scripts,'chatgpt-aigateway.sh')));
+});
+
+test('old desktop mode flags stop safely; status is read-only',t=>{
+  const f=fixture(t);
+  const old=f.run(installer,['--mode','both']);
+  assert.equal(old.status,2);
+  assert.match(old.stderr,/retired/);
   assert.ok(!existsSync(join(f.home,'.codex')));
-});
-
-test('legacy repository-owned Raycast links migrate while unrelated files are refused',t=>{
-  const owned=fixture(t);
-  const legacy=join(owned.home,'.config/raycast-workstation');
-  mkdirSync(legacy,{recursive:true});
-  for(const name of ['workstation.json','aliases.json','hotkeys.json'])symlinkSync(join(owned.fakeRoot,'raycast/.config/raycast-workstation',name),join(legacy,name));
-  assert.equal(owned.run('gateway').status,0);
-  assert.ok(!existsSync(legacy));
-
-  const personal=fixture(t);
-  const personalLegacy=join(personal.home,'.config/raycast-workstation');
-  mkdirSync(personalLegacy,{recursive:true});
-  writeFileSync(join(personalLegacy,'notes.txt'),'mine\n');
-  const result=personal.run('gateway');
-  assert.equal(result.status,1);
-  assert.match(result.stderr,/files not owned by this repository/);
-  assert.equal(readFileSync(join(personalLegacy,'notes.txt'),'utf8'),'mine\n');
-});
-
-function launchFixture(t,mode='both') {
-  const dir=mkdtempSync(join(tmpdir(),'codex-launch-'));
-  t.after(()=>rmSync(dir,{recursive:true,force:true}));
-  const home=join(dir,'home'),profile=join(home,'.config/codex-profiles/bin/codex-profile'),calls=join(dir,'calls');
-  mkdirSync(join(home,'.config/codex-profiles/bin'),{recursive:true});
-  mkdirSync(join(home,'.local/state/dotfiles/codex-profiles'),{recursive:true});
-  writeFileSync(join(home,'.local/state/dotfiles/codex-profiles/mode'),`${mode}\n`);
-  executable(profile,'printf "%s|%s|%s|%s|%s|%s\\n" "${CODEX_HOME:-}" "${CODEX_ACCESS_TOKEN:-}" "${CODEX_SQLITE_HOME:-}" "${CODEX_ELECTRON_USER_DATA_PATH:-}" "${CODEX_PROFILE_NAME:-}" "$*" >>"$CALLS"');
-  const env={...process.env,HOME:home,CALLS:calls,TMPDIR:join(dir,'tmp'),CODEX_HOME:'/wrong',CODEX_ACCESS_TOKEN:'secret',CODEX_SQLITE_HOME:'/wrong',CODEX_ELECTRON_USER_DATA_PATH:'/wrong',CODEX_PROFILE_NAME:'wrong'};
-  mkdirSync(env.TMPDIR);
-  const run=route=>spawnSync('/bin/bash',['-c',`source '${launchLibrary}'; launch_codex_profile '${route}'`],{env,encoding:'utf8'});
-  return {dir,home,calls,env,run};
-}
-
-test('profile launcher clears inherited credentials, routes modes, suppresses repeats, and recovers stale locks',t=>{
-  const f=launchFixture(t);
-  assert.equal(f.run('subscription').status,0);
-  assert.equal(f.run('subscription').status,0);
-  assert.equal(readFileSync(f.calls,'utf8'),'|||||app default\n');
-  assert.equal(f.run('gateway').status,0);
-  assert.match(readFileSync(f.calls,'utf8'),/app aigateway/);
-
-  const lock=join(f.env.TMPDIR,`dotfiles-chatgpt-gateway-${process.getuid()}.lock`);
-  rmSync(lock,{recursive:true,force:true});
-  mkdirSync(lock);
-  writeFileSync(join(lock,'launched-at'),'1\n');
-  assert.equal(f.run('gateway').status,0);
-  assert.equal(readFileSync(f.calls,'utf8').trim().split('\n').length,3);
-
-  const disabled=launchFixture(t,'subscription');
-  assert.equal(disabled.run('gateway').status,64);
-});
-
-test('active setup lock prevents concurrent home transitions',t=>{
-  const f=fixture(t);
-  const lock=join(f.home,'.local/state/dotfiles/codex-profiles/setup.lock');
-  mkdirSync(lock,{recursive:true});
-  writeFileSync(join(lock,'pid'),`${process.pid}\n`);
-  const result=f.run('gateway');
-  assert.equal(result.status,1);
-  assert.match(result.stderr,/Another Codex profile setup is already running/);
+  const status=f.run(installer,['--status']);
+  assert.equal(status.status,1);
+  assert.match(status.stdout,/desktop codex\s+subscription home absent/);
 });

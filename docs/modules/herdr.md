@@ -21,19 +21,19 @@ screen history, resumes supported agent sessions after a Herdr restart, and stor
 
 ## Gateway-backed CLI integrations
 
-Run gateway setup first when needed, then choose Codex profile mode. Gateway setup owns the key and
-installs Claude Code and OpenCode integrations when those clients exist. Codex profile setup installs
-Codex integration(s) only after it assigns the active home or homes:
+Run gateway setup first when needed. It owns the key and installs Claude Code and OpenCode
+integrations when those clients exist. Codex setup installs the CLI integration in its isolated
+gateway home, leaving the subscription desktop home separate:
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh         # required: terminal CLIs use the gateway
-bash scripts/setup-codex-profiles.sh --mode both # or gateway / subscription
+bash scripts/setup-codex-profiles.sh
 herdr integration status
 ```
 
 Exact generated targets are `~/.config/private-ai-gateway/claude`,
-`~/.config/private-ai-gateway/opencode`, and the selected Codex home. A single profile mode uses
-`~/.codex`; only both mode adds `~/.codex-aigateway`. Claude and
+`~/.config/private-ai-gateway/opencode`, and `~/.config/private-ai-gateway/codex`. The desktop
+uses `~/.codex` for normal subscription login, not the gateway integration. Claude and
 Codex integrations provide native session identity/restore. OpenCode's integration also
 provides lifecycle state. The integration files are generated locally and are intentionally not
 committed. Herdr currently hardcodes its OpenCode install target, so setup safely stages that
@@ -41,9 +41,8 @@ integration in a temporary home and copies only the generated integration files 
 gateway OpenCode directory; it does not modify ordinary `~/.config/opencode` state. Re-run gateway
 setup after a Herdr upgrade to refresh release-matched integrations.
 
-Both Codex integrations can coexist on disk because setup invokes Herdr with each `CODEX_HOME`.
-Herdr may display both with the same `codex` label rather than a profile-qualified label; use the
-explicit desktop launchers or terminal `codex` to choose the home. State is never collapsed.
+Herdr's Codex popup uses the gateway CLI home. Retired gateway desktop state is archived by
+`bash scripts/setup-codex-profiles.sh --cleanup`; it is not imported into Herdr or the subscription home.
 
 Cursor Agent integration is not installed by the gateway setup. Cursor CLI remains authenticated to
 the official Cursor account and must never receive the gateway key as `CURSOR_API_KEY`. If you use

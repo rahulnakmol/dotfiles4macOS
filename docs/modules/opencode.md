@@ -20,8 +20,11 @@ applies only to choosing and proving the safe default; setup does not assume tha
 model works through an OpenAI Chat Completions compatibility endpoint merely because both appear
 in `/v1/models`.
 
-Re-running gateway setup refreshes the catalog. `--status` does not contact the gateway or print values;
-`--rotate-key` updates the single shared key.
+Re-running gateway setup refreshes the catalog. `--refresh` performs a non-interactive
+catalog/model refresh using saved credentials; `--install-refresh` opts in to a daily macOS
+LaunchAgent, and `--remove-refresh` disables it. Failed validation keeps the last working
+configuration. `--status` does not contact the gateway or print values; `--rotate-key`
+updates the single shared key. None of these routes puts the key in the tracked module.
 
 During interactive setup, map **Opus Fast** to the newest accelerated Opus model actually advertised
 by your gateway. tmux `C-a O`, then `p`, resolves that local mapping and opens OpenCode through the

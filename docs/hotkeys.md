@@ -21,18 +21,16 @@ launcher, Hyper, window and focus keys.
 | Command+Tab / Command+` | Switch apps / windows in an app |
 | Control+Left / Control+Right | View previous / next desktop |
 | Control+Command+F | Native fullscreen, where supported |
-| `cxs` / **ChatGPT — Subscription** | Launch the subscription ChatGPT/Codex desktop profile |
-| `cxg` / **ChatGPT — AI Gateway** | Launch the isolated gateway ChatGPT/Codex desktop profile |
-| `cx` | Launch the selected single desktop profile; refuses to guess when both are enabled |
+| `cx` | Launch the normal subscription ChatGPT/Codex desktop (`~/.codex`) |
+| `codex` | Terminal CLI through the isolated private gateway home |
 | `ccf` | Claude Code with the machine-local Fable mapping |
 | `cda` / `cds` / `cdg` | Codex with Astra / Sol / Grok mappings |
-| Hyper+B | Codex pet in the subscription profile; disabled in the gateway profile |
+| Hyper+B | Codex pet in the subscription desktop |
 | Hyper+V / Hyper+M | Codex voice / dictation while Codex is focused |
 
-The two ChatGPT/Codex desktop processes share bundle ID `com.openai.codex`.
-Generic app shortcuts using the shared bundle ID cannot choose a profile. Use the
-explicit Script Commands or `cxs`/`cxg`. To assign separate Raycast, Alfred, or macOS
-Shortcuts keys, follow [Assign separate Codex desktop launch shortcuts](modules/codex.md#assign-separate-launch-shortcuts).
+The retired gateway desktop routes (`cxs`, `cxg`, and the two Raycast Script
+Commands) are no longer supported. Generic app shortcuts use the one subscription
+desktop; CLI credentials remain in the separate gateway home. See [Codex setup](modules/codex.md).
 
 ## Raycast Focus & Layouts
 
@@ -115,4 +113,4 @@ key tables.
 2. Confirm only one active Hyper implementation owns each chord.
 3. Test app launch, window movement and Space movement with disposable windows.
 4. Test again after logout/login; source files do not prove macOS permissions.
-5. Use explicit ChatGPT profile commands when both desktop profiles run.
+5. Confirm ChatGPT opens with the subscription account and terminal `codex` uses the gateway.
