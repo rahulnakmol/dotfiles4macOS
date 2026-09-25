@@ -21,10 +21,12 @@ OPENCODE_CONFIG="$OPENCODE_HOME/opencode.json"
 BIN_DIR="${PRIVATE_AI_GATEWAY_BIN_DIR:-$HOME/.local/bin}"
 MODE=setup
 ROTATE_KEY=0
+REFRESH_LABEL='com.rahulnakmol.private-ai-gateway-refresh'
+REFRESH_PLIST="$HOME/Library/LaunchAgents/$REFRESH_LABEL.plist"
 USER_NAME="$(id -un)"
 
 usage() {
-  echo "Usage: $0 [--status | --rotate-key]"
+  echo "Usage: $0 [--status | --rotate-key | --refresh | --install-refresh | --remove-refresh]"
   echo 'Endpoint and key values are intentionally never accepted as arguments.'
 }
 
@@ -44,9 +46,9 @@ This command will:
 Claude and OpenCode tracked modules are deployed automatically when needed.
 Setup previews Stow first and stops rather than overwriting a conflicting path.
 
-Do not manually Stow codex for desktop profiles. The separate Codex profile
-installer owns subscription Stow migration and gateway-home placement safely:
-  bash scripts/setup-codex-profiles.sh --mode subscription|gateway|both
+Do not manually Stow codex over an existing home. The separate Codex setup
+restores the subscription desktop home while keeping the CLI gateway isolated:
+  bash scripts/setup-codex-profiles.sh
 EOF
 }
 
@@ -94,6 +96,9 @@ case "${1:-}" in
   '') ;;
   --status) MODE=status ;;
   --rotate-key) ROTATE_KEY=1 ;;
+  --refresh) MODE=refresh ;;
+  --install-refresh) MODE=install-refresh ;;
+  --remove-refresh) MODE=remove-refresh ;;
   -h|--help) usage; exit 0 ;;
   *) usage >&2; exit 2 ;;
 esac
@@ -143,19 +148,78 @@ status() {
   return "$failed"
 }
 
-if [[ "$MODE" == status ]]; then status; exit; fi
+install_refresh_agent() {
+  local script_path log_path
+  script_path="$ROOT/scripts/setup-private-ai-gateway.sh"
+  log_path="$HOME/Library/Logs/private-ai-gateway/refresh.log"
+  case "$script_path$log_path" in
+    *'&'*|*'<'*|*'>'*|*'"'*|*"'"*) echo 'Checkout or home path contains XML punctuation; cannot create LaunchAgent safely.' >&2; return 1 ;;
+  esac
+  install -d -m 0700 "$HOME/Library/LaunchAgents" "$HOME/Library/Logs/private-ai-gateway"
+  cat >"$REFRESH_PLIST" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>$REFRESH_LABEL</string>
+  <key>ProgramArguments</key><array><string>/bin/bash</string><string>$script_path</string><string>--refresh</string></array>
+  <key>EnvironmentVariables</key><dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string></dict>
+  <key>StartInterval</key><integer>86400</integer>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>$log_path</string>
+  <key>StandardErrorPath</key><string>$log_path</string>
+</dict></plist>
+EOF
+  chmod 0600 "$REFRESH_PLIST"
+  launchctl bootout "gui/$(id -u)/$REFRESH_LABEL" 2>/dev/null || true
+  launchctl bootstrap "gui/$(id -u)" "$REFRESH_PLIST"
+  echo "Installed daily private gateway catalog refresh: $REFRESH_PLIST"
+  echo 'Refresh reuses the protected endpoint/key and keeps the last working configuration when validation fails.'
+}
+
+remove_refresh_agent() {
+  launchctl bootout "gui/$(id -u)/$REFRESH_LABEL" 2>/dev/null || true
+  rm -f "$REFRESH_PLIST"
+  echo "Removed private gateway catalog refresh: $REFRESH_PLIST"
+}
+
+if [[ "$MODE" == status ]]; then
+  result=0
+  status || result=$?
+  if [[ -f "$REFRESH_PLIST" ]]; then echo 'automatic refresh installed (daily)'; else echo 'automatic refresh not installed'; fi
+  exit "$result"
+fi
 [[ "$(uname -s)" == Darwin ]] || { echo 'Private gateway setup supports macOS only.' >&2; exit 1; }
 
-print_journey
-echo
-echo 'Tracked module status:'
-report_stow_module claude .claude/settings.json
-report_stow_module opencode .config/opencode/opencode.json
-echo '  codex      managed later by setup-codex-profiles.sh; do not race Stow against it'
-echo
-ensure_stow_module claude .claude/settings.json
-ensure_stow_module opencode .config/opencode/opencode.json
-echo
+if [[ "$MODE" == install-refresh ]]; then
+  [[ -s "$ENDPOINT_FILE" && -s "$KEY_FILE" ]] || { echo 'Run private gateway setup successfully before installing automatic refresh.' >&2; exit 1; }
+  install_refresh_agent
+  exit
+elif [[ "$MODE" == remove-refresh ]]; then
+  remove_refresh_agent
+  exit
+fi
+
+if [[ "$MODE" == setup ]]; then
+  print_journey
+  echo
+  echo 'Tracked module status:'
+  report_stow_module claude .claude/settings.json
+  report_stow_module opencode .config/opencode/opencode.json
+  echo '  codex      desktop uses the subscription home; terminal Codex uses the isolated gateway home'
+  echo
+  ensure_stow_module claude .claude/settings.json
+  ensure_stow_module opencode .config/opencode/opencode.json
+  echo
+else
+  echo 'Refreshing the authenticated private gateway catalog without prompting or rotating credentials.'
+fi
+
+if [[ "$MODE" == refresh ]]; then
+  [[ -s "$ENDPOINT_FILE" && -s "$KEY_FILE" && -s "$CODEX_HOME/config.toml" ]] || {
+    echo 'Automatic refresh skipped: the saved gateway setup is incomplete.' >&2
+    exit 1
+  }
+fi
 
 find_vendor_binary() {
   local name="$1" candidate path_without_local
@@ -182,10 +246,18 @@ opencode_bin="$(find_vendor_binary opencode || true)"
 
 install -d -m 0700 "$CONFIG_DIR" "$CODEX_HOME" "$CODEX_HOME/rules" "$CLAUDE_HOME" "$OPENCODE_HOME" "$BIN_DIR"
 umask 077
+LOCK_DIR="$CONFIG_DIR/setup.lock"
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+  echo 'Another gateway setup or refresh is running; wait for it to finish.' >&2
+  exit 1
+fi
+cleanup_lock() { rmdir "$LOCK_DIR"; }
+trap cleanup_lock EXIT
 
 if [[ -s "$ENDPOINT_FILE" ]]; then
   gateway_url="$(<"$ENDPOINT_FILE")"
 else
+  [[ "$MODE" != refresh ]] || { echo 'Automatic refresh skipped: saved gateway endpoint is absent.' >&2; exit 1; }
   [[ -t 0 ]] || { echo 'Run interactively to enter the gateway endpoint.' >&2; exit 1; }
   IFS= read -r -p 'Private AI gateway HTTPS endpoint (without /v1): ' gateway_url
 fi
@@ -201,6 +273,7 @@ if [[ -s "$KEY_FILE" && "$ROTATE_KEY" == 0 ]]; then
   key="$(<"$KEY_FILE")"
   echo "Reusing the existing protected gateway key for $USER_NAME."
 else
+  [[ "$MODE" != refresh ]] || { echo 'Automatic refresh skipped: saved gateway key is absent.' >&2; exit 1; }
   [[ -t 0 ]] || { echo 'Run interactively to enter the gateway key.' >&2; exit 1; }
   IFS= read -r -s -p "Gateway key for $USER_NAME (input hidden): " key
   printf '\n'
@@ -208,7 +281,12 @@ else
 fi
 
 models_error="$(mktemp "${TMPDIR:-/tmp}/private-ai-gateway-models.XXXXXX")"
-trap 'rm -f "${models_error:-}" "${response_body:-}" "${response_error:-}"' EXIT
+cleanup_gateway() {
+  rm -f "${models_error:-}" "${response_body:-}" "${response_error:-}"
+  [[ -z "${herdr_stage:-}" ]] || rm -rf "$herdr_stage"
+  cleanup_lock
+}
+trap cleanup_gateway EXIT
 set +e
 models_json="$({
   printf 'header = "Authorization: Bearer %s"\n' "$key"
@@ -399,7 +477,7 @@ gateway_json="$(jq -Rn --arg value "$gateway_url" '$value')"
 model_json="$(jq -Rn --arg value "$default_model" '$value')"
 key_file_json="$(jq -Rn --arg value "$KEY_FILE" '$value')"
 
-if [[ -s "$MODEL_ALIASES_FILE" ]]; then
+if [[ "$MODE" != refresh && -s "$MODEL_ALIASES_FILE" ]]; then
   if ! jq -e --argjson catalog "$(jq '[.data[].id] | unique' <<<"$models_json")" '
       type == "object" and
       all(to_entries[];
@@ -425,7 +503,7 @@ for alias_name in fable opus-fast astra sol grok; do
     sol) alias_pattern='(^|[/_.-])sol([/_.-]|$)' ;;
     grok) alias_pattern='grok' ;;
   esac
-  alias_model="$(grep -Ei "$alias_pattern" <<<"$catalog_models" | head -1 || true)"
+  alias_model="$(grep -Ei "$alias_pattern" <<<"$catalog_models" | jq -Rsc 'split("\n") | map(select(length > 0)) | sort_by([scan("[0-9]+|[^0-9]+") | if test("^[0-9]+$") then tonumber else ascii_downcase end]) | last // empty' | jq -r . || true)"
   if [[ -n "$alias_model" ]]; then
     aliases_json="$(jq -c --arg name "$alias_name" --arg model "$alias_model" '. + {($name):$model}' <<<"$aliases_json")"
     echo "Mapped gateway alias '$alias_name' to '$alias_model'."
@@ -433,21 +511,31 @@ for alias_name in fable opus-fast astra sol grok; do
     echo "Gateway alias '$alias_name' is unavailable in this catalog; skipped."
   fi
 done
-printf '%s\n' "$gateway_url" >"$ENDPOINT_FILE"
-printf '%s\n' "$key" >"$KEY_FILE"
-printf '%s\n' "$default_model" >"$MODEL_FILE"
-printf '%s\n' "$aliases_json" >"$MODEL_ALIASES_FILE"
-printf '%s\n' "$protocol_models_json" >"$PROTOCOL_MODELS_FILE"
-[[ -s "$CODEX_HOME_FILE" ]] || printf '%s\n' "$CODEX_HOME" >"$CODEX_HOME_FILE"
+write_protected() {
+  local destination="$1" content="$2" temporary
+  temporary="$(mktemp "$CONFIG_DIR/.gateway-write.XXXXXX")"
+  printf '%s\n' "$content" >"$temporary"
+  chmod 0600 "$temporary"
+  mv -f "$temporary" "$destination"
+}
+write_protected "$ENDPOINT_FILE" "$gateway_url"
+if [[ "$MODE" != refresh ]]; then write_protected "$KEY_FILE" "$key"; fi
+write_protected "$MODEL_FILE" "$default_model"
+write_protected "$MODEL_ALIASES_FILE" "$aliases_json"
+write_protected "$PROTOCOL_MODELS_FILE" "$protocol_models_json"
+[[ -s "$CODEX_HOME_FILE" ]] || write_protected "$CODEX_HOME_FILE" "$CODEX_HOME"
 unset key aliases_json
 chmod 0600 "$ENDPOINT_FILE" "$KEY_FILE" "$MODEL_FILE" "$MODEL_ALIASES_FILE" "$PROTOCOL_MODELS_FILE" "$CODEX_HOME_FILE"
 
 [[ -f "$CODEX_TEMPLATE" ]] || { echo 'Missing tracked Codex gateway template.' >&2; exit 1; }
+codex_config="$(mktemp "$CODEX_HOME/.gateway-config.XXXXXX")"
 sed \
   -e "s|__PRIVATE_AI_GATEWAY_MODEL__|$(jq -Rn --arg value "$responses_model" '$value')|" \
   -e "s|__PRIVATE_AI_GATEWAY_BASE_URL__|${gateway_json%\"}/v1\"|" \
   -e "s|__PRIVATE_AI_GATEWAY_KEY_FILE__|$key_file_json|" \
-  "$CODEX_TEMPLATE" >"$CODEX_HOME/config.toml"
+  "$CODEX_TEMPLATE" >"$codex_config"
+chmod 0600 "$codex_config"
+mv -f "$codex_config" "$CODEX_HOME/config.toml"
 
 link_codex_policy() {
   local relative="$1" source destination
@@ -463,6 +551,7 @@ link_codex_policy() {
 }
 for managed in AGENTS.md hooks.json keybindings.json rules/dotfiles.rules; do link_codex_policy "$managed"; done
 
+opencode_config="$(mktemp "$OPENCODE_HOME/.gateway-config.XXXXXX")"
 jq -n \
   --arg base "$gateway_url/v1" \
   --arg key_file "$KEY_FILE" \
@@ -478,7 +567,9 @@ jq -n \
       models:$models
     }},
     model:("private_gateway/" + $default_model)
-  }' >"$OPENCODE_CONFIG"
+  }' >"$opencode_config"
+chmod 0600 "$opencode_config"
+mv -f "$opencode_config" "$OPENCODE_CONFIG"
 chmod 0600 "$CODEX_HOME/config.toml" "$OPENCODE_CONFIG"
 
 write_wrapper() {
@@ -531,21 +622,18 @@ if command -v herdr >/dev/null 2>&1; then
   fi
   if [[ -n "$opencode_bin" ]]; then
   herdr_stage="$(mktemp -d "${TMPDIR:-/tmp}/private-ai-gateway-herdr.XXXXXX")"
-  cleanup_herdr_stage() { [[ -n "${herdr_stage:-}" ]] && rm -rf "$herdr_stage"; }
-  trap cleanup_herdr_stage EXIT
   install -d -m 0700 "$herdr_stage/.config/opencode"
   HOME="$herdr_stage" herdr integration install opencode >/dev/null
   cp -R "$herdr_stage/.config/opencode/." "$OPENCODE_HOME/"
   chmod -R go-rwx "$OPENCODE_HOME"
   rm -rf "$herdr_stage"
   herdr_stage=''
-  trap - EXIT
   fi
 fi
 
 echo "Configured gateway-backed Claude Code, Codex, and OpenCode CLIs for $USER_NAME."
 echo "OpenCode catalog: $model_count authenticated gateway models."
-echo 'Gateway credentials are prepared. Run scripts/setup-codex-profiles.sh to choose Codex desktop homes.'
+echo 'Gateway credentials are prepared. Codex desktop remains subscription-backed; terminal Codex uses the isolated gateway home.'
 cat <<EOF
 
 Created or refreshed (all outside Git):
@@ -567,7 +655,8 @@ Client wrappers are created only when their vendor CLI is installed:
   $BIN_DIR/codex
   $BIN_DIR/opencode
 
-Next step for Codex desktop profiles:
-  bash scripts/setup-codex-profiles.sh --mode subscription|gateway|both
+Next step for Codex desktop and automatic model refresh:
+  bash scripts/setup-codex-profiles.sh
+  bash scripts/setup-private-ai-gateway.sh --install-refresh
 EOF
 status

@@ -59,15 +59,12 @@ test('Workmode branding preserves installed extension and command identities',()
   assert.equal(manifest.commands.find(c=>c.name==='check')?.title,'Check Workmode Setup');
 });
 
-test('generic Codex launch remains explicitly profile-ambiguous',()=>{
+test('generic Codex launch opens the single subscription desktop',()=>{
   const codex=config.apps.find(app=>app.id==='codex');
   assert.equal(codex.bundleId,'com.openai.codex');
   const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
-  assert.match(guide,/alias `cx`.*bundle ID\s+`com\.openai\.codex`/s);
-  assert.match(guide,/can choose\s+or focus a specific profile/s);
-  assert.match(guide,/ChatGPT — Subscription/);
-  assert.match(guide,/ChatGPT — AI Gateway/);
-  assert.match(guide,/`cxs` and `cxg`/);
+  assert.match(guide,/single normal subscription desktop at `~\/\.codex`/);
+  assert.match(guide,/terminal `codex` uses the isolated private gateway home/);
 });
 
 test('Workmode loads only the Stow-managed workstation JSON at runtime',()=>{

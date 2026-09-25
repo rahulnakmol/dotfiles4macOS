@@ -44,9 +44,10 @@ with saved work; automated checks use substitute apps.
 
 Telegram is an optional shortcut-only app on **Hyper+T** (brew install --cask telegram). **Hyper+G** opens T3 Code. **Hyper+J** retains ChatGPT/Codex. FDE uses T3 Code instead of Codex for focus sessions; TF keeps Innovate + Codex.
 
-Hyper+J targets shared bundle ID `com.openai.codex`. It cannot distinguish subscription and gateway
-processes when both are open. Use `cxs` or `cxg` (or their Stow-managed Raycast Script Commands) to launch the intended
-profile; Hyper+J is a generic launch/focus shortcut, not a profile selector.
+Hyper+J targets bundle ID `com.openai.codex` and opens the normal subscription
+ChatGPT/Codex desktop at `~/.codex`. It does not route terminal `codex`, which uses
+the isolated gateway home. Reset retired gateway desktop state with
+`bash scripts/setup-codex-profiles.sh --cleanup` before relying on app focus.
 
 ## Session focus timer
 

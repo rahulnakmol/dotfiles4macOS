@@ -67,17 +67,17 @@ stow git gh
 gh auth login
 ```
 
-## 5. Configure the private AI gateway and Codex desktop profiles
+## 5. Configure the private AI gateway and Codex desktop
 
-Gateway authentication and Codex profile selection are separate. After installing
+Gateway authentication and Codex desktop reset are separate. After installing
 the desired CLI tools and Herdr, run gateway setup first. It previews and deploys
 the reviewed Claude and OpenCode Stow modules when they are not already linked,
-then prepares the gateway. Codex Stow migration remains owned by the profile
-installer so home transitions cannot race a separate `stow codex` command:
+then prepares the gateway. Codex setup owns the reviewed subscription Stow
+migration; do not separately Stow over an existing Codex home:
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh        # required: terminal CLIs use the gateway
-bash scripts/setup-codex-profiles.sh --mode both # or subscription / gateway
+bash scripts/setup-codex-profiles.sh            # subscription desktop + gateway CLI
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
@@ -97,17 +97,22 @@ reminder; rerun gateway setup after installing them. At completion it prints the
 generated credential, model, client-home, wrapper, and follow-up paths without
 printing their values.
 
-The profile script never collects or rotates the key. Subscription-only and
-gateway-only modes each expose one `~/.codex` home. Both mode uses subscription
-at `~/.codex` and gateway at `~/.codex-aigateway`. Rerunning with another mode
-parks the inactive home under local state instead of merging or deleting it.
-Every mode requires the validated gateway first because terminal `codex` is
-always gateway-backed. A per-user lock prevents simultaneous profile transitions;
-subscription/both waits for the Codex Stow migration to finish before creating
-desktop launchers. The final summary lists active, parked, and generated paths.
-Claude Desktop is unchanged. Cursor CLI remains on the official Cursor account;
+The Codex script never collects or rotates the key. It resets the desktop to its
+normal subscription `~/.codex` home and keeps terminal `codex` on the isolated
+`~/.config/private-ai-gateway/codex` home. Legacy gateway desktop state is moved
+to private archives under `~/.local/share/dotfiles/codex-profile-archives/`, not
+merged into subscription state or deleted. Run `bash scripts/setup-codex-profiles.sh
+--cleanup` (or double-click `setup/Codex Cleanup.command`) to reset without the
+full setup; it runs the subscription Stow migration and points out missing gateway
+preparation. Review any reported archive paths. Setup requires the gateway first;
+an interactive run can offer to prepare it. Claude Desktop is unchanged.
+For catalog updates run `bash scripts/setup-private-ai-gateway.sh --refresh`;
+daily macOS refresh is opt-in with `--install-refresh` and removable with
+`--remove-refresh`. Refresh reuses the protected key without a prompt or rotation
+and retains the last working configuration if validation fails.
+Cursor CLI remains on the official Cursor account;
 never set the gateway key as `CURSOR_API_KEY`. Follow the [Codex module](modules/codex.md)
-for ownership, launch shortcuts, transitions, rotation, rollback, and uninstall.
+for ownership, cleanup, rotation, and rollback.
 
 Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 

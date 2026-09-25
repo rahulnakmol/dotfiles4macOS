@@ -124,7 +124,7 @@ notes instead of splitting those concerns across several guides.
 | [`nvim`](docs/modules/nvim.md) | Neovim/LazyVim configuration |
 | [`ghostty`](docs/modules/ghostty.md), [`starship`](docs/modules/starship.md), [`bat`](docs/modules/bat.md) | Terminal, prompt and output presentation |
 | [`claude`](docs/modules/claude.md) | Claude Code configuration and gateway route |
-| [`codex`](docs/modules/codex.md) | Codex CLI, subscription desktop and gateway desktop profiles |
+| [`codex`](docs/modules/codex.md) | Subscription desktop and isolated gateway CLI |
 | [`opencode`](docs/modules/opencode.md) | OpenCode configuration and complete gateway model catalog |
 | [`cursor`](docs/modules/cursor.md) | Cursor rules and official-account authentication boundary |
 | [`raycast`](docs/modules/raycast.md) | Shared Raycast Focus & Layouts configuration |
@@ -141,17 +141,20 @@ keeping the endpoint and credential outside Git:
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh         # validates endpoint/key/APIs
-bash scripts/setup-codex-profiles.sh --mode both # or gateway / subscription
+bash scripts/setup-codex-profiles.sh             # reset desktop to subscription; CLI stays gateway
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
 Gateway setup automatically Stow-deploys the reviewed Claude and OpenCode modules,
 discovers working models without a numbered prompt, and prints every generated
-path. Codex desktop profile selection is separate and owns the Codex Stow
-migration. A single mode uses only `~/.codex`; `both` adds
-`~/.codex-aigateway`. Terminal `codex` always uses the gateway; a per-user lock
-prevents profile-home transitions from racing. Cursor stays on the official
+path. Codex setup restores the normal subscription desktop at `~/.codex` and
+migrates its reviewed Stow links. Terminal `codex` always uses the separate
+`~/.config/private-ai-gateway/codex` home and file-backed key. Legacy gateway
+desktop state is archived, not deleted; `bash scripts/setup-codex-profiles.sh --cleanup`
+performs the reset separately. Gateway catalog refresh is manual with `--refresh`,
+or opt in to daily refresh with `--install-refresh` (undo with `--remove-refresh`).
+Cursor stays on the official
 Cursor account. See the [Codex module](docs/modules/codex.md),
 [OpenCode module](docs/modules/opencode.md), [Claude module](docs/modules/claude.md)
 and [Cursor module](docs/modules/cursor.md).

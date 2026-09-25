@@ -29,7 +29,7 @@ Managed installation and human setup are tracked separately. These steps are unv
 | Default browser | Complete Zen onboarding; choose Zen under Default web browser in macOS System Settings | Open an ordinary web link and confirm it opens in Zen |
 | Desktop apps | Complete your own app sign-ins; open Cursor and ChatGPT/Codex | Start your own small task in each app |
 | Core configuration | Open a new terminal; check prompt, fonts and editor | Run the profile check command and confirm no managed drift |
-| Private AI gateway and Codex profiles | Run the one-click profile setup for Claude Code, Codex and OpenCode | Run the value-free status command and check Herdr integrations |
+| Private AI gateway and Codex | Prepare the gateway, then reset Codex to subscription desktop and gateway CLI | Check both value-free status commands and Herdr integrations; sign into the desktop separately |
 
 This checklist covers the selected profile. Raycast has a separate shared journey at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md. Do not complete both global maps unless you intentionally resolve every overlapping launcher and hotkey. The installer does not grant permissions, activate licenses, run focus sessions, close apps or verify personal account access. Keep the printed backup path for rollback.
 
@@ -53,29 +53,34 @@ Without --profile, an interactive terminal offers FDE / TF on first use. Later r
 
 The profile installs Claude Code, Codex, OpenCode and Herdr, but never collects a credential. After
 the profile apply, configure the CLI tools interactively. Gateway setup previews and Stow-deploys
-the tracked Claude and OpenCode modules when needed; Codex profile setup owns the subscription
-Stow migration and waits for it before creating launchers:
+the tracked Claude and OpenCode modules when needed; Codex setup resets the desktop to its normal
+subscription home and runs the reviewed Stow migration:
 
 ```sh
 bash scripts/setup-private-ai-gateway.sh
-bash scripts/setup-codex-profiles.sh --mode both
+bash scripts/setup-codex-profiles.sh
 bash scripts/setup-codex-profiles.sh --status
+bash scripts/setup-private-ai-gateway.sh --status
 herdr integration status
 ```
 
 Gateway setup prompts for a vendor-neutral HTTPS endpoint, silently reads one key, fetches the
 authenticated `/v1/models` catalog, automatically selects working models, and verifies Anthropic
-Messages, Chat Completions and Responses before saving configuration. Codex profile setup is
-separate: it chooses subscription, gateway, or both without handling the key and serializes home
-transitions with a per-user lock. Endpoint, shared key and model remain under
-`~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`, `codex` and
-`opencode` commands use protected wrappers in `~/.local/bin`. Both mode creates explicit
-Stow-managed Raycast commands and shell functions for stock subscription ChatGPT at `~/.codex` and an isolated gateway desktop at
-`~/.codex-aigateway`; either single mode uses only `~/.codex`. Re-run gateway setup to refresh
-models and validate the machine-local Fable/Opus Fast/Astra/Sol/Grok mapping, or use
-`scripts/setup-private-ai-gateway.sh --rotate-key` for one-place key rotation. Use
-the Stow-managed Raycast commands or `cxs` and `cxg` for explicit launch: generic bundle-ID actions
-such as Hyper+J, Raycast `cx` and Workmode cannot distinguish the two signed-app processes.
+Messages, Chat Completions and Responses before saving configuration. Endpoint, shared key and model
+remain under `~/.config/private-ai-gateway` with restrictive permissions. Ordinary `claude`,
+`codex` and `opencode` commands use protected wrappers in `~/.local/bin`. Terminal `codex`
+always uses `~/.config/private-ai-gateway/codex` and the file-backed gateway key; ChatGPT/Codex
+desktop uses `~/.codex` and your normal subscription login. Dock, Hyper+J, Raycast `cx`, shell
+`cx` and Workmode launch that single desktop, not a second gateway desktop. Codex setup never
+asks for or rotates the key. It runs cleanup and restores any parked subscription home; retired
+gateway desktop state is preserved under `~/.local/share/dotfiles/codex-profile-archives/`, not
+merged into subscription credentials. To reset separately use
+`bash scripts/setup-codex-profiles.sh --cleanup` or double-click `setup/Codex Cleanup.command`.
+Review the printed archive path. Re-run gateway setup to refresh models, use
+`scripts/setup-private-ai-gateway.sh --refresh` for a non-interactive refresh, or opt in to daily
+macOS refresh with `--install-refresh` (disable with `--remove-refresh`). Refresh reuses saved
+credentials and keeps the last working configuration on failed validation. Use `--rotate-key` only
+for deliberate one-place key rotation.
 
 Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider
 interface. Never reuse the gateway key as `CURSOR_API_KEY`. See the module guides for details.
