@@ -47,8 +47,8 @@ Claude and OpenCode tracked modules are deployed automatically when needed.
 Setup previews Stow first and stops rather than overwriting a conflicting path.
 
 Do not manually Stow codex over an existing home. The separate Codex setup
-restores the subscription desktop home while keeping the CLI gateway isolated:
-  bash scripts/setup-codex-profiles.sh
+switches the single desktop home while keeping the CLI gateway isolated:
+  bash scripts/setup-codex-profiles.sh --mode subscription|gateway
 EOF
 }
 
@@ -633,7 +633,7 @@ fi
 
 echo "Configured gateway-backed Claude Code, Codex, and OpenCode CLIs for $USER_NAME."
 echo "OpenCode catalog: $model_count authenticated gateway models."
-echo 'Gateway credentials are prepared. Codex desktop remains subscription-backed; terminal Codex uses the isolated gateway home.'
+echo 'Gateway credentials are prepared. Codex desktop mode is selected separately; terminal Codex uses the isolated gateway home.'
 cat <<EOF
 
 Created or refreshed (all outside Git):
@@ -655,8 +655,8 @@ Client wrappers are created only when their vendor CLI is installed:
   $BIN_DIR/codex
   $BIN_DIR/opencode
 
-Next step for Codex desktop and automatic model refresh:
-  bash scripts/setup-codex-profiles.sh
+Next step for Codex desktop mode and automatic model refresh:
+  bash scripts/setup-codex-profiles.sh --mode subscription|gateway
   bash scripts/setup-private-ai-gateway.sh --install-refresh
 EOF
 status

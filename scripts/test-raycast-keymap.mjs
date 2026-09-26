@@ -59,11 +59,11 @@ test('Workmode branding preserves installed extension and command identities',()
   assert.equal(manifest.commands.find(c=>c.name==='check')?.title,'Check Workmode Setup');
 });
 
-test('generic Codex launch opens the single subscription desktop',()=>{
+test('generic Codex launch opens the single selected desktop home',()=>{
   const codex=config.apps.find(app=>app.id==='codex');
   assert.equal(codex.bundleId,'com.openai.codex');
   const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
-  assert.match(guide,/single normal subscription desktop at `~\/\.codex`/);
+  assert.match(guide,/single desktop at `~\/\.codex` in its selected/);
   assert.match(guide,/terminal `codex` uses the isolated private gateway home/);
 });
 

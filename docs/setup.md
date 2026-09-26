@@ -69,15 +69,17 @@ gh auth login
 
 ## 5. Configure the private AI gateway and Codex desktop
 
-Gateway authentication and Codex desktop reset are separate. After installing
+Gateway authentication and Codex desktop mode selection are separate. After installing
 the desired CLI tools and Herdr, run gateway setup first. It previews and deploys
 the reviewed Claude and OpenCode Stow modules when they are not already linked,
 then prepares the gateway. Codex setup owns the reviewed subscription Stow
-migration; do not separately Stow over an existing Codex home:
+migration in subscription mode; do not separately Stow over an existing Codex home:
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh        # required: terminal CLIs use the gateway
-bash scripts/setup-codex-profiles.sh            # subscription desktop + gateway CLI
+bash scripts/setup-codex-profiles.sh            # default subscription desktop
+bash scripts/setup-codex-profiles.sh --mode gateway # gateway desktop, same CLI home
+bash scripts/setup-codex-profiles.sh --mode subscription # switch back
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
@@ -97,14 +99,16 @@ reminder; rerun gateway setup after installing them. At completion it prints the
 generated credential, model, client-home, wrapper, and follow-up paths without
 printing their values.
 
-The Codex script never collects or rotates the key. It resets the desktop to its
-normal subscription `~/.codex` home and keeps terminal `codex` on the isolated
-`~/.config/private-ai-gateway/codex` home. Legacy gateway desktop state is moved
-to private archives under `~/.local/share/dotfiles/codex-profile-archives/`, not
-merged into subscription state or deleted. Run `bash scripts/setup-codex-profiles.sh
---cleanup` (or double-click `setup/Codex Cleanup.command`) to reset without the
-full setup; it runs the subscription Stow migration and points out missing gateway
-preparation. Review any reported archive paths. Setup requires the gateway first;
+The Codex script never collects or rotates the key. It switches the single desktop
+`~/.codex` between subscription (dotfiles linked by `bootstrap-codex`) and gateway
+(file-backed gateway config), parking the inactive home under
+`~/.local/state/dotfiles/codex-profiles/`. Terminal `codex` always uses the isolated
+`~/.config/private-ai-gateway/codex` home. Setup installs a missing vendor CLI with
+`brew install --cask codex` and refreshes the gateway wrapper. For a one-time
+legacy reset/archive, use `bash scripts/cleanup-codex-profiles.sh --cleanup` (or
+`setup/Codex Cleanup.command`), not for switching modes. Previously archived
+gateway homes are not auto-restored; review reported paths under
+`~/.local/share/dotfiles/codex-profile-archives/`. Setup requires the gateway first;
 an interactive run can offer to prepare it. Claude Desktop is unchanged.
 For catalog updates run `bash scripts/setup-private-ai-gateway.sh --refresh`;
 daily macOS refresh is opt-in with `--install-refresh` and removable with

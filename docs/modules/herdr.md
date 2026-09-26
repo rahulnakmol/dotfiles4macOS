@@ -23,17 +23,20 @@ screen history, resumes supported agent sessions after a Herdr restart, and stor
 
 Run gateway setup first when needed. It owns the key and installs Claude Code and OpenCode
 integrations when those clients exist. Codex setup installs the CLI integration in its isolated
-gateway home, leaving the subscription desktop home separate:
+gateway home, independently of the desktop's selected mode:
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh         # required: terminal CLIs use the gateway
 bash scripts/setup-codex-profiles.sh
+bash scripts/setup-codex-profiles.sh --mode gateway # optional desktop switch
 herdr integration status
 ```
 
 Exact generated targets are `~/.config/private-ai-gateway/claude`,
 `~/.config/private-ai-gateway/opencode`, and `~/.config/private-ai-gateway/codex`. The desktop
-uses `~/.codex` for normal subscription login, not the gateway integration. Claude and
+uses `~/.codex` for subscription login by default or file-backed gateway configuration
+after `--mode gateway`; the inactive desktop home is parked under
+`~/.local/state/dotfiles/codex-profiles/`. Claude and
 Codex integrations provide native session identity/restore. OpenCode's integration also
 provides lifecycle state. The integration files are generated locally and are intentionally not
 committed. Herdr currently hardcodes its OpenCode install target, so setup safely stages that
@@ -41,8 +44,10 @@ integration in a temporary home and copies only the generated integration files 
 gateway OpenCode directory; it does not modify ordinary `~/.config/opencode` state. Re-run gateway
 setup after a Herdr upgrade to refresh release-matched integrations.
 
-Herdr's Codex popup uses the gateway CLI home. Retired gateway desktop state is archived by
-`bash scripts/setup-codex-profiles.sh --cleanup`; it is not imported into Herdr or the subscription home.
+Herdr's Codex popup always uses the gateway CLI home. To switch the desktop back, use
+`bash scripts/setup-codex-profiles.sh --mode subscription`. The one-time legacy
+`bash scripts/cleanup-codex-profiles.sh --cleanup` reset is not a toggle; previously
+archived gateway desktop state is not auto-restored. Review its archive separately.
 
 Cursor Agent integration is not installed by the gateway setup. Cursor CLI remains authenticated to
 the official Cursor account and must never receive the gateway key as `CURSOR_API_KEY`. If you use

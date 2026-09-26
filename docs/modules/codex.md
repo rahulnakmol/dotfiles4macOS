@@ -1,44 +1,55 @@
 # Codex on macOS — GNU Stow
 
-The actual Codex configuration lives in `codex/.codex/config.toml`. Edit that
-file directly, just like `claude/.claude/settings.json`. GNU Stow links it to
-`~/.codex/config.toml`; there is no separate preferences file or config merge step.
+The subscription Codex configuration lives in `codex/.codex/config.toml`. Edit
+that file directly, just like `claude/.claude/settings.json`. In subscription
+mode, the reviewed bootstrap links it to `~/.codex/config.toml`. Gateway desktop
+mode instead uses file-backed gateway configuration; do not edit the subscription
+source expecting that mode to pick it up.
 
-## Subscription desktop and private-gateway CLI
+## Switchable desktop and private-gateway CLI
 
-The ChatGPT/Codex desktop uses the normal `~/.codex` home and ChatGPT subscription
-sign-in. Terminal `codex` always uses `~/.config/private-ai-gateway/codex`, with an
+The single ChatGPT/Codex desktop uses `~/.codex`: subscription sign-in by default,
+or gateway configuration when explicitly switched. The inactive desktop home is
+parked under `~/.local/state/dotfiles/codex-profiles/` so switching back preserves
+its state. Terminal `codex` always uses `~/.config/private-ai-gateway/codex`, with an
 OpenAI Responses provider backed by the protected mode-0600 key at
 `~/.config/private-ai-gateway/client.key`. The CLI wrapper in `~/.local/bin/codex`
 sets `CODEX_HOME` to that isolated home; put `~/.local/bin` ahead of other Codex
 binaries in `PATH`. It clears legacy desktop-profile environment variables. Never
-copy the gateway key or gateway auth state into `~/.codex`, and sign into the
-desktop app normally, not with the gateway key.
+copy the gateway key or gateway auth state into `~/.codex`; gateway desktop mode
+uses a file-backed configuration, not a copied credential. Sign into the desktop
+normally when using subscription mode.
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh # prompts for endpoint and hidden key; validates APIs
-bash scripts/setup-codex-profiles.sh      # resets subscription desktop and gateway CLI boundary
+bash scripts/setup-codex-profiles.sh      # default subscription desktop
+bash scripts/setup-codex-profiles.sh --mode gateway # switch desktop to gateway
+bash scripts/setup-codex-profiles.sh --mode subscription # switch back
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
 ```
 
 Gateway setup previews and Stow-deploys the reviewed Claude and OpenCode modules.
 Codex setup requires prepared gateway state (an interactive run can offer to
-prepare it), invokes cleanup and then runs the reviewed subscription Codex Stow
-migration. Do not Stow over an existing Codex home independently. It installs
-Herdr's Codex integration with the gateway `CODEX_HOME`. Launch the desktop via
+prepare it). It installs a missing vendor CLI via `brew install --cask codex`,
+refreshes the gateway CLI wrapper, and runs `bootstrap-codex` for the reviewed
+subscription links when that mode is selected. Gateway desktop mode uses
+file-backed gateway config. Do not Stow over an existing Codex home independently.
+It installs Herdr's Codex integration with the gateway `CODEX_HOME`. Launch the desktop via
 Dock, Spotlight, Raycast, Hyper+J, `cx`, or `open -a ChatGPT`; these all use the
-single normal desktop, not a gateway desktop profile. Check the account in the app
-and check the CLI home separately with `--status`.
+single desktop in the selected mode, not a second app. Check the active desktop
+mode and CLI home separately with `--status`.
 
-### Retire old desktop profiles safely
+### One-time legacy reset and archives
 
 ```bash
-bash scripts/setup-codex-profiles.sh --cleanup
+bash scripts/cleanup-codex-profiles.sh --cleanup
 # or double-click setup/Codex Cleanup.command
 ```
 
-Cleanup is repeatable. It restores a parked subscription home where appropriate,
+Cleanup is a one-time legacy reset/archive path, **not** the way to toggle modes.
+Use `setup-codex-profiles.sh --mode subscription|gateway` to switch. Legacy cleanup
+restores a parked subscription home where appropriate,
 archives retired gateway desktop and parked homes under
 `~/.local/share/dotfiles/codex-profile-archives/`, creates an empty subscription
 home if needed, and runs `bootstrap-codex.sh apply` for its reviewed Stow links.
@@ -47,7 +58,9 @@ launchers or a symlinked `~/.codex` cause a stop for manual review. It does not
 merge gateway credentials, sessions or Electron state into the subscription home.
 It sets the terminal home pointer when prepared gateway state exists; otherwise
 prepare the gateway separately and rerun setup. Keep the reported archive path
-until you have reviewed the restored home. `--mode` is retired.
+until you have reviewed the restored home. A gateway home archived by a previous
+cleanup is not automatically restored by subsequent setup or switching: review
+the archive yourself before expecting old gateway desktop state to reappear.
 
 ### Gateway validation and optional refresh
 
@@ -76,7 +89,7 @@ or OpenCode binaries do not invalidate the gateway: the corresponding wrapper is
 skipped with an installation reminder. Rerun gateway setup after installing that
 client. Claude and OpenCode tracked modules are Stow-deployed automatically after
 a conflict-free preview; existing conflicting files stop setup and are never
-overwritten. The subscription Codex module is migrated by
+overwritten. In subscription mode the Codex module is migrated by
 `setup-codex-profiles.sh` through `bootstrap-codex.sh`; gateway policy links live
 in the separate CLI home. The same protected key can serve Claude Code, Codex CLI
 and OpenCode without being copied into tracked configurations.
@@ -100,7 +113,7 @@ use its OpenAI-compatible endpoint only when your account exposes one.
 ### Launch, status and rotation
 
 ```bash
-cx # subscription desktop (or open -a ChatGPT)
+cx # desktop in selected mode (or open -a ChatGPT)
 codex # isolated gateway CLI
 bash scripts/setup-codex-profiles.sh --status
 bash scripts/setup-private-ai-gateway.sh --status
@@ -111,7 +124,8 @@ bash scripts/setup-private-ai-gateway.sh --rotate-key
 ```
 
 Runtime credentials, auth files, sessions, SQLite databases, logs, histories,
-plugins and Electron data are never tracked or shared. Cleanup does not revoke
+plugins and Electron data are never tracked or shared. Mode switching parks inactive
+desktop state; legacy cleanup does not revoke
 the gateway key or remove CLI state; revoke it before intentionally deleting
 `~/.config/private-ai-gateway`.
 
@@ -119,11 +133,11 @@ the gateway key or remove CLI state; revoke it before intentionally deleting
 
 | Repository file | Active path | Purpose |
 | --- | --- | --- |
-| `codex/.codex/config.toml` | `~/.codex/config.toml` | Current model, reasoning, desktop preferences, integrations, and permissions |
-| `codex/.codex/keybindings.json` | `~/.codex/keybindings.json` | Current desktop keyboard preferences |
-| `codex/.codex/hooks.json` | `~/.codex/hooks.json` | Lifecycle hook configuration |
-| `codex/.codex/AGENTS.md` | `~/.codex/AGENTS.md` | Shared engineering standards and ten scoped stack guides |
-| `codex/.codex/rules/dotfiles.rules` | `~/.codex/rules/dotfiles.rules` | Generated command policy |
+| `codex/.codex/config.toml` | `~/.codex/config.toml` in subscription mode | Current model, reasoning, desktop preferences, integrations, and permissions |
+| `codex/.codex/keybindings.json` | `~/.codex/keybindings.json` in subscription mode | Current desktop keyboard preferences |
+| `codex/.codex/hooks.json` | `~/.codex/hooks.json` in subscription mode | Lifecycle hook configuration |
+| `codex/.codex/AGENTS.md` | `~/.codex/AGENTS.md` in subscription mode | Shared engineering standards and ten scoped stack guides |
+| `codex/.codex/rules/dotfiles.rules` | `~/.codex/rules/dotfiles.rules` in subscription mode | Generated command policy |
 
 The current settings were imported from this Mac, including `gpt-6-astra`,
 `medium` default reasoning, desktop appearance settings, existing plugins and MCP runtimes.
@@ -139,8 +153,9 @@ brew install stow python node
 brew install --cask chatgpt
 ```
 
-Use the ChatGPT desktop app installed through Homebrew. A separate Codex CLI
-installation is not required. The helper locates the bundled runtime in
+Use the ChatGPT desktop app installed through Homebrew. Profile setup installs the
+vendor Codex CLI if absent with `brew install --cask codex` and refreshes the
+gateway wrapper. The subscription migration helper locates the bundled runtime in
 `/Applications/ChatGPT.app` or `~/Applications/ChatGPT.app` and requires Codex
 0.153.1 or newer. Update the app with `brew upgrade --cask chatgpt`.
 
@@ -150,12 +165,12 @@ The Homebrew release can lag this minimum: the September 7, 2026 CI run received
 0.151.0-alpha.7.2. If the bundle is too old, wait for a compatible app update;
 the migration helper refuses to modify files with an unsupported runtime.
 CI uses a pinned 0.153.1 CLI only for sandbox verification and fixture versions
-for migration tests, including rejection of older bundles. This does not change
-the ChatGPT-only installation on user devices.
+for migration tests, including rejection of older bundles.
 
 ## Deploy
 
-For a clean destination:
+For a clean subscription-mode destination (normally use the profile setup above
+to manage desktop switching):
 
 ```bash
 cd ~/.dotfiles
@@ -163,7 +178,7 @@ stow --no-folding --simulate --verbose codex
 stow --no-folding codex
 ```
 
-For an existing Codex configuration, use the backup helper first:
+For an existing subscription-mode Codex configuration, use the backup helper first:
 
 ```bash
 bash scripts/bootstrap-codex.sh plan
@@ -194,8 +209,9 @@ without review. The existing snapshot still contains Mac-specific paths, so this
 workflow does not make the entire TOML portable between different home directories.
 
 Edit `codex/.codex/config.toml`, `keybindings.json`, or `hooks.json` directly.
-Changes through a symlink-aware editor at `~/.codex/config.toml` reach the same
-file in Git. Review GUI changes before committing: apps can add runtime paths,
+In subscription mode, changes through a symlink-aware editor at
+`~/.codex/config.toml` reach the same file in Git. In gateway mode that path is
+file-backed instead. Review GUI changes before committing: apps can add runtime paths,
 project trust, or replace a symlink with a regular file when saving settings.
 Run the link check after app updates. If the app replaces a link, reconcile the
 new local file with the repository file before restowing; the backup helper

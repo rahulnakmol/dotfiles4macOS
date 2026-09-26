@@ -19,6 +19,13 @@ ARCHIVE="$DATA_DIR/codex-profile-archives/$STAMP"
 LOCK_DIR="$STATE_DIR/cleanup.lock"
 OLD_PROFILE_SHA256='8b32679d8be7d44eaf424c9f1fdf971817226c35b155c33c0082f98243825a2a'
 
+# Current single-home gateway mode is reversible. Cleanup only handles the
+# legacy multi-profile migration; switch back through setup instead.
+if [[ -s "$MODE_FILE" && "$(<"$MODE_FILE")" == gateway && ! -e "$PARKED_GATEWAY_HOME" && ! -e "$GATEWAY_DESKTOP_HOME" && ! -L "$GATEWAY_DESKTOP_HOME" && -L "$DEFAULT_HOME/config.toml" && "$(readlink "$DEFAULT_HOME/config.toml")" == "$GATEWAY_CLI_HOME/config.toml" ]]; then
+  echo 'Use setup-codex-profiles.sh --mode subscription to park and restore desktop homes; cleanup would archive the active gateway home.' >&2
+  exit 1
+fi
+
 [[ "$(uname -s)" == Darwin ]] || { echo 'Codex profile cleanup supports macOS only.' >&2; exit 1; }
 [[ "${EUID:-$(id -u)}" != 0 ]] || { echo 'Run as the signed-in macOS user, not with sudo.' >&2; exit 1; }
 [[ ! -e "$STATE_DIR/setup.lock" ]] || { echo 'Codex profile setup is in progress or left a lock; resolve it before cleanup.' >&2; exit 1; }
