@@ -28,10 +28,14 @@ Raycast, DockFlow and Session remain available. Codex stays open only when the
 chosen mode includes it.
 
 Raycast's native application alias `cx` and Workmode identify ChatGPT/Codex by bundle ID
-`com.openai.codex` and launch the single normal subscription desktop at `~/.codex`.
+`com.openai.codex` and launch the single desktop at `~/.codex` in its selected
+subscription or gateway mode. Switch with `bash scripts/setup-codex-profiles.sh
+--mode subscription|gateway` (subscription is the default); the inactive home is
+parked under `~/.local/state/dotfiles/codex-profiles/`.
 The retired gateway desktop Script Commands and `cxs`/`cxg` routes are no longer used;
-terminal `codex` uses the isolated private gateway home instead. Run Codex cleanup
-before relying on app focus if a legacy gateway desktop is still open.
+terminal `codex` uses the isolated private gateway home instead. The one-time
+`scripts/cleanup-codex-profiles.sh --cleanup` legacy reset is not a toggle;
+review previously archived gateway state, which is not auto-restored.
 
 ## Install
 

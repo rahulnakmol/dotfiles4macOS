@@ -21,16 +21,19 @@ launcher, Hyper, window and focus keys.
 | Command+Tab / Command+` | Switch apps / windows in an app |
 | Control+Left / Control+Right | View previous / next desktop |
 | Control+Command+F | Native fullscreen, where supported |
-| `cx` | Launch the normal subscription ChatGPT/Codex desktop (`~/.codex`) |
+| `cx` | Launch the single ChatGPT/Codex desktop (`~/.codex`, subscription or gateway mode) |
 | `codex` | Terminal CLI through the isolated private gateway home |
 | `ccf` | Claude Code with the machine-local Fable mapping |
 | `cda` / `cds` / `cdg` | Codex with Astra / Sol / Grok mappings |
-| Hyper+B | Codex pet in the subscription desktop |
+| Hyper+B | Codex pet in the selected desktop mode |
 | Hyper+V / Hyper+M | Codex voice / dictation while Codex is focused |
 
 The retired gateway desktop routes (`cxs`, `cxg`, and the two Raycast Script
-Commands) are no longer supported. Generic app shortcuts use the one subscription
-desktop; CLI credentials remain in the separate gateway home. See [Codex setup](modules/codex.md).
+Commands) are no longer supported. Generic app shortcuts use the one desktop;
+switch with `bash scripts/setup-codex-profiles.sh --mode subscription|gateway`
+(default subscription). The inactive home is parked under
+`~/.local/state/dotfiles/codex-profiles/`; CLI credentials remain in the separate
+gateway home. See [Codex setup](modules/codex.md).
 
 ## Raycast Focus & Layouts
 
@@ -113,4 +116,4 @@ key tables.
 2. Confirm only one active Hyper implementation owns each chord.
 3. Test app launch, window movement and Space movement with disposable windows.
 4. Test again after logout/login; source files do not prove macOS permissions.
-5. Confirm ChatGPT opens with the subscription account and terminal `codex` uses the gateway.
+5. Confirm ChatGPT opens in the selected desktop mode and terminal `codex` uses the gateway.

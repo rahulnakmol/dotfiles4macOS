@@ -5,6 +5,9 @@ OpenCode harness configuration. **Agents, workflows, and SDLC doctrine are insta
 ## Private AI gateway (CLI only)
 
 Run `bash scripts/setup-private-ai-gateway.sh` once per macOS user when gateway access is wanted.
+Gateway key setup is separate from `bash scripts/setup-codex-profiles.sh --mode
+subscription|gateway`, which switches only the single Codex desktop `~/.codex` home.
+Terminal `codex` and `opencode` remain isolated gateway clients regardless of desktop mode.
 The script previews and Stow-deploys this tracked `opencode` module automatically when needed;
 conflicting existing files stop setup rather than being adopted or overwritten.
 It fetches the authenticated `/v1/models` catalog, excludes Claude-family IDs from automatic
