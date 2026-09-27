@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Configure one per-user private AI gateway for the CLI versions of Claude
-# Code, Codex, and OpenCode. Cursor CLI is deliberately excluded because its
-# credential authenticates to Cursor's own service, not a generic provider.
+# Code, Codex, and OpenCode. Cursor desktop is not part of gateway setup.
 set -euo pipefail
 
 CONFIG_DIR="${PRIVATE_AI_GATEWAY_CONFIG_DIR:-$HOME/.config/private-ai-gateway}"
@@ -47,8 +46,8 @@ Claude and OpenCode tracked modules are deployed automatically when needed.
 Setup previews Stow first and stops rather than overwriting a conflicting path.
 
 Do not manually Stow codex over an existing home. The separate Codex setup
-switches the single desktop home while keeping the CLI gateway isolated:
-  bash scripts/setup-codex-profiles.sh --mode subscription|gateway
+switches or combines desktop homes while keeping the CLI gateway isolated:
+  bash scripts/setup-codex-profiles.sh --mode subscription|gateway|both
 EOF
 }
 
@@ -139,11 +138,6 @@ status() {
   else
     echo 'codex gateway config absent'
     failed=1
-  fi
-  if [[ -e "$BIN_DIR/cursor-agent" ]]; then
-    echo 'cursor-agent     unmanaged (official Cursor account retained)'
-  else
-    echo 'cursor-agent     excluded (official Cursor account retained)'
   fi
   return "$failed"
 }

@@ -59,11 +59,13 @@ test('Workmode branding preserves installed extension and command identities',()
   assert.equal(manifest.commands.find(c=>c.name==='check')?.title,'Check Workmode Setup');
 });
 
-test('generic Codex launch opens the single selected desktop home',()=>{
+test('generic Codex launch selects stock desktop, not the named gateway app',()=>{
   const codex=config.apps.find(app=>app.id==='codex');
   assert.equal(codex.bundleId,'com.openai.codex');
   const guide=readFileSync(new URL('../docs/modules/raycast.md',import.meta.url),'utf8');
-  assert.match(guide,/single desktop at `~\/\.codex` in its selected/);
+  assert.match(guide,/Single mode uses `~\/\.codex` for subscription/);
+  assert.match(guide,/Raycast `cx` and Workmode only\nreliably select stock subscription in both mode/);
+  assert.match(guide,/codex-profile app aigateway/);
   assert.match(guide,/terminal `codex` uses the isolated private gateway home/);
 });
 

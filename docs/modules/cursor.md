@@ -2,13 +2,11 @@
 
 AI editor with global enterprise architecture rules for multi-cloud development.
 
-## Private gateway exclusion
+## Gateway boundary
 
-Cursor Agent CLI remains on the official Cursor account. Its `CURSOR_API_KEY` and endpoint settings
-authenticate to Cursor's proprietary service; they do not configure a generic OpenAI-compatible
-provider. Do not reuse `~/.config/private-ai-gateway/client.key` as `CURSOR_API_KEY` or point Cursor
-at the gateway. The supported gateway CLIs are Claude Code, Codex, and OpenCode only. Cursor desktop
-is also outside the gateway setup.
+This module manages Cursor desktop rules only. Cursor desktop is outside the private gateway
+setup; the gateway script configures Claude Code, Codex CLI, and OpenCode CLI. We no longer use
+Cursor CLI or install its Herdr integration.
 
 ## Deploy
 
@@ -47,7 +45,6 @@ For example, editing a Python file that uses Terraform on GCP will load:
 - **Global rules** (this module): `~/.cursor/rules/*.mdc` — apply to every project.
 - **Project rules**: `.cursor/rules/*.mdc` inside a repo — scoped to that codebase.
 - **User rules**: Stored in Cursor Settings → Rules. Not version-controlled.
-- **CLI config**: `~/.cursor/cli-config.json` — machine-specific, not committed.
 
 See [Cursor Rules docs](https://cursor.com/docs/rules) for full details.
 

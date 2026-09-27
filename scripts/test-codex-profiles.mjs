@@ -34,10 +34,14 @@ function fixture(t) {
   symlinkSync(cleanup,join(fakeRoot,'scripts/cleanup-codex-profiles.sh'));
   writeFileSync(join(fakeRoot,'scripts/setup-private-ai-gateway.sh'),`#!/bin/bash\nmkdir -p "$HOME/.local/bin"\nprintf '#!/bin/sh\\nexit 0\\n' > "$HOME/.local/bin/codex"\nchmod +x "$HOME/.local/bin/codex"\necho refresh >> "$CALLS"\n`,{mode:0o755});
   executable('open','echo "$*" >> "$CALLS"');
+  executable('curl','for ((i=1;i<=$#;i++)); do if [[ "${!i}" == --output ]]; then j=$((i+1)); cp "$PROFILE_FIXTURE" "${!j}"; fi; done');
+  const launcher=join(dir,'codex-profile');
+  writeFileSync(launcher,`#!/bin/bash\ncase "$1" in version) echo 'codex-profile 1.2.0';; init) echo "init $2" >> "$CALLS";; app) echo "app $2" >> "$CALLS";; *) exit 1;; esac\n`,{mode:0o755});
+  executable('shasum',`if [[ "$*" == '-a 256 '* && ( "$3" == "$PROFILE_FIXTURE" || "$3" == */codex-profile.* || "$3" == "$HOME/.config/codex-profiles/bin/codex-profile" ) && "$(/usr/bin/shasum -a 256 "$3" | cut -d' ' -f1)" == "$(/usr/bin/shasum -a 256 "$PROFILE_FIXTURE" | cut -d' ' -f1)" ]]; then echo '8b32679d8be7d44eaf424c9f1fdf971817226c35b155c33c0082f98243825a2a  '"$3"; else /usr/bin/shasum "$@"; fi`);
   const bootstrap=join(fakeRoot,'scripts/bootstrap-codex.sh');
   writeFileSync(bootstrap,`#!/bin/bash\nmkdir -p "$HOME/.codex"\nif [[ "$1" == apply ]]; then printf 'subscription-config\\n' > "$HOME/.codex/config.toml"; fi\n`,{mode:0o755});
   const calls=join(dir,'calls');
-  const env={...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,DOTFILES_ROOT:fakeRoot,CALLS:calls,BREW_PREFIX:brewPrefix};
+  const env={...process.env,HOME:home,PATH:`${bin}:/usr/bin:/bin`,DOTFILES_ROOT:fakeRoot,CALLS:calls,BREW_PREFIX:brewPrefix,PROFILE_FIXTURE:launcher};
   const run=(script,args=[])=>spawnSync('/bin/bash',[script,...args],{env,encoding:'utf8'});
   return {home,state,prepared,calls,env,run,brewPrefix};
 }
@@ -131,7 +135,7 @@ test('cleanup removes only exact old Raycast links and retains unrelated scripts
 
 test('invalid desktop modes stop safely; status is read-only',t=>{
   const f=fixture(t);
-  const old=f.run(installer,['--mode','both']);
+  const old=f.run(installer,['--mode','unsupported']);
   assert.equal(old.status,2);
   assert.match(old.stderr,/Usage:/);
   assert.ok(!existsSync(join(f.home,'.codex')));
@@ -197,4 +201,100 @@ test('mid-switch gateway link failure restores the subscription home and retains
   assert.equal(readFileSync(join(f.state,'mode'),'utf8'),'subscription\n');
   assert.ok(readdirSync(f.state).some(name=>name.startsWith('incomplete-')));
   assert.ok(!existsSync(join(f.state,'setup.lock')));
+});
+
+test('both mode preserves separate desktop histories and named launcher routes across switches',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),second=join(f.home,'.codex-aigateway');
+  assert.equal(f.run(installer).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'subscription');
+  const both=f.run(installer,['--mode','both']);
+  assert.equal(both.status,0,both.stderr);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'subscription');
+  assert.equal(readFileSync(join(second,'config.toml'),'utf8'),'model_provider = "private_gateway"\n');
+  assert.match(readFileSync(f.calls,'utf8'),/init default\ninit aigateway/);
+  writeFileSync(join(second,'gateway-history'),'gateway');
+  assert.equal(f.run(installer,['--mode','both']).status,0);
+  const sub=f.run(installer,['--mode','subscription']);
+  assert.equal(sub.status,0,sub.stderr);
+  assert.equal(readFileSync(join(f.state,'gateway-home/gateway-history'),'utf8'),'gateway');
+  assert.ok(!existsSync(second));
+  assert.equal(f.run(installer,['--mode','both']).status,0);
+  assert.equal(readFileSync(join(second,'gateway-history'),'utf8'),'gateway');
+  assert.equal(f.run(installer,['--mode','gateway']).status,0);
+  assert.equal(readFileSync(join(desktop,'gateway-history'),'utf8'),'gateway');
+  assert.equal(readFileSync(join(f.state,'subscription-home/subscription-history'),'utf8'),'subscription');
+  assert.equal(f.run(installer,['--mode','both']).status,0);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'subscription');
+  assert.equal(readFileSync(join(second,'gateway-history'),'utf8'),'gateway');
+  assert.equal(readFileSync(join(f.home,'.config/private-ai-gateway/codex-home'),'utf8'),f.prepared+'\n');
+});
+
+test('failed gateway-to-both transition restores gateway and subscription without losing new data',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex');
+  assert.equal(f.run(installer).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'subscription');
+  assert.equal(f.run(installer,['--mode','gateway']).status,0);
+  writeFileSync(join(desktop,'gateway-history'),'gateway');
+  writeFileSync(join(f.env.DOTFILES_ROOT,'scripts/bootstrap-codex.sh'),'#!/bin/bash\nexit 1\n',{mode:0o755});
+  const failed=f.run(installer,['--mode','both']);
+  assert.equal(failed.status,1);
+  assert.equal(readFileSync(join(desktop,'gateway-history'),'utf8'),'gateway');
+  assert.equal(readFileSync(join(f.state,'subscription-home/subscription-history'),'utf8'),'subscription');
+  assert.ok(!existsSync(join(f.home,'.codex-aigateway')));
+  assert.equal(readFileSync(join(f.state,'mode'),'utf8'),'gateway\n');
+});
+
+test('failed fresh both setup preserves incomplete gateway home and leaves subscription active',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex');
+  assert.equal(f.run(installer).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'subscription');
+  writeFileSync(join(f.env.PATH.split(':')[0],'ln'),'#!/bin/bash\nexit 1\n',{mode:0o755});
+  const failed=f.run(installer,['--mode','both']);
+  assert.equal(failed.status,1);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'subscription');
+  assert.ok(!existsSync(join(f.home,'.codex-aigateway')));
+  assert.equal(readFileSync(join(f.state,'mode'),'utf8'),'subscription\n');
+  assert.ok(readdirSync(f.state).some(name=>name.startsWith('incomplete-')));
+});
+
+test('failed both setup does not archive a pre-existing gateway desktop home',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),second=join(f.home,'.codex-aigateway');
+  assert.equal(f.run(installer).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'subscription');
+  mkdirSync(second);
+  symlinkSync(join(f.prepared,'config.toml'),join(second,'config.toml'));
+  writeFileSync(join(second,'gateway-history'),'keep');
+  writeFileSync(join(f.env.PATH.split(':')[0],'herdr'),'#!/bin/bash\nexit 1\n',{mode:0o755});
+  const failed=f.run(installer,['--mode','both']);
+  assert.equal(failed.status,1);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'subscription');
+  assert.equal(readFileSync(join(second,'gateway-history'),'utf8'),'keep');
+  assert.equal(readFileSync(join(f.state,'mode'),'utf8'),'subscription\n');
+  assert.ok(!readdirSync(f.state).some(name=>name.startsWith('incomplete-')));
+});
+
+test('failed both-to-gateway transition restores both original homes',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex'),second=join(f.home,'.codex-aigateway');
+  assert.equal(f.run(installer,['--mode','both']).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'subscription');
+  writeFileSync(join(second,'gateway-history'),'gateway');
+  writeFileSync(join(f.env.PATH.split(':')[0],'herdr'),'#!/bin/bash\nexit 1\n',{mode:0o755});
+  const failed=f.run(installer,['--mode','gateway']);
+  assert.equal(failed.status,1);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'subscription');
+  assert.equal(readFileSync(join(second,'gateway-history'),'utf8'),'gateway');
+  assert.equal(readFileSync(join(f.state,'mode'),'utf8'),'both\n');
+  assert.ok(!existsSync(join(f.state,'subscription-home')));
+});
+
+test('both-mode marker refuses to switch if the second home is missing',t=>{
+  const f=fixture(t),desktop=join(f.home,'.codex');
+  assert.equal(f.run(installer,['--mode','both']).status,0);
+  writeFileSync(join(desktop,'subscription-history'),'keep');
+  rmSync(join(f.home,'.codex-aigateway'),{recursive:true});
+  const failed=f.run(installer,['--mode','gateway']);
+  assert.equal(failed.status,1);
+  assert.match(failed.stderr,/Both-mode marker disagrees/);
+  assert.equal(readFileSync(join(desktop,'subscription-history'),'utf8'),'keep');
+  assert.ok(!existsSync(join(f.state,'subscription-home')));
 });

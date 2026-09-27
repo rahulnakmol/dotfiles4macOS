@@ -329,13 +329,13 @@ exit 22`);
   assert.equal(readFileSync(join(f.config, 'protocol-models.json'), 'utf8'), beforeProtocols);
 });
 
-test('status is read-only, reports modes, and keeps Cursor excluded', t => {
+test('status is read-only and reports gateway modes without Cursor CLI', t => {
   const f = fixture(t);
   const before = execFileSync('find', [f.home, '-type', 'f', '-exec', 'shasum', '{}', ';'], { encoding: 'utf8' });
   const result = f.run(['--status']);
   assert.equal(result.status, 1);
   assert.match(result.stdout, /gateway key:\s+present \(mode 600\)/);
-  assert.match(result.stdout, /cursor-agent\s+excluded/);
+  assert.doesNotMatch(result.stdout, /cursor-agent/);
   const after = execFileSync('find', [f.home, '-type', 'f', '-exec', 'shasum', '{}', ';'], { encoding: 'utf8' });
   assert.equal(after, before);
 });

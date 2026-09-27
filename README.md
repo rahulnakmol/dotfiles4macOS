@@ -126,7 +126,7 @@ notes instead of splitting those concerns across several guides.
 | [`claude`](docs/modules/claude.md) | Claude Code configuration and gateway route |
 | [`codex`](docs/modules/codex.md) | Switchable subscription/gateway desktop and isolated gateway CLI |
 | [`opencode`](docs/modules/opencode.md) | OpenCode configuration and complete gateway model catalog |
-| [`cursor`](docs/modules/cursor.md) | Cursor rules and official-account authentication boundary |
+| [`cursor`](docs/modules/cursor.md) | Cursor desktop rules (independent of the gateway) |
 | [`raycast`](docs/modules/raycast.md) | Shared Raycast Focus & Layouts configuration |
 | [`alfred`](docs/modules/alfred.md) | Alfred, Karabiner and Rectangle Pro productivity stack |
 
@@ -143,6 +143,7 @@ keeping the endpoint and credential outside Git:
 bash scripts/setup-private-ai-gateway.sh         # validates endpoint/key/APIs
 bash scripts/setup-codex-profiles.sh             # default: subscription desktop
 bash scripts/setup-codex-profiles.sh --mode gateway # switch desktop to gateway
+bash scripts/setup-codex-profiles.sh --mode both # keep both desktop homes
 bash scripts/setup-codex-profiles.sh --mode subscription # switch back
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
@@ -150,21 +151,25 @@ herdr integration status
 
 Gateway setup automatically Stow-deploys the reviewed Claude and OpenCode modules,
 discovers working models without a numbered prompt, and prints every generated
-path. Codex setup switches the single desktop `~/.codex` home reversibly between
-subscription (reviewed Stow links via `bootstrap-codex`) and gateway (file-backed
-gateway config); the inactive home is parked under
-`~/.local/state/dotfiles/codex-profiles/`. It installs a missing vendor CLI with
-`brew install --cask codex` and refreshes the gateway wrapper. Terminal `codex`
-always uses the separate `~/.config/private-ai-gateway/codex` home. Gateway key
+path. In single subscription or gateway mode, Codex setup switches `~/.codex` and
+parks the inactive home under `~/.local/state/dotfiles/codex-profiles/`. Both mode
+keeps subscription in `~/.codex` and gateway in `~/.codex-aigateway`. The pinned
+Ducksss/codex-profiles v1.2.0 launcher starts named apps via
+`~/.config/codex-profiles/bin/codex-profile app default` (subscription) or
+`~/.config/codex-profiles/bin/codex-profile app aigateway`. Ordinary `open -a ChatGPT`
+only reliably selects stock subscription in both mode. Desktop model-picker
+coverage and separate account sign-in need validation on the actual Mac. Setup
+installs a missing independent CLI with `brew install --cask codex` and refreshes
+the wrapper. Terminal `codex` always uses the separate
+`~/.config/private-ai-gateway/codex` home regardless of desktop mode. Gateway key
 setup is separate. `bash scripts/cleanup-codex-profiles.sh --cleanup` is a one-time
 legacy reset/archive path, not a mode switch. Previously archived gateway homes
 are not auto-restored; review archives under
 `~/.local/share/dotfiles/codex-profile-archives/`. Gateway catalog refresh is manual with `--refresh`,
 or opt in to daily refresh with `--install-refresh` (undo with `--remove-refresh`).
-Cursor stays on the official
-Cursor account. See the [Codex module](docs/modules/codex.md),
-[OpenCode module](docs/modules/opencode.md), [Claude module](docs/modules/claude.md)
-and [Cursor module](docs/modules/cursor.md).
+Cursor desktop stays independent; Cursor CLI is not part of this setup. See the
+[Codex module](docs/modules/codex.md), [OpenCode module](docs/modules/opencode.md),
+[Claude module](docs/modules/claude.md) and [Cursor module](docs/modules/cursor.md).
 
 ## Documentation
 

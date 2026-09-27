@@ -79,6 +79,7 @@ migration in subscription mode; do not separately Stow over an existing Codex ho
 bash scripts/setup-private-ai-gateway.sh        # required: terminal CLIs use the gateway
 bash scripts/setup-codex-profiles.sh            # default subscription desktop
 bash scripts/setup-codex-profiles.sh --mode gateway # gateway desktop, same CLI home
+bash scripts/setup-codex-profiles.sh --mode both # separate desktop homes
 bash scripts/setup-codex-profiles.sh --mode subscription # switch back
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
@@ -99,10 +100,18 @@ reminder; rerun gateway setup after installing them. At completion it prints the
 generated credential, model, client-home, wrapper, and follow-up paths without
 printing their values.
 
-The Codex script never collects or rotates the key. It switches the single desktop
-`~/.codex` between subscription (dotfiles linked by `bootstrap-codex`) and gateway
-(file-backed gateway config), parking the inactive home under
-`~/.local/state/dotfiles/codex-profiles/`. Terminal `codex` always uses the isolated
+The Codex script never collects or rotates the key. Single subscription or gateway
+mode switches `~/.codex` between reviewed Stow links and file-backed gateway
+configuration, parking the inactive home under
+`~/.local/state/dotfiles/codex-profiles/`. Both mode keeps subscription in
+`~/.codex` and gateway in `~/.codex-aigateway`. Quit desktop apps before switching;
+use `--status` to inspect homes. In both mode start the pinned Ducksss/codex-profiles
+v1.2.0 named apps explicitly with `~/.config/codex-profiles/bin/codex-profile app
+default` or `~/.config/codex-profiles/bin/codex-profile app aigateway`. The launcher
+isolates `CODEX_HOME` and Electron user data. Dock/Spotlight/Hyper/Raycast routes
+and `open -a ChatGPT` only reliably select stock subscription in both mode.
+Gateway desktop model-picker coverage and separate account sign-in are not
+guaranteed; validate them on the actual Mac. Terminal `codex` always uses the isolated
 `~/.config/private-ai-gateway/codex` home. Setup installs a missing vendor CLI with
 `brew install --cask codex` and refreshes the gateway wrapper. For a one-time
 legacy reset/archive, use `bash scripts/cleanup-codex-profiles.sh --cleanup` (or
@@ -114,9 +123,9 @@ For catalog updates run `bash scripts/setup-private-ai-gateway.sh --refresh`;
 daily macOS refresh is opt-in with `--install-refresh` and removable with
 `--remove-refresh`. Refresh reuses the protected key without a prompt or rotation
 and retains the last working configuration if validation fails.
-Cursor CLI remains on the official Cursor account;
-never set the gateway key as `CURSOR_API_KEY`. Follow the [Codex module](modules/codex.md)
-for ownership, cleanup, rotation, and rollback.
+Cursor desktop is independent of the gateway; Cursor CLI is not part of this setup.
+Follow the [Codex module](modules/codex.md) for ownership, cleanup, rotation,
+and rollback.
 
 Do not run stow */. Choose extra modules individually after reviewing them for your machine; Git/SSH/signing, credential and agent trust configuration are personal setup decisions. The baseline does not copy those settings or enable productivity automation. Existing personal users can consult the individual module guides for additional configuration.
 

@@ -8,22 +8,24 @@ source expecting that mode to pick it up.
 
 ## Switchable desktop and private-gateway CLI
 
-The single ChatGPT/Codex desktop uses `~/.codex`: subscription sign-in by default,
-or gateway configuration when explicitly switched. The inactive desktop home is
-parked under `~/.local/state/dotfiles/codex-profiles/` so switching back preserves
-its state. Terminal `codex` always uses `~/.config/private-ai-gateway/codex`, with an
+Single subscription (default) or gateway mode uses `~/.codex`, parking the inactive
+home under `~/.local/state/dotfiles/codex-profiles/`. Both mode keeps subscription
+in `~/.codex` and gateway in `~/.codex-aigateway`. Quit desktop apps before
+switching; inactive homes are preserved, never merged. Terminal `codex` always
+uses `~/.config/private-ai-gateway/codex`, with an
 OpenAI Responses provider backed by the protected mode-0600 key at
 `~/.config/private-ai-gateway/client.key`. The CLI wrapper in `~/.local/bin/codex`
 sets `CODEX_HOME` to that isolated home; put `~/.local/bin` ahead of other Codex
 binaries in `PATH`. It clears legacy desktop-profile environment variables. Never
-copy the gateway key or gateway auth state into `~/.codex`; gateway desktop mode
-uses a file-backed configuration, not a copied credential. Sign into the desktop
-normally when using subscription mode.
+copy the gateway key or gateway auth state into the subscription home; gateway
+desktop mode uses a file-backed configuration, not a copied credential. Sign into
+the subscription desktop normally.
 
 ```bash
 bash scripts/setup-private-ai-gateway.sh # prompts for endpoint and hidden key; validates APIs
 bash scripts/setup-codex-profiles.sh      # default subscription desktop
 bash scripts/setup-codex-profiles.sh --mode gateway # switch desktop to gateway
+bash scripts/setup-codex-profiles.sh --mode both # keep both desktop homes
 bash scripts/setup-codex-profiles.sh --mode subscription # switch back
 bash scripts/setup-codex-profiles.sh --status
 herdr integration status
@@ -35,10 +37,22 @@ prepare it). It installs a missing vendor CLI via `brew install --cask codex`,
 refreshes the gateway CLI wrapper, and runs `bootstrap-codex` for the reviewed
 subscription links when that mode is selected. Gateway desktop mode uses
 file-backed gateway config. Do not Stow over an existing Codex home independently.
-It installs Herdr's Codex integration with the gateway `CODEX_HOME`. Launch the desktop via
-Dock, Spotlight, Raycast, Hyper+J, `cx`, or `open -a ChatGPT`; these all use the
-single desktop in the selected mode, not a second app. Check the active desktop
-mode and CLI home separately with `--status`.
+It installs Herdr's Codex integration with the gateway CLI `CODEX_HOME`. In both
+mode the pinned [Ducksss/codex-profiles v1.2.0](https://github.com/Ducksss/codex-profiles)
+launcher isolates `CODEX_HOME` and Electron user data for named apps:
+
+```bash
+~/.config/codex-profiles/bin/codex-profile app default # subscription
+~/.config/codex-profiles/bin/codex-profile app aigateway # gateway
+```
+
+Use the explicit launcher for gateway in both mode. Dock, Spotlight, Raycast,
+Hyper+J, `cx`, and `open -a ChatGPT` only reliably select stock subscription,
+not the named gateway app. In single gateway mode stock ChatGPT uses the switched
+`~/.codex` home. The launcher does **not** guarantee gateway desktop model-picker
+coverage or separate account sign-in. Validate launches, sign-in and model
+availability on the actual Mac; CLI validation is not desktop validation. Check
+desktop mode and independent CLI home separately with `--status`.
 
 ### One-time legacy reset and archives
 
@@ -48,7 +62,7 @@ bash scripts/cleanup-codex-profiles.sh --cleanup
 ```
 
 Cleanup is a one-time legacy reset/archive path, **not** the way to toggle modes.
-Use `setup-codex-profiles.sh --mode subscription|gateway` to switch. Legacy cleanup
+Use `setup-codex-profiles.sh --mode subscription|gateway|both` to switch. Legacy cleanup
 restores a parked subscription home where appropriate,
 archives retired gateway desktop and parked homes under
 `~/.local/share/dotfiles/codex-profile-archives/`, creates an empty subscription
@@ -113,7 +127,8 @@ use its OpenAI-compatible endpoint only when your account exposes one.
 ### Launch, status and rotation
 
 ```bash
-cx # desktop in selected mode (or open -a ChatGPT)
+cx # stock desktop; in both mode this only reliably selects subscription
+~/.config/codex-profiles/bin/codex-profile app aigateway # named gateway desktop in both mode
 codex # isolated gateway CLI
 bash scripts/setup-codex-profiles.sh --status
 bash scripts/setup-private-ai-gateway.sh --status
@@ -210,8 +225,9 @@ workflow does not make the entire TOML portable between different home directori
 
 Edit `codex/.codex/config.toml`, `keybindings.json`, or `hooks.json` directly.
 In subscription mode, changes through a symlink-aware editor at
-`~/.codex/config.toml` reach the same file in Git. In gateway mode that path is
-file-backed instead. Review GUI changes before committing: apps can add runtime paths,
+`~/.codex/config.toml` reach the same file in Git. In single gateway mode that path
+is file-backed instead; in both mode gateway config lives at `~/.codex-aigateway`.
+Review GUI changes before committing: apps can add runtime paths,
 project trust, or replace a symlink with a regular file when saving settings.
 Run the link check after app updates. If the app replaces a link, reconcile the
 new local file with the repository file before restowing; the backup helper

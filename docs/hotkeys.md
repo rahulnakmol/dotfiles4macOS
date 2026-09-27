@@ -21,19 +21,21 @@ launcher, Hyper, window and focus keys.
 | Command+Tab / Command+` | Switch apps / windows in an app |
 | Control+Left / Control+Right | View previous / next desktop |
 | Control+Command+F | Native fullscreen, where supported |
-| `cx` | Launch the single ChatGPT/Codex desktop (`~/.codex`, subscription or gateway mode) |
+| `cx` | Launch stock ChatGPT/Codex (`~/.codex`); in both mode only subscription is reliable |
 | `codex` | Terminal CLI through the isolated private gateway home |
 | `ccf` | Claude Code with the machine-local Fable mapping |
 | `cda` / `cds` / `cdg` | Codex with Astra / Sol / Grok mappings |
 | Hyper+B | Codex pet in the selected desktop mode |
 | Hyper+V / Hyper+M | Codex voice / dictation while Codex is focused |
 
-The retired gateway desktop routes (`cxs`, `cxg`, and the two Raycast Script
-Commands) are no longer supported. Generic app shortcuts use the one desktop;
-switch with `bash scripts/setup-codex-profiles.sh --mode subscription|gateway`
-(default subscription). The inactive home is parked under
-`~/.local/state/dotfiles/codex-profiles/`; CLI credentials remain in the separate
-gateway home. See [Codex setup](modules/codex.md).
+The retired `cxs`, `cxg`, and two Raycast Script Commands are not selectors for
+the new named apps. Switch with `bash scripts/setup-codex-profiles.sh --mode
+subscription|gateway|both` (default subscription). Single mode parks the inactive
+home under `~/.local/state/dotfiles/codex-profiles/`; both mode keeps subscription
+at `~/.codex` and gateway at `~/.codex-aigateway`. In both mode use
+`~/.config/codex-profiles/bin/codex-profile app default` or `app aigateway` explicitly;
+Hyper+J and Raycast `cx` only reliably open stock subscription. CLI credentials
+remain in the independent gateway home. See [Codex setup](modules/codex.md).
 
 ## Raycast Focus & Layouts
 

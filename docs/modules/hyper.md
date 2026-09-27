@@ -44,12 +44,15 @@ with saved work; automated checks use substitute apps.
 
 Telegram is an optional shortcut-only app on **Hyper+T** (brew install --cask telegram). **Hyper+G** opens T3 Code. **Hyper+J** retains ChatGPT/Codex. FDE uses T3 Code instead of Codex for focus sessions; TF keeps Innovate + Codex.
 
-Hyper+J targets bundle ID `com.openai.codex` and opens the single ChatGPT/Codex
-desktop at `~/.codex`, in subscription mode by default or gateway mode after
+Hyper+J targets bundle ID `com.openai.codex`. In single mode the stock desktop
+uses `~/.codex` in subscription (default) or gateway mode after
 `bash scripts/setup-codex-profiles.sh --mode gateway`. Switch back with
-`--mode subscription`; the inactive desktop home is parked under
-`~/.local/state/dotfiles/codex-profiles/`. Terminal `codex` always uses the
-isolated gateway home. `scripts/cleanup-codex-profiles.sh --cleanup` is a one-time
+`--mode subscription`; the inactive home is parked under
+`~/.local/state/dotfiles/codex-profiles/`. In `--mode both`, Hyper+J only reliably
+opens stock subscription at `~/.codex`; start the separate gateway desktop at
+`~/.codex-aigateway` with
+`~/.config/codex-profiles/bin/codex-profile app aigateway`. Terminal `codex` always
+uses the isolated gateway CLI home. `scripts/cleanup-codex-profiles.sh --cleanup` is a one-time
 legacy archive/reset, not a toggle; archived gateway state is not auto-restored.
 
 ## Session focus timer
