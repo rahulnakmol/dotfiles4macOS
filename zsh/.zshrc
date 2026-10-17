@@ -1,12 +1,12 @@
-# PATH — build dynamically, deduplicate
-typeset -U PATH
-PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DOTNET_TOOLS:$PATH"
-[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
-
 # Homebrew — only eval if .zprofile didn't already set it (non-login shells)
 if [[ -z "$HOMEBREW_PREFIX" && -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# PATH — build dynamically, deduplicate
+typeset -U PATH
+PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DOTNET_TOOLS:$PATH"
+[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
 
 # Rustup — resolve from brew or system
 if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/rustup/bin" ]]; then

@@ -18,3 +18,6 @@ export AZURE_DEV_COLLECT_TELEMETRY="no"
 
 # Homebrew (sets PATH, MANPATH, INFOPATH for the login session)
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Local login overrides (machine-specific, not committed); runs after Homebrew
+[[ -f "$HOME/.zprofile.local" ]] && source "$HOME/.zprofile.local"
