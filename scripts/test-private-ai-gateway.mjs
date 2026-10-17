@@ -143,6 +143,7 @@ test('gateway wrappers are gateway-only and fail closed instead of falling back'
   const codexConfig = join(f.config, 'codex/config.toml');
   assert.match(readFileSync(codexConfig, 'utf8'), /^forced_login_method = "api"$/m);
   assert.match(readFileSync(codexConfig, 'utf8'), /^check_for_update_on_startup = false$/m);
+  assert.match(readFileSync(codexConfig, 'utf8'), /^\[features\]\napps = false\nplugins = false\nremote_plugin = false\nplugin_sharing = false$/m);
   const opencodeConfig = join(f.config, 'opencode/opencode.json');
   const opencode = JSON.parse(readFileSync(opencodeConfig, 'utf8'));
   assert.deepEqual(opencode.enabled_providers, ['private_gateway']);

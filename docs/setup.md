@@ -105,7 +105,8 @@ or empty, when the Codex gateway home lacks `model_provider = "private_gateway"`
 OpenCode gateway config allows any provider other than `private_gateway`. They also clear
 direct-provider credentials such as `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and
 `CLAUDE_CODE_OAUTH_TOKEN` from the caller's environment. Codex gateway homes force API-key login
-and disable update checks and analytics. Claude runs with `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`.
+and disable update checks, analytics, and the apps/plugin features that call `chatgpt.com` and
+`github.com` directly. Claude runs with `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`.
 OpenCode disables sharing, and its small model also uses the gateway. Running a vendor binary by
 its full path bypasses the wrappers and this policy.
 

@@ -16,6 +16,14 @@ check_for_update_on_startup = false
 [analytics]
 enabled = false
 
+# Gateway-only: these features call chatgpt.com (plugin/app catalogs) and github.com
+# (plugin marketplaces) directly, outside the gateway.
+[features]
+apps = false
+plugins = false
+remote_plugin = false
+plugin_sharing = false
+
 [desktop]
 followUpQueueMode = "steer"
 external-agent-import-sync-enabled = false
