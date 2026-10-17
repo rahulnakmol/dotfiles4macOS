@@ -99,6 +99,16 @@ reminder; rerun gateway setup after installing them. At completion it prints the
 generated credential, model, client-home, wrapper, and follow-up paths without
 printing their values.
 
+The generated `claude`, `codex` and `opencode` wrappers are gateway-only. They exit with an
+error, instead of falling back to a vendor login or direct provider, when `client.key` is missing
+or empty, when the Codex gateway home lacks `model_provider = "private_gateway"`, or when the
+OpenCode gateway config allows any provider other than `private_gateway`. They also clear
+direct-provider credentials such as `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and
+`CLAUDE_CODE_OAUTH_TOKEN` from the caller's environment. Codex gateway homes force API-key login
+and disable update checks and analytics. Claude runs with `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`.
+OpenCode disables sharing, and its small model also uses the gateway. Running a vendor binary by
+its full path bypasses the wrappers and this policy.
+
 The Codex script never collects or rotates the key. It switches the single desktop
 `~/.codex` between subscription (dotfiles linked by `bootstrap-codex`) and gateway
 (file-backed gateway config), parking the inactive home under
@@ -171,7 +181,8 @@ Starship initializes automatically from `.zshrc`. No extra setup needed after `s
 
 For machine-specific config that should not be committed:
 
-- **Shell**: create `~/.zshrc.local` (sourced at the end of `.zshrc`)
+- **Shell**: create `~/.zshrc.local` (sourced at the end of `.zshrc`) and, for login-shell
+  settings such as PATH order in `zsh -lc`, `~/.zprofile.local` (sourced at the end of `.zprofile`)
 - **Git**: use `~/.gitconfig.local` with `includeIf` directives
 - **Secrets**: set `GITHUB_PAT`, `CONTEXT7_API_KEY`, etc. in `~/.zshrc.local`
 

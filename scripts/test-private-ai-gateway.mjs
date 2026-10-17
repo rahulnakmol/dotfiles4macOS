@@ -124,6 +124,55 @@ test('gateway setup is neutral, secret-safe, complete, and idempotent', t => {
   assert.match(integrations, /\|\|\/.*private-ai-gateway-herdr\.[^|]+\|integration install opencode/);
 });
 
+test('gateway wrappers are gateway-only and fail closed instead of falling back', t => {
+  const f = fixture(t);
+  const setupResult = f.run([]);
+  assert.equal(setupResult.status, 0, setupResult.stderr);
+  const wrapper = name => join(f.managed, name);
+  const call = name => spawnSync(wrapper(name), ['--version'], {env: f.env, encoding: 'utf8'});
+  const refused = (name, why) => {
+    const result = call(name);
+    assert.equal(result.status, 1, `${name} (${why}): ${result.stdout}${result.stderr}`);
+    assert.match(result.stderr, /Refusing to fall back to another provider/, `${name} (${why})`);
+  };
+
+  const claude = readFileSync(wrapper('claude'), 'utf8');
+  assert.match(claude, /unset ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN CLAUDE_CODE_USE_BEDROCK CLAUDE_CODE_USE_VERTEX/);
+  assert.match(claude, /export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1/);
+  assert.match(readFileSync(wrapper('codex'), 'utf8'), /unset .*CODEX_API_KEY OPENAI_API_KEY OPENAI_BASE_URL/);
+  const codexConfig = join(f.config, 'codex/config.toml');
+  assert.match(readFileSync(codexConfig, 'utf8'), /^forced_login_method = "api"$/m);
+  assert.match(readFileSync(codexConfig, 'utf8'), /^check_for_update_on_startup = false$/m);
+  const opencodeConfig = join(f.config, 'opencode/opencode.json');
+  const opencode = JSON.parse(readFileSync(opencodeConfig, 'utf8'));
+  assert.deepEqual(opencode.enabled_providers, ['private_gateway']);
+  assert.equal(opencode.small_model, opencode.model);
+  assert.equal(opencode.share, 'disabled');
+  for (const name of ['claude', 'codex', 'opencode']) {
+    const result = call(name);
+    assert.equal(result.status, 0, `${name} with intact gateway config: ${result.stderr}`);
+  }
+
+  // Codex without its gateway provider would silently use OpenAI; OpenCode without the
+  // allowlist would expose built-in providers.
+  const codexText = readFileSync(codexConfig, 'utf8');
+  writeFileSync(codexConfig, codexText.replace(/^model_provider = .*$/m, ''));
+  refused('codex', 'no gateway model_provider');
+  writeFileSync(codexConfig, codexText);
+  const opencodeText = readFileSync(opencodeConfig, 'utf8');
+  writeFileSync(opencodeConfig, JSON.stringify({...opencode, enabled_providers: ['private_gateway', 'opencode']}));
+  refused('opencode', 'extra provider allowed');
+  rmSync(opencodeConfig);
+  refused('opencode', 'config missing');
+  writeFileSync(opencodeConfig, opencodeText);
+
+  const key = join(f.config, 'client.key');
+  writeFileSync(key, '', {mode: 0o600});
+  for (const name of ['claude', 'codex', 'opencode']) refused(name, 'empty key');
+  rmSync(key);
+  for (const name of ['claude', 'codex', 'opencode']) refused(name, 'missing key');
+});
+
 test('gateway setup automatically deploys missing Claude and OpenCode Stow modules', t => {
   const f = fixture(t);
   rmSync(join(f.home, '.claude'), {recursive:true, force:true});

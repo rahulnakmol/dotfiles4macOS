@@ -566,7 +566,10 @@ jq -n \
       options:{baseURL:$base,apiKey:("{file:" + $key_file + "}")},
       models:$models
     }},
-    model:("private_gateway/" + $default_model)
+    model:("private_gateway/" + $default_model),
+    small_model:("private_gateway/" + $default_model),
+    share:"disabled",
+    autoupdate:false
   }' >"$opencode_config"
 chmod 0600 "$opencode_config"
 mv -f "$opencode_config" "$OPENCODE_CONFIG"
@@ -577,24 +580,36 @@ write_wrapper() {
   printf '#!/usr/bin/env bash\nset -euo pipefail\n%s\n' "$body" >"$path"
   chmod 0700 "$path"
 }
+# Gateway-only policy: every wrapper fails closed instead of letting the vendor CLI fall
+# back to its own login, a direct provider endpoint, or provider credentials in the caller's
+# environment. bash does not abort on `export X=$(<missing)`, so the key is checked first.
+gateway_fail="{ echo 'Private AI gateway configuration is missing or invalid; rerun scripts/setup-private-ai-gateway.sh. Refusing to fall back to another provider.' >&2; exit 1; }"
+key_guard="[[ -s '$KEY_FILE' ]] || $gateway_fail"
 if [[ -n "$claude_bin" ]]; then
-printf -v claude_body '%s\n%s\n%s\n%s' \
+printf -v claude_body '%s\n%s\n%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  'unset ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN CLAUDE_CODE_USE_BEDROCK CLAUDE_CODE_USE_VERTEX CLAUDE_CODE_USE_FOUNDRY ANTHROPIC_BEDROCK_BASE_URL ANTHROPIC_VERTEX_BASE_URL ANTHROPIC_FOUNDRY_BASE_URL' \
   "export ANTHROPIC_BASE_URL='$gateway_url'" \
   "export CLAUDE_CONFIG_DIR='$CLAUDE_HOME'" \
   "export ANTHROPIC_AUTH_TOKEN=\$(<'$KEY_FILE')" \
+  'export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1' \
   "exec '$claude_bin' \"\$@\""
 write_wrapper "$BIN_DIR/claude" "$claude_body"
 else rm -f "$BIN_DIR/claude"; fi
 if [[ -n "$codex_bin" ]]; then
-printf -v codex_body '%s\n%s\n%s\n%s' \
-  'unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME' \
+printf -v codex_body '%s\n%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  'unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME CODEX_API_KEY OPENAI_API_KEY OPENAI_BASE_URL' \
   "export CODEX_HOME=\$(<'$CODEX_HOME_FILE')" \
+  "grep -qx 'model_provider = \"private_gateway\"' \"\$CODEX_HOME/config.toml\" 2>/dev/null || $gateway_fail" \
   'export CODEX_PROFILE_NO_UPDATE_CHECK=1' \
   "exec '$codex_bin' \"\$@\""
 write_wrapper "$BIN_DIR/codex" "$codex_body"
 else rm -f "$BIN_DIR/codex"; fi
 if [[ -n "$opencode_bin" ]]; then
-printf -v opencode_body '%s\n%s\n%s' \
+printf -v opencode_body '%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  "[[ \"\$(tr -d ' \\n' 2>/dev/null <'$OPENCODE_CONFIG')\" == *'\"enabled_providers\":[\"private_gateway\"]'* ]] || $gateway_fail" \
   "export OPENCODE_CONFIG='$OPENCODE_CONFIG'" \
   "export OPENCODE_CONFIG_DIR='$OPENCODE_HOME'" \
   "exec '$opencode_bin' \"\$@\""
