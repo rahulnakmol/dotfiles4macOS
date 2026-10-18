@@ -35,6 +35,27 @@ private gateway. It deliberately does not hardcode OpenCode Zen's hosted-provide
 interactive CLI has no `--variant fast` flag; current accelerated Claude serving modes are exposed as
 separate catalog models, so the authenticated model selection is the durable source of truth.
 
+## UI modes
+
+Gateway setup also defines two UI-work modes, each an OpenCode agent plus a gateway model entry:
+
+| Mode | Command | Agent | Model |
+|------|---------|-------|-------|
+| balanced | `ocub` (`OPENCODE_UI_MODE=balanced opencode`) | `ui-balanced` | newest `gemini-<version>-argon` |
+| intelligence | `ocui` (`OPENCODE_UI_MODE=intelligence opencode`) | `ui-intelligence` | newest `claude-fable-<version>`, medium reasoning effort |
+
+Use intelligence for the hardest UI work. Setup takes the exact IDs from the authenticated
+`/v1/models` catalog and ignores suffixed variants such as `-high` or `-fast`. It sends each
+model a Chat Completions probe, with `reasoning_effort: medium` for Fable. A mode whose model is
+missing or fails the probe is left out. `OPENCODE_UI_MODE=<mode>` then exits with an error rather
+than using another model.
+
+The wrapper selects a mode by setting `OPENCODE_CONFIG_CONTENT` to that mode's model and default
+agent. It discards any `OPENCODE_CONFIG_CONTENT` inherited from the caller, which could otherwise
+override the gateway provider. Mode selection works this way because OpenCode 2.0 does not switch
+a session's model when a primary agent is chosen, and `opencode run --agent` keeps the root model.
+As subagents, `ui-balanced` and `ui-intelligence` use their own models.
+
 ## Files (configs only)
 
 | File | Target |

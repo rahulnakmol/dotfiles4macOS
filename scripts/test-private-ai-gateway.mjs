@@ -28,7 +28,7 @@ function fixture(t) {
 input="$(cat)"; [[ "$input" == *"Authorization: Bearer fixture-secret"* ]]
 url="\${@: -1}"
 if [[ "$url" == */v1/models ]]; then
-  printf '%s\\n' '{"data":[{"id":"gpt-3.5-turbo"},{"id":"gpt-3.5-turbo-0613"},{"id":"gpt-4"},{"id":"gpt-4-0125-preview"},{"id":"gpt-4-0613"},{"id":"gpt-4-o-preview"},{"id":"gpt-4.1"},{"id":"gpt-4.1-2025-04-14"},{"id":"gpt-4o"},{"id":"gpt-4o-2024-05-13"},{"id":"gpt-4o-mini"},{"id":"claude-fable-5"},{"id":"gemini-2.5-pro"},{"id":"openai/gpt-5.1-codex"},{"id":"gemini-2.5-pro"}]}'
+  printf '%s\\n' '{"data":[{"id":"gpt-3.5-turbo"},{"id":"gpt-3.5-turbo-0613"},{"id":"gpt-4"},{"id":"gpt-4-0125-preview"},{"id":"gpt-4-0613"},{"id":"gpt-4-o-preview"},{"id":"gpt-4.1"},{"id":"gpt-4.1-2025-04-14"},{"id":"gpt-4o"},{"id":"gpt-4o-2024-05-13"},{"id":"gpt-4o-mini"},{"id":"claude-fable-5"},{"id":"gemini-2.5-pro"},{"id":"openai/gpt-5.1-codex"},{"id":"gemini-2.5-pro"}'"\${FIXTURE_UI_MODELS:-}"']}'
   exit 0
 fi
 output=''; payload=''
@@ -37,10 +37,11 @@ for ((i=1; i<=$#; i++)); do
   if [[ "\${!i}" == --data ]]; then j=$((i+1)); payload="\${!j}"; fi
 done
 model="$(jq -r .model <<<"$payload")"
-printf 'curl %s %s\\n' "$url" "$model" >> "$CALLS"
+effort="$(jq -r '.reasoning_effort // empty' <<<"$payload")"
+printf 'curl %s %s%s\\n' "$url" "$model" "\${effort:+ reasoning_effort=$effort}" >> "$CALLS"
 case "$url" in
   */v1/messages) [[ "$model" == claude-fable-5 ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"content":[{"type":"text","text":"OK"}]}' > "$output" ;;
-  */v1/chat/completions) [[ "$model" == gemini-2.5-pro ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"choices":[{"message":{"content":"OK"}}]}' > "$output" ;;
+  */v1/chat/completions) [[ "$model" == gemini-2.5-pro || "$model" == gemini-4-argon || ( "$model" == claude-fable-5-1 && "$(jq -r .reasoning_effort <<<"$payload")" == medium ) ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"choices":[{"message":{"content":"OK"}}]}' > "$output" ;;
   */v1/responses) [[ "$model" == openai/gpt-5.1-codex ]] || { printf '{"error":{}}' > "$output"; printf 400; exit 0; }; printf '%s\\n' '{"id":"resp_fixture","output":[]}' > "$output" ;;
   *) exit 22 ;;
 esac
@@ -174,6 +175,56 @@ test('gateway wrappers are gateway-only and fail closed instead of falling back'
   for (const name of ['claude', 'codex', 'opencode']) refused(name, 'missing key');
 });
 
+test('OpenCode UI modes use exact catalog IDs and refuse to fall back', t => {
+  const f = fixture(t);
+  const opencodeConfig = join(f.config, 'opencode/opencode.json');
+  const ui = mode => spawnSync(join(f.managed, 'opencode'), ['run', 'hi'], {env: {...f.env, OPENCODE_UI_MODE: mode,
+    OPENCODE_CONFIG_CONTENT: '{"provider":{"private_gateway":{"options":{"baseURL":"https://attacker.invalid/v1"}}}}'}, encoding: 'utf8'});
+  f.executable('opencode', 'printf "opencode %s|%s|%s\\n" "$*" "${OPENCODE_CONFIG_CONTENT:-}" "${OPENCODE_DISABLE_MODELS_FETCH:-}" >> "$CALLS"');
+
+  // A catalog without the families configures no UI mode, and selecting one fails closed.
+  assert.equal(f.run([]).status, 0);
+  assert.equal(JSON.parse(readFileSync(opencodeConfig, 'utf8')).agent, undefined);
+  const missing = ui('intelligence');
+  assert.equal(missing.status, 1);
+  assert.match(missing.stderr, /UI mode 'intelligence' is not configured.*Refusing to fall back/);
+
+  // Suffixed variants and older versions must not be chosen.
+  f.env.FIXTURE_UI_MODELS = ',{"id":"gemini-4-argon-high"},{"id":"gemini-4-argon"},{"id":"claude-fable-5"},{"id":"claude-fable-5-1"},{"id":"claude-fable-5-1-fast"}';
+  const setupResult = f.run([]);
+  assert.equal(setupResult.status, 0, setupResult.stderr);
+  assert.ok(!setupResult.stdout.includes('fixture-secret'));
+  const calls = readFileSync(f.calls, 'utf8');
+  assert.match(calls, /curl \S+\/v1\/chat\/completions claude-fable-5-1 reasoning_effort=medium\n/);
+  const config = JSON.parse(readFileSync(opencodeConfig, 'utf8'));
+  const models = config.provider.private_gateway.models;
+  assert.deepEqual(models['ui-balanced'].id, 'gemini-4-argon');
+  assert.equal(models['ui-balanced'].options, undefined);
+  assert.deepEqual(models['ui-intelligence'].id, 'claude-fable-5-1');
+  assert.deepEqual(models['ui-intelligence'].options, {reasoningEffort: 'medium'});
+  assert.equal(config.agent['ui-balanced'].model, 'private_gateway/ui-balanced');
+  assert.equal(config.agent['ui-intelligence'].model, 'private_gateway/ui-intelligence');
+  assert.deepEqual(config.enabled_providers, ['private_gateway']);
+
+  // Setup prefers an installed Homebrew vendor binary; point the wrapper at the fixture's.
+  const wrapperPath = join(f.managed, 'opencode');
+  writeFileSync(wrapperPath, readFileSync(wrapperPath, 'utf8').replace(/^exec '[^']*opencode'/m, `exec '${f.env.PATH.split(':')[0]}/opencode'`));
+  for (const mode of ['balanced', 'intelligence']) {
+    const result = ui(mode);
+    assert.equal(result.status, 0, result.stderr);
+  }
+  const launches = readFileSync(f.calls, 'utf8').split('\n').filter(line => line.startsWith('opencode run'));
+  assert.deepEqual(launches.slice(-2), [
+    'opencode run --standalone hi|{"model":"private_gateway/ui-balanced","default_agent":"ui-balanced"}|1',
+    'opencode run --standalone hi|{"model":"private_gateway/ui-intelligence","default_agent":"ui-intelligence"}|1',
+  ]);
+  const plain = spawnSync(join(f.managed, 'opencode'), ['models'], {env: {...f.env, OPENCODE_CONFIG_CONTENT: '{"model":"x/y"}'}, encoding: 'utf8'});
+  assert.equal(plain.status, 0, plain.stderr);
+  assert.match(readFileSync(f.calls, 'utf8'), /opencode models\|\|1\n$/);
+  const bogus = ui('fast');
+  assert.equal(bogus.status, 2);
+});
+
 test('gateway setup automatically deploys missing Claude and OpenCode Stow modules', t => {
   const f = fixture(t);
   rmSync(join(f.home, '.claude'), {recursive:true, force:true});
@@ -214,7 +265,7 @@ test('first model setup is automatic without a numbered prompt or saved model fi
   assert.equal(readFileSync(join(f.config, 'default-model'), 'utf8'), 'gemini-2.5-pro\n');
   const calls = readFileSync(f.calls, 'utf8');
   assert.match(calls, /\/v1\/chat\/completions gemini-2\.5-pro/);
-  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-/);
+  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-\S*\n/);
   assert.match(calls, /\/v1\/responses openai\/gpt-5\.1-codex/);
   assert.doesNotMatch(calls, /\/v1\/responses gpt-(?:3|4)/);
 });
@@ -228,7 +279,7 @@ test('protocol discovery does not reuse an older cross-protocol saved choice', t
     anthropic: 'claude-fable-5', chat: 'gemini-2.5-pro', responses: 'openai/gpt-5.1-codex',
   });
   const calls = readFileSync(f.calls, 'utf8');
-  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-fable-5/);
+  assert.doesNotMatch(calls, /\/v1\/chat\/completions claude-fable-5\S*\n/);
   assert.match(calls, /\/v1\/responses openai\/gpt-5\.1-codex/);
   assert.doesNotMatch(calls, /\/v1\/responses gpt-4/);
 });

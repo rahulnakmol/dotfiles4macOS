@@ -218,6 +218,8 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 | `ocse` | `opencode export` | Export session JSON |
 | `ocsi` | `opencode import` | Import session |
 | `ocml` | `opencode models` | List models |
+| `ocub` | `OPENCODE_UI_MODE=balanced opencode` | UI work, balanced mode (Gemini Argon) |
+| `ocui` | `OPENCODE_UI_MODE=intelligence opencode` | UI work, intelligence mode (Claude Fable, medium effort) |
 | `ocli` | `opencode providers login` | Login to provider |
 | `ocst` | `opencode stats` | Usage statistics |
 | `ocp` | `opencode --pure` | Launch without plugins |
