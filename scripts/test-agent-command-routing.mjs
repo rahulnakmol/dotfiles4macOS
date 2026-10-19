@@ -49,6 +49,31 @@ test('initialized Bash and Zsh prefer gateway wrappers and preserve aliases', t 
   }
 });
 
+test('login zsh applies the documented ~/.zprofile.local override after Homebrew', t => {
+  const available = spawnSync('/usr/bin/env', ['zsh', '--version'], {encoding:'utf8'});
+  if (available.error?.code === 'ENOENT' || available.status === 127) return;
+  const f = fixture(t);
+  cpSync(join(root, 'zsh/.zprofile'), join(f.home, '.zprofile'));
+  const vendor = join(f.home, 'vendor-bin'); mkdirSync(vendor);
+  for (const name of ['claude','codex','opencode']) executable(join(vendor, name), 'echo WRONG-VENDOR');
+  const env = {...f.env, PATH:`${vendor}:${f.env.PATH}`};
+  const lookup = `for c in claude codex opencode; do whence -p $c; done`;
+  const run = flags => spawnSync('zsh', [flags, lookup], {env, encoding:'utf8'});
+  const wrappers = new RegExp(`^${f.home}/\\.local/bin/claude\\n${f.home}/\\.local/bin/codex\\n${f.home}/\\.local/bin/opencode$`, 'm');
+
+  // Control: without the override, a non-interactive login shell never reads .zshrc.
+  assert.doesNotMatch(run('-lc').stdout, wrappers);
+
+  const docs = readFileSync(join(root, 'docs/modules/zsh.md'), 'utf8');
+  const override = docs.match(/~\/\.zprofile\.local`:\n\n```zsh\n([\s\S]*?)```/)?.[1];
+  assert.ok(override, 'docs/modules/zsh.md documents the ~/.zprofile.local override');
+  writeFileSync(join(f.home, '.zprofile.local'), override);
+  for (const flags of ['-lc', '-lic']) {
+    const result = run(flags);
+    assert.match(result.stdout, wrappers, `zsh ${flags}: ${result.stderr}`);
+  }
+});
+
 test('desktop shell route opens the normal ChatGPT app regardless of retired mode files',t=>{
   for(const [shell,aliases] of [['bash','.bashrc.d/aliases.sh'],['zsh','.zshrc.d/aliases.zsh']]) {
     const available=spawnSync('/usr/bin/env',[shell,'--version'],{encoding:'utf8'});

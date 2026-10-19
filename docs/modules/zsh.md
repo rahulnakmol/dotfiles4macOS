@@ -33,7 +33,17 @@ brew install starship zoxide fzf eza bat zsh-syntax-highlighting zsh-autocomplet
 - `.zshrc` runs on every interactive shell — sources `.zshrc.d/*.{zsh,sh}` in sort order, sets up prompt and plugins
 - `00-platform.zsh` loads first (numeric prefix) and exports `$DOTFILES_PLATFORM`
 - Aliases are universal (no platform guards needed on macOS)
-- Local overrides: `~/.zshrc.local` (not committed)
+- Local overrides: `~/.zshrc.local` for interactive shells and `~/.zprofile.local` for login
+  shells, sourced after Homebrew (neither is committed)
+
+Non-interactive login shells (`zsh -lc`, used by agents and launchers) read `.zprofile` but not
+`.zshrc`, so Homebrew's `claude`, `codex` and `opencode` win there. A machine whose agents must use
+the private-gateway wrappers in non-interactive login shells can add this to `~/.zprofile.local`:
+
+```zsh
+typeset -U path
+path=("$HOME/.local/bin" $path)
+```
 
 ## Deploy
 

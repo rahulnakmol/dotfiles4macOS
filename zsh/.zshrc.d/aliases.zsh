@@ -206,6 +206,8 @@ alias ocsl='opencode session list'                                              
 alias ocse='opencode export'                                                                                             # Export session as JSON
 alias ocsi='opencode import'                                                                                             # Import session from JSON or share URL
 alias ocml='opencode models'                                                                                             # List available models
+alias ocub='OPENCODE_UI_MODE=balanced opencode'                                                                          # UI work, balanced mode (Gemini Argon via gateway)
+alias ocui='OPENCODE_UI_MODE=intelligence opencode'                                                                      # UI work, intelligence mode (Claude Fable, medium effort)
 alias ocli='opencode providers login'                                                                                    # Login to provider
 alias ocst='opencode stats'                                                                                              # Show usage statistics
 alias ocp='opencode --pure'                                                                                              # Launch without plugins

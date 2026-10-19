@@ -1,14 +1,14 @@
 # If not running interactively, don't do anything
 [[ -z "$PS1" ]] && return
 
-# PATH — build dynamically
-PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
-[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
-
 # Homebrew — only eval if .bash_profile didn't already set it (non-login shells)
 if [[ -z "$HOMEBREW_PREFIX" && -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# PATH — build dynamically
+PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
+[[ -d "$HOME/.opencode/bin" ]] && PATH="$PATH:$HOME/.opencode/bin"
 
 # Rustup — resolve from brew or system
 if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/rustup/bin" ]]; then

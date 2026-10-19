@@ -511,6 +511,30 @@ for alias_name in fable opus-fast astra sol grok; do
     echo "Gateway alias '$alias_name' is unavailable in this catalog; skipped."
   fi
 done
+
+# OpenCode UI modes: balanced = newest Gemini Argon, intelligence = newest Claude Fable at
+# medium effort. IDs come only from the authenticated catalog, must match the family exactly
+# (no -high/-fast style variants), and must pass a Chat Completions probe; otherwise the mode
+# is omitted and `OPENCODE_UI_MODE=<mode> opencode` refuses to run rather than substituting.
+ui_models_json='{}'
+for ui_mode in balanced intelligence; do
+  case "$ui_mode" in
+    balanced) ui_pattern='^gemini-[0-9][0-9.-]*-argon$'; ui_effort='' ;;
+    intelligence) ui_pattern='^claude-fable-[0-9][0-9.-]*$'; ui_effort='medium' ;;
+  esac
+  ui_model="$(grep -E "$ui_pattern" <<<"$catalog_models" | jq -Rsc 'split("\n") | map(select(length > 0)) | sort_by([scan("[0-9]+|[^0-9]+") | if test("^[0-9]+$") then tonumber else ascii_downcase end]) | last // empty' | jq -r . || true)"
+  if [[ -z "$ui_model" ]]; then
+    echo "OpenCode UI mode '$ui_mode' is unavailable in this catalog; skipped."
+    continue
+  fi
+  ui_payload="$(jq -nc --arg model "$ui_model" --arg effort "$ui_effort" '{model:$model,max_tokens:1024,messages:[{role:"user",content:"Reply OK"}]} + (if $effort == "" then {} else {reasoning_effort:$effort} end)')"
+  if gateway_post_check "OpenCode UI mode '$ui_mode' ($ui_model)" /v1/chat/completions "$ui_payload" '.choices | type == "array" and length > 0' 1 60 >/dev/null 2>&1; then
+    ui_models_json="$(jq -c --arg mode "$ui_mode" --arg model "$ui_model" --arg effort "$ui_effort" '. + {($mode):{model:$model,effort:$effort}}' <<<"$ui_models_json")"
+    echo "Mapped OpenCode UI mode '$ui_mode' to '$ui_model'${ui_effort:+ (reasoning effort $ui_effort)}."
+  else
+    echo "OpenCode UI mode '$ui_mode' ($ui_model) failed its Chat Completions check; skipped."
+  fi
+done
 write_protected() {
   local destination="$1" content="$2" temporary
   temporary="$(mktemp "$CONFIG_DIR/.gateway-write.XXXXXX")"
@@ -557,17 +581,29 @@ jq -n \
   --arg key_file "$KEY_FILE" \
   --arg default_model "$chat_model" \
   --argjson models "$provider_models" \
-  '{
+  --argjson ui "$ui_models_json" \
+  '($ui | to_entries) as $modes | {
     "$schema":"https://opencode.ai/config.json",
     enabled_providers:["private_gateway"],
     provider:{private_gateway:{
       npm:"@ai-sdk/openai-compatible",
       name:"Private AI gateway",
       options:{baseURL:$base,apiKey:("{file:" + $key_file + "}")},
-      models:$models
+      models:($models + ($modes | map({key:("ui-" + .key), value:(
+        {id:.value.model, name:("UI " + .key + " (" + .value.model + (if .value.effort == "" then "" else ", " + .value.effort + " effort" end) + ")")}
+        + (if .value.effort == "" then {} else {options:{reasoningEffort:.value.effort}} end)
+      )}) | from_entries))
     }},
-    model:("private_gateway/" + $default_model)
-  }' >"$opencode_config"
+    model:("private_gateway/" + $default_model),
+    small_model:("private_gateway/" + $default_model),
+    share:"disabled",
+    autoupdate:false
+  } + (if ($modes | length) == 0 then {} else {agent:($modes | map({key:("ui-" + .key), value:{
+    mode:"all",
+    description:("UI/UX, frontend, design-system and visual work (" + .key + " mode: " + .value.model + ")"),
+    model:("private_gateway/ui-" + .key),
+    prompt:"You are a frontend and UI/UX specialist. Focus on component architecture, responsive design, accessibility and visual polish. Use design references, screenshots and mockups when provided."
+  }}) | from_entries)} end)' >"$opencode_config"
 chmod 0600 "$opencode_config"
 mv -f "$opencode_config" "$OPENCODE_CONFIG"
 chmod 0600 "$CODEX_HOME/config.toml" "$OPENCODE_CONFIG"
@@ -577,25 +613,55 @@ write_wrapper() {
   printf '#!/usr/bin/env bash\nset -euo pipefail\n%s\n' "$body" >"$path"
   chmod 0700 "$path"
 }
+# Gateway-only policy: every wrapper fails closed instead of letting the vendor CLI fall
+# back to its own login, a direct provider endpoint, or provider credentials in the caller's
+# environment. bash does not abort on `export X=$(<missing)`, so the key is checked first.
+gateway_fail="{ echo 'Private AI gateway configuration is missing or invalid; rerun scripts/setup-private-ai-gateway.sh. Refusing to fall back to another provider.' >&2; exit 1; }"
+key_guard="[[ -s '$KEY_FILE' ]] || $gateway_fail"
 if [[ -n "$claude_bin" ]]; then
-printf -v claude_body '%s\n%s\n%s\n%s' \
+printf -v claude_body '%s\n%s\n%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  'unset ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN CLAUDE_CODE_USE_BEDROCK CLAUDE_CODE_USE_VERTEX CLAUDE_CODE_USE_FOUNDRY ANTHROPIC_BEDROCK_BASE_URL ANTHROPIC_VERTEX_BASE_URL ANTHROPIC_FOUNDRY_BASE_URL' \
   "export ANTHROPIC_BASE_URL='$gateway_url'" \
   "export CLAUDE_CONFIG_DIR='$CLAUDE_HOME'" \
   "export ANTHROPIC_AUTH_TOKEN=\$(<'$KEY_FILE')" \
+  'export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1' \
   "exec '$claude_bin' \"\$@\""
 write_wrapper "$BIN_DIR/claude" "$claude_body"
 else rm -f "$BIN_DIR/claude"; fi
 if [[ -n "$codex_bin" ]]; then
-printf -v codex_body '%s\n%s\n%s\n%s' \
-  'unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME' \
+printf -v codex_body '%s\n%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  'unset CODEX_ACCESS_TOKEN CODEX_SQLITE_HOME CODEX_ELECTRON_USER_DATA_PATH CODEX_PROFILE_NAME CODEX_API_KEY OPENAI_API_KEY OPENAI_BASE_URL' \
   "export CODEX_HOME=\$(<'$CODEX_HOME_FILE')" \
+  "grep -qx 'model_provider = \"private_gateway\"' \"\$CODEX_HOME/config.toml\" 2>/dev/null || $gateway_fail" \
   'export CODEX_PROFILE_NO_UPDATE_CHECK=1' \
   "exec '$codex_bin' \"\$@\""
 write_wrapper "$BIN_DIR/codex" "$codex_body"
 else rm -f "$BIN_DIR/codex"; fi
 if [[ -n "$opencode_bin" ]]; then
-printf -v opencode_body '%s\n%s\n%s' \
+# OPENCODE_CONFIG_CONTENT outranks the gateway config and could redirect the provider, so an
+# inherited value is discarded; the wrapper sets it only to select a validated UI mode.
+# shellcheck disable=SC2016
+ui_mode_body='unset OPENCODE_CONFIG_CONTENT
+case "${OPENCODE_UI_MODE:-}" in
+  "") ;;
+  balanced|intelligence)
+    jq -e --arg m "ui-$OPENCODE_UI_MODE" '"'"'.provider.private_gateway.models[$m].id and .agent[$m]'"'"' "$OPENCODE_CONFIG" >/dev/null 2>&1 || { echo "OpenCode UI mode '"'"'$OPENCODE_UI_MODE'"'"' is not configured by the private gateway; rerun scripts/setup-private-ai-gateway.sh. Refusing to fall back to another model." >&2; exit 1; }
+    export OPENCODE_CONFIG_CONTENT="{\"model\":\"private_gateway/ui-$OPENCODE_UI_MODE\",\"default_agent\":\"ui-$OPENCODE_UI_MODE\"}"
+    # A running background service keeps the config it started with; use a private server
+    # for the TUI and `run` (the flag follows the subcommand).
+    if [[ "${1:-}" == run ]]; then shift; set -- run --standalone "$@"
+    elif [[ $# -eq 0 || "$1" == -* || -d "$1" ]]; then set -- --standalone "$@"; fi ;;
+  *) echo "OPENCODE_UI_MODE must be balanced or intelligence." >&2; exit 2 ;;
+esac'
+printf -v opencode_body '%s\n%s\n%s\n%s\n%s\n%s\n%s' \
+  "$key_guard" \
+  '# Gateway-only: no models.dev catalog fetch through api.opencode.ai.
+export OPENCODE_DISABLE_MODELS_FETCH=1' \
+  "[[ \"\$(tr -d ' \\n' 2>/dev/null <'$OPENCODE_CONFIG')\" == *'\"enabled_providers\":[\"private_gateway\"]'* ]] || $gateway_fail" \
   "export OPENCODE_CONFIG='$OPENCODE_CONFIG'" \
+  "$ui_mode_body" \
   "export OPENCODE_CONFIG_DIR='$OPENCODE_HOME'" \
   "exec '$opencode_bin' \"\$@\""
 write_wrapper "$BIN_DIR/opencode" "$opencode_body"

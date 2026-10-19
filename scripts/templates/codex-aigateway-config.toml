@@ -9,6 +9,20 @@ service_tier = "default"
 web_search = "live"
 approval_policy = "on-request"
 default_permissions = "dotfiles"
+# Gateway-only: never offer ChatGPT sign-in, update checks, or analytics to OpenAI.
+forced_login_method = "api"
+check_for_update_on_startup = false
+
+[analytics]
+enabled = false
+
+# Gateway-only: these features call chatgpt.com (plugin/app catalogs) and github.com
+# (plugin marketplaces) directly, outside the gateway.
+[features]
+apps = false
+plugins = false
+remote_plugin = false
+plugin_sharing = false
 
 [desktop]
 followUpQueueMode = "steer"
