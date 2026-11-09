@@ -14,6 +14,7 @@ SSH configuration with 1Password agent integration for macOS.
 - **Identity agent**: 1Password socket at `~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock` (macOS-specific path)
 - **Allowed signers**: Ed25519 public keys for commit verification — one per signing
   identity, so a machine that signs with its own on-disk key is verifiable here too
+- **GitHub account pins**: `~/.ssh/config.d/*.conf` on the machine that uses them. The shared file includes that glob, and OpenSSH ignores it when no file matches. Do not commit those files or the public-key stubs they point at.
 
 ## authorized_keys is deliberately NOT tracked
 

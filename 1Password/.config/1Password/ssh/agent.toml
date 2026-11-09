@@ -1,2 +1,8 @@
+# Only these vaults are visible to the SSH agent and to op-ssh-sign.
+# Every other vault was checked: none of them contain an SSH key.
+[[ssh-keys]]
+vault = "Agentic"
 [[ssh-keys]]
 vault = "Developer"
+[[ssh-keys]]
+vault = "GoFynd"

@@ -10,7 +10,7 @@
 
 ## Configuration
 
-SSH keys are sourced from the "Developer" vault in 1Password.
+The SSH agent loads keys only from vaults named in `agent.toml`: **Agentic**, **Developer**, and **GoFynd**. A key in any other vault stays invisible to Git and SSH, including `op-ssh-sign`. Private keys never leave 1Password. This repo stores vault names only.
 
 ## Prerequisites
 
