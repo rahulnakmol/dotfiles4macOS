@@ -1,0 +1,103 @@
+{
+  "observedDate": "2026-10-31",
+  "aliasUpdatedDate": "2026-10-31",
+  "quicklinkAliasLeader": "q",
+  "defaultSessionMinutes": 45,
+  "sessions": [
+    {
+      "name": "Session: Start Focus",
+      "alias": "qss",
+      "kind": "script-command",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/start-focus-session.sh",
+      "categories": [
+        "Work",
+        "Code",
+        "Author",
+        "Design",
+        "Innovate",
+        "Zen"
+      ],
+      "minutes": [
+        25,
+        30,
+        45
+      ],
+      "defaultMinutes": 45,
+      "hotkey": null
+    }
+  ],
+  "dockflow": [
+    {
+      "name": "DockFlow: Default",
+      "preset": "Default",
+      "observedId": 8,
+      "alias": "d0",
+      "hotkey": "control+option+0",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-0-default.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Work",
+      "preset": "Work",
+      "observedId": 7,
+      "alias": "d1",
+      "hotkey": "control+option+1",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-1-work.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Code",
+      "preset": "Code",
+      "observedId": 2,
+      "alias": "d2",
+      "hotkey": "control+option+2",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-2-code.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Author",
+      "preset": "Author",
+      "observedId": 4,
+      "alias": "d3",
+      "hotkey": "control+option+3",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-3-author.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Design",
+      "preset": "Design",
+      "observedId": 5,
+      "alias": "d4",
+      "hotkey": "control+option+4",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-4-design.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Innovate",
+      "preset": "Innovate",
+      "observedId": 3,
+      "alias": "d5",
+      "hotkey": "control+option+5",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-5-innovate.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Video",
+      "preset": "Video",
+      "observedId": 6,
+      "alias": "d6",
+      "hotkey": "control+option+6",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-6-video.sh",
+      "kind": "script-command"
+    },
+    {
+      "name": "DockFlow: Zen",
+      "preset": "Zen",
+      "observedId": 9,
+      "alias": "d9",
+      "hotkey": "control+option+9",
+      "script": "~/.dotfiles/raycast/.config/raycast/scripts/dockflow-9-zen.sh",
+      "kind": "script-command"
+    }
+  ]
+}

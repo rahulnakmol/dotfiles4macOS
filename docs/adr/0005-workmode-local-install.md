@@ -1,3 +1,5 @@
+> Historical decision, superseded by [native Raycast workspaces](0006-native-raycast-workspaces.md). The custom extension and its installer were removed on 18 October 2026.
+
 # Keep Workmode small and install it locally
 
 ## Context

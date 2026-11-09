@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "observedDate": "2026-10-31",
+  "defaultSessionMinutes": 45,
+  "sessionMinutes": [
+    25,
+    30,
+    45
+  ],
+  "sessionCategories": [
+    {
+      "name": "Work"
+    },
+    {
+      "name": "Code"
+    },
+    {
+      "name": "Author"
+    },
+    {
+      "name": "Design"
+    },
+    {
+      "name": "Innovate"
+    },
+    {
+      "name": "Zen"
+    }
+  ],
+  "dockflowCLI": "/Applications/DockFlow.app/Contents/MacOS/DockFlowCLI",
+  "dockflowPresets": [
+    {
+      "name": "Default",
+      "key": "0",
+      "id": 8
+    },
+    {
+      "name": "Work",
+      "key": "1",
+      "id": 7
+    },
+    {
+      "name": "Code",
+      "key": "2",
+      "id": 2
+    },
+    {
+      "name": "Author",
+      "key": "3",
+      "id": 4
+    },
+    {
+      "name": "Design",
+      "key": "4",
+      "id": 5
+    },
+    {
+      "name": "Innovate",
+      "key": "5",
+      "id": 3
+    },
+    {
+      "name": "Video",
+      "key": "6",
+      "id": 6
+    },
+    {
+      "name": "Zen",
+      "key": "9",
+      "id": 9
+    }
+  ],
+  "quicklinkAliasLeader": "q",
+  "aliasUpdatedDate": "2026-10-31",
+  "sessionCommand": {
+    "name": "Session: Start Focus",
+    "alias": "qss"
+  }
+}

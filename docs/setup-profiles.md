@@ -1,18 +1,16 @@
-# Choose an Alfred productivity profile
+# Choose TF or FDE role apps
 
 [Start here](README.md)
 
-TF and FDE belong to the optional **Alfred + Karabiner + Rectangle Pro** path.
-Choose **TF** for the smaller app selection or **FDE** for the wider developer
-setup. Raycast Focus & Layouts has one shared configuration and does not use
-these profiles.
+TF and FDE install role apps and core settings. Raycast script commands are the
+only automation path and do not depend on these profiles.
 
 ## Choose a profile
 
 | Profile | Best fit | What differs | Guide |
 | --- | --- | --- | --- |
 | **TF — Tech Founder** | Building and prototyping with Cursor and Codex. | Smaller app selection; no T3 Code installation. | [TF setup](guides/profiles/tf.md) |
-| **FDE — Full developer environment** | Development with a wider choice of coding tools. | Includes T3 Code; broader Alfred workflows if you opt into them. | [FDE setup](guides/profiles/fde.md) |
+| **FDE — Full developer environment** | Development with a wider choice of coding tools. | Includes T3 Code. | [FDE setup](guides/profiles/fde.md) |
 
 Amp and Chrome Canary are optional. Profile selection is local to each Mac;
 everyone uses the same repository.

@@ -61,53 +61,32 @@ stow git gh
 gh auth login
 ```
 
-## 2. Choose whether to add focus modes and Hyper shortcuts
+## 2. Choose whether to add focus modes and shortcuts
 
 Core setup is complete without productivity automation. If you want managed app
-launching, window layouts, focus timers and a Hyper-key map, choose **one** path:
+launching, window layouts and focus timers, choose **one** path:
 
 | Productivity path | Profiles | Main tools | Documentation |
 | --- | --- | --- | --- |
-| **Raycast Focus & Layouts** | One shared productivity configuration | Raycast Pro, DockFlow, Session | [Raycast module](docs/modules/raycast.md) |
-| **Alfred + Karabiner + Rectangle Pro** | **TF — Tech Founder** or **FDE — Full developer environment** | Alfred Powerpack, Karabiner-Elements, Rectangle Pro, DockFlow, Session | [Alfred stack](docs/modules/alfred.md) |
-
-Do not enable both global shortcut maps unchanged. They overlap on launcher,
-Hyper, window and focus keys.
+| **Raycast script commands** | One shared configuration | Raycast Script Commands, DockFlow, Session | [Raycast module](docs/modules/raycast.md) |
 
 ### Raycast Focus & Layouts
 
-Raycast has one shared set of modes for every user. Install it after the core:
+Raycast uses shared workflow recipes with Laptop and Desk variants. Install it after the core:
 
 ```bash
-bash scripts/setup-raycast-workstation.sh install
+bash scripts/setup-raycast-native.sh install
 ```
 
-The extension keeps the internal name `Workmode` for compatibility, but the
-user-facing setup is called **Raycast Focus & Layouts**. Its module documents the
-required software, eight layouts, seven focus modes, aliases, window commands,
-shortcuts, desktop assignments and troubleshooting.
+Native Raycast layouts, Script Commands and Quicklinks coordinate DockFlow and
+Session without a custom extension or developer mode. Nine workflows expose
+15 workflow variants, 30 display layouts and Workspace/Arrange/Focus actions.
+Focus defaults to 45 minutes, with 25/30 available explicitly. Chrome means
+Canary only. The [module guide](docs/modules/raycast.md) covers display calibration,
+required apps, native import, permissions and checks; [hotkeys](docs/hotkeys.md)
+and the [HTML reference](docs/assets/raycast-audit.html) list the aliases and keys.
 
-### Alfred + Karabiner + Rectangle Pro
-
-This path offers two productivity profiles:
-
-| Profile | Best fit |
-| --- | --- |
-| **TF — Tech Founder** | A smaller setup centred on Cursor, Codex and rapid product work. |
-| **FDE — Full developer environment** | A wider coding-tool and workflow selection, including T3 Code. |
-
-Choose a profile and install its optional productivity configuration:
-
-```bash
-# Replace tf with fde for the full developer environment
-bash scripts/setup-workstation.sh plan --profile tf --productivity
-bash scripts/setup-workstation.sh apply --profile tf --productivity
-bash scripts/setup-workstation.sh check --profile tf --productivity
-```
-
-See [profile selection](docs/setup-profiles.md) and the
-[Alfred stack module](docs/modules/alfred.md) for prerequisites, permissions,
-layouts, focus sessions and rollback.
+TF and FDE install role apps and core settings. They do not install Alfred, Karabiner-Elements or Rectangle Pro. See [profile selection](docs/setup-profiles.md).
 
 ## Modules
 
@@ -127,8 +106,7 @@ notes instead of splitting those concerns across several guides.
 | [`codex`](docs/modules/codex.md) | Switchable subscription/gateway desktop and isolated gateway CLI |
 | [`opencode`](docs/modules/opencode.md) | OpenCode configuration and complete gateway model catalog |
 | [`cursor`](docs/modules/cursor.md) | Cursor rules and official-account authentication boundary |
-| [`raycast`](docs/modules/raycast.md) | Shared Raycast Focus & Layouts configuration |
-| [`alfred`](docs/modules/alfred.md) | Alfred, Karabiner and Rectangle Pro productivity stack |
+| [`raycast`](docs/modules/raycast.md) | Raycast Script Commands for layouts, Dock presets and focus |
 
 Personal credentials, SSH private keys, login state, histories and licenses are
 not included. Review [`1password`](docs/modules/1password.md) and
@@ -169,9 +147,8 @@ and [Cursor module](docs/modules/cursor.md).
 ## Documentation
 
 - [Set up the repository](docs/setup.md)
-- [Choose TF or FDE for the Alfred stack](docs/setup-profiles.md)
-- [Raycast Focus & Layouts](docs/modules/raycast.md)
-- [Alfred + Karabiner + Rectangle Pro](docs/modules/alfred.md)
+- [Choose TF or FDE role apps](docs/setup-profiles.md)
+- [Raycast script commands](docs/modules/raycast.md)
 - [Hotkeys](docs/hotkeys.md) — Raycast-first global map plus tmux and Herdr entry points
 - [Module documentation](docs/modules/)
 - [Architecture decisions](docs/adr/)

@@ -6,8 +6,6 @@ export const commonModules = ['zsh', 'bash', 'bat', 'starship', 'tmux', 'herdr',
 export const commonFormulae = ['git', 'node', 'stow', 'zsh', 'tmux', 'herdr', 'neovim', 'eza', 'bat', 'fd', 'ripgrep', 'fzf', 'zoxide', 'starship', 'curl', 'jq', 'gh', 'podman', 'claude', 'opencode', 'zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-autocomplete'];
 const apps = [
   ['font-jetbrains-mono-nerd-font', null, null],
-  ['alfred', 'com.runningwithcrayons.Alfred', 'Alfred 5'],
-  ['rectangle-pro', 'com.knollsoft.Hookshot', 'Rectangle Pro'],
   ['dockflow', 'com.appit.DockFlow', 'DockFlow'],
   ['ghostty', 'com.mitchellh.ghostty', 'Ghostty'],
   ['zen', 'app.zen-browser.zen', 'Zen'],
@@ -18,7 +16,6 @@ const apps = [
   ['cleanshot', 'pl.maketheweb.cleanshotx', 'CleanShot X'],
 ];
 export const guidedApps = [
-  {name:'Karabiner-Elements', bundleIds:['org.pqrs.Karabiner-Elements.Settings'], url:'https://karabiner-elements.pqrs.org/', instruction:'Download the official DMG, mount it, open Karabiner-Elements.pkg, then complete services, driver and input permissions.'},
   {name:'Amp', bundleIds:['com.ampcode.amp.macos'], url:'https://ampcode.com/app', instruction:'Install the native Amp Mac app from its official download. Requires macOS 26+. The Amp CLI is not a replacement for the app.'},
   {name:'Session', bundleIds:['com.philipyoungg.session-setapp','com.philipyoungg.session-direct','com.philipyoungg.session'], url:'https://www.stayinsession.com/', instruction:'Install the focus timer via Setapp or the vendor; activate Pro URL automation. Homebrew session is an unrelated messenger.'},
 ];
@@ -42,7 +39,7 @@ export function resolveProfile(value, {productivity=false} = {}) {
     {id:'zen',name:'9. Zen',key:'9',code:25,keyword:'dzen'},
   ];
   config.install = {
-    modules: [...commonModules, ...(productivity ? ['alfred','karabiner','rectangle-pro'] : [])],
+    modules: [...commonModules],
     guided: guidedApps.filter(a=>a.name!=='Amp' && productivity),
     formulae: [...commonFormulae],
     casks: [...apps,
@@ -54,14 +51,14 @@ export function resolveProfile(value, {productivity=false} = {}) {
       ['microsoft-word','com.microsoft.Word','Microsoft Word'],
       ['microsoft-excel','com.microsoft.Excel','Microsoft Excel'],
       ['microsoft-powerpoint','com.microsoft.Powerpoint','Microsoft PowerPoint'],
-    ] : [])].filter(([cask])=>productivity || !['alfred','rectangle-pro','dockflow','cleanshot'].includes(cask)).map(([cask,bundleId,name])=>({cask,bundleId,name,...(cask==='claude-code'?{command:'claude'}:{})})),
+    ] : [])].filter(([cask])=>productivity || !['dockflow','cleanshot'].includes(cask)).map(([cask,bundleId,name])=>({cask,bundleId,name,...(cask==='claude-code'?{command:'claude'}:{})})),
     // Personal Git/SSH/signing/auth and agent trust settings are never copied to colleagues.
     optionalAgentModules: id==='fde' ? ['claude','codex','cursor','opencode'] : [],
   };
   if (id==='tf') {
     const keep = new Set(['ghostty','finder','claude','cursor','codex','slack','obsidian','edge','teams','safari']);
     config.apps=config.apps.filter(a=>keep.has(a.id));
-    // Both profiles retain Zen Browser on Hyper+D.
+    // Both profiles keep Zen Browser in the app list.
     config.apps.unshift({id:'zen-browser',name:'Zen Browser',key:'d',bundleId:'app.zen-browser.zen'});
     config.layouts=config.layouts.filter(l=>['Work','Work Balanced','Default'].includes(l.name));
     for (const layout of config.layouts.filter(l=>l.name.startsWith('Work'))) {

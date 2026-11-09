@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-31",
+  "native_cleanup": "applied and verified",
+  "aliases_verified": true,
+  "variants": 15,
+  "script_commands": 45,
+  "workspace_hotkeys_verified": 15,
+  "native_layouts_exported": 30,
+  "native_layouts_exact_matches": 30,
+  "native_layout_aliases_verified": 30,
+  "retired_mode_count": 5,
+  "legacy_layout_removed": true,
+  "design_meet_layouts_replaced": 8,
+  "dockflow_presets_checked": 10,
+  "obsolete_dock_pin_removed": true,
+  "focus_default_minutes": 45,
+  "open_code_layout_added": false,
+  "zen_code_retained": true,
+  "limits": [
+    "No live workflow or focus timer was started in this cleanup.",
+    "Physical undocked execution remains a separate check."
+  ],
+  "display_calibration": {
+    "main_name": "32EP950",
+    "main_id": 4,
+    "support_name": "UltraFine Pro",
+    "support_id": 2,
+    "auto_preview": "desk"
+  },
+  "meeting_update": {
+    "status": "applied_and_verified",
+    "meeting_layouts_replaced": 4,
+    "fresh_exports_exact_matches": 4,
+    "meeting_layout_aliases_restored": 4,
+    "meeting_action_aliases_verified": 6,
+    "meeting_hotkeys_retained": 2,
+    "timer_quicklinks_deleted": 18,
+    "remaining_quicklinks": 1,
+    "remaining_quicklink": "Mobbin \u2014 Latest Web Apps",
+    "session_command": "Session: Start Focus",
+    "session_alias": "qss",
+    "category_default": "Work",
+    "categories": [
+      "Work",
+      "Code",
+      "Author",
+      "Design",
+      "Innovate",
+      "Zen"
+    ],
+    "minutes_default": 45,
+    "minutes_options": [
+      45,
+      30,
+      25
+    ],
+    "wispr_workflow_launches": false,
+    "timer_started_during_validation": false,
+    "dropdown_ui_verified": true
+  },
+  "tests_passed": 15
+}

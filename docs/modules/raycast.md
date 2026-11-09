@@ -1,249 +1,187 @@
-# Raycast Focus & Layouts
+# Raycast: native workspaces and commands
 
-[Start here](../README.md) · [Set up the repository](../setup.md) · [Hotkeys](../hotkeys.md)
+Updated 31 October 2026. Use native Raycast layouts, Script Commands and
+Quicklinks. DockFlow controls the Dock; Session controls focus timers.
+No custom extension, npm or developer-mode installation is required.
 
-Raycast Focus & Layouts is the repository's single shared Raycast productivity
-configuration. It arranges apps, switches the Dock, starts focus timers and owns
-the optional Raycast Hyper map. It does not use the TF or FDE profiles.
+## Setup
 
-The extension and its commands retain the internal name **Workmode** for
-compatibility. In this documentation, “Raycast Focus & Layouts” names the setup
-that a user chooses.
+1. Run `bash scripts/setup-raycast-native.sh install` from the repository.
+2. Run `bash scripts/setup-raycast-native.sh apps` to install only missing
+   Homebrew-managed workspace apps.
+3. Add `raycast/.config/raycast/scripts` once in Raycast’s Script Commands settings.
+4. Run `bash scripts/setup-raycast-native.sh export-layouts`, then import the JSON
+   with Raycast’s **Import Commands & Layouts**. Review display mappings.
+5. After import verification, run `bash scripts/setup-raycast-native.sh connect-layouts`.
+   Use native Copy Deeplink if your Raycast version emits a different URL.
+6. Assign aliases/keys from `workspaces/reference.json`, including the native
+   `nativeLayouts` alias list. Import `workspaces/quicklinks.json` for Mobbin.
 
-[Install](#install) · [Set up each Mac](#set-up-each-mac) · [Modes](#choose-a-mode) ·
-[Shortcuts](../hotkeys.md#raycast-focus--layouts) · [Troubleshooting](#fix-a-problem)
+Configuration is in `raycast/.config/raycast/workspaces/catalog.json`.
+Generated wrappers are committed; end users need no build step. Per-Mac settings
+stay in `~/Library/Application Support/dotfiles/raycast-workspaces/local.json`.
 
-## Choose the action you need
+## Actions, aliases and hotkeys
 
-| Action | Arranges apps and changes Dock | Quits unrelated apps | Changes the timer |
+Workspace (`w…`) applies the DockFlow preset, opens required apps and requests the
+native layout. Arrange (`l…`) leaves Dock and timers alone. Focus (`f…`) prepares
+the workspace, asks you to confirm window readiness, then requests a Session timer.
+Default focus duration is **45 minutes**, with explicit 30/25 choices. Successful
+deeplink dispatch alone does not prove the windows were positioned.
+
+| Variant | Workspace | Key after Control–Option | Arrange | Focus |
+| --- | --- | --- | --- | --- |
+| Design Figma | `wdf` | v | `ldf` | `fdf` |
+| Design Affinity | `wda` | shift+v | `lda` | `fda` |
+| Work Core | `wwk` | s | `lwk` | `fwk` |
+| Work Word | `wwd` | w | `lwd` | `fwd` |
+| Work Excel | `wxl` | e | `lxl` | `fxl` |
+| Work PowerPoint | `wpp` | p | `lpp` | `fpp` |
+| Remote Work | `wrw` | r | `lrw` | `frw` |
+| Code: Amp \| Slack | `was` | a | `las` | `fas` |
+| Code: Cursor \| Slack | `wcs` | x | `lcs` | `fcs` |
+| Write: Notion \| Slack | `wws` | shift+o | `lws` | `fws` |
+| Zen | `wzn` | z | `lzn` | `fzn` |
+| Zen Code | `wzc` | g | `lzc` | `fzc` |
+| Meet Teams | `wmt` | m | `lmt` | `fmt` |
+| Meet Zoom | `wmz` | shift+m | `lmz` | `fmz` |
+| Innovate | `wiv` | i | `liv` | `fiv` |
+
+### Layout mnemonic family
+
+`l` is the layout leader, followed by a two-letter workflow mnemonic. For example,
+`las` = Amp + Slack, `lcs` = Cursor + Slack, `ldf` = Design Figma and `lmt` = Meet
+Teams. That alias uses Auto selection. Native explicit recipes append `l` for
+Laptop or `d` for Desk: `lasl` / `lasd`, `ldfl` / `ldfd`. This gives one category
+leader plus two or three mnemonic characters, like the AI alias family.
+
+| Native layout | Alias |
+| --- | --- |
+| Design Figma \| Laptop | `ldfl` |
+| Design Figma \| Desk | `ldfd` |
+| Design Affinity \| Laptop | `ldal` |
+| Design Affinity \| Desk | `ldad` |
+| Work Core \| Laptop | `lwkl` |
+| Work Core \| Desk | `lwkd` |
+| Work Word \| Laptop | `lwdl` |
+| Work Word \| Desk | `lwdd` |
+| Work Excel \| Laptop | `lxll` |
+| Work Excel \| Desk | `lxld` |
+| Work PowerPoint \| Laptop | `lppl` |
+| Work PowerPoint \| Desk | `lppd` |
+| Remote Work \| Laptop | `lrwl` |
+| Remote Work \| Desk | `lrwd` |
+| Code: Amp \| Slack \| Laptop | `lasl` |
+| Code: Amp \| Slack \| Desk | `lasd` |
+| Code: Cursor \| Slack \| Laptop | `lcsl` |
+| Code: Cursor \| Slack \| Desk | `lcsd` |
+| Write: Notion \| Slack \| Laptop | `lwsl` |
+| Write: Notion \| Slack \| Desk | `lwsd` |
+| Zen \| Laptop | `lznl` |
+| Zen \| Desk | `lznd` |
+| Zen Code \| Laptop | `lzcl` |
+| Zen Code \| Desk | `lzcd` |
+| Meet Teams \| Laptop | `lmtl` |
+| Meet Teams \| Desk | `lmtd` |
+| Meet Zoom \| Laptop | `lmzl` |
+| Meet Zoom \| Desk | `lmzd` |
+| Innovate \| Laptop | `livl` |
+| Innovate \| Desk | `livd` |
+
+## Workflow apps and Dock presets
+
+| Workflow | Apps | DockFlow | Session category |
 | --- | --- | --- | --- |
-| Window Layout (`wl`) | Yes | No | No |
-| Focus Session (`fs`) | Yes | Yes, after your confirmation | Finishes the old timer; requests a new one |
-| DockFlow Profile (`df`) | Dock only | No | No |
-| Session Timer (`ss`) | No | No | Requests a standalone timer |
+| Design Figma | Figma + Zen | Design | Design |
+| Design Affinity | Affinity + Zen | Design | Design |
+| Work Core | Microsoft Edge + Microsoft Teams + Claude | Work | Work |
+| Work Word | Microsoft Edge + Microsoft Teams + Microsoft Word + Claude | Work | Work |
+| Work Excel | Microsoft Edge + Microsoft Teams + Microsoft Excel + Claude | Work | Work |
+| Work PowerPoint | Microsoft Edge + Microsoft Teams + Microsoft PowerPoint + Claude | Work | Work |
+| Remote Work | Windows App + Citrix Workspace | Remote work | Work |
+| Code: Amp \| Slack | Amp + Slack + Zen + Ghostty + Notion | Code | Code |
+| Code: Cursor \| Slack | Cursor + Slack + Zen + Ghostty + Notion | Code | Code |
+| Write: Notion \| Slack | Notion + Claude + Zen + Slack | Author | Author |
+| Zen | Notion + Claude + Zen | Zen | Zen |
+| Zen Code | Zed + Ghostty + Google Chrome Canary + Notion | Code | Code |
+| Meet Teams | Microsoft Teams + Notion + Microsoft Edge | Work | Work |
+| Meet Zoom | zoom.us + Notion + Zen | Work | Work |
+| Innovate | Cursor + Ghostty + Google Chrome Canary + ChatGPT | Innovate | Innovate |
 
-**Focus sessions close apps.** Save your work before starting one. Normal save
-prompts are respected; a cancelled or timed-out quit stops the switch. Finder,
-Raycast, DockFlow and Session remain available. Codex stays open only when the
-chosen mode includes it.
+## Window geometry and displays
 
-Raycast's native application alias `cx` and Workmode identify ChatGPT/Codex by bundle ID
-`com.openai.codex` and launch the single desktop at `~/.codex` in its selected
-subscription or gateway mode. Switch with `bash scripts/setup-codex-profiles.sh
---mode subscription|gateway` (subscription is the default); the inactive home is
-parked under `~/.local/state/dotfiles/codex-profiles/`.
-The retired gateway desktop Script Commands and `cxs`/`cxg` routes are no longer used;
-terminal `codex` uses the isolated private gateway home instead. The one-time
-`scripts/cleanup-codex-profiles.sh --cleanup` legacy reset is not a toggle;
-review previously archived gateway state, which is not auto-restored.
+Layout widths are shown as fractions: `2/3` and `1/3`. Full width means the
+entire display. Native recipe files retain their numeric geometry values.
 
-## Install
+Code places Amp/Cursor beside Slack at 2/3–1/3 on the main display, with Zen/Ghostty
+at 2/3–1/3 on support. Notion opens minimized. Zen Code retains Zed/Ghostty and
+Canary/Notion. Write uses Notion/Claude on main and Zen/Slack on support.
 
-Install these prerequisites first. The Workmode installer does not install or
-license apps, grant permissions, or change login settings.
+Design uses a 2/3–1/3 primary-app/Zen pair on Laptop and one full app per Desk display.
+Meet uses Teams/Zoom at 2/3 and Notion at 1/3, with a maximized browser on support:
+Edge for Teams, Zen for Zoom. Laptop keeps the browser as a maximized reference
+behind the meeting-and-notes pair. Wispr Flow starts at login and no workflow
+launches or requires it. Its shortcut and Raycast dictation remain independent.
+No meeting, recording or transcription is started by these scripts.
 
-| Requirement | What to do |
+Auto selects Laptop for one display, Desk for two. A built-in screen plus two
+external displays uses saved external IDs and native main/support indexes.
+Recalibrate after changing monitor order. Undocked execution needs a physical
+check even when exported recipe definitions match.
+
+Remote Work opens Windows App and Citrix as normal windows. If either client is
+already running, the runtime skips layout replay to protect a fullscreen session.
+Code minimization checks every minimizable window and excludes utility dialogs
+whose AXMinimized attribute is read-only. Failures stop before a timer request.
+
+## Existing standalone commands
+
+`qss` runs **Session: Start Focus**, one Raycast Script Command with Category
+and Minutes dropdowns. Categories: Work, Code, Author, Design, Innovate, Zen.
+Minutes: 45 (default), 30 or 25. The command requests a Session timer directly,
+without changing apps, layout or Dock. It replaces the separate timer Quicklinks;
+their six old number hotkeys are released. No global key is assigned to qss.
+
+## Other alias families
+
+- AI: `a` + mnemonic (`ach`, `aqa`, `abug`).
+- Snippet commands: `s` + mnemonic (`snp`, `snew`); expansion keywords are separate.
+- Quicklinks: `q` + mnemonic (`qmb`, `qls`, `qss`).
+- Apple Shortcuts: `k` + mnemonic (`ksr`, `ker`, `kdc`, `ksh`, `kmq`).
+
+Portable references: `alias-families.json`, `apple-shortcuts.json`,
+`launchers/reference.json` and `workspaces/reference.json`. Utility command
+settings retain their earlier saved assignments. See [all keybindings](../hotkeys.md)
+and the [HTML review](../assets/raycast-audit.html).
+
+## Favorites
+
+| Favorite | Alias |
 | --- | --- |
-| macOS | Use this setup on a Mac. The installer rejects other operating systems. |
-| Node 22.18+ and npm | Run `brew install node`. |
-| GNU Stow | Run `brew install stow`. |
-| Xcode Command Line Tools | Run `xcode-select --install` if they are missing. |
-| Raycast | Run `brew install --cask raycast`. Sign in directly; layouts and focus need Pro window-management access. |
-| DockFlow | Install and activate it for saved Dock profiles. |
-| Session | Install the focus timer from [Session](https://www.stayinsession.com/) or Setapp. Enable its URL automation. The Homebrew `session` cask is an unrelated messenger. |
-| Mode apps | Install the apps for the [modes you use](#choose-a-mode), and complete their first-run setup. |
-| CleanShot X | Needed only for the capture menu. |
+| Search Files | fs |
+| Focus: Code: Amp \| Slack | fas |
+| Focus: Code: Cursor \| Slack | fcs |
+| Focus: Zen Code | fzc |
+| Focus: Work Core | fwk |
+| My Passwords | 1pm |
+| Caffeinate for ... | — |
+| Toggle Caffeinate | — |
+| Toggle System Appearance | — |
 
-From the dotfiles checkout, run:
+Search Files is the explicit hotkey/favorite exception. Other Focus favorites
+use aliases rather than additional global keys. Caffeinate for… accepts separate
+Hours, Minutes and Seconds fields. Keep no more than ten favorites.
 
-```sh
-bash scripts/setup-raycast-workstation.sh install
-```
+## Verification and recovery
 
-Or double-click `setup/Raycast.command`. Setup starts Raycast's development mode
-only long enough to import the extension, waits for the first successful build,
-then sends the documented interrupt and exits. Workmode stays installed; you do
-not need to press Control+C or keep a terminal or watcher running.
+The current catalog has 15 variants, 30 native recipes, 45 Script Commands and
+30 explicit-layout mnemonics. The [current recipe export](../assets/native-workspace-layouts-verified.json)
+and [cleanup status](../assets/raycast-workspace-installation-status.json) record
+verification separately from live execution. Pre-cleanup files and native exports
+were backed up outside this repository’s current docs.
 
-Raycast does not provide a one-shot local-import command. The installer uses the
-repository-pinned CLI, watches its output for the first successful development
-build, allows a short settle period, and stops only that CLI process group. It
-does not quit Raycast or search for unrelated development processes. If readiness
-is not reported within 120 seconds, setup prints the captured CLI output and
-fails instead of leaving a background watcher behind.
-
-```mermaid
-flowchart LR
-    A[Run install] --> B[Build and run checks]
-    B --> C[Link Workmode config with Stow]
-    C --> D[Import into Raycast]
-    D --> E[Wait for first successful build]
-    E --> F[Stop watcher and exit]
-    F --> G[Complete per-Mac setup]
-```
-
-A Stow conflict stops installation instead of replacing your files. Resolve the
-conflict, then retry. If import fails, the configuration may already be linked;
-rerunning `install` is safe. See [Raycast's local installation guide](https://developers.raycast.com/basics/create-your-first-extension).
-
-## Set up each Mac
-
-| Step | What to do | How to check |
-| --- | --- | --- |
-| 1. Create four desktops | In Mission Control, add four ordinary desktops. Turn off automatic Space reordering. | You can select Desktop 1–4. |
-| 2. Assign their roles | On Desktop 1, open **Check Workmode Setup** and choose **Assign This Space to Desktop 1**. Repeat while on each other desktop. | All four roles show Ready. Do not assign every role from the same Space. |
-| 3. Prepare DockFlow | Create or import one preset for each mode you use, with the exact name in the table below. Turn off preset actions that also open or quit apps. | The setup checker finds exactly one matching preset. |
-| 4. Add Session categories | Create the category names in the mode table. In Session, type `@` in the intention field to find category controls. Reuse existing names. | Check the category on your first timer and in Session history. |
-| 5. Choose timer handoff | For automatic switching, turn off **Settings → General → Ask for Reflection when Session has ended** in Session. If you keep it on, submit reflection before starting the next timer with `ss`. | Start requests sent during reflection can be ignored; the installer does not change this preference. |
-| 6. Configure shortcuts | Set Raycast to **Option+Space**, keep Spotlight on **Command+Space**, add `~/.config/raycast/scripts` as a Script Commands directory, and follow the [shortcut reference](../hotkeys.md#raycast-focus--layouts). | Test the actual keys; Stow supplies scripts and reference JSON but does not register native aliases or hotkeys. |
-| 7. Set startup and permissions | Enable Raycast and the support apps you need at login. Complete macOS access prompts directly. Use CleanShot X for capture shortcuts. | Test again after logging in. |
-| 8. Choose browser context | Select the intended Zen workspace or profile yourself. Work uses Edge. | Workmode does not switch browser identities or Zen workspaces. |
-
-If migrating from Alfred, Karabiner or Rectangle Pro, disable their competing
-shortcuts and login items after testing Raycast. They are not Workmode dependencies.
-For several displays, focus a normal app on the intended display before assigning
-its Space. Repeat assignments after recreating desktops or changing displays.
-
-DockFlow preset contents stay in DockFlow. Export them through its UI and review
-personal paths before sharing. Do not replace your current presets with an older
-pack just because it is in dotfiles.
-
-## Choose a mode
-
-A dash means Workmode does not arrange a window on that desktop. Apps listed
-without a fraction are maximized. Video also maximizes Finder on Desktop 1.
-
-| Mode | DockFlow preset | Desktop 2 · Connect | Desktop 3 · Create | Desktop 4 · Focus | Minutes / Session category |
-| --- | --- | --- | --- | --- | --- |
-| Default | `0. Default` | Zen | — | — | No timer |
-| Work | `1. Work` | Edge ⅔ + Teams ⅓ | Claude | — | 30 / Work |
-| Code | `2. Code` | Zen ⅔ + Slack ⅓ | Amp | Ghostty | 45 / Code |
-| Author | `3. Author` | Zen | Claude | Obsidian | 45 / Author |
-| Design | `4. Design` | Zen + Excalidraw link | Figma | Affinity | 45 / Design |
-| Innovate | `5. Innovate` | Zen ⅔ + Slack ⅓ | Codex | Ghostty | 45 / Innovate |
-| Video | `6. Video` | — | Final Cut Pro | Motion | 45 / Video |
-| Zen | `9. Zen` | Zen | — | Obsidian | 25 / Zen |
-
-Code and Innovate use this arrangement:
-
-```mermaid
-flowchart LR
-    H["Desktop 1 · Home<br/>Finder and support apps"]
-    subgraph Connect["Desktop 2 · Connect"]
-        B["Zen · left ⅔"]
-        C["Slack · right ⅓"]
-    end
-    A["Desktop 3 · Create<br/>Amp or Codex · maximized"]
-    T["Desktop 4 · Focus<br/>Ghostty · maximized"]
-    H ~~~ B
-    B ~~~ C
-    C ~~~ A
-    A ~~~ T
-```
-
-These are **tiled or maximized windows on ordinary desktops**, not native
-fullscreen or Split View. On a narrow display, Slack may need more than one
-third; Workmode adjusts Zen to fit beside it. It does not create your desktops.
-
-Use `wco` for the Code layout or `fco` for Code focus. Use `win` or `fin` for the
-Codex alternative. Direct aliases open the selected mode; they do not start it
-until you choose its action. See [all mode aliases](../hotkeys.md#raycast-focus--layouts).
-
-## Start and switch focus sessions
-
-```mermaid
-flowchart TD
-    A[Choose a focus mode] --> B[Check requirements and preview app quits]
-    B --> C{Start Focus?}
-    C -->|Cancel| D[Leave apps and timer unchanged]
-    C -->|Confirm| E[Recheck requirements]
-    E --> F[Request finish of the current Session timer]
-    F --> G[Quit unrelated apps normally]
-    G --> H[Arrange windows and apply Dock profile]
-    H --> I[Open mode links and request the new timer]
-```
-
-A failed requirements check leaves the old timer alone. A later failure can leave
-it finished, with no new timer started. Always check Session's visible timer:
-a successful URL request does not prove that Session accepted it.
-
-For a timer without app changes, run `ss` and choose **20, 25, 30, 45 or 60 minutes**.
-It uses Session's current/default category unless you choose a category action.
-The 20- and 25-minute choices use the intention **Pomodoro**. Session categories
-must exist first; Workmode cannot create them. A timer alone does not keep the
-Mac awake; use your separate keep-awake control if needed.
-
-## Fix a problem
-
-| Problem | What to do |
-| --- | --- |
-| Workmode is missing from Raycast | Run `install` again. Wait for the import's ready message. Search by command name if aliases are not set. |
-| A mode says Setup needed | Run **Check Workmode Setup** (`wchk`). Resolve the named app, DockFlow preset or desktop assignment. |
-| “This desktop is already assigned to role …” | Check which physical Space that role uses. Reassign the mistaken role from its intended Space, then retry. |
-| “Cannot get window” | Open the app's main window, finish first-run dialogs, exit native fullscreen and retry. Zen still has an intermittent cold-launch resize error. Do not reset all desktop assignments for this error. |
-| A window “did not settle” | Check its target desktop, minimum size and fullscreen state. Workmode verifies bounds after moving; it stops if the result is wrong. |
-| “A mode switch is already running” | Let the switch or save prompt finish. After a crash, wait at least 60 seconds and retry. The current lock recovers automatically; do not delete it during an active switch. |
-| The timer did not switch | Complete Session's reflection or other prompt, then request the timer with `ss`. Check step 5 above before relying on automatic handoff. |
-| Move to Previous Space does nothing | Its last audited assignment was incomplete and disabled. Record Control+Option+comma/period manually and test with a disposable Finder window as described in the [hotkey map](../hotkeys.md#window-keys). |
-| A shortcut runs the wrong action | Check for a duplicate binding in Raycast, Codex or a legacy launcher/remapper. |
-
-## Update, check or remove
-
-Run these from the dotfiles checkout:
-
-| Goal | Command | Result |
-| --- | --- | --- |
-| Preview setup | `bash scripts/setup-raycast-workstation.sh plan` | Describes the steps; changes nothing. |
-| Build only | `bash scripts/setup-raycast-workstation.sh build` | Compiles and validates; no Stow or import. |
-| Install or update | `bash scripts/setup-raycast-workstation.sh install` | Builds, links and imports. Repeat after pulling source changes. |
-| Check local setup | `bash scripts/setup-raycast-workstation.sh check` | Checks source and the Stow link; use `wchk` for live prerequisites. |
-| Unlink configuration | `bash scripts/setup-raycast-workstation.sh rollback` | Removes the Stow link only. |
-
-**To stop using Workmode, also remove it in Raycast Settings.** Unlinking alone
-leaves the installed extension able to use its bundled defaults. App data and
-private Raycast settings remain. The older `apply` command only builds and links;
-use `install` when you also need import.
-
-| Saved in dotfiles | Kept on each Mac or in the app |
-| --- | --- |
-| Mode definitions, shortcut reference, extension source and icons | Desktop IDs, app credentials, licenses, browser profiles, Session categories and DockFlow data |
-| Reviewed `~/.config/raycast/workstation` runtime config and reference JSON, plus `~/.config/raycast/scripts` commands, linked by Stow | Raycast databases, native settings and private `.rayconfig` exports |
-
-Workmode loads only `~/.config/raycast/workstation/workstation.json` at runtime,
-falling back to the bundled copy if it is absent. `aliases.json` and
-`hotkeys.json` are generated review/reference files; Raycast does not import them
-or write its private settings from them.
-
-Use Raycast's supported sync or private backup flow for native settings. Keep
-exports outside Git. Import Workmode source separately on each Mac.
-
-## What has been verified
-
-These are recorded results from **13 September 2026**, not a promise that every
-mode works in every window state.
-
-| Check | Result and limit |
-| --- | --- |
-| macOS build and import lifecycle | Earlier manual installation confirmed commands remain after stopping the watcher. Current isolated tests cover readiness, ANSI output, premature failure and timeout cleanup; CI cannot prove a signed-in GUI import. |
-| Layout menus and aliases | Eight layouts and seven focus sessions load; Code uses Amp and Innovate uses Codex. |
-| Default, Work, Author, Design and Zen layouts | Passed recorded window/Dock tests. Later Zen cold launches still showed intermittent errors. |
-| Zen + Slack sizing | Passed an isolated test with Slack's minimum-width adjustment. |
-| Full Code and Innovate focus sessions | Still need a user test; computer-use access to Ghostty was unavailable. |
-| Video | Not live-tested; the media apps were not installed on the test Mac. |
-| Timer handoff and Space hotkeys | Need the manual checks described above. |
-
-## Keep extensions useful
-
-Use native Raycast commands for single actions. Keep Workmode for coordinated
-modes, DockFlow for Dock contents, Session for timers, and CleanShot X for capture.
-
-Before removing a Store extension, check whether you use a feature that its
-replacement lacks. Common overlaps include Pomodoro versus Session, Emoji Search
-versus native symbols, and multiple app cleaners. Installation count alone does
-not measure performance. No extension is removed by this setup.
-
-[Developer guide](../../extensions/raycast-workstation/README.md) ·
-[Design decision](../adr/0005-workmode-local-install.md) ·
-[Raycast Hyper](https://manual.raycast.com/hyper-key) ·
-[Raycast window management](https://manual.raycast.com/window-management) ·
-[Session URL actions](https://www.stayinsession.com/learn/session-url-scheme)
+Use `node scripts/build-raycast-native.mjs --check`,
+`node scripts/build-raycast-launchers.mjs --check` and
+`node --test scripts/test-raycast-native.mjs scripts/test-documentation.mjs` for
+maintainer validation. Native settings are edited through Raycast UI, never a
+private database. Follow [ADR 0006](../adr/0006-native-raycast-workspaces.md).

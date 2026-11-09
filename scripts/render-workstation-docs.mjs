@@ -11,7 +11,7 @@ for(const id of profileIds) {
   if(start<0 || end<=start) throw new Error('Missing shortcut reference boundaries');
   const guide=full.slice(0,start)+`## Commands and hotkeys
 
-Use the [Alfred stack module](../../modules/alfred.md#hotkeys-and-commands) for the Alfred, Karabiner and Rectangle Pro map. Raycast has a separate shared configuration and hotkey reference.
+Use the [Raycast module](../../modules/raycast.md) for Script Commands, aliases and hotkeys.
 
 `+full.slice(end);
   for(const [ext,data] of [['md',guide],['html',manualHTML(c,{compact:true})]]) {

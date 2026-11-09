@@ -4,9 +4,9 @@ Updated September 12, 2026. Branch: openai/fde-tf-workstation-profiles.
 
 ## Verified automatically
 
-- FDE and TF default to core settings and role apps. No productivity package,
-  Stow link, Alfred preference change or productivity check is scheduled unless
-  `--productivity` is supplied. Read-only TF plan confirms this on the source Mac.
+- FDE and TF default to core settings and role apps. No productivity package
+  or productivity check is scheduled unless `--productivity` is supplied.
+  Read-only TF plan confirms this on the source Mac.
 - Temporary-home tests cover explicit opt-in, default apply with existing
   productivity settings, core reapply/profile switching after opt-in, retained
   ownership hashes, re-enabling and rollback. Existing automation stays intact.
@@ -17,12 +17,12 @@ Updated September 12, 2026. Branch: openai/fde-tf-workstation-profiles.
   with Ghostty two-thirds and Slack one-third on a separate desktop. FDE retains all five existing sessions. Shared launch keys stay stable.
 - Native Swift focus tests exercise TF as well as FDE with substituted desktop
   operations. Missing named DockFlow presets fail before any app quits.
-- Profile installation, repeated apply, TF → FDE → TF, rollback, private Alfred
-  file preservation, unmanaged file conflicts and redirected paths are tested in
-  temporary homes. Tests never quit the user's apps or request real timers.
-- Karabiner and the unrelated Homebrew Session messenger are excluded from
-  package installation. Installed app identity is checked, including CleanShot
-  Setapp. No personal signing/SSH/account configuration is deployed.
+- Profile installation, repeated apply, TF → FDE → TF, rollback, unmanaged file
+  conflicts and redirected paths are tested in temporary homes. Tests never quit
+  the user's apps or request real timers.
+- The unrelated Homebrew Session messenger is excluded from package
+  installation. Installed app identity is checked, including CleanShot Setapp.
+  No personal signing/SSH/account configuration is deployed.
 - Both preset packs match the native export structure and contain only reviewed
   application metadata, names and spacers. No folders or custom actions.
 - Read-only TF setup on the source Mac reports no configuration conflicts.
@@ -42,8 +42,7 @@ pack is rejected by DockFlow; it leaves native import/round-trip validation pend
 
 ## Per-Mac acceptance after opting into productivity
 
-Install/activate licenses and permissions, connect the selected Alfred bundle,
-import Rectangle and DockFlow, verify native desktop assignments, test physical
-Hyper/Meh keys, and test real focus quits/timer startup with work saved. Log out
-and back in; repeat on the second Mac and external display. Native app imports,
-permission state and Session Pro capability are not proven by unit tests.
+Install Raycast Script Commands, import DockFlow, verify native desktop
+assignments, and test a real focus script and Session timer with work saved.
+Log out and back in; repeat on the second Mac and external display. Permission
+state and Session Pro capability are not proven by unit tests.

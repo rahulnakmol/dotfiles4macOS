@@ -1,6 +1,6 @@
 # FDE — Full developer environment
 
-Install the FDE Alfred productivity profile on this Mac. Core dotfiles are documented separately; TF/FDE choose the Alfred, Karabiner and Rectangle Pro workflows. Raycast Focus & Layouts has one shared configuration and does not use this profile.
+Install the FDE role apps and core dotfiles on this Mac. Window layouts, Dock presets and focus timers are Raycast Script Commands, not an Alfred, Karabiner or Rectangle setup.
 
 ## Quick setup
 
@@ -16,7 +16,7 @@ Choose whether this profile should manage productivity automation:
 | --- | --- |
 | Core only / my own tools | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup.md instead of a TF/FDE productivity profile. |
 | Raycast Focus & Layouts | Use https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md; Raycast has one shared configuration. |
-| Alfred + Karabiner + Rectangle Pro | Add --productivity. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md and the profile details below. |
+| Raycast script commands | Run bash scripts/setup-raycast-native.sh install. Follow https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md. |
 
 For a fresh Mac or double-click launchers, see https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/setup-profiles.md. The installer checks prerequisites, runs plan/apply/check, records progress and opens this GitHub manual. Rerun after completing any interrupted Apple installation. Existing checkouts are used as-is.
 
@@ -73,7 +73,7 @@ remain under `~/.config/private-ai-gateway` with restrictive permissions. Ordina
 `codex` and `opencode` commands use protected wrappers in `~/.local/bin`. Terminal `codex`
 always uses `~/.config/private-ai-gateway/codex` and the file-backed gateway key; ChatGPT/Codex
 desktop uses `~/.codex`, with your subscription login by default or file-backed gateway config
-in gateway mode. Dock, Hyper+J, Raycast `cx`, shell `cx` and Workmode launch that single desktop.
+in gateway mode. Dock, Hyper+J, Raycast `cx`, shell `cx` launch that single desktop.
 The inactive home is parked under `~/.local/state/dotfiles/codex-profiles/` for reversible
 switching. Codex setup never asks for or rotates the key; it installs a missing vendor CLI via
 `brew install --cask codex` and refreshes the gateway wrapper. For a one-time legacy reset/archive,
@@ -89,23 +89,15 @@ for deliberate one-place key rotation.
 Cursor CLI stays on the official Cursor account because it has no generic OpenAI-compatible provider
 interface. Never reuse the gateway key as `CURSOR_API_KEY`. See the module guides for details.
 
-## Optional Alfred productivity setup
+## Raycast script automation
 
-This section applies only when you deliberately choose the Alfred stack. Raycast and core-only users should skip to Updates, profile switching and rollback. Alfred shortcuts are documented at https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/alfred.md#hotkeys-and-commands.
-
-The default commands above install the role apps and CLI toolkit and Stow shell, terminal and editor settings only. They do not install Alfred, Rectangle Pro, DockFlow or CleanShot, request Karabiner/Session setup, generate their workflows, change launcher hotkeys, or link their settings.
-
-To opt in, add --productivity to each command:
+Window geometry, Dock presets and focus timers come from the Raycast Script Commands in raycast/.config/raycast/scripts. This profile does not install Alfred, Karabiner-Elements or Rectangle Pro, and it does not link their settings.
 
 ```sh
-bash scripts/setup-workstation.sh plan --profile fde --productivity
-bash scripts/setup-workstation.sh apply --profile fde --productivity
-bash scripts/setup-workstation.sh check --profile fde --productivity
+bash scripts/setup-raycast-native.sh install
 ```
 
-This adds Alfred, Karabiner, Rectangle Pro, DockFlow, Session timers, focus sessions, window layouts, Google Workspace workflows and CleanShot integration. Karabiner and Session still require the guided installation below. Enabling the option does not start a focus session or quit apps.
-
-The flag is required on every run that manages productivity; a previous opt-in does not silently enable it later. Omitting it leaves existing productivity apps, links and preferences untouched, including during a profile switch. It does not uninstall or disable a previously configured setup. Core check deliberately skips productivity dependencies and permissions. Use the backup from the opt-in run to roll back its managed settings.
+Add that scripts directory once in Raycast’s Script Commands settings. The command list and aliases are in https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/modules/raycast.md and https://github.com/rahulnakmol/dotfiles4macOS/blob/main/docs/hotkeys.md. DockFlow presets and Session categories are still created by hand; the scripts call them.
 
 ## What is installed
 
@@ -120,8 +112,8 @@ Git and gh are installed, but personal Git identity, SSH, signing and credential
 Both profiles install Zen Browser, Claude Desktop, Cursor and ChatGPT/Codex by default. Zen is the everyday browser for code sessions. Work keeps Microsoft Edge. Stable Google Chrome is not installed by the setup.
 
 1. Open Zen once to complete its onboarding. In macOS System Settings, search for Default web browser and select Zen. This is a human step on each Mac; Stow does not set the OS default browser. Google Workspace links use that OS default.
-2. If you previously used Chrome for code, assign Zen to the reference desktop, rerun apply with --productivity and reimport Rectangle Pro and the DockFlow preset pack. Resolve duplicate preset names before testing. Existing Chrome installations and browser data are retained.
-3. Optional end-to-end testing browser: install Google Chrome Canary with the command below. Launch it by name in Alfred when testing; it is not part of focus-session layouts or the default install. Use the Canary app explicitly in your test runner configuration; this setup does not change browser binaries managed by Playwright or other test tools.
+2. If you previously used Chrome for code, assign Zen to the reference desktop. Existing Chrome installations and browser data are retained.
+3. Optional end-to-end testing browser: install Google Chrome Canary with the command below. It is not part of the Raycast focus scripts or the default install. Use the Canary app explicitly in your test runner configuration; this setup does not change browser binaries managed by Playwright or other test tools.
 
 ```sh
 brew install --cask google-chrome@canary
@@ -129,49 +121,27 @@ brew install --cask google-chrome@canary
 
 Official casks: https://formulae.brew.sh/cask/zen and https://formulae.brew.sh/cask/google-chrome%40canary.
 
-FDE additionally installs T3 Code via brew install --cask t3-code. It uses at least one separately configured provider CLI; opening the desktop app alone does not configure a provider. Follow https://github.com/pingdotgg/t3code/blob/main/docs/user/install.md for provider prerequisites. Hyper+G opens T3 Code; Hyper+J still opens ChatGPT/Codex. Telegram is shortcut-only on Hyper+T: optionally install it with brew install --cask telegram. It is not included in focus sessions or Dock presets.
+FDE additionally installs T3 Code via brew install --cask t3-code. It uses at least one separately configured provider CLI; opening the desktop app alone does not configure a provider. Follow https://github.com/pingdotgg/t3code/blob/main/docs/user/install.md for provider prerequisites. Telegram is optional: brew install --cask telegram. It is not included in focus sessions or Dock presets.
 
-Amp is an optional native app from https://ampcode.com/app. Install it only if needed; the installer and check command do not require it. FDE retains Hyper+A and Code + Amp for users who install it. Its macOS 26+ requirement applies only to Amp, not to the base profile. TF does not include Amp workflows.
+Amp is an optional native app from https://ampcode.com/app. Install it only if needed; the installer and check command do not require it. Its macOS 26+ requirement applies only to Amp, not to the base profile. TF does not include Amp workflows.
 
-## Productivity: Karabiner official installer
+## Apps the Raycast scripts call
 
-Everything from this section through the workflow reference is optional and requires --productivity. Without it, keep your preferred launcher, shortcuts and window manager. Amp is optional: install its native app separately from https://ampcode.com/app only if you want its workflow.
+Amp is optional: install its native app separately from https://ampcode.com/app only if you want that workflow.
 
-1. Visit https://karabiner-elements.pqrs.org/ and download the stable DMG suitable for your macOS version. The setup command prints this link when it is missing.
-2. Open the DMG, then Karabiner-Elements.pkg. Complete macOS Installer and enter administrator credentials directly.
-3. Launch Karabiner-Elements. Complete the background-service, driver extension and input/accessibility prompts shown by that version. Choose the physical keyboard type (ANSI / ISO / JIS).
-4. Select Hyperland. Hold Caps Lock and press F: Finder should open. Tap Caps Lock: Escape should be sent. Hold Right Option and press Return: Alfred's layouts should appear.
-5. Restart or log out when prompted, then repeat the physical tests. An app icon or old Homebrew receipt is not proof that the driver works.
-
-Karabiner is deliberately excluded from Homebrew installation. An existing healthy install is retained; a broken Homebrew install needs the vendor's uninstall/reinstall guidance rather than deleting driver files. The entire ~/.config/karabiner directory is linked, so Karabiner can observe changes; its JSON file alone must not be symlinked.
-
-## Complete the apps on each Mac
-
-1. Alfred: activate Powerpack; Advanced → Set preferences folder → ~/.config/alfred. Restart Alfred. Rerun apply with --productivity to set this machine's Command+Space launcher and Meh feature keys. Disable Spotlight's Command+Space and any Raycast launcher/Hyper bindings that overlap.
-2. Rectangle Pro: activate, grant Accessibility, enable login, then App Settings → Import Config → ~/.config/rectangle-pro/RectangleProConfig.json. Repeat this import after changing profiles or updating layouts; Stow alone does not apply native Rectangle settings.
-3. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation, enable login and review breathing/break settings. Complete the Session categories checklist below before using focus sessions. Do not install the Homebrew session cask: it is an unrelated messenger.
-4. Optional Amp: install the native Mac app from https://ampcode.com/app. The CLI alone does not satisfy the Amp window layout. Sign in directly in the app.
-5. DockFlow: activate, enable login, and import the preset pack described below. Leave its automatic app quit/launch actions off; Alfred owns focus orchestration and Rectangle owns window geometry.
-6. CleanShot X: an existing Setapp copy is accepted. Otherwise install/activate the standalone app. Enable login, grant capture permission, and configure Command+Shift+3/4/5 in CleanShot. Approve its external-command prompt when you first use the capture menu.
-7. Install the utility workflows from Alfred Gallery using the links below. Keep their default keywords. Their credentials, settings, snippets and history stay local.
-
-| Workflow | Install from |
-| --- | --- |
-| atop | https://alfred.app/workflows/chrisgrieser/atop/ |
-| Audio Switcher | https://alfred.app/workflows/tobiasmende/audio-switcher/ |
-| Caffeine Dose | https://alfred.app/workflows/vanstrouble/caffeine-dose/ |
-| Timer | https://alfred.app/workflows/colomolo/timer/ |
-
-Owned Hyper, DockFlow Profiles and Google Workspace workflows are generated automatically, with author Rahul N Akmol and icons. Third-party workflows keep their own authors and names. Their existing installations are retained in that profile's private preferences bundle.
+1. Session: install the focus timer from https://www.stayinsession.com/ or Setapp. Activate Pro URL automation. The Raycast script start-focus-session.sh opens session:///start. Do not install the Homebrew session cask: it is an unrelated messenger.
+2. Optional Amp: install the native Mac app from https://ampcode.com/app. Sign in directly in the app.
+3. DockFlow: activate, enable login, and import the preset pack described below. The Raycast dockflow scripts select presets by name. Leave DockFlow's own quit/launch actions off.
+4. CleanShot X: an existing Setapp copy is accepted. Otherwise install/activate the standalone app. Capture shortcuts stay in CleanShot.
 
 ## Session categories — human setup
 
 This checklist is part of optional productivity setup only. Create these categories in Session once, then verify they are available on each Mac. Reuse existing matching categories instead of creating duplicates.
 
-| Category | Use for |
+| Category | Raycast script |
 | --- | --- |
-| Work | fs work |
-| Code | fs amp, fs claude, fs cursor and fs t3code |
+| Work | fwk |
+| Code | fas, fcs and the other native-focus scripts |
 
 1. Open Session's main timer screen. In the intention field, type @ to open category selection and use its add-category option for each name above. Choose any colors you prefer.
 2. Reopen category selection and confirm each category is available. On another Mac, check for existing categories first and create only missing ones.
@@ -205,11 +175,11 @@ Desktop 4: available for other tasks
 
 Work uses Edge 2/3 + Teams 1/3. Every Code variant uses three working desktops: Zen maximized, the coding app maximized, and Ghostty 2/3 + Slack 1/3. Move Ghostty from Desktop 1 to Desktop 3 once on each Mac. These are virtual desktops, not three required physical monitors. T3 Code replaces the FDE Codex session; TF retains Innovate + Codex. Obsidian remains available in the separate Code Notes and Zen layouts. Amp sessions require the optional Amp app.
 
-On small displays Teams may refuse a narrow third. Choose Work Balanced or use Hyper+Return to maximize. Extra app windows may need manual placement. Exact native fullscreen Split View recreation is not part of this setup.
+On small displays Teams may refuse a narrow third. Maximize that window from Raycast or by hand. Extra app windows may need manual placement. Exact native fullscreen Split View recreation is not part of this setup.
 
 ## Commands and hotkeys
 
-Use the [Alfred stack module](../../modules/alfred.md#hotkeys-and-commands) for the Alfred, Karabiner and Rectangle Pro map. Raycast has a separate shared configuration and hotkey reference.
+Use the [Raycast module](../../modules/raycast.md) for Script Commands, aliases and hotkeys.
 
 ## Import and export DockFlow
 
@@ -220,30 +190,29 @@ Use the [Alfred stack module](../../modules/alfred.md#hotkeys-and-commands) for 
 5. Test dp work and dp code. Name-based selection discovers the current preset rather than reusing another Mac's IDs. Duplicate/missing names produce an actionable error.
 6. To share later edits, export selected presets without folders to a private temporary location. Use scripts/sanitize-dockflow.mjs to create a sanitized export, review the diff, then commit the pack. Never Stow DockFlow's live database.
 
-FDE has seven presets; TF has Default, Work, Code, Innovate and Zen. Switching an existing FDE Mac to TF hides extra presets in Alfred but leaves the saved DockFlow library intact. Rename/archive old presets manually if desired. Export JSON uses DockFlow's native schema, not a made-up format.
+FDE has seven presets; TF has Default, Work, Code, Innovate and Zen. Switching an existing FDE Mac to TF leaves the saved DockFlow library intact. Rename or archive old presets manually if desired. Export JSON uses DockFlow's native schema.
 
 ## Updates, profile switching and rollback
 
 After pulling reviewed changes, rerun plan, apply and check with the same profile. Include --productivity only when you want to update the optional automation setup. Profile-generated source lives under ~/.local/share/dotfiles/workstations/fde; ~/.config links are managed by GNU Stow. Source definitions, exports and this documentation are versioned in dotfiles. Histories, local preferences and generated activation journals stay on this Mac.
 
-To switch core settings, run apply --profile tf. Add --productivity to switch the automation settings as well. Only links owned by this checkout or its managed profile folders may be replaced. Other files cause a conflict. Each profile keeps its own Alfred preferences and third-party workflows; switching back restores access to its previous preferences. On the first migration from the legacy dotfiles Alfred folder, that folder remains intact; select/install the needed utility workflows in the new profile. No private workflow variables or histories are copied automatically.
+To switch core settings, run apply --profile tf. Add --productivity to switch the automation settings as well. Only links owned by this checkout or its managed profile folders may be replaced. Other files cause a conflict. Raycast Script Commands stay in the repository checkout. DockFlow presets stay in DockFlow.
 
-After switching productivity profiles, reconnect Alfred to ~/.config/alfred and restart it, import the new Rectangle snapshot and chosen DockFlow pack, then run check with --productivity. Check reports machine-local steps as unverified until physically tested; it never equates file correctness with permissions or a login test.
+After switching profiles, run check for the new profile. Raycast Script Commands stay in the repository checkout. Reimport a DockFlow pack only when its preset names change. Check reports machine-local steps as unverified until physically tested; it never equates file correctness with permissions or a login test.
 
 ```sh
 bash scripts/setup-workstation.sh rollback BACKUP_DIRECTORY
 ```
 
-Rollback restores managed files, links, profile selection and narrowly managed Alfred fields for that run. It retains installed applications and personal data. Later edits cause rollback to stop rather than overwrite them. Restore Rectangle from its previous native export and DockFlow from your private backup separately; OS permissions, accounts and licenses are not reversed. Mission Control has its own backup/rollback command.
+Rollback restores managed files, links and profile selection for that run. It retains installed applications and personal data. Later edits cause rollback to stop rather than overwrite them. DockFlow presets and Raycast's local display mapping are not reversed. OS permissions, accounts and licenses are not reversed. Mission Control has its own backup/rollback command.
 
 ## Verification and troubleshooting
 
 For the default setup, check validates only core settings and role apps. The following checks apply after opting into productivity.
 
 1. check --productivity must report no file/link drift, missing packages, required apps or preset names. Complete any remaining guided requirements.
-2. Test physical Caps Lock, Right Option, application launch keys, the four desktop shortcuts, and Meh numbers.
-3. Test wl work and wl Code Cursor; windows should land on their assigned desktops. If they land elsewhere, repair native Dock assignments and ensure automatic Space rearrangement is disabled.
-4. With work saved, test fs work (30 minutes) and fs cursor (45); test fs amp only when Amp is installed. Resolve prompts; verify the countdown in Session. Check unrelated apps closed and support tools stayed open.
-5. Verify Alfred, Rectangle, DockFlow, Session and CleanShot after a logout/login. Repeat on Air and Pro, and with an external display. Report physical checks separately from automated tests.
+2. Run a Raycast arrange script and a focus script from raycast/.config/raycast/scripts. Try fwk and fcs.
+3. Confirm the Session countdown and the named DockFlow preset. A missing Session app or preset stops the script before it changes the timer.
+4. Verify DockFlow, Session and CleanShot after a logout/login. Repeat on Air and Pro, and with an external display. Report physical checks separately from automated tests.
 
-Missing Alfred menus: select the right preferences folder and restart. Missing utility: install its Gallery workflow. Missing layout: reimport Rectangle snapshot. Wrong Dock: inspect duplicate preset names. No Hyper: complete Karabiner services/driver permissions and check the selected profile. Timer absent: verify the correct Session app and Pro automation. There is no automated license activation.
+Wrong Dock: inspect duplicate preset names. Timer absent: verify the correct Session app and Pro automation. There is no automated license activation.

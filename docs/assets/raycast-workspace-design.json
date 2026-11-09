@@ -1,0 +1,1012 @@
+{
+  "updated": "2026-10-31",
+  "focus_default_minutes": 45,
+  "variants": [
+    {
+      "id": "df",
+      "workflow": "design",
+      "title": "Design Figma",
+      "apps": [
+        "figma",
+        "zen"
+      ],
+      "dockPreset": "Design",
+      "category": "Design",
+      "aliases": {
+        "workspace": "wdf",
+        "layout": "ldf",
+        "focus": "fdf"
+      },
+      "hotkey": "control+option+v",
+      "minimize": [],
+      "urls": [
+        {
+          "app": "zen",
+          "url": "https://mobbin.com/discover/apps/web/latest"
+        }
+      ],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "figma",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "figma",
+            "screen": "main",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "da",
+      "workflow": "design",
+      "title": "Design Affinity",
+      "apps": [
+        "affinity",
+        "zen"
+      ],
+      "dockPreset": "Design",
+      "category": "Design",
+      "aliases": {
+        "workspace": "wda",
+        "layout": "lda",
+        "focus": "fda"
+      },
+      "hotkey": "control+option+shift+v",
+      "minimize": [],
+      "urls": [
+        {
+          "app": "zen",
+          "url": "https://mobbin.com/discover/apps/web/latest"
+        }
+      ],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "affinity",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "affinity",
+            "screen": "main",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wk",
+      "workflow": "work",
+      "title": "Work Core",
+      "apps": [
+        "edge",
+        "teams",
+        "claude"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wwk",
+        "layout": "lwk",
+        "focus": "fwk"
+      },
+      "hotkey": "control+option+s",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "edge",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "edge",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "teams",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wd",
+      "workflow": "work",
+      "title": "Work Word",
+      "apps": [
+        "edge",
+        "teams",
+        "word",
+        "claude"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wwd",
+        "layout": "lwd",
+        "focus": "fwd"
+      },
+      "hotkey": "control+option+w",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "word",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "word",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "edge",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "teams",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "xl",
+      "workflow": "work",
+      "title": "Work Excel",
+      "apps": [
+        "edge",
+        "teams",
+        "excel",
+        "claude"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wxl",
+        "layout": "lxl",
+        "focus": "fxl"
+      },
+      "hotkey": "control+option+e",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "excel",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "excel",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "edge",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "teams",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pp",
+      "workflow": "work",
+      "title": "Work PowerPoint",
+      "apps": [
+        "edge",
+        "teams",
+        "powerpoint",
+        "claude"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wpp",
+        "layout": "lpp",
+        "focus": "fpp"
+      },
+      "hotkey": "control+option+p",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "powerpoint",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "powerpoint",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "edge",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "teams",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "rw",
+      "workflow": "remote",
+      "title": "Remote Work",
+      "apps": [
+        "windows",
+        "citrix"
+      ],
+      "dockPreset": "Remote work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wrw",
+        "layout": "lrw",
+        "focus": "frw"
+      },
+      "hotkey": "control+option+r",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "windows",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 80,
+            "position": "top-left"
+          },
+          {
+            "app": "citrix",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 80,
+            "position": "bottom-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "windows",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 80,
+            "position": "top-left"
+          },
+          {
+            "app": "citrix",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 80,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "as",
+      "workflow": "code",
+      "title": "Code: Amp | Slack",
+      "apps": [
+        "amp",
+        "slack",
+        "zen",
+        "ghostty",
+        "notion"
+      ],
+      "dockPreset": "Code",
+      "category": "Code",
+      "aliases": {
+        "workspace": "was",
+        "layout": "las",
+        "focus": "fas"
+      },
+      "hotkey": "control+option+a",
+      "minimize": [
+        "notion"
+      ],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "amp",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "slack",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ],
+        "desk": [
+          {
+            "app": "amp",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "slack",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cs",
+      "workflow": "code",
+      "title": "Code: Cursor | Slack",
+      "apps": [
+        "cursor",
+        "slack",
+        "zen",
+        "ghostty",
+        "notion"
+      ],
+      "dockPreset": "Code",
+      "category": "Code",
+      "aliases": {
+        "workspace": "wcs",
+        "layout": "lcs",
+        "focus": "fcs"
+      },
+      "hotkey": "control+option+x",
+      "minimize": [
+        "notion"
+      ],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "cursor",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "slack",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ],
+        "desk": [
+          {
+            "app": "cursor",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "slack",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ws",
+      "workflow": "write",
+      "title": "Write: Notion | Slack",
+      "apps": [
+        "notion",
+        "claude",
+        "zen",
+        "slack"
+      ],
+      "dockPreset": "Author",
+      "category": "Author",
+      "aliases": {
+        "workspace": "wws",
+        "layout": "lws",
+        "focus": "fws"
+      },
+      "hotkey": "control+option+shift+o",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "notion",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "notion",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "slack",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "zn",
+      "workflow": "zen",
+      "title": "Zen",
+      "apps": [
+        "notion",
+        "claude",
+        "zen"
+      ],
+      "dockPreset": "Zen",
+      "category": "Zen",
+      "aliases": {
+        "workspace": "wzn",
+        "layout": "lzn",
+        "focus": "fzn"
+      },
+      "hotkey": "control+option+z",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "notion",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ],
+        "desk": [
+          {
+            "app": "notion",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "claude",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "zc",
+      "workflow": "zen-code",
+      "title": "Zen Code",
+      "apps": [
+        "zed",
+        "ghostty",
+        "canary",
+        "notion"
+      ],
+      "dockPreset": "Code",
+      "category": "Code",
+      "aliases": {
+        "workspace": "wzc",
+        "layout": "lzc",
+        "focus": "fzc"
+      },
+      "hotkey": "control+option+g",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "zed",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "zed",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "canary",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "notion",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mt",
+      "workflow": "meet",
+      "title": "Meet Teams",
+      "apps": [
+        "teams",
+        "notion",
+        "edge"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wmt",
+        "layout": "lmt",
+        "focus": "fmt"
+      },
+      "hotkey": "control+option+m",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "teams",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "notion",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "edge",
+            "screen": "laptop",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ],
+        "desk": [
+          {
+            "app": "teams",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "notion",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "edge",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mz",
+      "workflow": "meet",
+      "title": "Meet Zoom",
+      "apps": [
+        "zoom",
+        "notion",
+        "zen"
+      ],
+      "dockPreset": "Work",
+      "category": "Work",
+      "aliases": {
+        "workspace": "wmz",
+        "layout": "lmz",
+        "focus": "fmz"
+      },
+      "hotkey": "control+option+shift+m",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "zoom",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "notion",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "laptop",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ],
+        "desk": [
+          {
+            "app": "zoom",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "notion",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "zen",
+            "screen": "support",
+            "widthPercent": 100,
+            "heightPercent": 100,
+            "position": "top-left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iv",
+      "workflow": "innovate",
+      "title": "Innovate",
+      "apps": [
+        "cursor",
+        "ghostty",
+        "canary",
+        "chatgpt"
+      ],
+      "dockPreset": "Innovate",
+      "category": "Innovate",
+      "aliases": {
+        "workspace": "wiv",
+        "layout": "liv",
+        "focus": "fiv"
+      },
+      "hotkey": "control+option+i",
+      "minimize": [],
+      "urls": [],
+      "layouts": {
+        "laptop": [
+          {
+            "app": "cursor",
+            "screen": "laptop",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "laptop",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ],
+        "desk": [
+          {
+            "app": "cursor",
+            "screen": "main",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "ghostty",
+            "screen": "main",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          },
+          {
+            "app": "canary",
+            "screen": "support",
+            "widthPercent": 66.6667,
+            "heightPercent": 100,
+            "position": "top-left"
+          },
+          {
+            "app": "chatgpt",
+            "screen": "support",
+            "widthPercent": 33.3333,
+            "heightPercent": 100,
+            "position": "top-right"
+          }
+        ]
+      }
+    }
+  ]
+}

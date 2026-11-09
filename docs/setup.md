@@ -8,8 +8,7 @@ After core setup, either stop or choose one productivity path:
 
 | Path | Profiles | Documentation |
 | --- | --- | --- |
-| Raycast Focus & Layouts | One shared configuration | [Raycast module](modules/raycast.md) |
-| Alfred + Karabiner + Rectangle Pro | TF or FDE | [Alfred stack](modules/alfred.md) and [profile selection](setup-profiles.md) |
+| Raycast script commands | One shared configuration | [Raycast module](modules/raycast.md) |
 
 ## 1. Install prerequisites and default apps
 
@@ -184,7 +183,7 @@ For machine-specific config that should not be committed:
 
 - **Shell**: create `~/.zshrc.local` (sourced at the end of `.zshrc`) and, for login-shell
   settings such as PATH order in `zsh -lc`, `~/.zprofile.local` (sourced at the end of `.zprofile`)
-- **Git**: use `~/.gitconfig.local` with `includeIf` directives
+- **Git**: `~/.config/git-private/config.local` includes one `<login>.gitconfig` per GitHub login. Each file holds that login's name, email, and signing key. Do not create `~/.gitconfig`; it replaces the Stow-managed `~/.config/git/config`. Headless machines keep using `~/.config/git/config.local`.
 - **Secrets**: set `GITHUB_PAT`, `CONTEXT7_API_KEY`, etc. in `~/.zshrc.local`
 
 ## 8. Keeping things updated

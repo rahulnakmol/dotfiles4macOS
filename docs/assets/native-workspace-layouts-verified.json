@@ -1,0 +1,1745 @@
+{
+  "schemaVersion": 1,
+  "windowLayouts": [
+    {
+      "name": "Design Figma | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Figma",
+            "raycastAppId": "/Applications/Figma.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Design Figma | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Figma",
+            "raycastAppId": "/Applications/Figma.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Design Affinity | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Affinity",
+            "raycastAppId": "/Applications/Affinity.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Design Affinity | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Affinity",
+            "raycastAppId": "/Applications/Affinity.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Work Core | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Work Core | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Work Word | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Word",
+            "raycastAppId": "/Applications/Microsoft Word.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Work Word | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Word",
+            "raycastAppId": "/Applications/Microsoft Word.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Work Excel | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Excel",
+            "raycastAppId": "/Applications/Microsoft Excel.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Work Excel | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Excel",
+            "raycastAppId": "/Applications/Microsoft Excel.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Work PowerPoint | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft PowerPoint",
+            "raycastAppId": "/Applications/Microsoft PowerPoint.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Work PowerPoint | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft PowerPoint",
+            "raycastAppId": "/Applications/Microsoft PowerPoint.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Remote Work | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 0.8
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Windows App",
+            "raycastAppId": "/Applications/Windows App.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "bottom-right",
+          "size": {
+            "height": {
+              "relative": 0.8
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Citrix Workspace",
+            "raycastAppId": "/Applications/Citrix Workspace.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Remote Work | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 0.8
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Windows App",
+            "raycastAppId": "/Applications/Windows App.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 0.8
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Citrix Workspace",
+            "raycastAppId": "/Applications/Citrix Workspace.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Code: Amp | Slack | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Amp",
+            "raycastAppId": "/Applications/Amp.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Slack",
+            "raycastAppId": "/Applications/Slack.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Code: Amp | Slack | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Amp",
+            "raycastAppId": "/Applications/Amp.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Slack",
+            "raycastAppId": "/Applications/Slack.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Code: Cursor | Slack | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Cursor",
+            "raycastAppId": "/Applications/Cursor.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Slack",
+            "raycastAppId": "/Applications/Slack.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Code: Cursor | Slack | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Cursor",
+            "raycastAppId": "/Applications/Cursor.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Slack",
+            "raycastAppId": "/Applications/Slack.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Write: Notion | Slack | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Write: Notion | Slack | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Slack",
+            "raycastAppId": "/Applications/Slack.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Zen | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Zen | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Claude",
+            "raycastAppId": "/Applications/Claude.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Zen Code | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Zed",
+            "raycastAppId": "/Applications/Zed.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Zen Code | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Zed",
+            "raycastAppId": "/Applications/Zed.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Google Chrome Canary",
+            "raycastAppId": "/Applications/Google Chrome Canary.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Meet Teams | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Meet Teams | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Microsoft Teams",
+            "raycastAppId": "/Applications/Microsoft Teams.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Microsoft Edge",
+            "raycastAppId": "/Applications/Microsoft Edge.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Meet Zoom | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "zoom.us",
+            "raycastAppId": "/Applications/zoom.us.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Meet Zoom | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "zoom.us",
+            "raycastAppId": "/Applications/zoom.us.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Notion",
+            "raycastAppId": "/Applications/Notion.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 1
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Zen",
+            "raycastAppId": "/Applications/Zen.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Innovate | Laptop",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Cursor",
+            "raycastAppId": "/Applications/Cursor.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Innovate | Desk",
+      "iconName": "window-layout",
+      "ignoreGap": true,
+      "layouts": [
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 0,
+          "source": {
+            "name": "Cursor",
+            "raycastAppId": "/Applications/Cursor.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 1,
+          "source": {
+            "name": "Ghostty",
+            "raycastAppId": "/Applications/Ghostty.app"
+          },
+          "displayIndex": 0
+        },
+        {
+          "position": "top-left",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.666667
+            }
+          },
+          "offset": {},
+          "zPosition": 2,
+          "source": {
+            "name": "Google Chrome Canary",
+            "raycastAppId": "/Applications/Google Chrome Canary.app"
+          },
+          "displayIndex": 1
+        },
+        {
+          "position": "top-right",
+          "size": {
+            "height": {
+              "relative": 1
+            },
+            "width": {
+              "relative": 0.333333
+            }
+          },
+          "offset": {},
+          "zPosition": 3,
+          "source": {
+            "name": "ChatGPT",
+            "raycastAppId": "/Applications/ChatGPT.app"
+          },
+          "displayIndex": 1
+        }
+      ]
+    }
+  ]
+}

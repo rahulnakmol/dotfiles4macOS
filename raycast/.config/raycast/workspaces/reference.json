@@ -1,0 +1,679 @@
+{
+  "version": 1,
+  "focusDefaultMinutes": 45,
+  "assignments": [
+    {
+      "title": "Workspace: Design Figma",
+      "action": "workspace",
+      "variant": "df",
+      "alias": "wdf",
+      "hotkey": "control+option+v",
+      "script": "native-workspace-df.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Design Figma",
+      "action": "layout",
+      "variant": "df",
+      "alias": "ldf",
+      "hotkey": null,
+      "script": "native-layout-df.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Design Figma",
+      "action": "focus",
+      "variant": "df",
+      "alias": "fdf",
+      "hotkey": null,
+      "script": "native-focus-df.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Design Affinity",
+      "action": "workspace",
+      "variant": "da",
+      "alias": "wda",
+      "hotkey": "control+option+shift+v",
+      "script": "native-workspace-da.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Design Affinity",
+      "action": "layout",
+      "variant": "da",
+      "alias": "lda",
+      "hotkey": null,
+      "script": "native-layout-da.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Design Affinity",
+      "action": "focus",
+      "variant": "da",
+      "alias": "fda",
+      "hotkey": null,
+      "script": "native-focus-da.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Work Core",
+      "action": "workspace",
+      "variant": "wk",
+      "alias": "wwk",
+      "hotkey": "control+option+s",
+      "script": "native-workspace-wk.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Work Core",
+      "action": "layout",
+      "variant": "wk",
+      "alias": "lwk",
+      "hotkey": null,
+      "script": "native-layout-wk.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Work Core",
+      "action": "focus",
+      "variant": "wk",
+      "alias": "fwk",
+      "hotkey": null,
+      "script": "native-focus-wk.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Work Word",
+      "action": "workspace",
+      "variant": "wd",
+      "alias": "wwd",
+      "hotkey": "control+option+w",
+      "script": "native-workspace-wd.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Work Word",
+      "action": "layout",
+      "variant": "wd",
+      "alias": "lwd",
+      "hotkey": null,
+      "script": "native-layout-wd.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Work Word",
+      "action": "focus",
+      "variant": "wd",
+      "alias": "fwd",
+      "hotkey": null,
+      "script": "native-focus-wd.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Work Excel",
+      "action": "workspace",
+      "variant": "xl",
+      "alias": "wxl",
+      "hotkey": "control+option+e",
+      "script": "native-workspace-xl.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Work Excel",
+      "action": "layout",
+      "variant": "xl",
+      "alias": "lxl",
+      "hotkey": null,
+      "script": "native-layout-xl.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Work Excel",
+      "action": "focus",
+      "variant": "xl",
+      "alias": "fxl",
+      "hotkey": null,
+      "script": "native-focus-xl.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Work PowerPoint",
+      "action": "workspace",
+      "variant": "pp",
+      "alias": "wpp",
+      "hotkey": "control+option+p",
+      "script": "native-workspace-pp.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Work PowerPoint",
+      "action": "layout",
+      "variant": "pp",
+      "alias": "lpp",
+      "hotkey": null,
+      "script": "native-layout-pp.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Work PowerPoint",
+      "action": "focus",
+      "variant": "pp",
+      "alias": "fpp",
+      "hotkey": null,
+      "script": "native-focus-pp.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Remote Work",
+      "action": "workspace",
+      "variant": "rw",
+      "alias": "wrw",
+      "hotkey": "control+option+r",
+      "script": "native-workspace-rw.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Remote Work",
+      "action": "layout",
+      "variant": "rw",
+      "alias": "lrw",
+      "hotkey": null,
+      "script": "native-layout-rw.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Remote Work",
+      "action": "focus",
+      "variant": "rw",
+      "alias": "frw",
+      "hotkey": null,
+      "script": "native-focus-rw.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Code: Amp | Slack",
+      "action": "workspace",
+      "variant": "as",
+      "alias": "was",
+      "hotkey": "control+option+a",
+      "script": "native-workspace-as.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Code: Amp | Slack",
+      "action": "layout",
+      "variant": "as",
+      "alias": "las",
+      "hotkey": null,
+      "script": "native-layout-as.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Code: Amp | Slack",
+      "action": "focus",
+      "variant": "as",
+      "alias": "fas",
+      "hotkey": null,
+      "script": "native-focus-as.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Code: Cursor | Slack",
+      "action": "workspace",
+      "variant": "cs",
+      "alias": "wcs",
+      "hotkey": "control+option+x",
+      "script": "native-workspace-cs.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Code: Cursor | Slack",
+      "action": "layout",
+      "variant": "cs",
+      "alias": "lcs",
+      "hotkey": null,
+      "script": "native-layout-cs.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Code: Cursor | Slack",
+      "action": "focus",
+      "variant": "cs",
+      "alias": "fcs",
+      "hotkey": null,
+      "script": "native-focus-cs.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Write: Notion | Slack",
+      "action": "workspace",
+      "variant": "ws",
+      "alias": "wws",
+      "hotkey": "control+option+shift+o",
+      "script": "native-workspace-ws.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Write: Notion | Slack",
+      "action": "layout",
+      "variant": "ws",
+      "alias": "lws",
+      "hotkey": null,
+      "script": "native-layout-ws.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Write: Notion | Slack",
+      "action": "focus",
+      "variant": "ws",
+      "alias": "fws",
+      "hotkey": null,
+      "script": "native-focus-ws.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Zen",
+      "action": "workspace",
+      "variant": "zn",
+      "alias": "wzn",
+      "hotkey": "control+option+z",
+      "script": "native-workspace-zn.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Zen",
+      "action": "layout",
+      "variant": "zn",
+      "alias": "lzn",
+      "hotkey": null,
+      "script": "native-layout-zn.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Zen",
+      "action": "focus",
+      "variant": "zn",
+      "alias": "fzn",
+      "hotkey": null,
+      "script": "native-focus-zn.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Zen Code",
+      "action": "workspace",
+      "variant": "zc",
+      "alias": "wzc",
+      "hotkey": "control+option+g",
+      "script": "native-workspace-zc.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Zen Code",
+      "action": "layout",
+      "variant": "zc",
+      "alias": "lzc",
+      "hotkey": null,
+      "script": "native-layout-zc.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Zen Code",
+      "action": "focus",
+      "variant": "zc",
+      "alias": "fzc",
+      "hotkey": null,
+      "script": "native-focus-zc.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Meet Teams",
+      "action": "workspace",
+      "variant": "mt",
+      "alias": "wmt",
+      "hotkey": "control+option+m",
+      "script": "native-workspace-mt.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Meet Teams",
+      "action": "layout",
+      "variant": "mt",
+      "alias": "lmt",
+      "hotkey": null,
+      "script": "native-layout-mt.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Meet Teams",
+      "action": "focus",
+      "variant": "mt",
+      "alias": "fmt",
+      "hotkey": null,
+      "script": "native-focus-mt.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Meet Zoom",
+      "action": "workspace",
+      "variant": "mz",
+      "alias": "wmz",
+      "hotkey": "control+option+shift+m",
+      "script": "native-workspace-mz.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Meet Zoom",
+      "action": "layout",
+      "variant": "mz",
+      "alias": "lmz",
+      "hotkey": null,
+      "script": "native-layout-mz.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Meet Zoom",
+      "action": "focus",
+      "variant": "mz",
+      "alias": "fmz",
+      "hotkey": null,
+      "script": "native-focus-mz.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Workspace: Innovate",
+      "action": "workspace",
+      "variant": "iv",
+      "alias": "wiv",
+      "hotkey": "control+option+i",
+      "script": "native-workspace-iv.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Arrange: Innovate",
+      "action": "layout",
+      "variant": "iv",
+      "alias": "liv",
+      "hotkey": null,
+      "script": "native-layout-iv.sh",
+      "status": "native_assignment_required"
+    },
+    {
+      "title": "Focus: Innovate",
+      "action": "focus",
+      "variant": "iv",
+      "alias": "fiv",
+      "hotkey": null,
+      "script": "native-focus-iv.sh",
+      "status": "native_assignment_required"
+    }
+  ],
+  "nativeLayouts": [
+    {
+      "name": "Design Figma | Laptop",
+      "variant": "df",
+      "profile": "laptop",
+      "alias": "ldfl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Design Figma | Desk",
+      "variant": "df",
+      "profile": "desk",
+      "alias": "ldfd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Design Affinity | Laptop",
+      "variant": "da",
+      "profile": "laptop",
+      "alias": "ldal",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Design Affinity | Desk",
+      "variant": "da",
+      "profile": "desk",
+      "alias": "ldad",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Core | Laptop",
+      "variant": "wk",
+      "profile": "laptop",
+      "alias": "lwkl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Core | Desk",
+      "variant": "wk",
+      "profile": "desk",
+      "alias": "lwkd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Word | Laptop",
+      "variant": "wd",
+      "profile": "laptop",
+      "alias": "lwdl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Word | Desk",
+      "variant": "wd",
+      "profile": "desk",
+      "alias": "lwdd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Excel | Laptop",
+      "variant": "xl",
+      "profile": "laptop",
+      "alias": "lxll",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work Excel | Desk",
+      "variant": "xl",
+      "profile": "desk",
+      "alias": "lxld",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work PowerPoint | Laptop",
+      "variant": "pp",
+      "profile": "laptop",
+      "alias": "lppl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Work PowerPoint | Desk",
+      "variant": "pp",
+      "profile": "desk",
+      "alias": "lppd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Remote Work | Laptop",
+      "variant": "rw",
+      "profile": "laptop",
+      "alias": "lrwl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Remote Work | Desk",
+      "variant": "rw",
+      "profile": "desk",
+      "alias": "lrwd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Code: Amp | Slack | Laptop",
+      "variant": "as",
+      "profile": "laptop",
+      "alias": "lasl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Code: Amp | Slack | Desk",
+      "variant": "as",
+      "profile": "desk",
+      "alias": "lasd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Code: Cursor | Slack | Laptop",
+      "variant": "cs",
+      "profile": "laptop",
+      "alias": "lcsl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Code: Cursor | Slack | Desk",
+      "variant": "cs",
+      "profile": "desk",
+      "alias": "lcsd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Write: Notion | Slack | Laptop",
+      "variant": "ws",
+      "profile": "laptop",
+      "alias": "lwsl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Write: Notion | Slack | Desk",
+      "variant": "ws",
+      "profile": "desk",
+      "alias": "lwsd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Zen | Laptop",
+      "variant": "zn",
+      "profile": "laptop",
+      "alias": "lznl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Zen | Desk",
+      "variant": "zn",
+      "profile": "desk",
+      "alias": "lznd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Zen Code | Laptop",
+      "variant": "zc",
+      "profile": "laptop",
+      "alias": "lzcl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Zen Code | Desk",
+      "variant": "zc",
+      "profile": "desk",
+      "alias": "lzcd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Meet Teams | Laptop",
+      "variant": "mt",
+      "profile": "laptop",
+      "alias": "lmtl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Meet Teams | Desk",
+      "variant": "mt",
+      "profile": "desk",
+      "alias": "lmtd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Meet Zoom | Laptop",
+      "variant": "mz",
+      "profile": "laptop",
+      "alias": "lmzl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Meet Zoom | Desk",
+      "variant": "mz",
+      "profile": "desk",
+      "alias": "lmzd",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Innovate | Laptop",
+      "variant": "iv",
+      "profile": "laptop",
+      "alias": "livl",
+      "status": "native_assignment_required"
+    },
+    {
+      "name": "Innovate | Desk",
+      "variant": "iv",
+      "profile": "desk",
+      "alias": "livd",
+      "status": "native_assignment_required"
+    }
+  ],
+  "favorites": [
+    {
+      "title": "Search Files",
+      "alias": "fs",
+      "category": "Retrieval",
+      "behavior": "Your explicit favorite exception; also available on Option–1."
+    },
+    {
+      "title": "Focus: Code: Amp | Slack",
+      "alias": "fas",
+      "category": "Focus",
+      "behavior": "Amp + Slack main, Zen + Ghostty support; Notion minimized. Confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Code: Cursor | Slack",
+      "alias": "fcs",
+      "category": "Focus",
+      "behavior": "Cursor + Slack main, Zen + Ghostty support; Notion minimized. Confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Zen Code",
+      "alias": "fzc",
+      "category": "Focus",
+      "behavior": "Zed + Ghostty + Chrome Canary + Notion; confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Work Core",
+      "alias": "fwk",
+      "category": "Focus",
+      "behavior": "Edge + Teams + Claude; confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "My Passwords",
+      "alias": "1pm",
+      "category": "1Password",
+      "behavior": "Find a password through the existing 1Password command."
+    },
+    {
+      "title": "Caffeinate for ...",
+      "alias": null,
+      "category": "Coffee",
+      "behavior": "Set separate Hours, Minutes and Seconds arguments. No global hotkey."
+    },
+    {
+      "title": "Toggle Caffeinate",
+      "alias": null,
+      "category": "Coffee",
+      "behavior": "Toggle the existing Coffee awake state. No global hotkey."
+    },
+    {
+      "title": "Toggle System Appearance",
+      "alias": null,
+      "category": "System",
+      "behavior": "Switch system appearance. No global hotkey."
+    }
+  ]
+}

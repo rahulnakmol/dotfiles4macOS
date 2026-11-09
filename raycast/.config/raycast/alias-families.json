@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "updated": "2026-10-31",
+  "status": "46 existing aliases retained; qss saved and verified 31 October",
+  "convention": "leader plus 2\u20133 mnemonic characters; type full alias",
+  "groups": [
+    {
+      "page": "AI",
+      "extension": "AI",
+      "leader": "a",
+      "commands": [
+        {
+          "command": "AI Chat",
+          "alias": "ach",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Create Agent",
+          "alias": "acag",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Create AI Command",
+          "alias": "acmd",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Create Automation",
+          "alias": "acau",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Import Agents",
+          "alias": "aiag",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Import AI Commands",
+          "alias": "aicm",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Import Memory",
+          "alias": "aim",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Manage Automations",
+          "alias": "aaut",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Manage Models",
+          "alias": "amod",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Profile",
+          "alias": "apr",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Quick AI",
+          "alias": "aqa",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Quick Fix",
+          "alias": "aqf",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Search Agents",
+          "alias": "aag",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Search AI Commands",
+          "alias": "acm",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Show AI Credit Usage",
+          "alias": "acu",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Show Memory",
+          "alias": "amem",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Automations",
+          "alias": "aaua",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Location",
+          "alias": "aloc",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Memory",
+          "alias": "amm",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Selected Text",
+          "alias": "ast",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Terminal",
+          "alias": "atr",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Weather",
+          "alias": "awx",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "page": "AI Commands",
+      "extension": "AI",
+      "leader": "a",
+      "commands": [
+        {
+          "command": "Ask About Webpage",
+          "alias": "aweb",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Change Tone to Friendly",
+          "alias": "afrd",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Change Tone to Professional",
+          "alias": "apro",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Explain This in Simple Terms",
+          "alias": "aexp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Find Bugs in Code",
+          "alias": "abug",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Fix Spelling and Grammar",
+          "alias": "agrm",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Improve Writing",
+          "alias": "awrt",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Summarize Webpage",
+          "alias": "asum",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "page": "Screen Awareness",
+      "extension": "Screen Awareness",
+      "leader": "a",
+      "commands": [
+        {
+          "command": "Send Element to AI",
+          "alias": "ael",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Send Focused Window to AI",
+          "alias": "afw",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Send Screen Area to AI",
+          "alias": "aar",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Send Screen to AI",
+          "alias": "asc",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Send Selected Text to AI",
+          "alias": "atx",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Send Window to AI",
+          "alias": "awn",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Ask Screen Awareness",
+          "alias": "asa",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "page": "Quicklinks",
+      "extension": "Quicklinks",
+      "leader": "q",
+      "commands": [
+        {
+          "command": "Create Quicklink",
+          "alias": "qnew",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Export Quicklinks",
+          "alias": "qexp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Import Quicklinks",
+          "alias": "qimp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Search Quicklinks",
+          "alias": "qls",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Mobbin \u2014 Latest Web Apps",
+          "alias": "qmb",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "page": "Snippets",
+      "extension": "Snippets",
+      "leader": "s",
+      "commands": [
+        {
+          "command": "Create Snippet",
+          "alias": "snew",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Export Snippets",
+          "alias": "sexp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Import Snippets",
+          "alias": "simp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        },
+        {
+          "command": "Search Snippets",
+          "alias": "snp",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "page": "Script Commands",
+      "extension": "Session Focus",
+      "leader": "q",
+      "commands": [
+        {
+          "command": "Session: Start Focus",
+          "alias": "qss",
+          "alias_status": "Saved",
+          "verified_date": "2026-10-31"
+        }
+      ]
+    }
+  ],
+  "verified_count": 47,
+  "verification": "Every alias persisted after leaving and reopening Settings. Existing hotkey text compared before/after for all 64 rows; unchanged.",
+  "preserved": [
+    "snippet expansion keywords",
+    "global hotkeys",
+    "Session durations and URLs",
+    "favorites",
+    "Apple Shortcuts k aliases"
+  ]
+}

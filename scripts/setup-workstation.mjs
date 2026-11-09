@@ -8,7 +8,6 @@ import { createHash } from 'node:crypto';
 import { createInterface } from 'node:readline/promises';
 import { resolveProfile } from './workstation-profiles.mjs';
 import { workstationFiles, root } from './build-workstation.mjs';
-import { makePlan, applyPlan, rollback as rollbackAlfred } from './bootstrap-hyper.mjs';
 import { requireUniquePreset } from './dockflow.mjs';
 
 const run=(p,a,options={})=>execFileSync(p,a,{encoding:'utf8',stdio:['pipe','pipe','pipe'],...options});
@@ -29,7 +28,7 @@ export function desiredLinks(files, target, home) {
   const links=new Map();
   for(const path of files.keys()) {
     const [module,...tail]=path.split('/');
-    if(!['alfred','karabiner','rectangle-pro',...resolveProfile('tf').install.modules].includes(module))continue;
+    if(!resolveProfile('tf').install.modules.includes(module))continue;
     const top=tail[0]==='.config'?tail.slice(0,2).join('/'):tail[0];
     links.set(join(home,top),{path:join(home,top),target:join(target,module,top)});
   }
@@ -92,12 +91,6 @@ export function applyWorkstation(id, home, backup, source=root, options={}) {
   try {
     run('stow',['-n','-d',target,'-t',home,...modules]);
     run('stow',['-d',target,'-t',home,...modules]);
-    if(config.productivity) {
-      let localId=null;
-      try{localId=JSON.parse(readFileSync(join(home,'Library/Application Support/Alfred/prefs.json'))).localhash;}catch{}
-      if(!/^[a-f0-9]{40}$/.test(localId??''))localId=null;
-      applyPlan(makePlan(target,home,localId),join(backup,'alfred'),target,home);
-    }
     const selected=records.at(-1);write(selected.path,Buffer.from(selected.after,'base64'));
     journal.status='applied';saveJSON(journalPath,journal);
   } catch(error) {throw new Error(`${error.message}\nPartial apply journal: ${backup}\nRun setup-workstation.sh rollback '${backup}'`);}
@@ -126,7 +119,6 @@ export function undoWorkstation(backup, home, source=root) {
     }
     if(has(l.path)&&(!lstatSync(l.path).isSymbolicLink()||![l.target,l.before].includes(readlinkSync(l.path))&&resolve(dirname(l.path),readlinkSync(l.path))!==l.target))throw new Error('Link changed since apply: '+l.path);
   }
-  if(has(join(backup,'alfred/journal.json')))rollbackAlfred(join(backup,'alfred'),j.target,home);
   // Stow may have made relative links. Restore the original text exactly.
   for(const l of [...j.links].reverse()) {
     if(has(l.path))unlinkSync(l.path);
@@ -140,7 +132,7 @@ export function undoWorkstation(backup, home, source=root) {
 }
 
 export function appInstalled(spec, home=homedir()) {
-  const names=spec.name==='Karabiner-Elements'?['Karabiner-Elements']:spec.name==='Alfred 5'?['Alfred 5','Alfred']:spec.name==='ChatGPT'?['ChatGPT','Codex']:[spec.name];
+  const names=spec.name==='ChatGPT'?['ChatGPT','Codex']:[spec.name];
   for(const dir of ['/Applications','/Applications/Setapp',join(home,'Applications')])for(const name of names) {
     const path=join(dir,name+'.app/Contents/Info.plist');
     if(!existsSync(path))continue;
@@ -165,32 +157,19 @@ function packages(config) {
 }
 export function machineReport(config,target,home) {
   if(!config.productivity)return {productivityChecks:'skipped',manualVerification:['Complete role app installation and test shell/terminal settings']};
-  let location=null;
-  try{location=JSON.parse(readFileSync(join(home,'Library/Application Support/Alfred/prefs.json')));}catch{}
-  const prefs=join(target,'alfred/.config/alfred/Alfred.alfredpreferences');
-  const connected=Boolean(location?.current&&existsSync(location.current)&&existsSync(prefs)&&realpathSync(location.current)===realpathSync(prefs));
-  const bundleIds=new Set(),dir=join(prefs,'workflows');
-  if(existsSync(dir))for(const name of readdirSync(dir))try{bundleIds.add(run('plutil',['-extract','bundleid','raw','-o','-',join(dir,name,'info.plist')]).trim());}catch{}
-  const missingWorkflows=[...new Set(config.systemTools.map(t=>t.bundleId).filter(Boolean))].filter(id=>!bundleIds.has(id));
   const pendingPresets=[];
   const cli=['/Applications/DockFlow.app/Contents/MacOS/DockFlowCLI',join(home,'Applications/DockFlow.app/Contents/MacOS/DockFlowCLI')].find(existsSync);
   let listed='';try{if(cli)listed=run(cli,['list']);}catch{}
   for(const p of config.dockPresets)try{requireUniquePreset(p.name,listed);}catch{pendingPresets.push(p.name);}
-  let alfredPreferencesPending=true;
-  if(existsSync(join(target,'scripts/hyper-config.json'))) {
-    const local=/^[a-f0-9]{40}$/.test(location?.localhash??'')?location.localhash:null;
-    const p=makePlan(target,home,local);
-    alfredPreferencesPending=!local||p.patches.some(x=>x.changes.length);
-  }
-  return {alfredConnected:connected,alfredPreferencesPending,missingWorkflows,pendingPresets,
-    manualVerification:['Activate licenses and sign in directly','Import the selected Rectangle snapshot and DockFlow pack','Verify native desktop assignments','Verify permissions, physical Hyper/Meh keys and fresh login','Verify Session countdown; app presence does not prove Pro automation']};
+  return {productivityChecks:'raycast-scripts',pendingPresets,
+    manualVerification:['Run bash scripts/setup-raycast-native.sh install and add the Script Commands directory in Raycast','Import the DockFlow presets used by those scripts']};
 }
 async function main() {
   if(process.platform!=='darwin')throw new Error('macOS only');
   if(process.arch!=='arm64')throw new Error('These shared shell defaults support Apple Silicon Macs. No configuration changed.');
   const [mode='plan',...args]=process.argv.slice(2),home=homedir();
   if(!['plan','apply','check','rollback'].includes(mode))throw new Error('Use plan, apply, check, or rollback BACKUP');
-  if(mode==='rollback'){if(!args[0])throw new Error('Provide the backup directory');undoWorkstation(resolve(args[0]),home);console.log('Managed configuration restored; reconnect Alfred and restore native Rectangle/DockFlow imports if needed.');return;}
+  if(mode==='rollback'){if(!args[0])throw new Error('Provide the backup directory');undoWorkstation(resolve(args[0]),home);console.log('Managed configuration restored. Raycast script commands stay in the repository checkout.');return;}
   const index=args.indexOf('--profile');
   if(args.some((a,i)=>!(a==='--productivity'||a==='--profile'||i===index+1&&index>=0)))throw new Error('Use --profile fde|tf and optionally --productivity');
   let id=index>=0?args[index+1]:null;
@@ -220,7 +199,7 @@ async function main() {
     console.log(`Applied ${config.setupProfile}. Backup: ${backup}\nRollback: bash scripts/setup-workstation.sh rollback '${backup}'\nComplete the guided steps in docs/guides/profiles/${id}.html. Productivity is ${config.productivity?'enabled; repeat --productivity on apply/check':'skipped; existing productivity settings remain untouched'}.`);
   }
   if(mode==='check') {
-    const pending=report.conflicts.length||report.linksToChange.length||missingFiles.length||outdated.length||install.formulae.length||install.casks.length||install.guided.length||(config.productivity&&(!machine.alfredConnected||machine.alfredPreferencesPending||machine.missingWorkflows.length||machine.pendingPresets.length));
+    const pending=report.conflicts.length||report.linksToChange.length||missingFiles.length||outdated.length||install.formulae.length||install.casks.length||install.guided.length||(config.productivity&&machine.pendingPresets.length);
     console.log(pending?'Pending items listed above.':'Managed configuration and detected dependencies match. Physical/native checks still require verification.');
     if(pending)process.exitCode=1;
   }

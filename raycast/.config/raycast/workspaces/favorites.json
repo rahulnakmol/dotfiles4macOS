@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "updated": "2026-10-19",
+  "maximum": 10,
+  "description": "User-selected nine native favorites, in verified order. Prefer hotkeys elsewhere; Search Files is an explicit exception. This is a portable reference, not a private settings import. Null aliases reflect commands with no saved alias.",
+  "favorites": [
+    {
+      "title": "Search Files",
+      "alias": "fs",
+      "category": "Retrieval",
+      "behavior": "Your explicit favorite exception; also available on Option–1."
+    },
+    {
+      "title": "Focus: Code: Amp | Slack",
+      "alias": "fas",
+      "category": "Focus",
+      "behavior": "Amp + Slack main, Zen + Ghostty support; Notion minimized. Confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Code: Cursor | Slack",
+      "alias": "fcs",
+      "category": "Focus",
+      "behavior": "Cursor + Slack main, Zen + Ghostty support; Notion minimized. Confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Zen Code",
+      "alias": "fzc",
+      "category": "Focus",
+      "behavior": "Zed + Ghostty + Chrome Canary + Notion; confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "Focus: Work Core",
+      "alias": "fwk",
+      "category": "Focus",
+      "behavior": "Edge + Teams + Claude; confirm 45 minutes; optional 30/25."
+    },
+    {
+      "title": "My Passwords",
+      "alias": "1pm",
+      "category": "1Password",
+      "behavior": "Find a password through the existing 1Password command."
+    },
+    {
+      "title": "Caffeinate for ...",
+      "alias": null,
+      "category": "Coffee",
+      "behavior": "Set separate Hours, Minutes and Seconds arguments. No global hotkey."
+    },
+    {
+      "title": "Toggle Caffeinate",
+      "alias": null,
+      "category": "Coffee",
+      "behavior": "Toggle the existing Coffee awake state. No global hotkey."
+    },
+    {
+      "title": "Toggle System Appearance",
+      "alias": null,
+      "category": "System",
+      "behavior": "Switch system appearance. No global hotkey."
+    }
+  ]
+}

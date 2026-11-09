@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "updated": "2026-10-19",
+  "leader": "k",
+  "mnemonic_length": [
+    2,
+    3
+  ],
+  "typing": "Type the complete alias in Raycast; the leader is a naming prefix, not a modal key chord.",
+  "verified": "Native Settings persisted all five aliases after leaving and reopening Apple Shortcuts. No shortcuts executed.",
+  "commands": [
+    {
+      "command": "Start Reading",
+      "alias": "ksr",
+      "hotkey": null,
+      "alias_status": "Saved",
+      "verified_date": "2026-10-19"
+    },
+    {
+      "command": "End Reading",
+      "alias": "ker",
+      "hotkey": null,
+      "alias_status": "Saved",
+      "verified_date": "2026-10-19"
+    },
+    {
+      "command": "Quick Dictation to Clipboard",
+      "alias": "kdc",
+      "hotkey": null,
+      "alias_status": "Saved",
+      "verified_date": "2026-10-19"
+    },
+    {
+      "command": "Log into SHELL",
+      "alias": "ksh",
+      "hotkey": null,
+      "alias_status": "Saved",
+      "verified_date": "2026-10-19"
+    },
+    {
+      "command": "Music Quiz",
+      "alias": "kmq",
+      "hotkey": null,
+      "alias_status": "Saved",
+      "verified_date": "2026-10-19"
+    }
+  ]
+}

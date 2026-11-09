@@ -5,13 +5,12 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { resolveProfile, commonFormulae } from './workstation-profiles.mjs';
-import { workstationFiles, buildDockWorkflow } from './build-workstation.mjs';
+import { workstationFiles } from './build-workstation.mjs';
 import { desiredLinks, linkPlan, inspectGenerated, applyWorkstation, undoWorkstation, packagePlan, appInstalled, machineReport } from './setup-workstation.mjs';
 import { presetNames, requireUniquePreset, dockflowCommand } from './dockflow.mjs';
 import { sanitizePresets } from './sanitize-dockflow.mjs';
 import { renderManual, manualHTML } from './workstation-manual.mjs';
 
-const wf='alfred/.config/alfred/Alfred.alfredpreferences/workflows/user.workflow.hyper/';
 function fixture(t){const p=realpathSync(mkdtempSync(join(tmpdir(),'workstation-test-')));t.after(()=>rmSync(p,{recursive:true,force:true}));const home=join(p,'home');mkdirSync(home);return {p,home,backup:join(p,'backup')};}
 
 test('TF has Work, Code + Cursor and Innovate + Codex; FDE retains every variation',()=>{
@@ -40,7 +39,7 @@ test('install plans avoid Karabiner cask, wrong Session, personal credentials an
   for(const forbidden of ['karabiner-elements','session','google-chrome','claude-code'])assert.ok(!names.includes(forbidden));
   for(const name of ['claude','cursor','chatgpt','zen','slack'])assert.ok(names.includes(name));
   assert.deepEqual(packagePlan(tf,commonFormulae,['font-jetbrains-mono-nerd-font'],()=>true),{formulae:[],casks:[],guided:[]});
-  assert.equal(packagePlan(tf,[],[],()=>false).guided.length,2);
+  assert.equal(packagePlan(tf,[],[],()=>false).guided.length,1);
   assert.ok(!packagePlan(resolveProfile('fde'),[],[],()=>true,()=>true).casks.includes('claude-code'));
   for(const id of ['tf','fde'])for(const p of workstationFiles(id).keys())assert.ok(!/^(git|ssh|1password|gh|codex|claude|cursor|opencode)\//.test(p),p);
 });
@@ -103,22 +102,13 @@ test('FDE uses three working desktops with Slack and T3 Code; Telegram is shortc
   assert.equal(tf.focusSessions.find(s=>s.id==='innovate').apps.at(-1),'codex');
 });
 
-test('generated TF hotkeys, menus, native layouts and docs agree and have no full-profile launchers',()=>{
-  const files=workstationFiles('tf',{productivity:true}),c=resolveProfile('tf');
-  const plist=JSON.parse(execFileSync('plutil',['-convert','json','-o','-','--','-'],{input:files.get(wf+'info.plist')}));
-  const menu=plist.objects.find(o=>o.uid==='menu-focus');
-  assert.deepEqual(JSON.parse(menu.config.items).map(i=>i.title),['Focus Session: Work','Focus Session: Code + Cursor','Focus Session: Innovate + Codex']);
-  const launches=JSON.parse(files.get('karabiner/.config/karabiner/karabiner.json')).profiles[0].complex_modifications.rules.find(r=>r.description==='Hyper: launch or focus apps').manipulators;
-  assert.equal(launches.length,c.apps.length);
-  assert.equal(new Set(launches.map(m=>m.from.key_code)).size,c.apps.length);
-  const rect=JSON.parse(files.get('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json'));
-  assert.deepEqual(JSON.parse(rect.defaults.appSpecs.string).map(l=>l.name),c.layouts.map(l=>l.name));
-  const focus=JSON.parse(files.get(wf+'focus-sessions.json'));
-  assert.equal(focus[0].dockName,'1. Work');assert.equal(focus[0].dockURL,null);
-  const dock=buildDockWorkflow(c);assert.equal(dock.objects.filter(o=>o.type.endsWith('trigger.hotkey')).length,5);
-  assert.ok(!files.get(wf+'dispatch.zsh').toString().includes('dockflow://'));
-  assert.ok(!files.get(wf+'dispatch.zsh').toString().includes('app:amp'));
-  assert.match(renderManual(c),/fs innovate/);assert.match(manualHTML(c),/TF macOS manual/);
+test('generated TF profile does not emit Alfred, Karabiner or Rectangle config',()=>{
+  const files=workstationFiles('tf',{productivity:true}),c=resolveProfile('tf',{productivity:true});
+  for(const prefix of ['alfred/','karabiner/','rectangle-pro/'])assert.ok(![...files.keys()].some(path=>path.startsWith(prefix)));
+  assert.ok(!c.install.modules.includes('alfred'));
+  assert.deepEqual(c.dockPresets.map(p=>p.id),['default','work','code','innovate','zen']);
+  assert.match(renderManual(c),/setup-raycast-native.sh install/);
+  assert.match(manualHTML(c),/TF macOS manual/);
   assert.ok(manualHTML(c).includes('href="https://brew.sh"'));
   assert.ok(!manualHTML(c).includes('href="https://brew.sh."'));
 });
@@ -134,10 +124,10 @@ test('both profile guides include manual Session categories and explain automati
       assert.match(guide,/session-url-scheme/);
     }
     const section=renderManual(c).split('## Session categories — human setup')[1].split('## Four desktops')[0];
-    assert.match(section,/\| Work \| fs work \|/);
+    assert.match(section,/\| Work \| fwk \|/);
     assert.match(section,/\| Code \|/);
-    if(id==='tf')assert.match(section,/\| Innovate \| fs innovate — Codex \|/);
-    else {assert.match(section,/fs amp, fs claude, fs cursor and fs t3code/);assert.ok(!section.includes('| Innovate |'));}
+    if(id==='tf')assert.match(section,/\| Innovate \| fiv \|/);
+    else {assert.match(section,/native-focus scripts/);assert.ok(!section.includes('| Innovate |'));}
   }
 });
 
@@ -176,13 +166,13 @@ test('plan reports unmanaged files and never changes them',t=>{
   assert.ok(plan.conflicts.includes(join(home,'.zshrc')));
   assert.equal(readFileSync(join(home,'.zshrc'),'utf8'),'personal');
   assert.ok(!existsSync(target));
-  assert.equal(desiredLinks(files,target,home).filter(l=>l.path===join(home,'.config/karabiner')).length,1);
+  assert.equal(desiredLinks(files,target,home).filter(l=>/alfred|karabiner|rectangle-pro/.test(l.path)).length,0);
 });
 
 test('generated parent redirects are refused before any backup or write',t=>{
   const {home,backup,p}=fixture(t),target=join(home,'.local/share/dotfiles/workstations/tf');
   mkdirSync(target,{recursive:true});const elsewhere=join(p,'elsewhere');mkdirSync(elsewhere);
-  symlinkSync(elsewhere,join(target,'alfred'));
+  symlinkSync(elsewhere,join(target,'zsh'));
   assert.throws(()=>applyWorkstation('tf',home,backup,undefined,{productivity:true}),/Redirected/);
   assert.ok(!existsSync(backup));
 });
@@ -194,27 +184,26 @@ test('app detection validates bundle identity rather than accepting any similarl
   assert.equal(appInstalled({name:'Fixture',bundleId:'example.wrong'},home),false);
 });
 
-test('profile apply, no-op, switching and rollback preserve previous links and private Alfred files',t=>{
-  const {home,backup,p}=fixture(t);
+test('profile apply, no-op, switching and rollback preserve core files and refuse a changed managed file',t=>{
+  const {home,backup}=fixture(t);
   applyWorkstation('tf',home,backup,undefined,{productivity:true});
   const tf=join(home,'.local/share/dotfiles/workstations/tf');
-  assert.equal(realpathSync(join(home,'.config/karabiner')),join(tf,'karabiner/.config/karabiner'));
-  const privatePath=join(tf,'alfred/.config/alfred/personal-note.txt');writeFileSync(privatePath,'keep');
+  const managed=join(tf,'zsh/.zshrc');
+  const privatePath=join(tf,'zsh/personal-note.txt');writeFileSync(privatePath,'keep');
   applyWorkstation('tf',home,backup+'-noop',undefined,{productivity:true});undoWorkstation(backup+'-noop',home);
-  assert.ok(existsSync(join(home,'.config/alfred')));
-  applyWorkstation('fde',home,backup+'-switch',undefined,{productivity:true});
-  assert.match(realpathSync(join(home,'.config/alfred')),/workstations\/fde\//);
+  assert.ok(existsSync(join(home,'.zshrc')));
+  applyWorkstation('fde',home,backup+'-switch');
+  assert.match(realpathSync(join(home,'.zshrc')),/workstations\/fde\//);
   undoWorkstation(backup+'-switch',home);
-  assert.match(realpathSync(join(home,'.config/alfred')),/workstations\/tf\//);
+  assert.match(realpathSync(join(home,'.zshrc')),/workstations\/tf\//);
   assert.equal(readFileSync(privatePath,'utf8'),'keep');
-  const before=readFileSync(join(tf,wf+'dispatch.zsh'));
-  writeFileSync(join(tf,wf+'dispatch.zsh'),'personal edit');
+  const before=readFileSync(managed);
+  writeFileSync(managed,'personal edit');
   assert.ok(inspectGenerated(workstationFiles('tf',{productivity:true}),tf).length);
   assert.throws(()=>undoWorkstation(backup,home),/changed since apply/);
-  writeFileSync(join(tf,wf+'dispatch.zsh'),before);
+  writeFileSync(managed,before);
   undoWorkstation(backup,home);
   assert.equal(readFileSync(privatePath,'utf8'),'keep');
-  assert.ok(!existsSync(join(home,'.config/karabiner')));
   assert.ok(!existsSync(join(home,'.local/state/dotfiles/workstation.json')));
 });
 
@@ -235,7 +224,7 @@ test('both profiles default to core settings and skip productivity packages and 
     assert.deepEqual(plan.guided.map(a=>a.name),[]);
     assert.equal(machineReport(config,join(p,id),home).productivityChecks,'skipped');
     assert.ok(!desiredLinks(files,join(p,id),home).some(l=>/alfred|karabiner|rectangle-pro/.test(l.path)));
-    assert.ok(resolveProfile(id,{productivity:true}).install.modules.includes('alfred'));
+    assert.ok(!resolveProfile(id,{productivity:true}).install.modules.includes('alfred'));
   }
 });
 
@@ -254,52 +243,36 @@ test('default apply leaves existing productivity preferences alone and rollback 
   for(const name of ['alfred','karabiner','rectangle-pro'])assert.equal(readFileSync(join(home,'.config',name,'personal'),'utf8'),'keep');
 });
 
-test('core reapply preserves opted-in files, links and hashes, then can opt in again',t=>{
+test('core reapply preserves managed files, links and hashes',t=>{
   const {home,backup}=fixture(t);
-  applyWorkstation('tf',home,backup,undefined,{productivity:true});
+  applyWorkstation('tf',home,backup);
   const target=join(home,'.local/share/dotfiles/workstations/tf');
-  const path=join(target,wf+'dispatch.zsh'),before=readFileSync(path);
+  const path=join(target,'zsh/.zshrc'),before=readFileSync(path);
   const manifest=()=>JSON.parse(readFileSync(join(target,'managed-files.json')));
-  const digest=manifest()[wf+'dispatch.zsh'];
+  const digest=manifest()['zsh/.zshrc'];
   applyWorkstation('tf',home,backup+'-core');
   assert.deepEqual(readFileSync(path),before);
-  assert.equal(manifest()[wf+'dispatch.zsh'],digest);
-  assert.match(realpathSync(join(home,'.config/alfred')),/workstations\/tf\//);
-  // A core profile switch also leaves the old productivity profile active.
+  assert.equal(manifest()['zsh/.zshrc'],digest);
+  assert.match(realpathSync(join(home,'.zshrc')),/workstations\/tf\//);
   applyWorkstation('fde',home,backup+'-fde-core');
-  assert.match(realpathSync(join(home,'.config/alfred')),/workstations\/tf\//);
+  assert.match(realpathSync(join(home,'.zshrc')),/workstations\/fde\//);
   undoWorkstation(backup+'-fde-core',home);
   undoWorkstation(backup+'-core',home);
-  applyWorkstation('tf',home,backup+'-again',undefined,{productivity:true});
-  undoWorkstation(backup+'-again',home);
   undoWorkstation(backup,home);
 });
 
 
-test('TF Code and Innovate arrange four apps, select matching Dock presets and expose launch menus',()=>{
-  const config=resolveProfile('tf',{productivity:true}),files=workstationFiles('tf',{productivity:true});
-  const plist=JSON.parse(execFileSync('plutil',['-convert','json','-o','-','--','-'],{input:files.get(wf+'info.plist')}));
-  const sessions=JSON.parse(files.get(wf+'focus-sessions.json'));
-  const rectangle=JSON.parse(files.get('rectangle-pro/.config/rectangle-pro/RectangleProConfig.json'));
-  const native=JSON.parse(rectangle.defaults.appSpecs.string);
-  for(const [id,agent,name,dock] of [['code','cursor','Code','2. Code'],['innovate','codex','Innovate','3. Innovate']]) {
-    const session=sessions.find(s=>s.id===id);
-    assert.deepEqual(session.apps.map(a=>a.id),['zen-browser','ghostty','slack',agent]);
-    assert.equal(session.dockName,dock);
+test('TF Code and Innovate keep four-app layouts and the Raycast manual',()=>{
+  const config=resolveProfile('tf',{productivity:true});
+  for(const [id,agent,name] of [['code','cursor','Code'],['innovate','codex','Innovate']]) {
+    const session=config.focusSessions.find(s=>s.id===id);
+    assert.deepEqual(session.apps,['zen-browser','ghostty','slack',agent]);
     assert.equal(session.durationMinutes,45);
-    assert.equal(session.layoutURL,'rectangle-pro://execute-layout?name='+name);
-    assert.equal(session.pairLayoutURL,'rectangle-pro://execute-layout?name=Code%20Reference');
     assert.deepEqual(config.layouts.find(l=>l.name===name).windows,[['zen-browser',2],['ghostty',21],['slack',24],[agent,2]]);
-    assert.ok(native.some(l=>l.name===name));
-    const menu=plist.objects.find(o=>o.uid==='menu-'+id);
-    assert.ok(JSON.parse(menu.config.items).some(i=>i.arg==='layout:'+name));
   }
   const html=manualHTML(config);
   assert.match(html,/Ghostty<br>⅔/);assert.match(html,/Slack<br>⅓/);
-  const keyboard=files.get('karabiner/.config/karabiner/karabiner.json').toString();
-  assert.ok(keyboard.includes('zen-browser'));
-  const launchers=JSON.parse(keyboard).profiles[0].complex_modifications.rules.find(r=>r.description==='Hyper: launch or focus apps');
-  assert.ok(!JSON.stringify(launchers).includes('Chrome'), 'Chrome mouse navigation is allowed, but TF must launch Zen');
   assert.match(html,/Zen Browser<br>Maximized/);assert.match(html,/Desktop 3/);
+  assert.match(html,/setup-raycast-native.sh install/);
   assert.deepEqual(config.layouts.find(l=>l.name==='Work').windows,[['edge',21],['teams',24],['claude',2]]);
 });

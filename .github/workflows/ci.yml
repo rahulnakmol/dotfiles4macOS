@@ -7,19 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  raycast-workmode:
+  raycast-native:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - name: Validate Workmode installer and keymap
+      - name: Validate native Raycast scripts and generated references
         run: |
-          bash -n scripts/setup-raycast-workstation.sh setup/Raycast.command
-          node --test scripts/test-raycast-setup.mjs scripts/test-raycast-keymap.mjs
-      - name: Build Workmode without Stow or Raycast import
-        run: bash scripts/setup-raycast-workstation.sh build
+          for script in setup/Raycast.command scripts/setup-raycast-native.sh raycast/.config/raycast/workspaces/run.sh raycast/.config/raycast/scripts/*.sh; do
+            bash -n "$script"
+          done
+          node scripts/build-raycast-native.mjs --check
+          node scripts/build-raycast-launchers.mjs --check
+          node --test scripts/test-raycast-native.mjs scripts/test-documentation.mjs
 
   workstation-profiles:
     runs-on: macos-15
@@ -32,13 +34,11 @@ jobs:
         run: brew install stow tmux
       - name: Validate shell syntax and generated files
         run: |
-          bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/setup-private-ai-gateway.sh scripts/setup-codex-profiles.sh scripts/cleanup-codex-profiles.sh scripts/bootstrap-hyper.sh scripts/bootstrap-skills.sh
-          node scripts/build-hyper-config.mjs --check
-          node scripts/render-hyper-guide.mjs --check
+          bash -n install.sh setup/*.command scripts/setup-workstation.sh scripts/setup-private-ai-gateway.sh scripts/setup-codex-profiles.sh scripts/cleanup-codex-profiles.sh scripts/bootstrap-skills.sh
           node scripts/render-workstation-docs.mjs --check
       - name: Validate FDE and TF activation and rollback
         run: |
-          node --test scripts/test-documentation.mjs scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-agent-command-routing.mjs scripts/test-workstation.mjs scripts/test-focus-sessions.mjs scripts/test-hyper-config.mjs scripts/test-hyper-bootstrap.mjs scripts/test-launcher-config.mjs scripts/test-mx-master-config.mjs
+          node --test scripts/test-documentation.mjs scripts/test-install.mjs scripts/test-private-ai-gateway.mjs scripts/test-codex-profiles.mjs scripts/test-agent-command-routing.mjs scripts/test-workstation.mjs
       - name: Smoke-test tmux configuration
         run: |
           tmux -f tmux/.config/tmux/tmux.conf -L audit new-session -d

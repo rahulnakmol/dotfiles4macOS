@@ -13,7 +13,6 @@ const walk=dir=>{for(const entry of readdirSync(dir,{withFileTypes:true})){
 }};
 walk(join(root,'docs'));
 markdown.push(join(root,'README.md'));
-markdown.push(join(root,'extensions/raycast-workstation/README.md'));
 
 test('local Markdown links resolve',()=>{
   const missing=[];
@@ -29,10 +28,10 @@ test('local Markdown links resolve',()=>{
   assert.deepEqual(missing,[]);
 });
 
-test('documentation keeps Raycast and Alfred hotkeys in their intended owners',()=>{
+test('documentation keeps Raycast hotkeys and does not restore the Alfred stack',()=>{
   assert.ok(existsSync(join(root,'docs/hotkeys.md')));
   assert.match(readFileSync(join(root,'docs/hotkeys.md'),'utf8'),/Raycast Focus & Layouts/);
-  assert.match(readFileSync(join(root,'docs/modules/alfred.md'),'utf8'),/## Hotkeys and commands/);
+  assert.equal(existsSync(join(root,'docs/modules/alfred.md')),false);
   const retired=[
     'docs/modules/alfred-hotkeys.md',
     'docs/modules/alfred-fde-hotkeys.md',
@@ -46,14 +45,14 @@ test('documentation keeps Raycast and Alfred hotkeys in their intended owners',(
   }
 });
 
-test('reader entry points present core before the two productivity choices',()=>{
+test('reader entry points present core before Raycast script automation',()=>{
   for(const file of ['README.md','docs/README.md','docs/setup.md']){
     const text=readFileSync(join(root,file),'utf8');
     assert.match(text,/core/i,file);
-    assert.match(text,/Raycast Focus & Layouts/i,file);
-    assert.match(text,/Alfred.*Karabiner.*Rectangle Pro/is,file);
+    assert.match(text,/Raycast/i,file);
+    assert.doesNotMatch(text,/Alfred \+ Karabiner \+ Rectangle Pro/,file);
   }
   const profiles=readFileSync(join(root,'docs/setup-profiles.md'),'utf8');
-  assert.match(profiles,/TF and FDE belong to.*Alfred/is);
-  assert.match(profiles,/Raycast Focus & Layouts.*does not use.*profiles/is);
+  assert.match(profiles,/Raycast script/i);
+  assert.doesNotMatch(profiles,/Alfred \+ Karabiner \+ Rectangle Pro/);
 });
