@@ -48,6 +48,6 @@ dotfiles    # cd ~/.dotfiles
 ..          # cd ..
 
 # Package management
-bi foo      # brew install foo
-buu         # full brew maintenance
+bi foo      # brew install --yes foo
+buu         # update, upgrade --yes, cleanup
 ```

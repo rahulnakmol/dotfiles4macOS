@@ -35,14 +35,14 @@ zoxide replaces `cd`, and `zl` is the fzf directory picker, so both already matc
 
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `bi` | `brew install` | Install package |
+| `bi` | `brew install --yes` | Install package without the y/N prompt |
 | `bu` | `brew uninstall` | Uninstall package |
 | `bl` | `brew list` | List installed |
 | `bs` | `brew search` | Search packages |
 | `binf` | `brew info` | Package info |
 | `bup` | `brew update` | Update formula index |
-| `bug` | `brew upgrade` | Upgrade packages |
-| `buu` | `brew update && upgrade && cleanup` | Full maintenance |
+| `bug` | `brew upgrade --yes` | Upgrade packages without the y/N prompt |
+| `buu` | `brew update && upgrade --yes && cleanup` | Full maintenance |
 | `bc` | `brew cleanup` | Remove old versions |
 
 ## Mac App Store (`m` prefix)

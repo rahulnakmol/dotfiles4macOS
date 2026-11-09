@@ -23,15 +23,15 @@ alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias lar='ls -laRt changed'
 
-# Aliases for homebrew
-alias bi='brew install'
+# Aliases for homebrew. Install and upgrade ask y/N in Homebrew 7; answer yes.
+alias bi='brew install --yes'
 alias bu='brew uninstall'
 alias bl='brew list'
 alias bs='brew search'
 alias bc='brew cleanup'
 alias bup='brew update'
-alias bug='brew upgrade'
-alias buu='brew update && brew upgrade && brew cleanup'
+alias bug='brew upgrade --yes'
+alias buu='brew update && brew upgrade --yes && brew cleanup'
 alias binf='brew info'
 
 # Aliases for mas (Mac App Store CLI)
