@@ -11,8 +11,8 @@ Git configuration with SSH commit and tag signing via 1Password.
 ## Configuration
 
 - **User**: Rahul N Akmol
-- **Signing**: SSH (ed25519) via 1Password
-- **Signing program**: `/Applications/1Password.app/Contents/MacOS/op-ssh-sign` (macOS path)
+- **Signing**: SSH (ed25519) with `~/.ssh/github/rahulnakmol-gitsign`
+- **Signing program**: `/usr/bin/ssh-keygen` for `rahulnakmol`. The work checkout switches back to `op-ssh-sign` for its own key.
 - **Commit signing**: Enabled, with the staged diff included when an editor opens
 - **Tag signing**: Enabled
 - **Editor**: Neovim
@@ -64,10 +64,10 @@ This laptop keeps one private gitconfig per GitHub login in `~/.config/git-priva
 
 | Checkout | Account | Signing key |
 |---|---|---|
-| `~/Developer/rahulnakmol/` and everywhere except the work checkout | `rahulnakmol` | Developer vault, item "Git Signing" |
+| `~/Developer/rahulnakmol/` and everywhere except the work checkout | `rahulnakmol` | `~/.ssh/github/rahulnakmol-gitsign`, the same key on every Mac |
 | work checkout | `rahulakmol_gofynd` | GoFynd vault, item "Git Signing" |
 
-Both still sign through `op-ssh-sign`. The work gitconfig also rewrites `git@github.com:` and `https://github.com/` to the `github.com-gofynd` SSH host. Push authentication is a separate 1Password item: Developer vault "Git Authentication" for the personal host, and the GoFynd signing item for `github.com-gofynd` because that vault has no second key.
+Personal commits sign with `ssh-keygen` and that one on-disk key. The work checkout is the only place that signs through `op-ssh-sign`, using its own key. The work gitconfig also rewrites `git@github.com:` and `https://github.com/` to the `github.com-gofynd` SSH host. Push authentication stays in 1Password: Developer vault "Git Authentication" for the personal host, and the GoFynd signing item for `github.com-gofynd` because that vault has no second key.
 
 The work email stays in that private gitconfig. This repo does not record it. GitHub has to list that same address as verified on `rahulakmol_gofynd`, or the organization can reject the push.
 
