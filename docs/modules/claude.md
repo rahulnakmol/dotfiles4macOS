@@ -15,7 +15,7 @@ from a mode-0600 file at launch, and sets the Anthropic-compatible gateway origi
 It will not test an unrelated GPT, Gemini, or other catalog model as the Claude Code default.
 
 `scripts/bootstrap-skills.sh` requires the external `rahulnakmol/skills` checkout (default
-`~/Developer/GitHub/skills`, override with `SKILLS_REPO`) and maps its supported `CLAUDE_CONFIG`
+`~/Developer/rahulnakmol/skills`, override with `SKILLS_REPO`) and maps its supported `CLAUDE_CONFIG`
 adapter target to this isolated home. Plugin installation invokes `~/.local/bin/claude` explicitly;
 it never exports the gateway key globally.
 

@@ -3,13 +3,13 @@
 
 first_party:
   - repo: rahulnakmol/skills
-    path: ~/Developer/GitHub/skills
+    path: ~/Developer/rahulnakmol/skills
     install:
       # Codex-only path: ./scripts/bootstrap-skills.sh --codex
       # Uses ~/.agents/skills; skill content remains in the external checkout.
       - npx skills@latest add rahulnakmol/skills
-      - ~/Developer/GitHub/skills/scripts/link-skills.sh
-      - ~/Developer/GitHub/skills/scripts/install-adapters.sh
+      - ~/Developer/rahulnakmol/skills/scripts/link-skills.sh
+      - ~/Developer/rahulnakmol/skills/scripts/install-adapters.sh
       - gh skill install rahulnakmol/skills orchestrate --agent copilot --scope user || true
 
 third_party:

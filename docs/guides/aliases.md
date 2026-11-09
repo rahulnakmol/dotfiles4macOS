@@ -41,8 +41,9 @@ cco         # claude opus mode
 oc          # opencode TUI
 ocr "task"  # opencode headless run
 
-# Navigation
-prj         # cd ~/Developer/Projects
+# Navigation — short hops; zoxide/fzf already match the full directory names
+scr         # cd ~/Developer/scratch
+rna         # cd ~/Developer/rahulnakmol
 dotfiles    # cd ~/.dotfiles
 ..          # cd ..
 

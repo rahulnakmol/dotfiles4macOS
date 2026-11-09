@@ -12,12 +12,14 @@ Modular config files auto-loaded via `~/.zshrc` in sort order. All aliases follo
 
 ## Navigation & File Listing
 
+zoxide replaces `cd`, and `zl` is the fzf directory picker, so both already match the full directory names. These aliases are only the short hops.
+
 | Alias | Command | Description |
 |-------|---------|-------------|
 | `..` | `cd ..` | Go up one directory |
 | `...` | `cd ../..` | Go up two directories |
-| `prj` | `cd ~/Developer/Projects` | Jump to projects |
-| `ghr` | `cd ~/Developer/Github` | Jump to GitHub repos |
+| `scr` | `cd ~/Developer/scratch` | Jump to scratch |
+| `rna` | `cd ~/Developer/rahulnakmol` | Jump to personal GitHub repos |
 | `dotfiles` | `cd ~/.dotfiles` | Jump to dotfiles |
 | `zl` | `zoxide query \| fzf` | Fuzzy pick from zoxide history |
 

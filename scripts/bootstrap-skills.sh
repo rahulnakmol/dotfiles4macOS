@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MANIFEST="${ROOT}/skills.manifest.yaml"
-SKILLS_REPO="${SKILLS_REPO:-$HOME/Developer/GitHub/skills}"
+SKILLS_REPO="${SKILLS_REPO:-$HOME/Developer/rahulnakmol/skills}"
 GATEWAY_ROOT="${PRIVATE_AI_GATEWAY_CONFIG_DIR:-$HOME/.config/private-ai-gateway}"
 CLAUDE_GATEWAY_HOME="$GATEWAY_ROOT/claude"
 OPENCODE_GATEWAY_HOME="$GATEWAY_ROOT/opencode"

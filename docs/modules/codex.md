@@ -255,9 +255,7 @@ The only active custom bindings in `codex/.codex/keybindings.json` are voice and
 | Control+Shift+V | Default voice chat shortcut, retained | App |
 | Control+Shift+D | Default dictation shortcut, retained | App |
 
-Hyper means Control+Option+Command+Shift, supplied by held Caps Lock in the
-**Hyperland** Karabiner profile. Focus Codex with Hyper+J for voice or dictation. V means voice; M means microphone; B means buddy. The pet hotkey toggles visibility through the native openAvatarOverlay command, replacing Option+Space because Codex allows only one global pet binding. This was verified from the installed desktop app’s bundled command handler on September 12, 2026. These three Hyper keys are reserved from global app launches,
-Rectangle actions and Alfred workflows. Existing global dictation shortcuts remain
+Hyper means Control+Option+Command+Shift. V means voice; M means microphone; B means buddy. The pet hotkey toggles visibility through the native openAvatarOverlay command, replacing Option+Space because Codex allows only one global pet binding. This was verified from the installed desktop app’s bundled command handler on September 12, 2026. Existing global dictation shortcuts remain
 disabled; these bindings operate inside the app.
 
 An override replaces a command's default list, so the two voice commands explicitly
@@ -283,8 +281,8 @@ project trust entries. They are not automatically portable or silently rewritten
 The app may refresh its own runtime entries after installation; review the diff
 before sharing those changes back to Git.
 
-The configured parent roots are `$HOME/Documents/Codex`, `$HOME/Developer/GitHub`,
-and `$HOME/Developer/Projects` (stored as absolute paths on this Mac). An isolated
+The configured parent roots are `$HOME/Documents/Codex`, `$HOME/Developer/rahulnakmol`,
+and `$HOME/Developer/scratch` (stored as absolute paths on this Mac). An isolated
 Codex 0.153.1 test confirmed that trusting a parent alone does not enable a nested
 Git repository's project config; an exact repository entry does. Existing child
 entries are therefore retained to preserve working project trust. Parent entries
@@ -300,7 +298,7 @@ instructions or recreate missing imported hooks.
 ## Skills
 
 ```bash
-git clone https://github.com/rahulnakmol/skills.git ~/Developer/GitHub/skills
+git clone https://github.com/rahulnakmol/skills.git ~/Developer/rahulnakmol/skills
 bash scripts/bootstrap-skills.sh --codex --dry-run
 bash scripts/bootstrap-skills.sh --codex
 ```

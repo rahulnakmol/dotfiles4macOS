@@ -10,8 +10,10 @@ alias egrep='egrep --color=auto'
 alias zl='zoxide query -l -s | fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --preview-window=right:70%'
 alias ..='cd ..'
 alias ...='cd ../..'
-alias prj='cd $HOME/Developer/Projects'
-alias ghr='cd $HOME/Developer/Github'
+# Short hops. zoxide (cd) and fzf (zl) already match the full directory names.
+alias scr='cd $HOME/Developer/scratch'
+alias rna='cd $HOME/Developer/rahulnakmol'
+alias fynd='cd $HOME/Developer/gofynd'
 alias dotfiles='cd $HOME/.dotfiles'
 
 # Aliases for ls

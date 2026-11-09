@@ -23,7 +23,7 @@ hotkey-window-projectless-default-enabled = true
 git-branch-prefix = "openai/"
 git-pull-request-merge-method = "squash"
 git-pr-watch-auto-merge = true
-git-worktree-root = "/Users/rahulnakmol/Developer/GitHub/.worktrees"
+git-worktree-root = "/Users/rahulnakmol/Developer/rahulnakmol/.worktrees"
 worktree-upstream-refresh-mode = "best-effort"
 localeOverride = "en-US"
 appearanceLightCodeThemeId = "catppuccin"
@@ -154,19 +154,19 @@ trust_level = "trusted"
 [projects."/Users/rahulnakmol/.dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/rahulnakmol/Developer/GitHub/skills"]
+[projects."/Users/rahulnakmol/Developer/rahulnakmol/skills"]
 trust_level = "trusted"
 
 [projects."/Users/rahulnakmol/Documents/Codex"]
 trust_level = "trusted"
 
-[projects."/Users/rahulnakmol/Developer/GitHub"]
+[projects."/Users/rahulnakmol/Developer/rahulnakmol"]
 trust_level = "trusted"
 
-[projects."/Users/rahulnakmol/Developer/Projects"]
+[projects."/Users/rahulnakmol/Developer/scratch"]
 trust_level = "trusted"
 
-[projects."/Users/rahulnakmol/Developer/GitHub/tqnonline"]
+[projects."/Users/rahulnakmol/Developer/rahulnakmol/tqnonline"]
 trust_level = "trusted"
 [[skills.config]]
 name = "claude-md-management:source-command-revise-claude-md"
